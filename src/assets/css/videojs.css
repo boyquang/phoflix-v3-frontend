@@ -1,0 +1,5 @@
+.video-js .vjs-current-time,
+.video-js .vjs-time-divider,
+.vjs-duration {
+  display: block !important;
+}

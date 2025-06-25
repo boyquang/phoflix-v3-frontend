@@ -1,0 +1,155 @@
+"use client";
+
+import { Box, Popover, Portal } from "@chakra-ui/react";
+import AvatarUser from "./AvatarUser";
+import { signOut, useSession } from "next-auth/react";
+import Link from "next/link";
+import { FaHeart, FaPlus, FaUser } from "react-icons/fa6";
+import { FaDonate, FaHistory } from "react-icons/fa";
+import { FiLogOut } from "react-icons/fi";
+import ProfileHeader from "@/components/shared/ProfileHeader";
+import { useState } from "react";
+import { BsFillGridFill } from "react-icons/bs";
+import { appConfig, FeatureStatus } from "@/configs/appConfig";
+import { RiMovieAiFill } from "react-icons/ri";
+import StatusTag from "@/components/shared/StatusTag";
+import { SiGoogleforms } from "react-icons/si";
+
+let menu = [
+  {
+    icon: <FaHeart />,
+    title: "Yêu thích",
+    link: "/nguoi-dung/yeu-thich",
+    status:
+      appConfig.pages["/nguoi-dung/yeu-thich"]?.status || FeatureStatus.ACTIVE,
+  },
+  {
+    icon: <FaPlus />,
+    title: "Danh sách phát",
+    link: "/nguoi-dung/danh-sach-phat",
+    status:
+      appConfig.pages["/nguoi-dung/danh-sach-phat"]?.status ||
+      FeatureStatus.ACTIVE,
+  },
+  {
+    icon: <FaHistory />,
+    title: "Lịch sử xem",
+    link: "/nguoi-dung/lich-su-xem",
+    status:
+      appConfig.pages["/nguoi-dung/lich-su-xem"]?.status ||
+      FeatureStatus.ACTIVE,
+  },
+  {
+    icon: <FaUser />,
+    title: "Tài khoản",
+    link: "/nguoi-dung/tai-khoan",
+    status:
+      appConfig.pages["/nguoi-dung/tai-khoan"]?.status || FeatureStatus.ACTIVE,
+  },
+  {
+    icon: <FaDonate />,
+    title: "Ủng hộ tôi",
+    link: "/nguoi-dung/ung-ho",
+    status:
+      appConfig.pages["/nguoi-dung/ung-ho"]?.status || FeatureStatus.INACTIVE, // Mặc định là không hoạt động
+  },
+  {
+    icon: <RiMovieAiFill />,
+    title: "Phòng của tôi",
+    link: "/nguoi-dung/phong-cua-toi",
+    status:
+      appConfig.pages["/nguoi-dung/phong-cua-toi"]?.status ||
+      FeatureStatus.ACTIVE,
+  },
+  {
+    icon: <SiGoogleforms />,
+    title: "Yêu cầu phim",
+    link: "/nguoi-dung/yeu-cau-phim",
+    status:
+      appConfig.pages["/nguoi-dung/yeu-cau-phim"]?.status ||
+      FeatureStatus.ACTIVE,
+  },
+  {
+    icon: <BsFillGridFill />,
+    title: "Bảng điều khiển",
+    link: "/dashboard/user-management",
+    status:
+      appConfig.pages["/dashboard/user-management"]?.status ||
+      FeatureStatus.ACTIVE,
+  },
+];
+
+const PopoverUser = () => {
+  const { data: session }: any = useSession();
+  const [open, setOpen] = useState(false);
+
+  // Chỉ hiển thị bảng điều khiển cho admin
+  if (session?.user?.role === "member") {
+    menu = menu.filter((item) => item.link !== "/dashboard/user-management");
+  }
+
+  return (
+    <Popover.Root
+      size="xs"
+      autoFocus={false}
+      open={open}
+      onOpenChange={({ open }) => setOpen(open)}
+    >
+      <Popover.Trigger asChild>
+        <Box className="cursor-pointer">
+          <AvatarUser name={session.user?.username} src={session.user?.image} />
+        </Box>
+      </Popover.Trigger>
+      <Portal>
+        <Popover.Positioner>
+          <Popover.Content
+            rounded="xl"
+            p={0}
+            className="bg-[#0f111af2] text-gray-50 border border-[#ffffff10]"
+          >
+            <Popover.Arrow />
+            <Popover.Header p={0}>
+              <Box className="p-4 border-b-[0.5px] border-[#ffffff10]">
+                <ProfileHeader />
+              </Box>
+            </Popover.Header>
+            <Popover.Body p={0}>
+              <ul className="py-2 flex flex-col gap-1">
+                {menu.map((item, index) => (
+                  <li key={index} onClick={() => setOpen(false)}>
+                    <Link
+                      href={item.link}
+                      className="px-4 py-2 flex-1 transition-all hover:bg-[#ffffff05] flex gap-2 items-center truncate"
+                    >
+                      {item.icon}
+                      {item.title}
+                      {item.status !== FeatureStatus.ACTIVE && (
+                        <StatusTag text={item.status} bordered />
+                      )}
+                    </Link>
+                  </li>
+                ))}
+
+                <Box className="w-full h-[0.5px] bg-[#ffffff10]" />
+
+                <li
+                  onClick={() => signOut({ callbackUrl: window.location.href })}
+                >
+                  <Link
+                    href="#"
+                    className="px-4 py-2 transition-all hover:bg-[#ffffff05] flex gap-2 items-center truncate"
+                  >
+                    <FiLogOut />
+                    Đăng xuất
+                  </Link>
+                </li>
+              </ul>
+            </Popover.Body>
+          </Popover.Content>
+        </Popover.Positioner>
+      </Portal>
+    </Popover.Root>
+  );
+};
+
+export default PopoverUser;

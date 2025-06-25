@@ -1,0 +1,60 @@
+"use client";
+
+import { AppDispatch, RootState } from "@/store/store";
+import { useDispatch, useSelector } from "react-redux";
+import ActorMovieAll from "./ActorMoviesAll";
+import ActorMoviesTime from "./ActorMoviesTime";
+import { setFilterActor } from "@/store/slices/movieSlice";
+
+interface MoviesByActorProps {
+  data: any;
+}
+
+const tabs = [
+  { id: "all", value: "all", label: "Tất cả" },
+  { id: "time", value: "time", label: "Thời gian" },
+];
+
+const MoviesByActor = ({ data }: MoviesByActorProps) => {
+  const { filter } = useSelector((state: RootState) => state.movie.actorDetail);
+  const dispatch: AppDispatch = useDispatch();
+
+  const handleChangeTab = (value: "all" | "time") => {
+    if (value !== filter) {
+      dispatch(setFilterActor(value));
+    }
+  };
+
+  return (
+    <div className="lg:pl-10 flex-1">
+      <div className="flex items-center justify-between mb-8">
+        <h4 className="lg:text-2xl text-lg text-gray-50">
+          Các phim đã tham gia
+        </h4>
+        <div className="flex gap-0 border items-baseline border-gray-50 rounded-lg h-8 p-0.5 overflow-hidden">
+          {tabs.map((tab) => (
+            <button
+              key={tab.id}
+              onClick={() => handleChangeTab(tab.value as "all" | "time")}
+              className={`flex items-center justify-center cursor-pointer rounded-md border-none h-[26px] lg:text-sm xs:text-xs text-[10px] px-2 transition-colors ${
+                filter === tab.value
+                  ? "bg-white text-black"
+                  : "bg-transparent text-white"
+              }`}
+            >
+              {tab.label}
+            </button>
+          ))}
+        </div>
+      </div>
+
+      {filter === "all" ? (
+        <ActorMovieAll data={data} />
+      ) : (
+        <ActorMoviesTime data={data} />
+      )}
+    </div>
+  );
+};
+
+export default MoviesByActor;
