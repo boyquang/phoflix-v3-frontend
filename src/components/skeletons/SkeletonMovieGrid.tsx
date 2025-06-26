@@ -1,6 +1,6 @@
 "use client";
 
-import { Box, GridItem, SimpleGrid, Skeleton } from "@chakra-ui/react";
+import { Box, Skeleton } from "@chakra-ui/react";
 
 interface SkeletonMovieGridProps {
   limit?: number;
@@ -19,7 +19,7 @@ const SkeletonMovieGrid = ({
             <Box className="pb-[150%] h-0 relative">
               <Skeleton
                 className="absolute inset-0 w-full h-full"
-                rounded="xl"
+                rounded="lg"
               />
             </Box>
             <Skeleton width="90%" height="3" />

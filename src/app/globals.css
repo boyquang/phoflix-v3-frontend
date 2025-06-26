@@ -63,6 +63,10 @@ body.cinema-mode .watch-player {
   border-color: var(--primay-color);
 }
 
+.ring-primary {
+  --tw-ring-color: var(--primay-color);
+}
+
 .bg-primary.linear-gradient {
   background: linear-gradient(
     39deg,
@@ -81,6 +85,10 @@ body.cinema-mode .watch-player {
   background-clip: text;
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
+}
+
+.rounded-inherit {
+  border-radius: inherit;
 }
 
 .text-gradient {

@@ -3,6 +3,7 @@ import { getTopSearchTrending } from "../asyncThunks/systemAsyncThunk";
 
 const initialState: SystemSlice = {
   isShowAuthDialog: false,
+  showSnowEffect: false,
   isShowModalSearch: false,
   typeAuth: "signin",
   isOpenDrawer: false,
@@ -50,11 +51,21 @@ const systemSlice = createSlice({
       state.isShowAuthDialog = true;
       state.typeAuth = "signin";
     },
+    getShowSnowEffect: (state) => {
+      const showSnowEffectLocal = JSON.parse(
+        localStorage.getItem("showSnowEffect") || "false"
+      );
+      state.showSnowEffect = showSnowEffectLocal;
+    },
     setSrcAudioNotification: (state, action) => {
       state.audio.srcAudioNotification = action.payload;
     },
     playAudioNotification: (state, action) => {
       state.audio.playAudioNotification = action.payload;
+    },
+    setShowSnowEffect: (state, action) => {
+      state.showSnowEffect = action.payload;
+      localStorage.setItem("showSnowEffect", JSON.stringify(action.payload));
     },
   },
 
@@ -82,10 +93,12 @@ const systemSlice = createSlice({
 export const {
   setIsShowAuthDialog,
   setWidth,
+  setShowSnowEffect,
   setIsShowModalSearch,
   setIsVisiable,
   setLastScrollY,
   setIsOpenDrawer,
+  getShowSnowEffect,
   setTypeAuth,
   playAudioNotification,
   setSrcAudioNotification,

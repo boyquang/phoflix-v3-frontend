@@ -8,6 +8,7 @@ interface SwitchCustomProps {
   label?: string;
   resetSwitch?: boolean;
   defaultChecked?: boolean;
+  disabled?: boolean;
 }
 
 const SwitchCustom = ({
@@ -15,10 +16,17 @@ const SwitchCustom = ({
   label,
   resetSwitch = false,
   defaultChecked = false,
+  disabled = false,
 }: SwitchCustomProps) => {
-  const [isChecked, setIsChecked] = useState(defaultChecked);
+  const [isChecked, setIsChecked] = useState(false);
+
+  useEffect(() => {
+    setIsChecked(defaultChecked);
+  }, [defaultChecked]);
 
   const handleToggle = () => {
+    if (disabled) return;
+
     const nextValue = !isChecked;
     setIsChecked(nextValue);
     callback(nextValue);
@@ -32,9 +40,14 @@ const SwitchCustom = ({
   }, [resetSwitch]);
 
   return (
-    <Box className="flex items-center gap-2" onClick={handleToggle}>
+    <Box
+      className={`flex items-center gap-2 ${
+        disabled ? "opacity-50 cursor-not-allowed" : "cursor-pointer"
+      }`}
+      onClick={handleToggle}
+    >
       <Box
-        className={`border rounded-4xl w-[30px] h-5 relative cursor-pointer flex-shrink-0 transition-all duration-300 ease-in-out ${
+        className={`border rounded-4xl w-[30px] h-5 relative flex-shrink-0 transition-all duration-300 ease-in-out ${
           isChecked
             ? "border-[#ffd875] opacity-100"
             : "border-gray-50 opacity-30"
@@ -48,7 +61,7 @@ const SwitchCustom = ({
           }`}
         ></span>
       </Box>
-      <span className="text-xs text-gray-50">{label}</span>
+      {label && <span className="text-xs text-gray-50">{label}</span>}
     </Box>
   );
 };

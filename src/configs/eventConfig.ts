@@ -6,7 +6,7 @@
 export const eventConfig = [
   {
     name: "Lễ Tình nhân",
-    date: "25/6",
+    date: "14/02",
     description:
       "Ngày 14/02 là dịp để các cặp đôi thể hiện tình yêu và sự quan tâm dành cho nhau. Lễ Tình nhân, hay còn gọi là Valentine, được xem là ngày đặc biệt để tặng quà, hoa và những lời yêu thương ngọt ngào.",
     slug: "tinh-cam",

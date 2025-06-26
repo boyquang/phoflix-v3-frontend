@@ -1,18 +1,14 @@
 "use client";
 
-import ShareRoom from "@/features/watch-together/ShareRoom";
 import { Box, Button, Input, Popover, Portal } from "@chakra-ui/react";
 import { useState } from "react";
 
-interface PopoverShareRoomProps {
-  placement?: "vertical" | "horizontal";
-  responsiveText?: boolean;
+interface PopoverCopyProps {
+  title?: string;
+  trigger: React.ReactNode;
 }
 
-const PopoverShareRoom = ({
-  placement = "horizontal",
-  responsiveText = false,
-}: PopoverShareRoomProps) => {
+const PopoverCopy = ({ title, trigger }: PopoverCopyProps) => {
   const [isCopy, setIsCopy] = useState(false);
   const value = window.location.href;
 
@@ -31,9 +27,7 @@ const PopoverShareRoom = ({
   return (
     <Popover.Root autoFocus={false}>
       <Popover.Trigger asChild>
-        <Box>
-          <ShareRoom placement={placement} responsiveText={responsiveText} />
-        </Box>
+        <Box>{trigger}</Box>
       </Popover.Trigger>
 
       <Portal>
@@ -44,7 +38,7 @@ const PopoverShareRoom = ({
         >
           <Popover.Arrow />
           <Popover.Content className="p-4 max-w-[240px] rounded-lg bg-white">
-            <p className="text-gray-900 text-xs">Liên kết gửi bạn bè</p>
+            {title && <p className="text-gray-900 text-xs">{title}</p>}
             <Input value={value} readOnly className="my-2" size="xs" />
             <Button
               onClick={handleCopyLink}
@@ -60,4 +54,4 @@ const PopoverShareRoom = ({
   );
 };
 
-export default PopoverShareRoom;
+export default PopoverCopy;

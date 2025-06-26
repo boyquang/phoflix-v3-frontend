@@ -17,8 +17,9 @@ import MovieInfo from "./MovieInfo";
 import RootLayout from "@/components/layouts/RootLayout";
 import useSocketRoomUserEvents from "@/hooks/useSocketRoomUserEvents";
 import EpisodeWrapper from "./EpisodesWrapper";
-import PopoverShareRoom from "./PopoverShareRoom";
 import VideoPlayerWrapper from "./VideoPlayerWrapper";
+import PopoverCopy from "@/components/shared/PopoverCopy";
+import ShareRoom from "./ShareRoom";
 
 const MainPage = () => {
   const params = useParams();
@@ -79,9 +80,14 @@ const MainPage = () => {
                   <VideoPlayerWrapper />
                   <Box className="flex justify-between gap-2 flex-wrap xs:p-4 p-2 border-l border-r border-b border-[#ffffff10] bg-[#08080a] xs:rounded-b-2xl rounded-b-none items-center">
                     <Box className="flex items-center gap-1 flex-wrap">
-                      <PopoverShareRoom
-                        placement="horizontal"
-                        responsiveText={false}
+                      <PopoverCopy
+                        title="Liên kết gửi bạn bè"
+                        trigger={
+                          <ShareRoom
+                            placement="horizontal"
+                            responsiveText={false}
+                          />
+                        }
                       />
                     </Box>
                     <CinemaMode />

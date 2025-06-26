@@ -54,30 +54,33 @@ const MovieCard = ({ data, orientation }: MovieItemProps) => {
         href={`/thong-tin-phim/${data?.slug}`}
         className="flex flex-col gap-2 group"
       >
-        <Box
-          className={`h-0 relative ${
-            orientation === "horizontal" ? "pb-[62%]" : "pb-[150%]"
-          }`}
-        >
-          <HoverOutlineWrapper />
-          <Image
-            src={generateUrlImage(
-              orientation === "horizontal" ? data?.thumb_url : data?.poster_url
-            )}
-            ref={currentElementRef}
-            className="group-hover:brightness-75 transition-all rounded-lg"
-            alt={data?.name || "Không xác định"}
-          />
-          <Box className="absolute left-1/2 transform -translate-x-1/2 bottom-0 xs:block hidden">
-            <StatusTag
-              uppercase={false}
-              bordered
-              size="md"
-              rounded="rounded-t-sm"
-              text={data?.episode_current || "Không xác định"}
+        <HoverOutlineWrapper rounded="lg" ringSize="2">
+          <Box
+            className={`h-0 relative ${
+              orientation === "horizontal" ? "pb-[62%]" : "pb-[150%]"
+            }`}
+          >
+            <Image
+              src={generateUrlImage(
+                orientation === "horizontal"
+                  ? data?.thumb_url
+                  : data?.poster_url
+              )}
+              ref={currentElementRef}
+              className="group-hover:brightness-75 transition-all rounded-lg"
+              alt={data?.name || "Không xác định"}
             />
+            <Box className="absolute left-1/2 transform -translate-x-1/2 bottom-0 xs:block hidden">
+              <StatusTag
+                uppercase={false}
+                bordered
+                size="md"
+                rounded="rounded-t-sm"
+                text={data?.episode_current || "Không xác định"}
+              />
+            </Box>
           </Box>
-        </Box>
+        </HoverOutlineWrapper>
         <span
           style={{
             WebkitLineClamp: 2,

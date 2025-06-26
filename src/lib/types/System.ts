@@ -4,6 +4,7 @@ type SystemSlice = {
   typeAuth: "signin" | "signup" | "forgot-password" | "reset-password";
   isOpenDrawer: boolean;
   windowWidth: number;
+  showSnowEffect: boolean;
   lastScrollY: number;
   isVisiable: boolean;
   topSearchTrending: {
@@ -14,6 +15,6 @@ type SystemSlice = {
   };
   audio: {
     playAudioNotification: boolean;
-    srcAudioNotification: string|null;
+    srcAudioNotification: string | null;
   };
 };

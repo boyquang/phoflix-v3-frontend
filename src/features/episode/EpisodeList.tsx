@@ -148,8 +148,7 @@ const EpisodesList = ({
             `}
       >
         {episodeDisplay?.map((item: any, index: number) => (
-          <Box className="relative group" key={index}>
-            <HoverOutlineWrapper rounded="md" />
+          <HoverOutlineWrapper rounded="md" key={index} ringSize="2">
             <EpisodeItem
               item={item}
               currentEpisode={currentEpisode}
@@ -157,7 +156,7 @@ const EpisodesList = ({
               redirect={redirect}
               handleSetCurrentEpisode={handleSetCurrentEpisode}
             />
-          </Box>
+          </HoverOutlineWrapper>
         ))}
       </Box>
 

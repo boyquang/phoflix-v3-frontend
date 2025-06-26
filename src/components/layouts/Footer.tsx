@@ -5,7 +5,6 @@ import RootLayout from "./RootLayout";
 import Link from "next/link";
 import GithubIcon from "../icons/GithubIcon";
 import TelegramIcon from "../icons/TelegramIcon";
-import FacebookIcon from "../icons/FacebookIcon";
 import { usePathname } from "next/navigation";
 
 const Footer = () => {
@@ -61,14 +60,6 @@ const Footer = () => {
               >
                 <TelegramIcon />
                 <span>Telegram</span>
-              </Link>
-              <Link
-                href="https://www.facebook.com/phohoccode.2004"
-                target="_blank"
-                className="text-md text-gray-50 inline-flex gap-2 items-center transition duration-300 ease-in-out hover:text-[#f9ca24] hover:underline"
-              >
-                <FacebookIcon />
-                <span>Facebook</span>
               </Link>
             </div>
           </div>

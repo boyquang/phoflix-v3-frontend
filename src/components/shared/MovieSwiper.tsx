@@ -11,7 +11,6 @@ import { FaChevronLeft, FaChevronRight } from "react-icons/fa6";
 
 import "swiper/css";
 import "swiper/css/navigation";
-import Loading from "@/app/loading";
 
 interface MovieThumbProps {
   items: any;

@@ -12,6 +12,7 @@ export const userPaths = [
   "/tim-kiem",
   "/thong-tin-phim",
   "/nguoi-dung/thong-bao",
+  "/nguoi-dung/cai-dat",
   "/chi-tiet",
   "/dang-xem",
 ];

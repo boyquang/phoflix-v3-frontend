@@ -85,6 +85,9 @@ export const appConfig: AppConfig = {
     "/nguoi-dung/phong-cua-toi": {
       status: FeatureStatus.INACTIVE,
     },
+    "/nguoi-dung/cai-dat": {
+      status: FeatureStatus.NEW,
+    },
     "/nguoi-dung/yeu-cau-phim": {
       status: FeatureStatus.NEW,
     },

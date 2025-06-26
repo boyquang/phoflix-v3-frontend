@@ -69,34 +69,39 @@ const MovieItem = ({ item, isLoading, callback }: MovieItemProps) => {
           className="relative"
           onMouseEnter={handleMouseEnter}
           onMouseLeave={handleMouseLeave}
+          onClick={() => {
+            if (seletectedDeleteMode) {
+              dispatch(setSelectedMovieIds(item?.id));
+            }
+          }}
         >
-          <HoverOutlineWrapper />
-          <Link
-            href={`/thong-tin-phim/${
-              item?.movie_slug
-            }?name=${formatStringForURL(
-              movieData?.name ?? "Không xác định",
-              "-"
-            )}`}
-            className="flex flex-col gap-2 group"
-          >
-            <Box className="h-0 overflow-hidden pb-[150%] relative">
-              <Image
-                ref={currentElementRef}
-                src={generateUrlImage(movieData?.poster_url)}
-                alt={item?.movie_name ?? "Không xác định"}
-                className="rounded-lg group-hover:brightness-75 transition-all"
+          <HoverOutlineWrapper rounded="lg" ringSize="2">
+            <Link
+              href={
+                !seletectedDeleteMode
+                  ? `/thong-tin-phim/${item?.movie_slug}`
+                  : "#"
+              }
+              className="flex flex-col gap-2 group"
+            >
+              <Box className="h-0 overflow-hidden pb-[150%] relative">
+                <Image
+                  ref={currentElementRef}
+                  src={generateUrlImage(movieData?.poster_url)}
+                  alt={item?.movie_name ?? "Không xác định"}
+                  className="rounded-lg group-hover:brightness-75 transition-all"
+                />
+              </Box>
+            </Link>
+            <Box className="absolute xs:left-1/2 xs:transform xs:-translate-x-1/2 left-0 right-0 bottom-0">
+              <StatusTag
+                uppercase={false}
+                text={formatDate(item?.created_at)}
+                bordered
+                rounded="xs:rounded-t-sm xs:rounded-b-none rounded-t-none rounded-b-xl"
               />
             </Box>
-          </Link>
-          <Box className="absolute xs:left-1/2 xs:transform xs:-translate-x-1/2 left-0 right-0 bottom-0">
-            <StatusTag
-              uppercase={false}
-              text={formatDate(item?.created_at)}
-              bordered
-              rounded="xs:rounded-t-sm xs:rounded-b-none rounded-t-none rounded-b-xl"
-            />
-          </Box>
+          </HoverOutlineWrapper>
 
           {tooltip?.visible && (
             <MovieTooltip data={movieData} position={tooltip} />

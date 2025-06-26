@@ -22,6 +22,7 @@ import useResize from "@/hooks/useReszie";
 import useScroll from "@/hooks/useScroll";
 import NotificationSound from "./shared/NotificationSound";
 import useSocketShowNotification from "@/hooks/useSocketShowNotification";
+import SnowEffect from "./effects/SnowEffect";
 
 const App = ({ children }: { children: React.ReactNode }) => {
   const { isOpenDrawer, isShowAuthDialog, typeAuth } = useSelector(
@@ -78,6 +79,8 @@ const App = ({ children }: { children: React.ReactNode }) => {
       />
 
       <Toaster />
+
+      <SnowEffect />
 
       <Box className="focus-backdrop" />
 

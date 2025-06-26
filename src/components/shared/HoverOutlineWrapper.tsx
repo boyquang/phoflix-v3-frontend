@@ -1,26 +1,45 @@
 "use client";
 
 interface HoverOutlineWrapperProps {
-  ringColor?: string | "primary";
-  ringSize?: string;
-  rounded?: "lg" | "md" | "sm" | "xs" | "xl" | "2xl" | string;
+  children: React.ReactNode;
+  rounded?: "xs" | "sm" | "md" | "lg" | "xl" | "2xl" | "3xl" | "full";
+  ringSize?: "0" | "1" | "2" | "4" | "8";
 }
 
 const HoverOutlineWrapper = ({
-  ringColor,
+  children,
+  rounded = "md",
   ringSize = "2",
-  rounded = "lg",
 }: HoverOutlineWrapperProps) => {
-  const ringColor_ = ringColor ? `ring-${ringColor}` : "ring-[#FFD875]";
-  const rounded_ = `rounded-${rounded}`;
-  const ringSize_ = `ring-${ringSize}`;
+  const roundedObj = {
+    xs: "rounded-xs",
+    sm: "rounded-sm",
+    md: "rounded-md",
+    lg: "rounded-lg",
+    xl: "rounded-xl",
+    "2xl": "rounded-2xl",
+    "3xl": "rounded-3xl",
+    full: "rounded-full",
+  };
+
+  const ringSizeObj = {
+    "0": "ring-0",
+    "1": "ring-1",
+    "2": "ring-2",
+    "4": "ring-4",
+    "8": "ring-8",
+  };
 
   return (
-    <div
-      className={`pointer-events-none z-2 absolute inset-0.5 transition-all duration-300 opacity-0 group-hover:opacity-100
-          ${ringColor_} ${ringSize_} ${rounded_} 
-      `}
-    ></div>
+    <div className="relative group">
+      <div
+        className={`pointer-events-none ring-[#ffd875] z-2 absolute inset-0.5 transition-all duration-300 opacity-0 group-hover:opacity-100
+          ${roundedObj[rounded]}
+          ${ringSizeObj[ringSize]}
+        `}
+      ></div>
+      {children}
+    </div>
   );
 };
 
