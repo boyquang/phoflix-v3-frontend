@@ -49,6 +49,11 @@ body.cinema-mode .watch-player {
   z-index: 101;
 }
 
+.reduce-motion * {
+  animation: none !important;
+  transition: none !important;
+}
+
 .focus-backdrop {
   display: none;
 }

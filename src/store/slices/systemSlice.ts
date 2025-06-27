@@ -1,9 +1,10 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { getTopSearchTrending } from "../asyncThunks/systemAsyncThunk";
+import { chiristmasDay, chiristmasMonth } from "@/constants/event";
 
 const initialState: SystemSlice = {
   isShowAuthDialog: false,
-  showSnowEffect: false,
+  showSnowEffect: null,
   isShowModalSearch: false,
   typeAuth: "signin",
   isOpenDrawer: false,
@@ -19,6 +20,13 @@ const initialState: SystemSlice = {
   audio: {
     playAudioNotification: false,
     srcAudioNotification: null,
+  },
+  events: {
+    chiristmas: {
+      day: chiristmasDay,
+      month: chiristmasMonth,
+      status: false,
+    },
   },
 };
 
@@ -38,6 +46,12 @@ const systemSlice = createSlice({
     setLastScrollY: (state, action) => {
       state.lastScrollY = action.payload;
     },
+    checkEvent: (state, action) => {
+      const { eventName, status } = action.payload;
+
+      const event = state.events[eventName];
+      event.status = status;
+    },
     setIsVisiable: (state, action) => {
       state.isVisiable = action.payload;
     },
@@ -53,7 +67,7 @@ const systemSlice = createSlice({
     },
     getShowSnowEffect: (state) => {
       const showSnowEffectLocal = JSON.parse(
-        localStorage.getItem("showSnowEffect") || "false"
+        localStorage.getItem("showSnowEffect") || "null"
       );
       state.showSnowEffect = showSnowEffectLocal;
     },
@@ -100,6 +114,7 @@ export const {
   setIsOpenDrawer,
   getShowSnowEffect,
   setTypeAuth,
+  checkEvent,
   playAudioNotification,
   setSrcAudioNotification,
   showDialogSinInWhenNotLogin,

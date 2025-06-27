@@ -37,7 +37,6 @@ const EpisodeItem = ({
     href = `/watching-together/${params?.roomId}?${queryParams}`;
   }
 
-  // ClassNames
   const classNameEpisode = `flex w-full items-center justify-center flex-wrap rounded-md gap-x-1 min-h-[50px] max-h-[64px] px-2 shadow break-words transition-all ${
     currentEpisode?.link_embed === item?.link_embed
       ? "bg-primary text-[#282b3a]"

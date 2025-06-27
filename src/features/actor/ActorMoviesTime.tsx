@@ -1,5 +1,6 @@
 "use client";
 
+import HoverOutlineWrapper from "@/components/shared/HoverOutlineWrapper";
 import Image from "@/components/shared/Image";
 import { THEMOVIEDB_IMAGE_URL } from "@/lib/env";
 import { formatString } from "@/lib/utils";
@@ -58,13 +59,15 @@ const ActorMoviesTime = ({ data }: ActorMoviesTime) => {
                   className="relative group transition-all hover:-translate-y-2"
                   key={index}
                 >
-                  <div className="relative pt-[150%] h-0 rounded-2xl overflow-hidden">
-                    <Image
-                      className="group-hover:brightness-75 transition-all"
-                      src={`${THEMOVIEDB_IMAGE_URL}${movie?.poster_path}`}
-                      alt={movie?.name}
-                    />
-                  </div>
+                  <HoverOutlineWrapper rounded="lg" ringSize="2">
+                    <div className="relative pt-[150%] h-0">
+                      <Image
+                        className="group-hover:brightness-75 rounded-lg transition-all"
+                        src={`${THEMOVIEDB_IMAGE_URL}${movie?.poster_path}`}
+                        alt={movie?.name}
+                      />
+                    </div>
+                  </HoverOutlineWrapper>
                   <div className="mt-2 text-center">
                     <h4 className="sm:text-sm text-xs text-gray-50 truncate">
                       {movie?.name || movie?.title}

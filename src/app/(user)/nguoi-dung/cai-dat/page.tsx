@@ -1,8 +1,10 @@
-import SwitchSnowEffectWrapper from "@/features/user/setting/SwitchSnowEffectWrapper";
+import SettingItem from "@/features/user/setting/SettingItem";
+import SwitchReduceMotion from "@/features/user/setting/SwitchReduceMotion";
+import SwitchSnowEffect from "@/features/user/setting/SwitchSnowEffect";
 import { NEXTAUTH_URL } from "@/lib/env";
 import { Box } from "@chakra-ui/react";
 
-export async function generateMetadata() {
+export function generateMetadata() {
   const title = "PHOFLIX-V3 - Cài đặt tài khoản người dùng";
   const description =
     "Tùy chỉnh cài đặt hệ thống và tài khoản người dùng trên PHOFLIX-V3. Quản lý hiệu ứng, bảo mật và các tùy chọn khác để nâng cao trải nghiệm của bạn.";
@@ -39,15 +41,16 @@ const Page = () => {
     <Box>
       <h3 className="text-gray-50 text-lg">Cài đặt</h3>
       <ul className="flex flex-col gap-2 mt-6">
-        <li className=" flex items-center justify-between gap-6">
-          <span className="xs:text-sm text-xs text-gray-200">
-            Hiệu ứng tuyết rơi{" "}
-            <span className="text-primary">
-              &#40;Bạn chỉ có thể tùy chỉnh vào dịp Giáng sinh&#41;
-            </span>
-          </span>
-          <SwitchSnowEffectWrapper />
-        </li>
+        <SettingItem
+          label="Hiệu ứng tuyết rơi"
+          description="Bạn chỉ có thể tùy chỉnh vào dịp Giáng sinh"
+          control={<SwitchSnowEffect />}
+        />
+        <SettingItem
+          label="Chế độ tối ưu"
+          description="Giảm hiệu ứng chuyển động để cải thiện hiệu suất"
+          control={<SwitchReduceMotion />}
+        />
       </ul>
     </Box>
   );

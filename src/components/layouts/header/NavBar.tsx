@@ -13,11 +13,16 @@ import PopoverUser from "./PopoverUser";
 import PopoverNotification from "./popover-notification/PopoverNotification";
 import SearchDialog from "@/features/search/SearchDialog";
 import { usePathname } from "next/navigation";
+import { appConfig } from "@/configs/appConfig";
+import { getUpcomingEvent } from "@/lib/utils";
+
+const { appName } = appConfig;
 
 const NavBar = () => {
   const { isVisiable, lastScrollY } = useSelector(
     (state: RootState) => state.system
   );
+  const event = getUpcomingEvent(7);
   const { status } = useSession();
   const pathname = usePathname();
 
@@ -34,9 +39,12 @@ const NavBar = () => {
         <BarButton />
         <Link
           href="/"
-          className="text-gradient font-bold lg:text-lg text-sm xs:block hidden"
+          className="font-bold lg:text-lg text-sm xs:flex hidden flex-col"
         >
-          PHOFLIX-V3
+          <span className="text-gradient"> {appName}</span>{" "}
+          <span className="text-white text-[8px] uppercase">
+            {event ? ` ${event.name} (${event.date})` : ""}
+          </span>
         </Link>
         <MenuBar />
       </Box>
