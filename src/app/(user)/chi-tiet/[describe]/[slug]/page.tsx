@@ -1,5 +1,5 @@
 import Loading from "@/app/loading";
-import MainPage from "@/features/movie-detail/MainPage";
+import MainPage from "@/components/movie-detail/MainPage";
 import { NEXTAUTH_URL } from "@/lib/env";
 import { Metadata } from "next";
 import { Suspense } from "react";

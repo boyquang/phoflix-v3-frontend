@@ -1,10 +1,10 @@
 import Loading from "@/app/loading";
 import { auth } from "@/auth";
-import DeleteAllMovies from "@/features/user/DeleteAllMovies";
-import DeleteSelectedMovies from "@/features/user/DeleteSeletedMovies";
-import MovieSection from "@/features/user/MovieSection";
-import ActionsPlaylist from "@/features/user/playlist/ActionsPlaylist";
-import Playlists from "@/features/user/playlist/Playlists";
+import DeleteAllMovies from "@/components/user/DeleteAllMovies";
+import DeleteSelectedMovies from "@/components/user/DeleteSeletedMovies";
+import MovieSection from "@/components/user/MovieSection";
+import ActionsPlaylist from "@/components/user/playlist/ActionsPlaylist";
+import Playlists from "@/components/user/playlist/Playlists";
 import {
   getUserMoviesFromPlaylist,
   getUserPlaylists,

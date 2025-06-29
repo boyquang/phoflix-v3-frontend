@@ -1,6 +1,6 @@
 import Loading from "@/app/loading";
 import { auth } from "@/auth";
-import TableReports from "@/features/admin/dashboard/report-management/TableReports";
+import TableReports from "@/components/admin/dashboard/report-management/TableReports";
 import Pagination from "@/components/shared/Pagination";
 import PaginationCustom from "@/components/shared/PaginationCustom";
 import { getReports } from "@/lib/actions/adminActionServer";

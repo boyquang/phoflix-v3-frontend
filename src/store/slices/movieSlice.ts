@@ -10,6 +10,7 @@ import {
   fetchActorsListByMovie,
   fetchMoviePopular,
 } from "../asyncThunks/movieAsyncThunk";
+import { formatTypeMovie } from "@/lib/utils";
 
 const data = {
   items: [],
@@ -79,6 +80,11 @@ const initialState: MovieSlice = {
       totalPages: 0,
     },
   },
+  episode: {
+    displayMode: "list",
+    selectedLanguage: null,
+    groups: {},
+  },
 };
 
 const movieSlice = createSlice({
@@ -96,6 +102,12 @@ const movieSlice = createSlice({
     },
     setFetchedMovieSuggestion: (state, action) => {
       state.movieSuggestion.fetched = action.payload;
+    },
+    setDisplayModeEpisode: (state, action) => {
+      state.episode.displayMode = action.payload;
+    },
+    setSelectedLanguage: (state, action) => {
+      state.episode.selectedLanguage = action.payload;
     },
   },
   extraReducers: (builder) => {
@@ -244,18 +256,33 @@ const movieSlice = createSlice({
       state.movieInfo.error = false;
       state.movieInfo.episodes = null;
       state.movieInfo.movie = null;
+      state.episode.groups = {};
     });
     builder.addCase(fetchDataMovieInfo.fulfilled, (state, action) => {
       state.movieInfo.loading = false;
       state.movieInfo.movie = action.payload?.movie;
       state.movieInfo.episodes = action.payload?.episodes;
       state.movieInfo.error = false;
+
+      action.payload?.episodes?.forEach((episode: any) => {
+        const data = formatTypeMovie(episode.server_name);
+        const language = data.language;
+
+        if (!state.episode.groups[language]) {
+          state.episode.groups[language] = {
+            items: episode.server_data,
+            label: data.title,
+          };
+        }
+      });
     });
     builder.addCase(fetchDataMovieInfo.rejected, (state, action) => {
       state.movieInfo.loading = false;
       state.movieInfo.error = true;
       state.movieInfo.episodes = null;
       state.movieInfo.movie = null;
+      state.episode.groups = {};
+      state.episode.selectedLanguage = null;
     });
 
     builder.addCase(fetchActorsListByMovie.pending, (state, action) => {
@@ -304,7 +331,9 @@ const movieSlice = createSlice({
 
 export const {
   setCurrentEpisode,
+  setDisplayModeEpisode,
   setFetchedMovieSuggestion,
+  setSelectedLanguage,
   setFetchedMovieDetail,
   setFilterActor,
 } = movieSlice.actions;

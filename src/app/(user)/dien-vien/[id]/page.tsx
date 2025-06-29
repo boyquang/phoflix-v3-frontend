@@ -7,8 +7,8 @@ import { Metadata } from "next";
 import { Suspense } from "react";
 import { orderBy } from "lodash";
 import { NEXTAUTH_URL } from "@/lib/env";
-import ActorDetail from "@/features/actor/ActorDetail";
-import MoviesByActor from "@/features/actor/MoviesByActor";
+import ActorDetail from "@/components/actor/ActorDetail";
+import MoviesByActor from "@/components/actor/MoviesByActor";
 
 interface PageProps {
   params: Promise<{ [key: string]: string | string[] | undefined }>;

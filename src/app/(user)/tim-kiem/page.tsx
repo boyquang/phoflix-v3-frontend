@@ -1,5 +1,5 @@
 import Loading from "@/app/loading";
-import MainPage from "@/features/search/MainPage";
+import MainPage from "@/components/search/MainPage";
 import { NEXTAUTH_URL } from "@/lib/env";
 import { Metadata } from "next";
 import { Suspense } from "react";
@@ -38,7 +38,9 @@ export async function generateMetadata({
     openGraph: {
       title: title.slice(0, 60),
       description: description.slice(0, 160),
-      url: `${NEXTAUTH_URL}/tim-kiem?keyword=${encodeURIComponent(cleanKeyword)}`,
+      url: `${NEXTAUTH_URL}/tim-kiem?keyword=${encodeURIComponent(
+        cleanKeyword
+      )}`,
       siteName: "PHOFLIX-V3",
       locale: "vi_VN",
       type: "website",

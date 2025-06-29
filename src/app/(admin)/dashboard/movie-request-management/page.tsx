@@ -1,7 +1,7 @@
 import Loading from "@/app/loading";
 import { auth } from "@/auth";
-import StatusSelectorFilter from "@/features/admin/dashboard/movie-request-management/StatusSelecterFilter";
-import TableMovieRequest from "@/features/admin/dashboard/movie-request-management/TableMovieRequest";
+import StatusSelectorFilter from "@/components/admin/dashboard/movie-request-management/StatusSelecterFilter";
+import TableMovieRequest from "@/components/admin/dashboard/movie-request-management/TableMovieRequest";
 import PaginationCustom from "@/components/shared/PaginationCustom";
 import { getMovieRequests } from "@/lib/actions/adminActionServer";
 import { NEXTAUTH_URL } from "@/lib/env";

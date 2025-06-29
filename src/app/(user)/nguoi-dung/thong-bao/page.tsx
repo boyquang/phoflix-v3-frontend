@@ -1,6 +1,6 @@
 import { Suspense } from "react";
 import Loading from "@/app/loading";
-import MainPage from "@/features/user/notification/MainPage";
+import MainPage from "@/components/user/notification/MainPage";
 import { NEXTAUTH_URL } from "@/lib/env";
 
 export async function generateMetadata() {

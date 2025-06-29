@@ -1,6 +1,6 @@
-import SettingItem from "@/features/user/setting/SettingItem";
-import SwitchReduceMotion from "@/features/user/setting/SwitchReduceMotion";
-import SwitchSnowEffect from "@/features/user/setting/SwitchSnowEffect";
+import SettingItem from "@/components/user/setting/SettingItem";
+import SwitchReduceMotion from "@/components/user/setting/SwitchReduceMotion";
+import SwitchSnowEffect from "@/components/user/setting/SwitchSnowEffect";
 import { NEXTAUTH_URL } from "@/lib/env";
 import { Box } from "@chakra-ui/react";
 

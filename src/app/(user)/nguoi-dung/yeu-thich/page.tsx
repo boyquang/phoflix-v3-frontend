@@ -2,11 +2,11 @@ import Loading from "@/app/loading";
 import { auth } from "@/auth";
 import { getUserMovies } from "@/lib/actions/userActionServer";
 import { Suspense } from "react";
-import MovieSection from "@/features/user/MovieSection";
+import MovieSection from "@/components/user/MovieSection";
 import { Box } from "@chakra-ui/react";
-import DeleteAllMovies from "@/features/user/DeleteAllMovies";
+import DeleteAllMovies from "@/components/user/DeleteAllMovies";
 import { NEXTAUTH_URL } from "@/lib/env";
-import DeleteSelectedMovies from "@/features/user/DeleteSeletedMovies";
+import DeleteSelectedMovies from "@/components/user/DeleteSeletedMovies";
 
 interface PageProps {
   searchParams: Promise<{ [key: string]: string | string[] | undefined }>;

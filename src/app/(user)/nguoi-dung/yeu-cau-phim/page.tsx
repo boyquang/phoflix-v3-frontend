@@ -1,8 +1,8 @@
 import Loading from "@/app/loading";
 import { auth } from "@/auth";
-import MovieRequestDialog from "@/features/user/movie-request/MovieRequestDialog";
-import MovieRequests from "@/features/user/movie-request/MovieRequests";
-import MovieRequestTabs from "@/features/user/movie-request/MovieRequestTabs";
+import MovieRequestDialog from "@/components/user/movie-request/MovieRequestDialog";
+import MovieRequests from "@/components/user/movie-request/MovieRequests";
+import MovieRequestTabs from "@/components/user/movie-request/MovieRequestTabs";
 import { getMovieRequests } from "@/lib/actions/movieRequestActionsServer";
 import { NEXTAUTH_URL } from "@/lib/env";
 import { Suspense } from "react";

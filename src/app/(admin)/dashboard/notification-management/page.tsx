@@ -1,7 +1,7 @@
 import Loading from "@/app/loading";
 import { auth } from "@/auth";
-import CreateNotification from "@/features/admin/dashboard/notification-management/CreateNotification";
-import TableNotifications from "@/features/admin/dashboard/notification-management/TableNotifications";
+import CreateNotification from "@/components/admin/dashboard/notification-management/CreateNotification";
+import TableNotifications from "@/components/admin/dashboard/notification-management/TableNotifications";
 import PaginationCustom from "@/components/shared/PaginationCustom";
 import { getNotifications } from "@/lib/actions/adminActionServer";
 import { NEXTAUTH_URL } from "@/lib/env";

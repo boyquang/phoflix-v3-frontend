@@ -5,7 +5,7 @@ import { useEffect, useState, useTransition } from "react";
 import { IoNotifications } from "react-icons/io5";
 import HeaderNotification from "./HeaderNotification";
 import Link from "next/link";
-import NotificationList from "@/features/user/notification/NotificationList";
+import NotificationList from "@/components/user/notification/NotificationList";
 import { getNotifications } from "@/lib/actions/notificationActionClient";
 import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "@/store/store";

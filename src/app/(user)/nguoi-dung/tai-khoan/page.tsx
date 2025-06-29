@@ -1,5 +1,5 @@
 import Loading from "@/app/loading";
-import UserProfile from "@/features/user/profile/UserProfile";
+import UserProfile from "@/components/user/profile/UserProfile";
 import { NEXTAUTH_URL } from "@/lib/env";
 import { Suspense } from "react";
 

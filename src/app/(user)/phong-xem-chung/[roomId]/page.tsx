@@ -1,5 +1,5 @@
 import Loading from "@/app/loading";
-import MainPage from "@/features/watch-together/MainPage";
+import MainPage from "@/components/watch-together/MainPage";
 import { Suspense } from "react";
 
 interface PageProps {

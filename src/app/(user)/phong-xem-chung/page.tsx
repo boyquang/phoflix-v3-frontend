@@ -4,7 +4,7 @@ import { getListRooms } from "@/lib/actions/watchingTogetherServer";
 import { Box } from "@chakra-ui/react";
 import { Metadata } from "next";
 import { Suspense } from "react";
-import ListRooms from "@/features/watch-together/ListRooms";
+import ListRooms from "@/components/watch-together/ListRooms";
 import PaginationCustom from "@/components/shared/PaginationCustom";
 import { NEXTAUTH_URL } from "@/lib/env";
 import RootLayout from "@/components/layouts/RootLayout";

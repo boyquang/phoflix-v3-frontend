@@ -1,7 +1,7 @@
 import Loading from "@/app/loading";
 import { auth } from "@/auth";
-import SlugSelectorFilter from "@/features/admin/dashboard/feedback-management/SlugSelectorFilter";
-import TableFeedbacks from "@/features/admin/dashboard/feedback-management/TableFeedbacks";
+import SlugSelectorFilter from "@/components/admin/dashboard/feedback-management/SlugSelectorFilter";
+import TableFeedbacks from "@/components/admin/dashboard/feedback-management/TableFeedbacks";
 import PaginationCustom from "@/components/shared/PaginationCustom";
 import { getFeedbacks } from "@/lib/actions/adminActionServer";
 import { NEXTAUTH_URL } from "@/lib/env";

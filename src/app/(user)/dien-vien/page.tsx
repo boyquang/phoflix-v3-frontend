@@ -1,7 +1,7 @@
 import Loading from "@/app/loading";
 import RootLayout from "@/components/layouts/RootLayout";
 import PaginationCustom from "@/components/shared/PaginationCustom";
-import ActorsList from "@/features/actor/ActorsList";
+import ActorsList from "@/components/actor/ActorsList";
 import { getActorList } from "@/lib/actions/actorActionServer";
 import { NEXTAUTH_URL } from "@/lib/env";
 import { Metadata } from "next";

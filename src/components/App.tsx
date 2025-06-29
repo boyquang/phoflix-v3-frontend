@@ -13,7 +13,7 @@ import { useEffect } from "react";
 import DrawerCustom from "./layouts/drawer/DrawerCustom";
 import { Toaster } from "./ui/toaster";
 import Footer from "./layouts/Footer";
-import AuthDialog from "../features/auth/AuthDialog";
+import AuthDialog from "./auth/AuthDialog";
 import ScrollToTopButton from "./shared/ScrollToTopButton";
 import { usePathname } from "next/navigation";
 import { setHasLeftRoom } from "@/store/slices/watchingTogetherSlice";

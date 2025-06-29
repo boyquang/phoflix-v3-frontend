@@ -1,6 +1,6 @@
 import Loading from "@/app/loading";
 import { auth } from "@/auth";
-import TableUsers from "@/features/admin/dashboard/user-management/TableUsers";
+import TableUsers from "@/components/admin/dashboard/user-management/TableUsers";
 import PaginationCustom from "@/components/shared/PaginationCustom";
 import { getUsers } from "@/lib/actions/adminActionServer";
 import { NEXTAUTH_URL } from "@/lib/env";

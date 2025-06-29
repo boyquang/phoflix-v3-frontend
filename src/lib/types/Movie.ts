@@ -98,6 +98,11 @@ type MovieSlice = {
       totalPages: number;
     } | null;
   };
+  episode: {
+    displayMode: "list" | "tab";
+    selectedLanguage: string | null;
+    groups: Record<string, { items: any[]; label: string }>;
+  };
 };
 
 type Categories =

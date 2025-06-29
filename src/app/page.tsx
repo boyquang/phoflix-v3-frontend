@@ -1,4 +1,4 @@
-import Home from "@/features/home/Home";
+import Home from "@/components/home/Home";
 import { Suspense } from "react";
 import Loading from "./loading";
 import { Metadata } from "next";

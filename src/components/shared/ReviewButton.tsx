@@ -1,6 +1,6 @@
 "use client";
 
-import ReviewDialog from "@/features/feedback/review/ReviewDialog";
+import ReviewDialog from "@/components/feedback/review/ReviewDialog";
 import { showDialogSinInWhenNotLogin } from "@/store/slices/systemSlice";
 import { AppDispatch } from "@/store/store";
 import { Button } from "@chakra-ui/react";
