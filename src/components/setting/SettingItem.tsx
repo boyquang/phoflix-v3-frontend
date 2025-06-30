@@ -10,7 +10,7 @@ const SettingItem = ({ label, description, control }: SettingItemProps) => (
   <li className="flex items-center justify-between gap-6">
     <div className="flex-1">
       <span className="xs:text-sm text-xs text-gray-200">
-        -{" "}{label}
+        {" "}{label}
         {description && <span className="text-primary"> ({description})</span>}
       </span>
     </div>

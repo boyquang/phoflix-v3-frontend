@@ -23,6 +23,15 @@ import useScroll from "@/hooks/useScroll";
 import NotificationSound from "./shared/NotificationSound";
 import useSocketShowNotification from "@/hooks/useSocketShowNotification";
 import SnowEffect from "./effects/SnowEffect";
+import dynamic from "next/dynamic";
+import GoToSleepAnimation from "./warn-user/repose/GoToSleepAnimation";
+
+const ReposeUserAlert = dynamic(
+  () => import("./warn-user/repose/ReposeUserAlert"),
+  {
+    ssr: false,
+  }
+);
 
 const App = ({ children }: { children: React.ReactNode }) => {
   const { isOpenDrawer, isShowAuthDialog, typeAuth } = useSelector(
@@ -71,6 +80,9 @@ const App = ({ children }: { children: React.ReactNode }) => {
         isOpen={isOpenDrawer}
         onClose={() => dispatch(setIsOpenDrawer(false))}
       />
+
+      <ReposeUserAlert />
+      <GoToSleepAnimation />
 
       <AuthDialog
         isOpen={isShowAuthDialog}

@@ -2,7 +2,10 @@ type Event_ = {
   day: number;
   month: number;
   status: boolean;
-}
+};
+
+type WarnUserAction = "dismiss" | "accept" | null;
+type WarnUserMode = "sleep-time";
 
 type Events = Record<string, Event_>;
 
@@ -12,7 +15,7 @@ type SystemSlice = {
   typeAuth: "signin" | "signup" | "forgot-password" | "reset-password";
   isOpenDrawer: boolean;
   windowWidth: number;
-  showSnowEffect: boolean|null;
+  showSnowEffect: boolean | null;
   lastScrollY: number;
   isVisiable: boolean;
   topSearchTrending: {
@@ -26,4 +29,15 @@ type SystemSlice = {
     srcAudioNotification: string | null;
   };
   events: Events;
+  warnUser: {
+    repose: {
+      status: boolean;
+      mode: WarnUserMode;
+      message: Record<WarnUserMode, string>;
+      action: WarnUserAction;
+      title: Record<WarnUserMode, string>;
+      showAnimation: boolean;
+      openAlert: boolean;
+    };
+  };
 };

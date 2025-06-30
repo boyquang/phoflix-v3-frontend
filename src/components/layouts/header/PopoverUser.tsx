@@ -14,7 +14,6 @@ import { appConfig, FeatureStatus } from "@/configs/appConfig";
 import { RiMovieAiFill } from "react-icons/ri";
 import StatusTag from "@/components/shared/StatusTag";
 import { SiGoogleforms } from "react-icons/si";
-import { IoMdSettings } from "react-icons/io";
 
 let menu = [
   {
@@ -47,21 +46,21 @@ let menu = [
     status:
       appConfig.pages["/nguoi-dung/tai-khoan"]?.status || FeatureStatus.ACTIVE,
   },
-  {
-    icon: <FaDonate />,
-    title: "Ủng hộ tôi",
-    link: "/nguoi-dung/ung-ho",
-    status:
-      appConfig.pages["/nguoi-dung/ung-ho"]?.status || FeatureStatus.INACTIVE, // Mặc định là không hoạt động
-  },
-  {
-    icon: <RiMovieAiFill />,
-    title: "Phòng của tôi",
-    link: "/nguoi-dung/phong-cua-toi",
-    status:
-      appConfig.pages["/nguoi-dung/phong-cua-toi"]?.status ||
-      FeatureStatus.ACTIVE,
-  },
+  // {
+  //   icon: <FaDonate />,
+  //   title: "Ủng hộ tôi",
+  //   link: "/nguoi-dung/ung-ho",
+  //   status:
+  //     appConfig.pages["/nguoi-dung/ung-ho"]?.status || FeatureStatus.INACTIVE,
+  // },
+  // {
+  //   icon: <RiMovieAiFill />,
+  //   title: "Phòng của tôi",
+  //   link: "/nguoi-dung/phong-cua-toi",
+  //   status:
+  //     appConfig.pages["/nguoi-dung/phong-cua-toi"]?.status ||
+  //     FeatureStatus.ACTIVE,
+  // },
   {
     icon: <SiGoogleforms />,
     title: "Yêu cầu phim",
@@ -77,13 +76,6 @@ let menu = [
     status:
       appConfig.pages["/dashboard/user-management"]?.status ||
       FeatureStatus.ACTIVE,
-  },
-  {
-    icon: <IoMdSettings />,
-    title: "Cài đặt",
-    link: "/nguoi-dung/cai-dat",
-    status:
-      appConfig.pages["/nguoi-dung/cai-dat"]?.status || FeatureStatus.ACTIVE,
   },
 ];
 

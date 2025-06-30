@@ -10,16 +10,18 @@ import {
   fetchDataSlideShow,
 } from "@/store/asyncThunks/movieAsyncThunk";
 import { initialMovieConfig, quantitySectionMovie } from "@/constants/movie";
-import { handleShowToaster } from "@/lib/utils";
 import TopicCards from "@/components/home/TopicCards";
 import EventContainer from "@/components/event/EventContainer";
 import RootLayout from "@/components/layouts/RootLayout";
 import Loading from "@/app/loading";
 import MovieSection from "@/components/shared/MovieSection";
+import { setFetchedMovieDataHomePage } from "@/store/slices/movieSlice";
 
 const Home = () => {
   const dispatch: AppDispatch = useDispatch();
-  const movieData = useSelector((state: RootState) => state.movie.movieData);
+  const { data, fetched } = useSelector(
+    (state: RootState) => state.movie.movieData
+  );
   const scrollableDivRef = useRef<HTMLDivElement | null>(null);
   const hasFetchedMoreData = useRef(false);
   const quantityFetchedData = useRef(quantitySectionMovie);
@@ -37,6 +39,11 @@ const Home = () => {
           if (quantityFetchedData.current < initialMovieConfig.length) {
             fetchMoreData();
             hasFetchedMoreData.current = true;
+          } else {
+            dispatch(setFetchedMovieDataHomePage(true));
+
+            // nếu đã fetch hết dữ liệu thì xóa sự kiện scroll
+            window.removeEventListener("scroll", handleScroll);
           }
         }
       }
@@ -48,40 +55,8 @@ const Home = () => {
 
   useEffect(() => {
     const fetchInitialData = async () => {
-      try {
-        // fetch dữ liệu ban đầu
-        const fetchPromises = initialMovieConfig
-          .slice(0, quantitySectionMovie)
-          .map((configItem) =>
-            dispatch(
-              fetchDataMovie({
-                type: configItem.type,
-                describe: configItem.describe,
-              })
-            )
-          );
-
-        await Promise.all([dispatch(fetchDataSlideShow()), ...fetchPromises]);
-      } catch (error) {
-        handleShowToaster(
-          "Thông báo",
-          "Đã có lỗi xảy ra khi lấy dữ liệu.",
-          "error",
-          3000
-        );
-      }
-    };
-
-    fetchInitialData();
-  }, [dispatch]);
-
-  const fetchMoreData = async () => {
-    try {
-      const start = quantityFetchedData.current;
-      const end = start + quantitySectionMovie;
-
       const fetchPromises = initialMovieConfig
-        .slice(start, end)
+        .slice(0, quantitySectionMovie)
         .map((configItem) =>
           dispatch(
             fetchDataMovie({
@@ -91,29 +66,46 @@ const Home = () => {
           )
         );
 
-      setLoadingMoreData(true);
-      await Promise.all(fetchPromises);
-      setLoadingMoreData(false);
+      await Promise.all([dispatch(fetchDataSlideShow()), ...fetchPromises]);
 
-      quantityFetchedData.current = end;
-      hasFetchedMoreData.current = false;
-    } catch (error) {
-      handleShowToaster(
-        "Thông báo",
-        "Đã có lỗi xảy ra khi lấy dữ liệu.",
-        "error",
-        5000
-      );
+      dispatch(setFetchedMovieDataHomePage(true));
+    };
+
+    if (!fetched) {
+      fetchInitialData();
     }
+  }, [dispatch]);
+
+  const fetchMoreData = async () => {
+    const start = quantityFetchedData.current;
+    const end = start + quantitySectionMovie;
+
+    const fetchPromises = initialMovieConfig
+      .slice(start, end)
+      .map((configItem) =>
+        dispatch(
+          fetchDataMovie({
+            type: configItem.type,
+            describe: configItem.describe,
+          })
+        )
+      );
+
+    setLoadingMoreData(true);
+    await Promise.all(fetchPromises);
+    setLoadingMoreData(false);
+
+    quantityFetchedData.current = end;
+    hasFetchedMoreData.current = false;
   };
 
-  // lọc và hiển thị dữ liệu đã hoàn thành
+  // Lọc và hiển thị dữ liệu đã hoàn thành
   const finalData = initialMovieConfig
-    .filter((configItem) => movieData[configItem.type])
+    .filter((configItem) => data[configItem.type])
     .map((configItem) => ({
       title: configItem.title,
       link: `/chi-tiet/${configItem.describe}/${configItem.type}`,
-      data: movieData[configItem.type],
+      data: data[configItem.type],
       orientation: configItem.orientation,
     }));
 

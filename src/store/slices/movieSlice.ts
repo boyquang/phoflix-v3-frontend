@@ -20,7 +20,10 @@ const data = {
 
 const initialState: MovieSlice = {
   slideShows: data,
-  movieData: {},
+  movieData: {
+    data: {},
+    fetched: false,
+  },
   searchMoviePreview: {
     items: [],
     totalItems: 0,
@@ -103,6 +106,9 @@ const movieSlice = createSlice({
     setFetchedMovieSuggestion: (state, action) => {
       state.movieSuggestion.fetched = action.payload;
     },
+    setFetchedMovieDataHomePage: (state, action) => {
+      state.movieData.fetched = action.payload;
+    },
     setDisplayModeEpisode: (state, action) => {
       state.episode.displayMode = action.payload;
     },
@@ -128,7 +134,7 @@ const movieSlice = createSlice({
     builder.addCase(fetchDataMovie.pending, (state, action) => {
       const { type } = action.meta.arg;
 
-      state.movieData[type] = {
+      state.movieData.data[type] = {
         loading: true,
         items: [],
         error: false,
@@ -136,14 +142,14 @@ const movieSlice = createSlice({
     });
     builder.addCase(fetchDataMovie.fulfilled, (state, action) => {
       const { type } = action.payload;
-      state.movieData[type].loading = false;
-      state.movieData[type].items = action.payload?.res?.data?.items ?? [];
+      state.movieData.data[type].loading = false;
+      state.movieData.data[type].items = action.payload?.res?.data?.items ?? [];
     });
     builder.addCase(fetchDataMovie.rejected, (state, action: any) => {
       const { type } = action.meta.arg;
-      state.movieData[type].loading = false;
-      state.movieData[type].error = true;
-      state.movieData[type].items = [];
+      state.movieData.data[type].loading = false;
+      state.movieData.data[type].error = true;
+      state.movieData.data[type].items = [];
     });
 
     builder.addCase(fetchDataMoviePreview.pending, (state, action) => {
@@ -334,6 +340,7 @@ export const {
   setDisplayModeEpisode,
   setFetchedMovieSuggestion,
   setSelectedLanguage,
+  setFetchedMovieDataHomePage,
   setFetchedMovieDetail,
   setFilterActor,
 } = movieSlice.actions;

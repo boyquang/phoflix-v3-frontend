@@ -37,7 +37,10 @@ type MovieSlice = {
     loading: boolean;
     error: boolean;
   };
-  movieData: Record<string, Movies>;
+  movieData: {
+    data: Record<string, Movies>;
+    fetched: boolean;
+  };
   actorsListByMovie: {
     items: Actor[];
     loading: boolean;

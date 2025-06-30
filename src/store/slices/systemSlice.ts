@@ -1,6 +1,7 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { getTopSearchTrending } from "../asyncThunks/systemAsyncThunk";
 import { chiristmasDay, chiristmasMonth } from "@/constants/event";
+import { WARN_USER } from "@/constants/setting";
 
 const initialState: SystemSlice = {
   isShowAuthDialog: false,
@@ -28,6 +29,7 @@ const initialState: SystemSlice = {
       status: false,
     },
   },
+  warnUser: WARN_USER,
 };
 
 const systemSlice = createSlice({
@@ -55,6 +57,9 @@ const systemSlice = createSlice({
     setIsVisiable: (state, action) => {
       state.isVisiable = action.payload;
     },
+    setShowAnimationReposeUser: (state, action) => {
+      state.warnUser.repose.showAnimation = action.payload;
+    },
     setIsShowAuthDialog: (state, action) => {
       state.isShowAuthDialog = action.payload;
     },
@@ -80,6 +85,13 @@ const systemSlice = createSlice({
     setShowSnowEffect: (state, action) => {
       state.showSnowEffect = action.payload;
       localStorage.setItem("showSnowEffect", JSON.stringify(action.payload));
+    },
+    setStatusRepose: (state, action) => {
+      state.warnUser.repose.status = action.payload;
+      localStorage.setItem("sleepReminder", JSON.stringify(action.payload));
+    },
+    setOpenAlertRepose: (state, action) => {
+      state.warnUser.repose.openAlert = action.payload;
     },
   },
 
@@ -117,6 +129,9 @@ export const {
   checkEvent,
   playAudioNotification,
   setSrcAudioNotification,
+  setShowAnimationReposeUser,
   showDialogSinInWhenNotLogin,
+  setStatusRepose,
+  setOpenAlertRepose,
 } = systemSlice.actions;
 export default systemSlice.reducer;

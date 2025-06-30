@@ -15,6 +15,7 @@ import SearchDialog from "@/components/search/SearchDialog";
 import { usePathname } from "next/navigation";
 import { appConfig } from "@/configs/appConfig";
 import { getUpcomingEvent } from "@/lib/utils";
+import PopoverSetting from "./PopoverSetting";
 
 const { appName } = appConfig;
 
@@ -51,6 +52,7 @@ const NavBar = () => {
       <Box className="flex items-center gap-4">
         <SearchDialog />
         <PopoverNotification />
+        <PopoverSetting />
         {status === "loading" && <SkeletonCircle size="9" />}
         {status === "unauthenticated" && <AuthButton />}
         {status === "authenticated" && <PopoverUser />}
