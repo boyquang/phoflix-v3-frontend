@@ -21,7 +21,8 @@ const GoToSleepAnimation = () => {
       const timer = setTimeout(() => {
         dispatch(setShowAnimationReposeUser(false));
         dispatch(setOpenAlertRepose(false));
-      }, 6000); // Tự tắt sau 6s
+        document.body.classList.remove("repose-user");
+      }, 10000); 
 
       return () => clearTimeout(timer);
     }
@@ -48,13 +49,12 @@ const GoToSleepAnimation = () => {
               className="mx-auto text-yellow-400 animate-pulse"
             />
             <motion.h2
-              className="mt-4 md:text-2xl text-lg font-bold text-white max-w-xs"
+              className="mt-4 md:text-2xl text-lg font-bold text-white max-w-sm"
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               transition={{ delay: 1, duration: 1 }}
             >
-              Hãy để những giấc mơ tiếp tục câu chuyện dang dở của bộ phim bạn
-              yêu thích. Chúc bạn ngủ ngon! 😴
+              Đã đến lúc bạn nên nghỉ ngơi sau những giờ phút giải trí.Chúc bạn ngủ ngon và có một đêm an lành! 😴
             </motion.h2>
           </motion.div>
         </motion.div>

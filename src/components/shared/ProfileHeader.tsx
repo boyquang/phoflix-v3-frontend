@@ -1,7 +1,7 @@
 "use client";
 
 import { Box, HStack, Stack } from "@chakra-ui/react";
-import AvatarUser from "../layouts/header/AvatarUser";
+import AvatarUser from "../layout/header/AvatarUser";
 import { useSession } from "next-auth/react";
 import { Skeleton, SkeletonCircle } from "@/components/ui/skeleton";
 import StatusTag from "./StatusTag";

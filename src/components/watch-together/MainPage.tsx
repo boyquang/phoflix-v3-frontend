@@ -14,7 +14,7 @@ import useJoinRoom from "@/hooks/useJoinRoom";
 import useSetCurrenEpisode from "@/hooks/useSetCurrentEpisode";
 import CinemaMode from "@/components/shared/CinemaMode";
 import MovieInfo from "./MovieInfo";
-import RootLayout from "@/components/layouts/RootLayout";
+import RootLayout from "@/components/layout/RootLayout";
 import useSocketRoomUserEvents from "@/hooks/useSocketRoomUserEvents";
 import EpisodeWrapper from "./EpisodesWrapper";
 import VideoPlayerWrapper from "./VideoPlayerWrapper";

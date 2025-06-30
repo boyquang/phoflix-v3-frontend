@@ -4,7 +4,7 @@ import { Button, Dialog, Portal } from "@chakra-ui/react";
 import { useEffect } from "react";
 import { appConfig } from "@/configs/appConfig";
 import { WARN_USER, TIME_SLEEP } from "@/constants/setting";
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import { AppDispatch, RootState } from "@/store/store";
 import { useDispatch, useSelector } from "react-redux";
 import {
@@ -26,6 +26,7 @@ const ReposeUserAlert = () => {
     (state: RootState) => state.system.warnUser.repose
   );
   const dispatch: AppDispatch = useDispatch();
+  const router = useRouter();
 
   useEffect(() => {
     const checkSleepTime = () => {
@@ -59,6 +60,7 @@ const ReposeUserAlert = () => {
     dispatch(setOpenAlertRepose(false));
     dispatch(setStatusRepose(false));
 
+    document.body.classList.remove("repose-user");
     localStorage.setItem("sleepReminder", JSON.stringify(false));
     localStorage.setItem("sleepAction", JSON.stringify("dismiss"));
   };
@@ -67,6 +69,8 @@ const ReposeUserAlert = () => {
     dispatch(setOpenAlertRepose(false));
     dispatch(setShowAnimationReposeUser(true));
 
+    router.push("/");
+    document.body.classList.add("repose-user");
     localStorage.setItem("sleepAction", JSON.stringify("accept"));
   };
 

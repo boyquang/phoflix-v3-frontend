@@ -36,10 +36,10 @@ const MoviesByActor = ({ data }: MoviesByActorProps) => {
             <button
               key={tab.id}
               onClick={() => handleChangeTab(tab.value as "all" | "time")}
-              className={`flex items-center justify-center cursor-pointer rounded-md border-none h-[26px] lg:text-sm xs:text-xs text-[10px] px-2 transition-colors ${
+              className={`flex items-center transition-all duration-300 justify-center rounded-md border-none h-[26px] lg:text-sm xs:text-xs text-[10px] px-2 ${
                 filter === tab.value
-                  ? "bg-white text-black"
-                  : "bg-transparent text-white"
+                  ? "bg-white text-black cursor-default"
+                  : "bg-transparent text-white cursor-pointer"
               }`}
             >
               {tab.label}

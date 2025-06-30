@@ -2,7 +2,7 @@
 
 import { Box } from "@chakra-ui/react";
 import SkeletonMovieGrid from "./SkeletonMovieGrid";
-import RootLayout from "../layouts/RootLayout";
+import RootLayout from "../layout/RootLayout";
 import TopicBackground from "../shared/TopicBackground";
 
 interface SkeletonDetailPageProps {

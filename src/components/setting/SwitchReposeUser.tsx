@@ -1,27 +1,33 @@
 "use client";
 
 import useNotification from "@/hooks/useNotification";
+import { setStatusRepose } from "@/store/slices/systemSlice";
+import { AppDispatch, RootState } from "@/store/store";
 import dynamic from "next/dynamic";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
 
 const SwitchCustom = dynamic(() => import("@/components/shared/SwitchCustom"), {
   ssr: false,
 });
 
 const SwitchReposeUser = () => {
-  const [sleepReminder, setSleepReminder] = useState(false);
+  const { status: sleepReminder } = useSelector(
+    (state: RootState) => state.system.warnUser.repose
+  );
   const { notificationAlert } = useNotification();
+  const dispatch: AppDispatch = useDispatch();
 
   useEffect(() => {
     const sleepReminderLocal = JSON.parse(
       localStorage.getItem("sleepReminder") || "false"
     );
 
-    setSleepReminder(sleepReminderLocal);
+    dispatch(setStatusRepose(sleepReminderLocal));
   }, []);
 
   const handleReposeUserToggle = (checked: boolean) => {
-    setSleepReminder(checked);
+    dispatch(setStatusRepose(checked));
     localStorage.setItem("sleepReminder", JSON.stringify(checked));
 
     if (checked) {

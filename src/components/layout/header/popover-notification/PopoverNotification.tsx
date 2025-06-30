@@ -80,7 +80,7 @@ const PopoverNotification = () => {
             <Popover.Header p={0}>
               <HeaderNotification />
             </Popover.Header>
-            <Popover.Body p={0}>
+            <Popover.Body p={0} className="max-h-[50vh] overflow-y-auto overscroll-contain">
               <NotificationList
                 notifications={notifications}
                 loading={pending}

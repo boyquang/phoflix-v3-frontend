@@ -1,6 +1,6 @@
 "use client";
 
-import RootLayout from "@/components/layouts/RootLayout";
+import RootLayout from "@/components/layout/RootLayout";
 import FilterBox from "./FilterBox";
 import { Box } from "@chakra-ui/react";
 import { useDispatch, useSelector } from "react-redux";

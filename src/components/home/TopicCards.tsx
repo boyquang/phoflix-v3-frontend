@@ -6,7 +6,7 @@ import "swiper/css";
 import { categories } from "@/constants/movie";
 import { Box } from "@chakra-ui/react";
 import Link from "next/link";
-import RootLayout from "../layouts/RootLayout";
+import RootLayout from "../layout/RootLayout";
 import { MdChevronRight } from "react-icons/md";
 import { colorGradients } from "@/constants/color";
 

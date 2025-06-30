@@ -2,7 +2,7 @@
 
 import { checkIsTodayAnEvent, getUpcomingEvent } from "@/lib/utils";
 import { Box } from "@chakra-ui/react";
-import RootLayout from "../layouts/RootLayout";
+import RootLayout from "../layout/RootLayout";
 import { useEffect, useState } from "react";
 import { AppDispatch, RootState } from "@/store/store";
 import { useDispatch, useSelector } from "react-redux";

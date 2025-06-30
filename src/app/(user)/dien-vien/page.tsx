@@ -1,5 +1,5 @@
 import Loading from "@/app/loading";
-import RootLayout from "@/components/layouts/RootLayout";
+import RootLayout from "@/components/layout/RootLayout";
 import PaginationCustom from "@/components/shared/PaginationCustom";
 import ActorsList from "@/components/actor/ActorsList";
 import { getActorList } from "@/lib/actions/actorActionServer";

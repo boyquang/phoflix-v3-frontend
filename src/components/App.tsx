@@ -1,7 +1,7 @@
 "use client";
 
 import { Box } from "@chakra-ui/react";
-import NavBar from "./layouts/header/NavBar";
+import NavBar from "./layout/header/NavBar";
 import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "@/store/store";
 import {
@@ -10,9 +10,9 @@ import {
   setWidth,
 } from "@/store/slices/systemSlice";
 import { useEffect } from "react";
-import DrawerCustom from "./layouts/drawer/DrawerCustom";
+import DrawerCustom from "./layout/drawer/DrawerCustom";
 import { Toaster } from "./ui/toaster";
-import Footer from "./layouts/Footer";
+import Footer from "./layout/Footer";
 import AuthDialog from "./auth/AuthDialog";
 import ScrollToTopButton from "./shared/ScrollToTopButton";
 import { usePathname } from "next/navigation";

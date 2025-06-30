@@ -1,6 +1,6 @@
 "use client";
 
-import RootLayout from "@/components/layouts/RootLayout";
+import RootLayout from "@/components/layout/RootLayout";
 import {
   Describe,
   fetchDataMovieDetail,

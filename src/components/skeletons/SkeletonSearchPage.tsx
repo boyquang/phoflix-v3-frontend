@@ -1,7 +1,7 @@
 "use client";
 
 import { Box } from "@chakra-ui/react";
-import RootLayout from "../layouts/RootLayout";
+import RootLayout from "../layout/RootLayout";
 import SkeletonMovieGrid from "./SkeletonMovieGrid";
 
 const SkeletonSearchPage = () => {

@@ -7,7 +7,7 @@ import { Suspense } from "react";
 import ListRooms from "@/components/watch-together/ListRooms";
 import PaginationCustom from "@/components/shared/PaginationCustom";
 import { NEXTAUTH_URL } from "@/lib/env";
-import RootLayout from "@/components/layouts/RootLayout";
+import RootLayout from "@/components/layout/RootLayout";
 
 export function generateMetadata(): Metadata {
   return {

@@ -154,7 +154,7 @@ const PopoverPlaylist = ({
                 <p className="mb-4 text-white font-semibold">
                   Danh sách phát của bạn
                 </p>
-                <Box className="flex flex-col gap-4">
+                <Box className="flex flex-col gap-4 max-h-48 overflow-y-auto overscroll-contain">
                   {playlists?.map((playlist, index) => (
                     <CheckboxPlaylist
                       key={index}

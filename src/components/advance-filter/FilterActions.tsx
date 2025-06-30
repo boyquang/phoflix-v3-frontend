@@ -2,7 +2,7 @@
 
 import Refreshicon from "@/components/icons/RefresIcon";
 import { Tooltip } from "@/components/ui/tooltip";
-import { Box, Button, IconButton } from "@chakra-ui/react";
+import { Box, Button, IconButton, Spinner } from "@chakra-ui/react";
 interface FilterActionsProps {
   loading: boolean;
   handleSearch: () => void;
@@ -17,13 +17,14 @@ const FilterActions = ({
   return (
     <Box className="flex gap-4">
       <Button
-        loading={loading}
         onClick={() => handleSearch()}
         rounded="full"
         size="sm"
-        className="shadow-primary bg-[#ffda7d] text-[#1e2939] "
+        disabled={loading}
+        className="shadow-primary bg-[#ffda7d] text-[#1e2939]"
       >
-        Lọc kết quả
+        {loading ? "Đang lọc" : "Lọc kết quả"}
+        {loading && <Spinner size="sm" />}
       </Button>
       <Tooltip
         content="Làm mới bộ lọc"

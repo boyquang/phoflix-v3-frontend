@@ -113,7 +113,10 @@ const PopoverUser = () => {
                 <ProfileHeader />
               </Box>
             </Popover.Header>
-            <Popover.Body p={0}>
+            <Popover.Body
+              p={0}
+              className="max-h-[50vh] overflow-y-auto overscroll-contain"
+            >
               <ul className="py-2 flex flex-col gap-1">
                 {menu.map((item, index) => (
                   <li key={index} onClick={() => setOpen(false)}>

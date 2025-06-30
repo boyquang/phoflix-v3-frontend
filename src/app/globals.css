@@ -49,6 +49,10 @@ body.cinema-mode .watch-player {
   z-index: 101;
 }
 
+body.repose-user {
+  overflow: hidden;
+}
+
 .reduce-motion * {
   animation: none !important;
   transition: none !important;

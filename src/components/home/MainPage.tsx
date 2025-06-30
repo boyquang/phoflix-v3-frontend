@@ -12,7 +12,7 @@ import {
 import { initialMovieConfig, quantitySectionMovie } from "@/constants/movie";
 import TopicCards from "@/components/home/TopicCards";
 import EventContainer from "@/components/event/EventContainer";
-import RootLayout from "@/components/layouts/RootLayout";
+import RootLayout from "@/components/layout/RootLayout";
 import Loading from "@/app/loading";
 import MovieSection from "@/components/shared/MovieSection";
 import { setFetchedMovieDataHomePage } from "@/store/slices/movieSlice";
