@@ -809,3 +809,48 @@ export const getTodayDate = () => {
     formatted: `${day}/${month}/${year}`, // Định dạng dd/MM/yyyy
   };
 };
+
+/**
+ * @param time - Chuỗi thời gian theo định dạng "HH:mm"
+ * @returns - Đối tượng chứa giờ và phút
+ * @description - Hàm này sẽ tách chuỗi thời gian thành giờ và phút
+ */
+
+export const splitTime = (time: string | undefined) => {
+  if (!time) {
+    return { hours: 0, minutes: 0 }; // Trả về mặc định nếu không có thời gian
+  }
+
+  const [hours, minutes] = time.split(":").map(Number);
+  return { hours, minutes };
+};
+
+/**
+ * @param key - Tên khóa cần lưu trữ
+ * @param value - Giá trị cần lưu trữ
+ * @description - Hàm này sẽ lưu giá trị vào localStorage với tên khóa đã cho
+ */
+
+export const getFromStorage = <T>(key: string, fallback: T): T => {
+  try {
+    const value = localStorage.getItem(key);
+
+    if (!value || value === "undefined" || value === "null") {
+      return fallback;
+    }
+
+    return JSON.parse(value);
+  } catch (error) {
+    return fallback;
+  }
+};
+
+/**
+ * @param key - Tên khóa cần lưu trữ
+ * @param value - Giá trị cần lưu trữ
+ * @description - Hàm này sẽ lưu giá trị vào localStorage với tên khóa đã cho
+ */
+
+export const setToStorage = <T>(key: string, value: T): void => {
+  localStorage.setItem(key, JSON.stringify(value));
+};

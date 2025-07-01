@@ -1,6 +1,7 @@
 "use client";
 
 import useNotification from "@/hooks/useNotification";
+import { getFromStorage, setToStorage } from "@/lib/utils";
 import { setStatusRepose } from "@/store/slices/systemSlice";
 import { AppDispatch, RootState } from "@/store/store";
 import dynamic from "next/dynamic";
@@ -19,19 +20,18 @@ const SwitchReposeUser = () => {
   const dispatch: AppDispatch = useDispatch();
 
   useEffect(() => {
-    const sleepReminderLocal = JSON.parse(
-      localStorage.getItem("sleepReminder") || "false"
-    );
+    const sleepReminderLocal = getFromStorage("sleepReminder", sleepReminder);
 
     dispatch(setStatusRepose(sleepReminderLocal));
   }, []);
 
   const handleReposeUserToggle = (checked: boolean) => {
     dispatch(setStatusRepose(checked));
-    localStorage.setItem("sleepReminder", JSON.stringify(checked));
+    setToStorage("sleepReminder", checked);
 
     if (checked) {
-      localStorage.setItem("sleepAction", JSON.stringify(null));
+      setToStorage("sleepAction", null);
+
       notificationAlert({
         title: "Chế độ nghỉ ngơi đã được bật",
         description: "Bạn sẽ nhận được thông báo khi đến giờ nghỉ ngơi.",

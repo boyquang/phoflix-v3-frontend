@@ -173,8 +173,13 @@ body.repose-user {
   }
 }
 
-
 .fade-bottom {
   -webkit-mask-image: linear-gradient(to bottom, black 60%, transparent);
   mask-image: linear-gradient(to bottom, black 60%, transparent);
 }
+
+input[type="time"]::-webkit-calendar-picker-indicator {
+  filter: brightness(0) invert(1);
+}
+
+

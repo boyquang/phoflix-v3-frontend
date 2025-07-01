@@ -4,10 +4,12 @@ import SettingItem from "@/components/setting/SettingItem";
 import SwitchReduceMotion from "@/components/setting/SwitchReduceMotion";
 import SwitchReposeUser from "@/components/setting/SwitchReposeUser";
 import SwitchSnowEffect from "@/components/setting/SwitchSnowEffect";
-import { TIME_SLEEP } from "@/constants/setting";
 import { Box, IconButton, Popover, Portal } from "@chakra-ui/react";
 import { useState } from "react";
 import { IoMdSettings } from "react-icons/io";
+import CustomTimeReposeUser from "../../warn-user/repose/CustomTimeReposeUser";
+import { useSelector } from "react-redux";
+import { RootState } from "@/store/store";
 
 const PopoverSetting = () => {
   const [open, setOpen] = useState(false);
@@ -38,7 +40,7 @@ const PopoverSetting = () => {
           <Popover.Content
             rounded="xl"
             p={0}
-            className="bg-[#0f111af2] text-gray-50 border border-[#ffffff10] max-w-sm"
+            className="bg-[#0f111af2] text-gray-50 border border-[#ffffff10]"
           >
             <Popover.Arrow />
             <Popover.Header p={0}>
@@ -60,8 +62,9 @@ const PopoverSetting = () => {
                 />
                 <SettingItem
                   label="Chế độ nghỉ ngơi"
-                  description={`Tự động nhắc nhở bạn đi ngủ vào lúc ${TIME_SLEEP.start}h tối đến ${TIME_SLEEP.end}h sáng`}
+                  description="Tự động nhắc nhở bạn đi ngủ theo lịch trình"
                   control={<SwitchReposeUser />}
+                  custom={<CustomTimeReposeUser />}
                 />
               </div>
             </Popover.Body>

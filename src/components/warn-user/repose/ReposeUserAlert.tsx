@@ -8,39 +8,100 @@ import { usePathname, useRouter } from "next/navigation";
 import { AppDispatch, RootState } from "@/store/store";
 import { useDispatch, useSelector } from "react-redux";
 import {
+  setCustomReposeUser,
   setOpenAlertRepose,
   setShowAnimationReposeUser,
   setStatusRepose,
 } from "@/store/slices/systemSlice";
+import { getFromStorage, setToStorage, splitTime } from "@/lib/utils";
 
 const { dialog } = appConfig.charka;
 const motionPresetDefault = dialog.motionPresetDefault;
 
 // Chế độ nghỉ ngơi của người dùng
-const { title, message } = WARN_USER.repose;
-const { start, end, interval: intervalT } = TIME_SLEEP;
+const { interval: intervalT } = TIME_SLEEP;
 
 const ReposeUserAlert = () => {
   const pathname = usePathname();
-  const { openAlert } = useSelector(
-    (state: RootState) => state.system.warnUser.repose
-  );
+  const { openAlert, message, title, action, status, startTime, endTime } =
+    useSelector((state: RootState) => state.system.warnUser.repose);
   const dispatch: AppDispatch = useDispatch();
   const router = useRouter();
 
+  // Gán lại dữ liệu đã tạo trước đó
+  useEffect(() => {
+    const { sleepCustomPrompt, sleepEndTime, sleepStartTime } = getSleepData();
+
+    dispatch(
+      setCustomReposeUser({
+        startTime: sleepStartTime,
+        endTime: sleepEndTime,
+        customPrompt: sleepCustomPrompt,
+      })
+    );
+  }, []);
+
+  const isSleepTimeNow = (
+    hour: number,
+    minute: number,
+    startHours: number,
+    startMinutes: number,
+    endHours: number,
+    endMinutes: number
+  ) => {
+    const current = hour * 60 + minute;
+    const start = startHours * 60 + startMinutes;
+    const end = endHours * 60 + endMinutes;
+
+    if (start < end) {
+      // Trường hợp: khoảng thời gian trong cùng 1 ngày (vd: 22:00 → 23:00)
+      return current >= start && current < end;
+    } else {
+      // Trường hợp: qua đêm (vd: 23:00 → 05:00)
+      return current >= start || current < end;
+    }
+  };
+
+  const getSleepData = () => {
+    const sleepReminder = getFromStorage("sleepReminder", status);
+    const sleepAction = getFromStorage("sleepAction", action);
+    const sleepStartTime = getFromStorage("sleepStartTime", startTime);
+    const sleepEndTime = getFromStorage("sleepEndTime", endTime);
+    const sleepCustomPrompt = getFromStorage(
+      "sleepCustomPrompt",
+      message["sleep-time"]
+    );
+
+    return {
+      sleepReminder,
+      sleepAction,
+      sleepStartTime,
+      sleepEndTime,
+      sleepCustomPrompt,
+    };
+  };
+
   useEffect(() => {
     const checkSleepTime = () => {
-      const sleepReminder = JSON.parse(
-        localStorage.getItem("sleepReminder") || "false"
-      );
-      const sleepAction = JSON.parse(
-        localStorage.getItem("sleepAction") || "null"
-      );
+      const { sleepReminder, sleepAction, sleepStartTime, sleepEndTime } =
+        getSleepData();
 
       const now = new Date();
-      const hour = now.getHours();
+      const hour = Number(now.getHours());
+      const minute = Number(now.getMinutes());
 
-      const isSleepTime = hour >= start || hour < end;
+      const { hours: startHours, minutes: startMinutes } =
+        splitTime(sleepStartTime);
+      const { hours: endHours, minutes: endMinutes } = splitTime(sleepEndTime);
+
+      const isSleepTime = isSleepTimeNow(
+        hour,
+        minute,
+        startHours,
+        startMinutes,
+        endHours,
+        endMinutes
+      );
 
       if (sleepReminder && isSleepTime && sleepAction !== "dismiss") {
         dispatch(setOpenAlertRepose(true));
@@ -61,8 +122,8 @@ const ReposeUserAlert = () => {
     dispatch(setStatusRepose(false));
 
     document.body.classList.remove("repose-user");
-    localStorage.setItem("sleepReminder", JSON.stringify(false));
-    localStorage.setItem("sleepAction", JSON.stringify("dismiss"));
+    setToStorage("sleepReminder", false);
+    setToStorage("sleepAction", "dismiss");
   };
 
   const handleAccept = () => {
@@ -71,7 +132,7 @@ const ReposeUserAlert = () => {
 
     router.push("/");
     document.body.classList.add("repose-user");
-    localStorage.setItem("sleepAction", JSON.stringify("accept"));
+    setToStorage("sleepAction", "accept");
   };
 
   return (

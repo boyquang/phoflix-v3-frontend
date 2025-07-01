@@ -38,6 +38,8 @@ type SystemSlice = {
       title: Record<WarnUserMode, string>;
       showAnimation: boolean;
       openAlert: boolean;
+      startTime?: string; // Thời gian bắt đầu nghỉ ngơi
+      endTime?: string; // Thời gian kết thúc nghỉ ngơi
     };
   };
 };

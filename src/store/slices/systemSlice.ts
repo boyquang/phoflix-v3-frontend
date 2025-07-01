@@ -93,6 +93,17 @@ const systemSlice = createSlice({
     setOpenAlertRepose: (state, action) => {
       state.warnUser.repose.openAlert = action.payload;
     },
+    setCustomReposeUser: (state, action) => {
+      const { startTime, endTime, customPrompt } = action.payload;
+
+      state.warnUser.repose.startTime = startTime;
+      state.warnUser.repose.endTime = endTime;
+      state.warnUser.repose.message["sleep-time"] = customPrompt;
+
+      localStorage.setItem("sleepStartTime", JSON.stringify(startTime));
+      localStorage.setItem("sleepEndTime", JSON.stringify(endTime));
+      localStorage.setItem("sleepCustomPrompt", JSON.stringify(customPrompt));
+    }
   },
 
   extraReducers: (builder) => {
@@ -132,6 +143,7 @@ export const {
   setShowAnimationReposeUser,
   showDialogSinInWhenNotLogin,
   setStatusRepose,
+  setCustomReposeUser,
   setOpenAlertRepose,
 } = systemSlice.actions;
 export default systemSlice.reducer;

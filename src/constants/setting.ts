@@ -1,8 +1,7 @@
 export const TIME_SLEEP = {
-  start: 23,
-  end: 6,
-  // interval: 15 * 1000, // test 15 giây
-  interval: 60 * 1000,
+  start: "23:00",
+  end: "06:00",
+  interval: 15 * 60 * 1000, // 15 phút
 };
 
 type WarnUserAction = "dismiss" | "accept" | null;
@@ -13,10 +12,12 @@ export interface WarnUser {
     status: boolean;
     mode: WarnUserMode;
     title: Record<WarnUserMode, string>;
-    message: Record<WarnUserMode, string>;
     action: WarnUserAction;
     showAnimation: boolean;
     openAlert: boolean;
+    message: Record<WarnUserMode, string>;
+    startTime: string;
+    endTime: string;
   };
 }
 
@@ -39,5 +40,7 @@ export const WARN_USER: WarnUser = {
     action: null,
     showAnimation: false,
     openAlert: false,
+    startTime: TIME_SLEEP.start, // Thời gian bắt đầu nghỉ ngơi
+    endTime: TIME_SLEEP.end, // Thời gian kết thúc nghỉ ngơi
   },
 };
