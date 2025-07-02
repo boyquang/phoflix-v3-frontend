@@ -62,7 +62,7 @@ const MovieTabs = () => {
         _closed={contentAnimClose}
       >
         <Box className="mt-6">
-          {movie?.tmdb?.type === "tv" || movie?.type === "series" ? (
+          {movie?.tmdb?.type === "tv" || movie?.type === "hoathinh" || movie?.type === "series" ? (
             <TabEpisodes />
           ) : (
             <MovieVersionList />
