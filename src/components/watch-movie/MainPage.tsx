@@ -128,7 +128,7 @@ const MainPage = () => {
           <SectionInfo data={movie} />
           <Box className="lg:w-[0.5px] w-full lg:h-auto h-[0.5px] bg-[#ffffff10]"></Box>
           <Box className="xl:flex-2 flex-1">
-            {movie?.tmdb?.type === "tv" || movie?.type === "series" ? (
+            {movie?.tmdb?.type === "tv" || movie?.type === "hoathinh" || movie?.type === "series" ? (
               <>
                 <EpisodeTabs />
                 {Object.keys(groups)?.length > 0 && selectedLanguage && (
