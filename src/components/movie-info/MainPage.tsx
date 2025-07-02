@@ -23,7 +23,7 @@ const MainPage = () => {
     (state: RootState) => state.movie.movieInfo
   );
   const params = useParams();
-  const slug = params?.slug ?? "";
+  const slug = params?.slug || "";
 
   useEffect(() => {
     if (slug && movie?.slug !== slug) {

@@ -31,6 +31,8 @@ type Actor = {
   order: number;
 };
 
+type languageType = "vietsub" | "thuyet-minh" | "long-tieng";
+
 type MovieSlice = {
   slideShows: {
     items: SlideItem[];
@@ -103,8 +105,8 @@ type MovieSlice = {
   };
   episode: {
     displayMode: "list" | "tab";
-    selectedLanguage: string | null;
-    groups: Record<string, { items: any[]; label: string }>;
+    selectedLanguage: languageType | null;
+    groups: Partial<Record<languageType, { items: any[]; label: string }>>;
   };
 };
 

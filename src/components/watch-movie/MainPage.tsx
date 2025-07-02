@@ -27,6 +27,7 @@ import PopoverPlaylist from "../user/playlist/PopoverPlaylist";
 import ReportDialog from "../movie-report/ReportDialog";
 import MovieSuggesstions from "@/components/shared/MovieSuggestions";
 import EpisodeTabs from "../episode/EpisodeTabs";
+import MovieVersionList from "../movie-version/MovieVersionList";
 
 const MainPage = () => {
   const params = useParams();
@@ -127,26 +128,33 @@ const MainPage = () => {
           <SectionInfo data={movie} />
           <Box className="lg:w-[0.5px] w-full lg:h-auto h-[0.5px] bg-[#ffffff10]"></Box>
           <Box className="xl:flex-2 flex-1">
-            <>
-              <EpisodeTabs />
-              {Object.keys(groups)?.length > 0 && selectedLanguage && (
-                <EpisodesList
-                  currentEpisode={currentEpisode}
-                  setCurrentEpisode={(item) =>
-                    dispatch(setCurrentEpisode(item))
-                  }
-                  colums={{
-                    base: 3,
-                    md: 5,
-                    lg: 3,
-                    xl: 6,
-                  }}
-                  redirect={false}
-                  episodes={groups[selectedLanguage as string]?.items || []}
-                  language={selectedLanguage as string}
-                />
-              )}
-            </>
+            {movie?.tmdb?.type === "tv" || movie?.type === "series" ? (
+              <>
+                <EpisodeTabs />
+                {Object.keys(groups)?.length > 0 && selectedLanguage && (
+                  <EpisodesList
+                    currentEpisode={currentEpisode}
+                    setCurrentEpisode={(item) =>
+                      dispatch(setCurrentEpisode(item))
+                    }
+                    colums={{
+                      base: 3,
+                      md: 5,
+                      lg: 3,
+                      xl: 6,
+                    }}
+                    redirect={false}
+                    episodes={groups[selectedLanguage]?.items || []}
+                    language={selectedLanguage}
+                  />
+                )}
+              </>
+            ) : (
+              <MovieVersionList
+                redirect={false}
+                classNameGrid="lg:grid-cols-3 md:grid-cols-3 xs:grid-cols-2 grid-cols-1"
+              />
+            )}
           </Box>
         </Box>
 

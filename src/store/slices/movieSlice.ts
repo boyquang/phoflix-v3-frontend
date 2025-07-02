@@ -86,7 +86,11 @@ const initialState: MovieSlice = {
   episode: {
     displayMode: "list",
     selectedLanguage: null,
-    groups: {},
+    groups: {
+      vietsub: { items: [], label: "Vietsub" },
+      "thuyet-minh": { items: [], label: "Thuyết minh" },
+      "long-tieng": { items: [], label: "Lồng tiếng" },
+    },
   },
 };
 
@@ -272,10 +276,10 @@ const movieSlice = createSlice({
 
       action.payload?.episodes?.forEach((episode: any) => {
         const data = formatTypeMovie(episode.server_name);
-        const language = data.language;
+        const language = data.language as languageType;
 
-        if (!state.episode.groups[language]) {
-          state.episode.groups[language] = {
+        if (!state.episode.groups[language as languageType]) {
+          state.episode.groups[language as languageType] = {
             items: episode.server_data,
             label: data.title,
           };

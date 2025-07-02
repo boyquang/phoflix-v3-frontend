@@ -18,6 +18,7 @@ const eslintConfig = [
       '@typescript-eslint/no-empty-object-type': 'off',
       'react/no-unescaped-entities': 'off',
       '@typescript-eslint/prefer-as-const': 'off',
+      'react-hooks/exhaustive-deps': 'off',
     },
   },
 ];

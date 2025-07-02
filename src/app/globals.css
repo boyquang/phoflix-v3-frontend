@@ -182,4 +182,10 @@ input[type="time"]::-webkit-calendar-picker-indicator {
   filter: brightness(0) invert(1);
 }
 
+.fade-right-mask {
+  -webkit-mask-image: linear-gradient(270deg, black 0, transparent 95%);
+  mask-image: linear-gradient(270deg, black 0, transparent 95%);
+  -webkit-mask-repeat: no-repeat;
+  mask-repeat: no-repeat;
+}
 

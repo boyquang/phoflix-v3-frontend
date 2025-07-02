@@ -22,8 +22,8 @@ const TabEpisodes = () => {
       <EpisodeTabs />
       {Object.keys(groups)?.length > 0 && selectedLanguage && (
         <EpisodesList
-          episodes={groups[selectedLanguage as string]?.items || []}
-          language={selectedLanguage as string}
+          episodes={groups[selectedLanguage]?.items || []}
+          language={selectedLanguage}
           currentEpisode={currentEpisode}
           setCurrentEpisode={(item) => dispatch(setCurrentEpisode(item))}
           colums={{

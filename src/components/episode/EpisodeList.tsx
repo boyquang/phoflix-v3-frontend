@@ -14,6 +14,7 @@ import {
 } from "@/lib/utils";
 import EpisodeItem from "./EpisodeItem";
 import HoverOutlineWrapper from "@/components/shared/HoverOutlineWrapper";
+import EmptyData from "../shared/EmptyData";
 
 type Episode = {
   name: string;
@@ -24,7 +25,7 @@ type Episode = {
 };
 
 interface EpisodesListProps {
-  language: string;
+  language: languageType;
   episodes: Episode[];
   currentEpisode: Episode;
   setCurrentEpisode: (item: Episode) => void;
@@ -124,6 +125,16 @@ const EpisodesList = ({
       }
     }
   };
+
+  if (!episodes || episodes.length === 0) {
+    return (
+      <EmptyData
+        title="Không có tập phim nào"
+        description="Chúng tôi sẽ cập nhật tập phim trong thời gian sớm nhất."
+        className="mt-6 bg-[#0003] rounded-2xl"
+      />
+    );
+  }
 
   return (
     <>

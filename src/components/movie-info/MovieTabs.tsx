@@ -7,6 +7,7 @@ import { useSelector } from "react-redux";
 import { RootState } from "@/store/store";
 import ActorsList from "../actor/ActorsList";
 import MovieSuggesstions from "@/components/shared/MovieSuggestions";
+import MovieVersionList from "../movie-version/MovieVersionList";
 
 // CSS dùng chung
 const selectedTabStyle = {
@@ -38,6 +39,7 @@ const MovieTabs = () => {
   const { items, loading } = useSelector(
     (state: RootState) => state.movie.actorsListByMovie
   );
+  const { movie } = useSelector((state: RootState) => state.movie.movieInfo);
 
   return (
     <Tabs.Root defaultValue="episodes" colorPalette="yellow">
@@ -60,7 +62,11 @@ const MovieTabs = () => {
         _closed={contentAnimClose}
       >
         <Box className="mt-6">
-          <TabEpisodes />
+          {movie?.tmdb?.type === "tv" || movie?.type === "series" ? (
+            <TabEpisodes />
+          ) : (
+            <MovieVersionList />
+          )}
         </Box>
       </Tabs.Content>
 

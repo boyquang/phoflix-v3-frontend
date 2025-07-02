@@ -44,7 +44,7 @@ const EpisodeTabs = () => {
 
   return (
     <div className="flex items-center gap-2 mb-6">
-      {Object.keys(groups)?.map((key) => (
+      {(Object.keys(groups) as languageType[])?.map((key) => (
         <div
           id={key}
           key={key}
@@ -56,7 +56,7 @@ const EpisodeTabs = () => {
           `}
         >
           <LanguageIcon language={key} />
-          <h3 className="font-semibold text-xs">{groups[key].label}</h3>
+          <h3 className="font-semibold text-xs">{groups[key]?.label}</h3>
         </div>
       ))}
     </div>
