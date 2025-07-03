@@ -20,7 +20,7 @@ const LeaveRoomButton = () => {
   );
   const params = useParams();
   const roomId = params?.roomId as string;
-  const { data: session }: any = useSession();
+  const { data: session } = useSession();
   const [loading, setLoading] = useState<boolean>(false);
   const router = useRouter();
   const dispatch: AppDispatch = useDispatch();
@@ -30,9 +30,9 @@ const LeaveRoomButton = () => {
   const handleLeaveRoomWatchingTogether = async () => {
     setLoading(true);
     const response = await leaveRoomWatchingTogether({
-      userId: session?.user?.id,
+      userId: session?.user?.id as string,
       roomId,
-      accessToken: session?.user?.accessToken,
+      accessToken: session?.user?.accessToken as string,
     });
     setLoading(false);
 

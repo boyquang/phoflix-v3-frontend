@@ -7,7 +7,7 @@ import ActorMoviesTime from "./ActorMoviesTime";
 import { setFilterActor } from "@/store/slices/movieSlice";
 
 interface MoviesByActorProps {
-  data: any;
+  data: MoviesByActor[];
 }
 
 const tabs = [

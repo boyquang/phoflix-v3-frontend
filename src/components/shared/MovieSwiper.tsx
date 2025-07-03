@@ -13,10 +13,14 @@ import "swiper/css";
 import "swiper/css/navigation";
 
 interface MovieThumbProps {
-  items: any;
+  items: Movie[];
   loading: boolean;
   error: boolean;
   orientation: "horizontal" | "vertical";
+}
+interface HandleSlideChangeParams {
+  isBeginning: boolean;
+  isEnd: boolean;
 }
 
 const MovieSwiper = ({
@@ -30,7 +34,7 @@ const MovieSwiper = ({
   const [isBeginning, setIsBeginning] = useState(true);
   const [isEnd, setIsEnd] = useState(false);
 
-  const handleSlideChange = (swiper: any) => {
+  const handleSlideChange = (swiper: HandleSlideChangeParams) => {
     setIsBeginning(swiper.isBeginning);
     setIsEnd(swiper.isEnd);
   };
@@ -108,7 +112,7 @@ const MovieSwiper = ({
           },
         }}
       >
-        {items?.map((item: any, index: number) => (
+        {items?.map((item, index: number) => (
           <SwiperSlide key={index} className="relative">
             <MovieCard data={item} orientation={orientation} />
           </SwiperSlide>

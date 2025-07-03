@@ -24,7 +24,7 @@ const DeleteSelectedMovies = ({
 }: DeleteSelectedMoviesProps) => {
   const dispatch: AppDispatch = useDispatch();
   const router = useRouter();
-  const { data: session }: any = useSession();
+  const { data: session } = useSession();
   const { notificationAlert } = useNotification();
   const { seletectedDeleteMode, selectedMovieIds } = useSelector(
     (state: RootState) => state.user.userMovies
@@ -34,11 +34,11 @@ const DeleteSelectedMovies = ({
   const handleDeleteSeletedMovies = async () => {
     setLoading(true);
     const response = await deleteSelectedMovies({
-      userId: session?.user?.id,
+      userId: session?.user?.id as string,
       movieIds: selectedMovieIds || [],
       type,
       playlistId: playlistId || null,
-      accessToken: session?.user?.accessToken,
+      accessToken: session?.user?.accessToken as string,
     });
     setLoading(false);
 

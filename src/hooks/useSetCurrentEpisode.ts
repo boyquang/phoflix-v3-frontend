@@ -5,9 +5,9 @@ import { useSearchParams } from "next/navigation";
 import { useEffect } from "react";
 
 interface UseSetCurrenEpisodeProps {
-  episodes: any[];
+  episodes: Episode[];
   enabled?: boolean;
-  callback: (episode: any) => void;
+  callback: (episode: EpisodeMerged) => void;
 }
 
 const useSetCurrentEpisode = ({

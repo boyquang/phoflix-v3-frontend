@@ -16,7 +16,7 @@ interface DeleteMovieRequestProps {
 const DeleteMovieRequest = ({ movieRequestId }: DeleteMovieRequestProps) => {
   const [loading, setLoading] = useState(false);
   const router = useRouter();
-  const { data: session }: any = useSession();
+  const { data: session } = useSession();
   const { notificationAlert } = useNotification();
 
   const handleDeleteMovieRequest = async () => {

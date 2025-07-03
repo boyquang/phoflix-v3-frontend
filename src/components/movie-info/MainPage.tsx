@@ -16,6 +16,7 @@ import useGetPlaylists from "@/hooks/useGetPlaylists";
 import useFetchActorsList from "@/hooks/useFetchActorsList";
 import useFetchMoviePopular from "@/hooks/useFetchMoviePopular";
 import MovieMain from "./MovieMain";
+import { scrollToTop } from "@/lib/utils";
 
 const MainPage = () => {
   const dispatch: AppDispatch = useDispatch();
@@ -33,6 +34,7 @@ const MainPage = () => {
           page: "info",
         })
       );
+      scrollToTop();
     }
   }, [slug]);
 
@@ -51,7 +53,7 @@ const MainPage = () => {
   useGetPlaylists();
 
   if (loading) return <SkeletonInfoPage />;
-  if (error)
+  if (error) {
     return (
       <Box className="min-h-screen flex items-center justify-center max-w-2xl mx-auto px-4">
         <EmptyData
@@ -62,10 +64,14 @@ const MainPage = () => {
         />
       </Box>
     );
+  }
+  if (!movie) {
+    return <div className="min-h-screen"></div>;
+  }
 
   return (
     <>
-      <BackgroundMovie url={movie?.thumb_url} />
+      <BackgroundMovie url={movie?.thumb_url as string} />
       <Box className="max-w-[1620px] mx-auto 2xl:px-12 lg:px-4">
         <Box className="mt-[-100px]">
           <SimpleGrid columns={12} gap={0}>

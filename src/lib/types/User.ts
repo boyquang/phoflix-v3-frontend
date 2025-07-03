@@ -1,3 +1,20 @@
+type User = {
+  avatar: string;
+  created_at: string;
+  email: string;
+  gender: Gender;
+  id: string;
+  role: Role;
+  status: Status;
+  type_account: TypeAcccount;
+  username: string;
+};
+
+type Status = "active" | "banned";
+type Role = "admin" | "member";
+type TypeAcccount = "google" | "credentials";
+type Gender = "female" | "male" | "other";
+
 type SearchHistory = {
   id: string;
   keyword: string;

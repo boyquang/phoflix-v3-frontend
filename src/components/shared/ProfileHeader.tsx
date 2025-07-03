@@ -7,7 +7,7 @@ import { Skeleton, SkeletonCircle } from "@/components/ui/skeleton";
 import StatusTag from "./StatusTag";
 
 const ProfileHeader = () => {
-  const { data: session, status }: any = useSession();
+  const { data: session, status } = useSession();
 
   if (status === "loading") {
     return (
@@ -25,7 +25,10 @@ const ProfileHeader = () => {
 
   return (
     <Box className="flex gap-2 items-center">
-      <AvatarUser src={session?.user.image} name={session?.user?.name} />
+      <AvatarUser
+        src={session?.user?.image as string}
+        name={session?.user?.name as string}
+      />
       <Box className="overflow-hidden">
         <Box className="flex items-center gap-2">
           {session?.user?.role === "admin" && <StatusTag text="ADMIN" />}

@@ -89,7 +89,7 @@ const DownloadFilmDialog = ({ trigger }: DownloadDialogProps) => {
                 </li>
                 <li className="text-sm mb-1">
                   <Clipboard
-                    value={currentEpisode?.link_embed}
+                    value={currentEpisode?.link_embed || ""}
                     label={currentEpisode?.link_embed?.split("=")[1]}
                   />
                 </li>

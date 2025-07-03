@@ -47,13 +47,13 @@ const Page = async ({ searchParams }: PageProps) => {
   const params = await searchParams;
   const page = params.page ? Number(params.page) : 1;
   const slug = params.slug ? params.slug.toString() : "all";
-  const session: any = await auth();
+  const session = await auth();
   const limit = 20;
 
   const response = await getFeedbacks({
     page,
     limit,
-    accessToken: session?.user?.accessToken,
+    accessToken: session?.user?.accessToken as string,
     slug,
   });
 

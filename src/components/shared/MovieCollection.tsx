@@ -13,7 +13,7 @@ interface MovieCollectionProps {
   data: {
     loading: boolean;
     error: boolean;
-    items: any[];
+    items: Movie[];
   };
   orientation: "horizontal" | "vertical";
 }

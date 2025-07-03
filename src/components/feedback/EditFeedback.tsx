@@ -27,7 +27,7 @@ const EditFeedback = ({ defaultValue, feedbackId }: EditFeedbackProps) => {
   const textAreaRef = useRef<HTMLTextAreaElement>(null);
   const [value, setValue] = useState(defaultValue || "");
   const [loading, setLoading] = useState(false);
-  const { data: session }: any = useSession();
+  const { data: session } = useSession();
   const context = useRootFeedback();
   const rootFeedbackId = context?.rootFeedbackId as string;
 

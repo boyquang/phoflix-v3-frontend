@@ -5,7 +5,7 @@ import { Box, Spinner } from "@chakra-ui/react";
 import { Tooltip } from "@/components/ui/tooltip";
 
 interface ChangeStatusProps {
-  user: any;
+  user: User;
   loading: boolean;
   onChangeStatusUser: (userId: string, checked: boolean) => void;
 }

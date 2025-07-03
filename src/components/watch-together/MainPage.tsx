@@ -27,18 +27,18 @@ const MainPage = () => {
   const { movieData, roomOwnerId, currentEpisode, loading, maxUserInRoom } =
     useSelector((state: RootState) => state.watchingTogether);
   const dispatch: AppDispatch = useDispatch();
-  const { data: session }: any = useSession();
+  const { data: session } = useSession();
 
   // Chạy khi người dùng thay rời phòng bằng cách nhấn nút back hoặc chuyển trang
   useLeaveRoomOnRouteChange({
     roomId,
     roomOwnerId,
-    userId: session?.user?.id,
+    userId: session?.user?.id as string,
   });
 
   // Chạy để lấy dữ liệu tập phim cho chủ phòng
   useSetCurrenEpisode({
-    episodes: movieData?.episodes,
+    episodes: movieData?.episodes || [],
     enabled: session?.user?.id === roomOwnerId,
     callback: (item) => dispatch(setCurrentEpisode(item)),
   });

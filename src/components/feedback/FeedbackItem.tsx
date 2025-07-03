@@ -47,7 +47,7 @@ const FeedbackItem = ({ feedback }: FeedbackItemProps) => {
       <Box className="flex-1">
         <Box className="flex gap-2 items-center mb-1.5 flex-wrap">
           {feedbackType === "review" && (
-            <Rated point={feedback?.reviews?.point} />
+            <Rated point={feedback?.reviews?.point as string} />
           )}
 
           <Box className="text-xs flex gap-2 items-center">

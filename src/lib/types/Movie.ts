@@ -9,10 +9,92 @@ type SlideItem = {
   poster_url: string;
   thumb_url: string;
   year: number;
+  quality: string;
+  lang: string;
+  time: string;
+  episode_current: string;
+  category: CategoryMovie[];
+};
+
+type MovieDB = {
+  id: string;
+  created_at: string;
+  updated_at: string;
+  movie_slug: string;
+  playlist_id: string | null;
+  movie_data: Movie;
+  type: "favorite" | "history" | "playlist";
+  user_id: string;
+};
+
+type TypeMovie = {
+  name: string;
+  slug:
+    | "phim-le"
+    | "phim-bo"
+    | "tv-shows"
+    | "phim-vietsub"
+    | "hoat-hinh"
+    | "phim-long-tieng"
+    | "phim-thuyet-minh"
+    | "subteam"
+    | "phim-chieu-rap";
+  type: string;
+  _id: string;
+};
+
+type CountryMovie = {
+  id: string;
+  name: string;
+  slug: string;
+  _id: string;
+};
+
+type CategoryMovie = {
+  id: string;
+  name: string;
+  slug: string;
+  _id: string;
+};
+
+type Movie = {
+  category: CategoryMovie[];
+  country: CountryMovie[];
+  director: string[];
+  actor: string[];
+  episode_current: string;
+  imdb: {
+    id: string | null;
+  };
+  lang: string;
+  modified: {
+    time: string;
+  };
+  name: string;
+  origin_name: string;
+  poster_url: string;
+  slug: string;
+  thumb_url: string;
+  quality: string;
+  time: string;
+  trailer_url: string | null;
+  year: number;
+  _id: string;
+  id: string;
+  sub_docquyen: boolean;
+  tmdb: {
+    id: null | number | string;
+    season: null | string;
+    type: "movie" | "tv" | null;
+    vote_average: number;
+    vote_count: number;
+  };
+  type: "hoathinh" | "single" | "series";
+  content: string | null;
 };
 
 type Movies = {
-  items: any;
+  items: Movie[];
   loading: boolean;
   error: boolean;
 };
@@ -29,6 +111,7 @@ type Actor = {
   character: string;
   credit_id: string;
   order: number;
+  known_for?: KnownFor[];
 };
 
 type languageType = "vietsub" | "thuyet-minh" | "long-tieng";
@@ -52,7 +135,7 @@ type MovieSlice = {
     filter: "all" | "time";
   };
   moviePopular: {
-    items: any;
+    items: MoviesByActor[];
     loading: boolean;
     error: boolean;
     totalPages: number;
@@ -60,20 +143,21 @@ type MovieSlice = {
   };
   movieEvent: Movies;
   searchMoviePreview: {
-    items: any;
+    items: Movie[];
     loading: boolean;
     error: boolean;
     totalItems: number;
   };
   movieInfo: {
-    movie: any;
+    movie: Movie | null;
     loading: boolean;
     error: boolean;
-    episodes: any;
-    currentEpisode: any;
+    episodes: Episode[] | null;
+    currentEpisode: EpisodeMerged | null;
+    isLongSeries: boolean;
   };
   movieDetail: {
-    items: any;
+    items: Movie[] | null;
     titlePage: string;
     pagination: {
       totalItems: number;
@@ -86,13 +170,13 @@ type MovieSlice = {
     fetched: boolean;
   };
   movieSuggestion: {
-    items: any;
+    items: Movie[];
     loading: boolean;
     error: boolean;
     fetched: boolean;
   };
   searchMovie: {
-    items: any;
+    items: Movie[];
     loading: boolean;
     error: boolean;
     titlePage: string;
@@ -106,7 +190,9 @@ type MovieSlice = {
   episode: {
     displayMode: "list" | "tab";
     selectedLanguage: languageType | null;
-    groups: Partial<Record<languageType, { items: any[]; label: string }>>;
+    groups: Partial<
+      Record<languageType, { items: EpisodeMerged[]; label: string }>
+    >;
   };
 };
 
@@ -173,20 +259,58 @@ type Countries =
   | "na-uy";
 
 type Episode = {
-  server_name: string;
-  server_data: {
-    name: string;
-    slug: string;
-    file_name: string;
-    link_embed: string;
-    link_m3u8: string;
-  }[];
+  server_name: string | languageType;
+  server_data: EpisodeMerged[];
 };
 
 type EpisodeMerged = {
   name: string;
   slug: string;
-  file_name: string;
+  filename: string;
   link_embed: string;
   link_m3u8: string;
+};
+
+type MoviesByActor = {
+  adult: boolean | null;
+  backdrop_path: string | null;
+  character: string | null;
+  credit_id: string | null;
+  episode_count: number | null;
+  first_air_date: string | null;
+  first_credit_air_date: string | null;
+  genre_ids: number[] | null;
+  id: number;
+  media_type: "movie" | "tv";
+  name: string | null;
+  title: string | null;
+  origin_country: string[] | null;
+  original_language: string | null;
+  original_name: string | null;
+  overview: string | null;
+  release_date: string | null;
+  original_title: string | null;
+  popularity: number | null;
+  poster_path: string | null;
+  vote_average: number | null;
+  vote_count: number | null;
+};
+
+type KnownFor = {
+  adult: string;
+  backdrop_path: string | null;
+  genre_ids: number[];
+  id: number;
+  media_type: "movie" | "tv";
+  original_language: string | null;
+  original_name: string | null;
+  original_title: string | null;
+  overview: string | null;
+  poster_path: string | null;
+  release_date: string | null;
+  title: string | null;
+  name: string | null;
+  video: boolean;
+  vote_average: number | null;
+  vote_count: number | null;
 };

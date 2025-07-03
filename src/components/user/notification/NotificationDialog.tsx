@@ -30,7 +30,7 @@ const NotificationDialog = ({ trigger }: NotificationDialogProps) => {
   const [open, setOpen] = useState(false);
   const [image, setImage] = useState("");
   const router = useRouter();
-  const { data: session }: any = useSession();
+  const { data: session } = useSession();
   const [loading, setLoading] = useState(false);
   const { register, handleSubmit, reset } = useForm();
 
@@ -46,12 +46,12 @@ const NotificationDialog = ({ trigger }: NotificationDialogProps) => {
 
     setLoading(true);
     const response = await createNotification({
-      senderId: session?.user?.id,
+      senderId: session?.user?.id as string,
       content: data.content,
       type: "community",
       href: data.href,
       image: image,
-      accessToken: session?.user?.accessToken,
+      accessToken: session?.user?.accessToken as string,
     });
     setLoading(false);
 

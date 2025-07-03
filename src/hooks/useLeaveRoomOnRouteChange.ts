@@ -21,7 +21,7 @@ const useLeaveRoomOnRouteChange = ({
   userId,
 }: UseLeaveRoomOnRouteChangeProps) => {
   const pathname = usePathname();
-  const { data: session }: any = useSession();
+  const { data: session } = useSession();
   const prevPathname = useRef<string | null>(null);
   const { hasLeftRoom } = useSelector(
     (state: RootState) => state.watchingTogether
@@ -59,9 +59,9 @@ const useLeaveRoomOnRouteChange = ({
       if (!roomId || !userId || !roomOwnerId) return;
 
       const response = await leaveRoomWatchingTogether({
-        userId: session?.user?.id,
+        userId: session?.user?.id as string,
         roomId,
-        accessToken: session?.user?.accessToken,
+        accessToken: session?.user?.accessToken as string,
       });
 
       if (response?.status) {

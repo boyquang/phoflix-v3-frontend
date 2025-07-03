@@ -6,7 +6,7 @@ import { useEffect } from "react";
 import useNotification from "./useNotification";
 
 const useCheckSessionStatus = () => {
-  const { data: session, status }: any = useSession();
+  const { data: session, status } = useSession();
   const { notificationAlert } = useNotification();
 
   useEffect(() => {

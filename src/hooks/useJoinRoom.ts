@@ -11,7 +11,7 @@ interface UseJoinRoomProps {
 }
 
 const useJoinRoom = ({ roomId }: UseJoinRoomProps) => {
-  const { data: session, status }: any = useSession();
+  const { data: session, status } = useSession();
   const { sendSocketJoinRoom } = useSendSocketWatchingTogether();
 
   const handleJoinRoomWatchingTogether = async () => {
@@ -23,7 +23,7 @@ const useJoinRoom = ({ roomId }: UseJoinRoomProps) => {
         role: session?.user?.role,
       },
       roomId,
-      accessToken: session?.user?.accessToken,
+      accessToken: session?.user?.accessToken as string,
     });
 
     if (response?.status) {

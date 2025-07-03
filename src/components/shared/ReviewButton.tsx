@@ -16,7 +16,7 @@ const ReviewButton = () => {
     return (
       <Button
         onClick={() => dispatch(showDialogSinInWhenNotLogin())}
-        className="p-2 md:min-w-32 shadow-review-button text-gray-50 rounded-full bg-[#3556b6]"
+        className="px-4 py-2 md:min-w-32 shadow-review-button text-gray-50 rounded-full bg-[#3556b6]"
       >
         <MdReviews />
         <span className="md:texts-sm text-xs block">Đánh giá</span>
@@ -27,7 +27,7 @@ const ReviewButton = () => {
   return (
     <ReviewDialog
       trigger={
-        <Button className="lg:p-2 px-2 py-1 shadow-review-button md:min-w-32 text-gray-50 rounded-full bg-[#3556b6]">
+        <Button className="px-4 py-2 shadow-review-button md:min-w-32 text-gray-50 rounded-full bg-[#3556b6]">
           <MdReviews />
           <span className="md:texts-sm text-xs block">Đánh giá</span>
         </Button>

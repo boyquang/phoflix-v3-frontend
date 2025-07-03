@@ -17,7 +17,7 @@ const useSocketMediaAsync = ({
   roomOwnerId,
   playerRef,
 }: UseSocketMediaAsyncProps) => {
-  const { data: session, status }: any = useSession();
+  const { data: session, status } = useSession();
   const isPlayerReady = useLoadedMetaDataVideo({ playerRef });
 
   const commonChecks = (roomIdRes: string) => {

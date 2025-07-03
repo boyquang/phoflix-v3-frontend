@@ -26,7 +26,7 @@ interface ReviewDialogProps {
 const ReviewDialog = ({ trigger }: ReviewDialogProps) => {
   const params = useParams();
   const { sendSocketAddNewReview } = useSendSocketFeedback();
-  const { data: session }: any = useSession();
+  const { data: session } = useSession();
   const dispatch: AppDispatch = useDispatch();
   const { movie } = useSelector((state: RootState) => state.movie.movieInfo);
   const { selectedReview, reviewContent } = useSelector(
@@ -47,6 +47,8 @@ const ReviewDialog = ({ trigger }: ReviewDialogProps) => {
   }, [params?.slug]);
 
   const handleGetStatsByMovie = async () => {
+    if (!movie) return;
+
     const response = await getStatsByMovie(movie.slug);
 
     if (response?.status) {
@@ -58,6 +60,8 @@ const ReviewDialog = ({ trigger }: ReviewDialogProps) => {
   };
 
   const handleAddNewReview = () => {
+    if (!movie) return;
+
     if (reviewContent?.trim() === "") {
       handleShowToaster(
         "Thông báo",
@@ -69,12 +73,12 @@ const ReviewDialog = ({ trigger }: ReviewDialogProps) => {
 
     startTransition(async () => {
       const response = await addFeedback({
-        movieSlug: movie.slug,
+        movieSlug: movie?.slug,
         userId: session?.user?.id as string,
         point: Number(selectedReview?.value),
         content: reviewContent as string,
         type: "review",
-        accessToken: session?.user?.accessToken,
+        accessToken: session?.user?.accessToken as string,
       });
 
       if (response?.status) {

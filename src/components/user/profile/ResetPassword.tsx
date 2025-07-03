@@ -19,7 +19,7 @@ interface FormValues {
 }
 
 const ResetPassword = () => {
-  const { data: session }: any = useSession();
+  const { data: session } = useSession();
   const [open, setOpen] = useState(false);
   const [loading, setLoading] = useState(false);
 

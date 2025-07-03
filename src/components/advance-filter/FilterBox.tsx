@@ -53,7 +53,6 @@ const FilterBox = () => {
     const notChange = isEqual(filter, objSearchParams);
 
     if (!notChange) {
-
       startTransition(async () => {
         await dispatch(
           fetchDataMovieSearch({

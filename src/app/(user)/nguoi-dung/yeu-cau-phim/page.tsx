@@ -45,7 +45,7 @@ export async function generateMetadata() {
 }
 
 const Page = async ({ searchParams }: PageProps) => {
-  const session: any = await auth();
+  const session = await auth();
   const userId = session?.user?.id as string;
   const params = await searchParams;
 

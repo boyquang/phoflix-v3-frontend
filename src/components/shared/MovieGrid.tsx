@@ -3,7 +3,7 @@
 import MovieCard from "./MovieCard";
 
 interface MovieGridProps {
-  items: any;
+  items: Movie[];
   classNameGrids?: string;
   orientation?: "horizontal" | "vertical";
 }
@@ -15,7 +15,7 @@ const MovieGrid = ({
 }: MovieGridProps) => {
   return (
     <div className={classNameGrids}>
-      {items?.map((item: any, index: number) => (
+      {items?.map((item, index: number) => (
         <MovieCard key={index} data={item} orientation={orientation} />
       ))}
     </div>

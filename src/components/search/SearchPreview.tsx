@@ -41,7 +41,7 @@ const SearchPreview = () => {
   return (
     <Box className="flex flex-col gap-4 mb-4">
       <ul className="flex flex-col gap-2">
-        {items?.map((item: any, index: number) => (
+        {items?.map((item, index: number) => (
           <SearchPreviewItem
             key={index}
             item={item}

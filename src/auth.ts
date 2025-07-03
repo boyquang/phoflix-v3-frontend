@@ -1,15 +1,37 @@
-import NextAuth, { AuthError } from "next-auth";
+import NextAuth, {
+  Account,
+  AuthError,
+  Profile,
+  Session,
+  User,
+} from "next-auth";
 import Credentials from "next-auth/providers/credentials";
 import GoogleProvider from "next-auth/providers/google";
 import { login, registerGoogleAccount } from "./lib/actions/authActionServer";
 import { getUserProfile } from "./lib/actions/userActionServer";
+import { JWT } from "next-auth/jwt";
 
 export class InvalidLoginError extends AuthError {
-  constructor(public code: any, public details?: string) {
+  constructor(public code: string, public details?: string) {
     super(details);
     this.code = code;
   }
 }
+
+interface IJWT {
+  token: JWT;
+  user?: User | null;
+  account?: Account | null;
+  profile?: Profile | null;
+  isNewUser?: boolean | null;
+}
+
+interface ISESSION {
+  session: Session;
+  token: JWT;
+}
+
+type TypeAccount = "credentials" | "google";
 
 export const { handlers, signIn, signOut, auth } = NextAuth({
   providers: [
@@ -20,11 +42,11 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
       },
       authorize: async (credentials) => {
         try {
-          const { email, password } = credentials as any;
+          const { email, password } = credentials;
 
-          const response: any = await login({
-            email,
-            password,
+          const response = await login({
+            email: email as string,
+            password: password as string,
             typeAccount: "credentials",
           });
 
@@ -51,7 +73,7 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
     maxAge: 24 * 60 * 60, // 24 hours
   },
   callbacks: {
-    async jwt({ token, user, account, profile, isNewUser }: any) {
+    async jwt({ token, user, account, profile, isNewUser }: IJWT) {
       /**
        * TODO:
        * 1.
@@ -76,15 +98,15 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
 
       if (account?.provider === "google") {
         const response = await getUserProfile({
-          email: profile?.email,
+          email: profile?.email as string,
           typeAccount: "google",
-          accessToken: token.accessToken,
+          accessToken: token.accessToken as string,
         });
 
         if (!response?.status) {
           await registerGoogleAccount({
-            email: profile?.email,
-            name: profile?.name,
+            email: profile?.email as string,
+            name: profile?.name as string,
             avatar: profile?.picture,
             typeAccount: "google",
             password: null,
@@ -97,9 +119,9 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
       }
 
       const response = await getUserProfile({
-        email: token?.email,
-        typeAccount: account?.provider ?? token?.typeAccount,
-        accessToken: token?.accessToken,
+        email: token?.email as string,
+        typeAccount: (account?.provider as TypeAccount) ?? token?.typeAccount,
+        accessToken: token?.accessToken as string,
       });
 
       token.id = response?.result?.id;
@@ -115,17 +137,19 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
       return token;
     },
     // nhận token từ jwt callback và trả về session
-    async session({ session, token }: any) {
-      session.user.id = token?.id ?? token?.sub;
+    async session({ session, token }: ISESSION) {
+      if (!session.user) return session;
+
+      session.user.id = (token?.id as string) || (token?.sub as string);
       session.user.name = token.name;
       session.user.email = token.email;
-      session.user.image = token.image;
-      session.user.role = token.role;
-      session.user.gender = token.gender;
-      session.user.status = token.status;
-      session.user.typeAccount = token.typeAccount;
-      session.user.createdAt = token.createdAt;
-      session.user.accessToken = token.accessToken;
+      session.user.image = token.image as string;
+      session.user.role = token.role as string;
+      session.user.gender = token.gender as string;
+      session.user.status = token.status as string;
+      session.user.typeAccount = token.typeAccount as TypeAccount;
+      session.user.createdAt = token.createdAt as string;
+      session.user.accessToken = token.accessToken as string;
 
       return session;
     },

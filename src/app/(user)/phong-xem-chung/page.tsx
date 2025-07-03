@@ -47,7 +47,7 @@ interface PageProps {
 }
 
 const CommunityRoom = async ({ searchParams }: PageProps) => {
-  const sesstion: any = await auth();
+  const sesstion = await auth();
   const params = await searchParams;
   const currentPage = params?.page ? Number(params?.page) : 1;
   const limit = 12;
@@ -55,7 +55,7 @@ const CommunityRoom = async ({ searchParams }: PageProps) => {
   const response = await getListRooms({
     page: currentPage,
     limit,
-    accessToken: sesstion?.user?.accessToken,
+    accessToken: sesstion?.user?.accessToken as string,
   });
 
   const { rooms, totalItems } = response?.result || {};

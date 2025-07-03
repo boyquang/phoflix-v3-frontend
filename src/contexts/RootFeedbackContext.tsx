@@ -2,7 +2,7 @@ import { createContext } from "react";
 
 export interface FeedbackContextType {
   rootFeedbackId: string | null;
-  rootFeedback: any;
+  rootFeedback: Feedback;
 }
 
 export const RootFeedbackContext = createContext<FeedbackContextType | null>(

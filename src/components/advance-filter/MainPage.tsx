@@ -14,6 +14,7 @@ import { IoSearch } from "react-icons/io5";
 import PaginationCustom from "@/components/shared/PaginationCustom";
 import { RiMovieFill } from "react-icons/ri";
 import MovieGrid from "@/components/shared/MovieGrid";
+import { scrollToTop } from "@/lib/utils";
 
 const MainPage = () => {
   const dispatch: AppDispatch = useDispatch();
@@ -34,6 +35,7 @@ const MainPage = () => {
 
   useEffect(() => {
     handleFetchData();
+    scrollToTop();
   }, []);
 
   const handleFetchData = () => {

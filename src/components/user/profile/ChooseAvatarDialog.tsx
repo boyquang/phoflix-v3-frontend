@@ -18,7 +18,7 @@ const { dialog } = appConfig.charka;
 const motionPresetDefault = dialog.motionPresetDefault;
 
 const ChooseAvatarDialog = () => {
-  const { data: sesstion, update }: any = useSession();
+  const { data: sesstion, update } = useSession();
   const { selectedFilterTabsAvatar } = useSelector(
     (state: RootState) => state.user.avatar
   );
@@ -37,12 +37,12 @@ const ChooseAvatarDialog = () => {
 
     startTransition(async () => {
       const response = await updateUserProfile({
-        userId: sesstion.user?.id,
-        username: sesstion.user?.name as string,
-        gender: sesstion.user?.gender as any,
+        userId: sesstion?.user?.id as string,
+        username: sesstion?.user?.name as string,
+        gender: sesstion?.user?.gender as Gender,
         avatar: selectedAvatar as string,
-        typeAccount: sesstion.user?.typeAccount as "credentials" | "google",
-        accessToken: sesstion.user?.accessToken,
+        typeAccount: sesstion?.user?.typeAccount as TypeAcccount,
+        accessToken: sesstion?.user?.accessToken as string,
       });
 
       if (response?.status) {

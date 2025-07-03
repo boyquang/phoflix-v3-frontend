@@ -7,16 +7,18 @@ import { formatString } from "@/lib/utils";
 import Link from "next/link";
 
 interface ActorMovieAllProps {
-  data: any;
+  data: MoviesByActor[];
 }
 
 const ActorMovieAll = ({ data }: ActorMovieAllProps) => {
+  console.log("ActorMovieAll data:", data);
+
   return (
     <div className="grid xl:grid-cols-5 lg:grid-cols-4 md:grid-cols-5 grid-cols-3 lg:lg:gap-x-4 gap-y-6 gap-x-2">
-      {data?.map((item: any, index: number) => (
+      {data?.map((item, index: number) => (
         <Link
           key={index}
-          href={`/thong-tin-phim/${formatString(item?.name || item?.title)}`}
+          href={`/thong-tin-phim/${formatString(item?.name || item?.title || "")}`}
         >
           <div className="relative group transition-all hover:-translate-y-2">
             <HoverOutlineWrapper rounded="lg" ringSize="2">
@@ -24,7 +26,7 @@ const ActorMovieAll = ({ data }: ActorMovieAllProps) => {
                 <Image
                   className="rounded-lg group-hover:brightness-75 transition-all"
                   src={`${THEMOVIEDB_IMAGE_URL}${item?.poster_path}`}
-                  alt={item?.name}
+                  alt={item?.name || item?.title || ""}
                 />
               </div>
             </HoverOutlineWrapper>

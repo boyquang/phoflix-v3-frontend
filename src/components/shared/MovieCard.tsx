@@ -16,7 +16,7 @@ import Image from "../shared/Image";
 import HoverOutlineWrapper from "../shared/HoverOutlineWrapper";
 
 interface MovieItemProps {
-  data: any;
+  data: Movie;
   orientation?: "horizontal" | "vertical";
 }
 

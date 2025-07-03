@@ -1,41 +1,53 @@
-////////////////////////// FEEDBACK //////////////////////////
-
-type FeedbackItemProps = {
-  feedback: {
+type Feedback = {
+  _id: string;
+  content: string;
+  created_at: number | string;
+  is_spam: number;
+  is_anonymous: boolean;
+  mention_id: string | null;
+  mention_user: {
     _id: string;
-    content: string;
-    created_at: number | string;
-    is_spam: number;
+    name: string;
+    avatar: string;
     is_anonymous: boolean;
-    mention_id: string | null;
-    mention_user: {
-      _id: string;
-      name: string;
-      avatar: string;
-      is_anonymous: boolean;
-    } | null;
-    movie_slug: string;
-    parent_id: string | null;
-    reviews: {
-      point: number;
-    };
-    reviews_id: string | null;
-    total_children: number;
-    total_dislike: number;
-    total_like: number;
-    author: {
-      _id: string;
-      name: string;
-      role: "member" | "admin";
-      gender: "male" | "female" | "other";
-      avatar: string;
-    };
-  };
+  } | null;
+  movie_slug: string;
+  parent_id: string | null;
+  reviews: {
+    point: number | string;
+  } | null;
+  reviews_id: string | null;
+  total_children: number;
+  total_dislike: number;
+  total_like: number;
+  author: Author;
+};
+
+type FeedbackTable = {
+  content: string;
+  created_at: string;
+  id: string;
+  movie_slug: string;
+  receiver_name: null;
+  sender_name: string;
+  total_dislikes: number;
+  total_likes: number;
+  is_spam?: boolean;
+  point?: null;
+  type: "comment" | "review" | "reply";
+};
+
+type Author = {
+  _id: string;
+  name: string;
+  avatar: string;
+  role: "member" | "admin";
+  gender: "other" | "male" | "female";
 };
 
 type FeedbackSlice = {
   feedbackData: {
-    items: any;
+    items: Feedback[];
     loading: boolean;
     loadingMore: boolean;
     hasMore: boolean;
@@ -54,7 +66,7 @@ type FeedbackSlice = {
     data: Record<
       string,
       {
-        items: any;
+        items: Feedback[];
         hasMore: boolean;
         loading: boolean;
         itemCount: number;
@@ -74,6 +86,10 @@ type EditableFeedbackProps = {
   feedbackId: string;
   defaultValue?: string;
   readonly?: boolean;
+};
+
+type FeedbackItemProps = {
+  feedback: Feedback;
 };
 
 type FeedbackActionsProps = {
@@ -156,7 +172,7 @@ type GetMoreFeedbacks = {
   movieSlug: string;
   type: "review" | "comment";
   limit: number;
-  afterTime: number;
+  afterTime: number | string;
 };
 
 type GetReplyListFeedback = {

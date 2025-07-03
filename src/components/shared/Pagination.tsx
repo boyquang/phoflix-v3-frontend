@@ -13,7 +13,7 @@ interface PaginationProps {
   currentPage: string | number;
   showToaster?: boolean;
   delayScroll?: number;
-  ref?: any;
+  ref?: React.RefObject<HTMLDivElement>;
   callback?: () => void;
 }
 

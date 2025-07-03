@@ -39,7 +39,9 @@ const MovieTabs = () => {
   const { items, loading } = useSelector(
     (state: RootState) => state.movie.actorsListByMovie
   );
-  const { movie } = useSelector((state: RootState) => state.movie.movieInfo);
+  const { isLongSeries } = useSelector(
+    (state: RootState) => state.movie.movieInfo
+  );
 
   return (
     <Tabs.Root defaultValue="episodes" colorPalette="yellow">
@@ -62,11 +64,7 @@ const MovieTabs = () => {
         _closed={contentAnimClose}
       >
         <Box className="mt-6">
-          {movie?.tmdb?.type === "tv" || movie?.type === "hoathinh" || movie?.type === "series" ? (
-            <TabEpisodes />
-          ) : (
-            <MovieVersionList />
-          )}
+          {isLongSeries ? <TabEpisodes /> : <MovieVersionList />}
         </Box>
       </Tabs.Content>
 

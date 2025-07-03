@@ -46,16 +46,16 @@ interface PageProps {
 }
 
 const Page = async ({ searchParams }: PageProps) => {
-  const sesstion: any = await auth();
+  const sesstion = await auth();
   const params = await searchParams;
   const currentPage = params?.page ? Number(params?.page) : 1;
   const limit = 12;
 
   const response = await getListRoomsByUser({
-    userId: sesstion?.user?.id,
+    userId: sesstion?.user?.id as string,
     page: currentPage,
     limit,
-    accessToken: sesstion?.user?.accessToken,
+    accessToken: sesstion?.user?.accessToken as string,
   });
 
   const { rooms, totalItems } = response?.result || {};

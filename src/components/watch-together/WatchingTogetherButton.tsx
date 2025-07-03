@@ -27,7 +27,7 @@ const WatchingTogetherButton = ({
     (state: RootState) => state.movie.movieInfo
   );
   const { loading } = useSelector((state: RootState) => state.watchingTogether);
-  const { data: sesstion }: any = useSession();
+  const { data: sesstion } = useSession();
   const router = useRouter();
   const dispatch: AppDispatch = useDispatch();
 
@@ -64,9 +64,9 @@ const WatchingTogetherButton = ({
     if (movie && currentEpisode && episodes) {
       const response = await dispatch(
         createRoomWatchingTogether({
-          userId: sesstion?.user?.id,
+          userId: sesstion?.user?.id as string,
           movieData,
-          accessToken: sesstion?.user?.accessToken,
+          accessToken: sesstion?.user?.accessToken as string,
         })
       );
 

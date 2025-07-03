@@ -3,14 +3,14 @@
 import { Box } from "@chakra-ui/react";
 import MovieGrid from "./MovieGrid";
 import PaginationCustom from "@/components/shared/PaginationCustom";
+import { useSession } from "next-auth/react";
 
 interface MovieSectionProps {
-  movies: any[];
+  movies: MovieDB[];
   totalItems: number;
   totalItemsPerPage: number;
   currentPage: number;
   limit: number;
-  sesstion: any;
   type: "favorite" | "history" | "playlist";
 }
 
@@ -20,9 +20,10 @@ const MovieSection = ({
   totalItemsPerPage,
   currentPage,
   limit,
-  sesstion,
   type,
 }: MovieSectionProps) => {
+  const { data: sesstion } = useSession();
+
   return (
     <Box className="mt-6">
       <MovieGrid

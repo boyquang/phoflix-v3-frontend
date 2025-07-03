@@ -337,7 +337,7 @@ export const fetchDataMovieEvent = createAsyncThunk(
 );
 
 interface FetchActorsListByMovie {
-  type: string;
+  type: "movie" | "tv";
   id: string;
   season?: number | string;
 }

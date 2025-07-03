@@ -1,10 +1,10 @@
 "use client";
 
-import { Checkbox } from "@/components/ui/checkbox";
+import CheckboxCustom from "@/components/shared/CheckboxCustom";
 import { Spinner } from "@chakra-ui/react";
 
 interface MarkFeedbackAsSpamProps {
-  feedback: any;
+  feedback: FeedbackTable;
   loading: boolean;
   onMarkAsSpam: (feedbackId: string, checked: boolean) => void;
 }
@@ -19,14 +19,13 @@ const MarkFeedbackAsSpam = ({
   }
 
   return (
-    <Checkbox
-      colorPalette="whiteAlpha"
-      variant="subtle"
-      className="flex items-center gap-2 cursor-pointer"
-      checked={feedback.is_spam}
-      onCheckedChange={(checked) => {
-        onMarkAsSpam(feedback.id, checked.checked === true);
+    <CheckboxCustom
+      checked={feedback?.is_spam as boolean}
+      onChange={(e) => {
+        onMarkAsSpam(feedback.id, e.target.checked);
       }}
+      color="primary"
+      size="small"
     />
   );
 };

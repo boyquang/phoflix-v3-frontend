@@ -13,22 +13,13 @@ import TableRow from "./TableRow";
 import EmptyData from "@/components/shared/EmptyData";
 import { IoMdNotifications } from "react-icons/io";
 
-interface Notification {
-  id: string;
-  sender_name: string;
-  content: string;
-  href: string;
-  image: string;
-  created_at: string;
-}
-
 interface TableNotificationsProps {
-  items: Notification[];
+  items: NotificationTable[];
 }
 
 const TableNotifications = ({ items }: TableNotificationsProps) => {
   const router = useRouter();
-  const { data: sesstion }: any = useSession();
+  const { data: sesstion } = useSession();
   const [editingField, setEditingField] = useState<{
     id: string;
     key: string;
@@ -52,11 +43,11 @@ const TableNotifications = ({ items }: TableNotificationsProps) => {
 
     const response = await updateNotification({
       notificationId: data.id,
-      userId: sesstion?.user?.id,
+      userId: sesstion?.user?.id as string,
       content: data.content,
       href: data.href,
       image: data.image,
-      accessToken: sesstion?.user?.accessToken,
+      accessToken: sesstion?.user?.accessToken as string,
     });
 
     setEditingField(null);
@@ -85,8 +76,8 @@ const TableNotifications = ({ items }: TableNotificationsProps) => {
     setIdDelete(id);
     const response = await deleteNotification({
       notificationId: id,
-      userId: sesstion?.user?.id,
-      accessToken: sesstion?.user?.accessToken,
+      userId: sesstion?.user?.id as string,
+      accessToken: sesstion?.user?.accessToken as string,
     });
     setIdDelete(null);
 

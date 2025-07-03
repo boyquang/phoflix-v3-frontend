@@ -12,7 +12,7 @@ interface NotificationData {
   receiverId: string;
   content: string;
   type: "individual" | "community";
-  image: string;
+  image: string | undefined;
   isAnonymous: boolean;
 }
 
@@ -24,7 +24,7 @@ interface NotificationAlert {
 }
 
 const useNotification = () => {
-  const { data: session }: any = useSession();
+  const { data: session } = useSession();
   const pathname = usePathname();
   const params = useParams();
   const dispatch: AppDispatch = useDispatch();
@@ -72,8 +72,8 @@ const useNotification = () => {
         ...notificationData,
         href,
         userId: receiverId,
-        senderId: session?.user?.id,
-        accessToken: session?.user?.accessToken,
+        senderId: session?.user?.id as string,
+        accessToken: session?.user?.accessToken as string,
       });
     }
   };

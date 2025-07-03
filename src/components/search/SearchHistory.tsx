@@ -29,7 +29,7 @@ const SearchHistory = () => {
     handleDeleteSearchHistory,
   } = useSearch();
   const dispatch: AppDispatch = useDispatch();
-  const { data: session }: any = useSession();
+  const { data: session } = useSession();
   const [idDelete, setIdDelete] = useState<string | null>(null);
   const [loadingDelete, setLoadingDelete] = useState(false);
 
@@ -90,7 +90,7 @@ const SearchHistory = () => {
         )}
       </div>
       <ul className="flex flex-col gap-2 mt-4">
-        {items?.map((item: any, index: number) => (
+        {items?.map((item, index: number) => (
           <li
             className="flex h-12 justify-between p-4 text-gray-50 lg:text-sm text-xs hover:bg-[#ffffff05] items-center"
             key={index}

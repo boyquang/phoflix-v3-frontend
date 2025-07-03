@@ -330,7 +330,7 @@ export const markFeedbackAsSpam = async ({
 
 interface MovieRequestProcess {
   adminId: string;
-  status: "approved" | "rejected";
+  status: MovieRequestStatus | null;
   requestId: string;
   adminResponse: string;
   accessToken: string;

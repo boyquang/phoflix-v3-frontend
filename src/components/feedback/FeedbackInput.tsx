@@ -30,7 +30,7 @@ const FeedbackInput = ({
 }: FeedbackInputProps) => {
   const params = useParams();
   const dispatch: AppDispatch = useDispatch();
-  const { data: session }: any = useSession();
+  const { data: session } = useSession();
   const { replyId, feedbackType } = useSelector(
     (state: RootState) => state.feedback
   );
@@ -124,7 +124,7 @@ const FeedbackInput = ({
     }
 
     startTransition(async () => {
-      let response: any = null;
+      let response = null;
 
       if (action === "comment") {
         response = await addNewComment();

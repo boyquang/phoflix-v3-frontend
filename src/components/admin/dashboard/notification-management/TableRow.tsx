@@ -7,7 +7,7 @@ import { formatDate } from "@/lib/utils";
 import AlertDialog from "@/components/shared/AlertDialog";
 
 interface TableRowProps {
-  item: any;
+  item: NotificationTable;
   editingField: {
     id: string;
     key: string;

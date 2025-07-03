@@ -10,7 +10,7 @@ import { RootState } from "@/store/store";
 import { useSession } from "next-auth/react";
 import { SkeletonCircle } from "@/components/ui/skeleton";
 import PopoverUser from "./PopoverUser";
-import PopoverNotification from "./popover-notification/PopoverNotification";
+import PopoverNotification from "./PopoverNotification";
 import SearchDialog from "@/components/search/SearchDialog";
 import { usePathname } from "next/navigation";
 import { appConfig } from "@/configs/appConfig";

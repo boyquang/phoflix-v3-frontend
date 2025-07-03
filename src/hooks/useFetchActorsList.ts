@@ -15,9 +15,9 @@ const useFetchActorsList = () => {
     if (movie && movie?.slug === params?.slug) {
       dispatch(
         fetchActorsListByMovie({
-          type: movie?.tmdb?.type,
-          season: movie?.tmdb?.season,
-          id: movie?.tmdb?.id,
+          type: movie?.tmdb?.type  as "movie" | "tv",
+          season: movie?.tmdb?.season as number | string,
+          id: movie?.tmdb?.id as string,
         })
       );
     }

@@ -12,32 +12,19 @@ import { useState } from "react";
 import { movieRequestProcess } from "@/lib/actions/adminActionClient";
 import useNotification from "@/hooks/useNotification";
 
-interface MovieRequest {
-  id: string;
-  movie_name: string;
-  description: string | null;
-  release_year: number | null;
-  country: string | null;
-  genre: string | null;
-  admin_response: string | null;
-  username: string;
-  status: "pending" | "approved" | "rejected" | "all";
-  created_at: string;
-}
-
 interface TableMovieRequestProps {
   items: MovieRequest[];
 }
 
 export interface MovieRequestProcess {
   movieRequestId: string;
-  status: "rejected" | "approved" | null;
+  status: MovieRequestStatus | null;
   adminResponse?: string;
 }
 
 const TableMovieRequest = ({ items }: TableMovieRequestProps) => {
   const router = useRouter();
-  const { data: session }: any = useSession();
+  const { data: session } = useSession();
   const [movieRequestId, setMovieRequestId] = useState<string | null>(null);
   const { notificationAlert } = useNotification();
 
@@ -60,8 +47,8 @@ const TableMovieRequest = ({ items }: TableMovieRequestProps) => {
       requestId: movieRequestId,
       status,
       adminResponse,
-      adminId: session?.user?.id,
-      accessToken: session?.user?.accessToken,
+      adminId: session?.user?.id as string,
+      accessToken: session?.user?.accessToken as string,
     });
     setMovieRequestId(null);
 

@@ -27,7 +27,7 @@ const PopoverPlaylist = ({
   placement = "horizontal",
   responsiveText = false,
 }: PlaylistPopoverProps) => {
-  const { data: session }: any = useSession();
+  const { data: session } = useSession();
   const params = useParams();
   const dispatch: AppDispatch = useDispatch();
   const { items: playlists, playlistIds } = useSelector(
@@ -40,7 +40,7 @@ const PopoverPlaylist = ({
     dispatch(
       getPlaylists({
         userId: session?.user?.id as string,
-        accessToken: session?.user?.accessToken,
+        accessToken: session?.user?.accessToken as string,
       })
     );
   };
@@ -50,12 +50,17 @@ const PopoverPlaylist = ({
       getPlaylistsContainingMovie({
         userId: session?.user?.id as string,
         movieSlug: (params?.slug as string) || "",
-        accessToken: session?.user?.accessToken,
+        accessToken: session?.user?.accessToken as string,
       })
     );
   };
 
   const handleAddNewMovieFromPlaylist = async (playlistId: string) => {
+    if (!movie) {
+      handleShowToaster("Thông báo", "Phim không tồn tại.", "error");
+      return;
+    }
+
     const response = await addNewMovie({
       userId: session?.user?.id as string,
       type: "playlist",
@@ -73,26 +78,31 @@ const PopoverPlaylist = ({
         category: movie?.category,
       },
       playlistId,
-      accessToken: session?.user?.accessToken,
+      accessToken: session?.user?.accessToken as string,
     });
 
     return response;
   };
 
   const handleDeleteMovieFromPlaylist = async (playlistId: string) => {
+    if (!movie) {
+      handleShowToaster("Thông báo", "Phim không tồn tại.", "error");
+      return;
+    }
+   
     const response = await deleteMovie({
       userId: session?.user?.id as string,
       movieSlug: movie?.slug,
       type: "playlist",
       playlistId,
-      accessToken: session?.user?.accessToken,
+      accessToken: session?.user?.accessToken as string,
     });
 
     return response;
   };
 
   const handleActionsPlaylist = async (value: string, checked: boolean) => {
-    let response: any = null;
+    let response = null;
 
     setIdCheckbox(value);
 

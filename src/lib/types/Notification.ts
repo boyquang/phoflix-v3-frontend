@@ -22,9 +22,9 @@ type CreateNotification = {
   type: "community" | "individual";
   content: string;
   accessToken: string;
-  userId?: string;
-  href?: string;
-  image?: string;
+  userId?: string| null;
+  href?: string| null;
+  image?: string| null;
 };
 
 type NotificationCustom = {
@@ -48,7 +48,7 @@ type GetNotificationsServer = {
   limit: number;
   page: number;
   accessToken: string;
-}
+};
 
 type DeleteNotificationServer = {
   notificationId: string;
@@ -72,4 +72,13 @@ type CreateNotificationServer = {
   accessToken: string;
   href?: string;
   image?: string;
-}
+};
+
+type NotificationTable = {
+  content: string;
+  created_at: string;
+  href: string;
+  id: string;
+  image: null | string;
+  sender_name: string;
+};

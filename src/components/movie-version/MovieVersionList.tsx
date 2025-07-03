@@ -1,6 +1,6 @@
 "use client";
 
-import { changeQuery, getIdFromLinkEmbed } from "@/lib/utils";
+import { changeQuery, getIdFromLinkEmbed, scrollToTop } from "@/lib/utils";
 import { AppDispatch, RootState } from "@/store/store";
 import { useDispatch, useSelector } from "react-redux";
 import Image from "../shared/Image";
@@ -37,20 +37,22 @@ const MovieVersionList = ({
   const router = useRouter();
 
   const handleChangeVerion = (
-    version: any,
+    version: EpisodeMerged,
     language: "vietsub" | "thuyet-minh" | "long-tieng"
   ) => {
     if (!redirect) {
-      dispatch(setCurrentEpisode(version));
       const id = getIdFromLinkEmbed(version.link_embed, 8);
-
       const newQuery = [
         { key: "id", value: id },
         { key: "language", value: language },
       ];
 
+      // Cập nhật thông tin bản chiếu hiện tại
+      dispatch(setCurrentEpisode(version));
       // Cập nhật url query
       changeQuery(newQuery);
+      // Cuộn lên đầu trang
+      scrollToTop();
     }
   };
 
@@ -98,8 +100,8 @@ const MovieVersionList = ({
             >
               <div className="absolute w-[40%] fade-right-mask top-0 right-0 bottom-0 max-w-[130px]">
                 <Image
-                  src={movie?.poster_url}
-                  alt={movie?.name}
+                  src={movie?.poster_url || "/images/notfound.png"}
+                  alt={movie?.name || "Không xác định"}
                   className="rounded-none"
                 />
               </div>
@@ -117,7 +119,7 @@ const MovieVersionList = ({
                     <span>{label}</span>
                   </div>
                 </div>
-                <h4 className="max-w-[90%] text-[1rem] text-gray-50 font-semibold">
+                <h4 className="max-w-[90%] truncate-lines-3 text-[1rem] text-gray-50 font-semibold">
                   {movie?.name}
                 </h4>
                 <Button size="xs" className="rounded-md bg-white text-black">

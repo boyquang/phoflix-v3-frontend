@@ -50,13 +50,13 @@ const Page = async ({ searchParams }: PageProps) => {
   const params = await searchParams;
   const page = params.page ? Number(params.page) : 1;
   const status = (params.status as StatusType) || "all";
-  const session: any = await auth();
+  const session = await auth();
   const limit = 20;
 
   const response = await getMovieRequests({
     page,
     limit,
-    accessToken: session?.user?.accessToken,
+    accessToken: session?.user?.accessToken as string,
     status,
   });
 

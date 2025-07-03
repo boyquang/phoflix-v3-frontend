@@ -10,7 +10,7 @@ import { TagClassic } from "@/components/shared/TagClassic";
 import MoviePopular from "@/components/shared/MoviePopular";
 
 interface MovieDetailProps {
-  data: any;
+  data: Movie;
 }
 
 const MovieDetail = ({ data }: MovieDetailProps) => {
@@ -48,7 +48,7 @@ const MovieDetail = ({ data }: MovieDetailProps) => {
         </Box>
 
         <Box className="flex flex-wrap gap-2 items-center mt-1">
-          {data?.category?.map((category: any, index: number) => (
+          {data?.category?.map((category, index: number) => (
             <TagClassic
               key={index}
               text={category?.name || "Không xác định"}
@@ -79,7 +79,7 @@ const MovieDetail = ({ data }: MovieDetailProps) => {
             Đạo diễn:
           </span>
           <ul className="flex flex-wrap gap-2">
-            {data?.director?.map((director: any, index: number) => (
+            {data?.director?.map((director, index: number) => (
               <li key={index} className="text-gray-400">
                 {decodeHtmlEntities(director)}
                 {index < data?.director?.length - 1 && <span>,</span>}
@@ -92,7 +92,7 @@ const MovieDetail = ({ data }: MovieDetailProps) => {
             Quốc gia:
           </span>
           <ul className="flex gap-2">
-            {data?.country?.map((country: any, index: number) => (
+            {data?.country?.map((country, index: number) => (
               <li
                 key={index}
                 className="text-gray-400 hover:text-[#ffd875] transition-all"
@@ -110,7 +110,7 @@ const MovieDetail = ({ data }: MovieDetailProps) => {
             Diễn viên:
           </span>
           <ul className="flex flex-wrap gap-2">
-            {data?.actor?.map((actor: any, index: number) => (
+            {data?.actor?.map((actor, index: number) => (
               <li key={index} className="text-gray-400">
                 {decodeHtmlEntities(actor)}
                 {index < data?.actor?.length - 1 && <span>,</span>}

@@ -22,7 +22,7 @@ const EpisodeWrapper = () => {
     <>
       <Box className="w-full h-[0.5px] bg-[#ffffff10] lg:my-12 my-6"></Box>
       <Box className="flex flex-col gap-6 lg:my-0 my-6">
-        {movieData?.episodes?.map((episode: any, index: number) => (
+        {movieData?.episodes?.map((episode, index: number) => (
           <EpisodesList
             currentEpisode={currentEpisode}
             setCurrentEpisode={(item) => dispatch(setCurrentEpisode(item))}
@@ -35,7 +35,7 @@ const EpisodeWrapper = () => {
               lg: 6,
               xl: 6,
             }}
-            language={episode?.server_name}
+            language={episode?.server_name as languageType}
             episodes={episode?.server_data}
           />
         ))}

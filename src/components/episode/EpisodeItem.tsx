@@ -1,17 +1,17 @@
 "use client";
 
-import { formatTypeMovie, getIdFromLinkEmbed } from "@/lib/utils";
+import { getIdFromLinkEmbed } from "@/lib/utils";
 import { Button } from "@chakra-ui/react";
 import Link from "next/link";
 import { useParams, usePathname } from "next/navigation";
 import { BsPlayFill } from "react-icons/bs";
 
 interface EpisodeItemProps {
-  item: any;
+  item: EpisodeMerged;
   language: string;
-  currentEpisode: any;
+  currentEpisode: EpisodeMerged | null;
   redirect?: boolean;
-  handleSetCurrentEpisode(item: any): void;
+  handleSetCurrentEpisode(item: EpisodeMerged): void;
 }
 
 const EpisodeItem = ({
@@ -27,6 +27,7 @@ const EpisodeItem = ({
   const id = getIdFromLinkEmbed(item?.link_embed, 8) || "error-link-embed";
   const episode = item?.slug || "error-episode";
   const queryParams = `id=${id}&episode=${episode}&language=${language}`;
+  const isCurrentEpisode = currentEpisode?.link_embed === item?.link_embed;
 
   // Tạo đường dẫn href dựa trên segment và params
   let href = "";
@@ -37,7 +38,7 @@ const EpisodeItem = ({
   }
 
   const classNameEpisode = `flex w-full items-center justify-center flex-wrap rounded-md gap-x-1 min-h-[50px] max-h-[64px] px-2 shadow break-words transition-all ${
-    currentEpisode?.link_embed === item?.link_embed
+    isCurrentEpisode && !redirect
       ? "bg-primary text-[#282b3a]"
       : "text-gray-50 bg-[#282B3A] hover:text-[#ffd875]"
   }`;

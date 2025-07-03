@@ -15,7 +15,7 @@ const useSendSocketWatchingTogether = () => {
   const params = useParams();
   const roomId = params?.roomId as string;
   const [previousTime, setPreviousTime] = useState(0);
-  const { data: session }: any = useSession();
+  const { data: session } = useSession();
 
   const payload = {
     roomId,
@@ -38,7 +38,7 @@ const useSendSocketWatchingTogether = () => {
   };
 
   // Xử lý khi chủ phòng thay đổi tập phim
-  const sendSocketChangeEpisode = (currentEpisode: any) => {
+  const sendSocketChangeEpisode = (currentEpisode: EpisodeMerged) => {
     // Chỉ gửi sự kiện nếu người dùng là chủ phòng
     if (session?.user?.id === roomOwnerId) {
       socket.emit("asyncEpisode", {

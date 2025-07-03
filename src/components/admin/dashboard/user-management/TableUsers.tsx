@@ -31,7 +31,7 @@ interface TableUsersProps {
 }
 
 const TableUsers = ({ items }: TableUsersProps) => {
-  const { data: sesstion }: any = useSession();
+  const { data: sesstion } = useSession();
   const router = useRouter();
   const [userId, setUserId] = useState<string | null>(null);
 
@@ -47,9 +47,9 @@ const TableUsers = ({ items }: TableUsersProps) => {
 
     const response = await changeRoleUser({
       userId: id,
-      adminId: sesstion?.user?.id,
+      adminId: sesstion?.user?.id as string,
       role,
-      accessToken: sesstion?.user?.accessToken,
+      accessToken: sesstion?.user?.accessToken as string,
     });
 
     if (response?.status) {
@@ -78,9 +78,9 @@ const TableUsers = ({ items }: TableUsersProps) => {
     setUserId(id);
     const response = await changeStatusUser({
       userId: id,
-      adminId: sesstion?.user?.id,
+      adminId: sesstion?.user?.id as string,
       status,
-      accessToken: sesstion?.user?.accessToken,
+      accessToken: sesstion?.user?.accessToken as string,
     });
     setUserId(null);
 

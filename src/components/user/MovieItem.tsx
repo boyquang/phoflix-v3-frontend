@@ -21,7 +21,7 @@ import HoverOutlineWrapper from "@/components/shared/HoverOutlineWrapper";
 import MovieTooltip from "@/components/shared/MovieTooltip";
 
 interface MovieItemProps {
-  item: any;
+  item: MovieDB;
   isLoading: boolean;
   callback: (slug: string, id: string) => void;
 }
@@ -88,7 +88,7 @@ const MovieItem = ({ item, isLoading, callback }: MovieItemProps) => {
                 <Image
                   ref={currentElementRef}
                   src={generateUrlImage(movieData?.poster_url)}
-                  alt={item?.movie_name ?? "Không xác định"}
+                  alt={item?.movie_data.name || "Không xác định"}
                   className="rounded-lg group-hover:brightness-75 transition-all"
                 />
               </Box>
@@ -119,7 +119,7 @@ const MovieItem = ({ item, isLoading, callback }: MovieItemProps) => {
           ) : (
             <IconButton
               size="xs"
-              loading={isLoading}
+              loading={isLoading} 
               onClick={() => callback(item?.movie_slug, item?.id)}
               aria-label="Xóa"
               className="bg-transparent border border-[#ffffffb0] hover:bg-[#ffffff10] rounded-full"

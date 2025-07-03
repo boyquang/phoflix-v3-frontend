@@ -12,6 +12,7 @@ import SkeletonSearchPage from "@/components/skeletons/SkeletonSearchPage";
 import { BiSearchAlt } from "react-icons/bi";
 import PaginationCustom from "@/components/shared/PaginationCustom";
 import MovieGrid from "@/components/shared/MovieGrid";
+import { scrollToTop } from "@/lib/utils";
 
 const MainPage = () => {
   const searchParams = useSearchParams();
@@ -31,6 +32,7 @@ const MainPage = () => {
         limit,
       })
     );
+    scrollToTop();
   }, [keyword, currentPage]);
 
   if (loading) return <SkeletonSearchPage />;

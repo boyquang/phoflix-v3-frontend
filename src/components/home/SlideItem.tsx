@@ -11,7 +11,11 @@ import OverlayFade from "@/components/shared/OverlayFade";
 import Image from "@/components/shared/Image";
 import { TagClassic } from "@/components/shared/TagClassic";
 
-const SlideItem = ({ item }: any) => {
+interface SlideItemProps {
+  item: SlideItem;
+}
+
+const SlideItem = ({ item }: SlideItemProps) => {
   const { windowWidth } = useSelector((state: RootState) => state.system);
   const href = windowWidth > 1024 ? "#" : `/thong-tin-phim/${item?.slug}`;
 
@@ -47,7 +51,7 @@ const SlideItem = ({ item }: any) => {
         {windowWidth > 1024 && (
           <>
             <Box className="flex flex-wrap gap-2 mt-2">
-              {item?.category?.map((caterogy: any, index: number) => (
+              {item?.category?.map((caterogy, index: number) => (
                 <TagClassic
                   key={index}
                   text={caterogy?.name || "Không xác định"}

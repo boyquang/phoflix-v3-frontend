@@ -27,7 +27,7 @@ interface DrawerCustomProps {
 
 const DrawerCustom = ({ isOpen, onClose }: DrawerCustomProps) => {
   const dispatch: AppDispatch = useDispatch();
-  const { data: session }: any = useSession();
+  const { data: session } = useSession();
 
   const isAuthenticated = session?.user?.accessToken ? true : false;
 
@@ -53,10 +53,7 @@ const DrawerCustom = ({ isOpen, onClose }: DrawerCustomProps) => {
                 return null;
 
               return (
-                <li
-                  key={index}
-                  onClick={handleCloseDrawer}
-                >
+                <li key={index} onClick={handleCloseDrawer}>
                   <Link
                     href={item.path}
                     className="text-sm flex gap-2 items-center p-2 w-full rounded-sm transition-all hover:bg-[#ffffff05]"
@@ -79,13 +76,23 @@ const DrawerCustom = ({ isOpen, onClose }: DrawerCustomProps) => {
 
             <AccordionList
               label="Thể loại"
-              items={categories}
+              items={categories.map((cat) => ({
+                id: cat._id,
+                name: cat.name,
+                slug: cat.slug,
+                _id: cat._id,
+              }))}
               path="/chi-tiet/the-loai"
               callback={handleCloseDrawer}
             />
             <AccordionList
               label="Quốc gia"
-              items={countries}
+              items={countries.map((country) => ({
+                id: country._id,
+                name: country.name,
+                slug: country.slug,
+                _id: country._id,
+              }))}
               path="/chi-tiet/quoc-gia"
               callback={handleCloseDrawer}
             />

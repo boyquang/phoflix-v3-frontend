@@ -20,7 +20,7 @@ const ViewerList = () => {
     (state: RootState) => state.watchingTogether
   );
   const { users } = useSelector((state: RootState) => state.roomUsers);
-  const { data: session }: any = useSession();
+  const { data: session } = useSession();
   const [loading, setLoading] = useState(false);
   const { sendSocketKickUser } = useSendSocketWatchingTogether();
 
@@ -30,7 +30,7 @@ const ViewerList = () => {
       userId: user?.id,
       roomId,
       roomOwnerId,
-      accessToken: session?.user?.accessToken,
+      accessToken: session?.user?.accessToken as string,
     });
     setLoading(false);
 

@@ -47,13 +47,13 @@ export const generateMetadata = async () => {
 const Page = async ({ searchParams }: PageProps) => {
   const params = await searchParams;
   const page = params.page ? Number(params.page) : 1;
-  const session: any = await auth();
+  const session = await auth();
   const limit = 20;
 
   const response = await getNotifications({
     page: page,
     limit,
-    accessToken: session?.user?.accessToken,
+    accessToken: session?.user?.accessToken as string,
   });
 
   const items = response?.result?.notifications || [];

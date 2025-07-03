@@ -9,10 +9,12 @@ import Link from "next/link";
 import { RiArrowRightWideFill } from "react-icons/ri";
 
 interface SectionInfoProps {
-  data: any;
+  data: Movie | null;
 }
 
 const SectionInfo = ({ data }: SectionInfoProps) => {
+  if (!data) return null;
+
   return (
     <Box className="flex-1">
       <Box className="flex flex-col gap-6">
@@ -47,7 +49,7 @@ const SectionInfo = ({ data }: SectionInfoProps) => {
               <TagClassic text={data?.episode_current || "Không xác định"} />
             </Box>
             <Box className="flex flex-wrap gap-2 items-center mt-1">
-              {data?.category?.map((category: any, index: number) => (
+              {data?.category?.map((category, index: number) => (
                 <TagClassic
                   key={index}
                   text={category?.name || "Không xác định"}
@@ -61,7 +63,7 @@ const SectionInfo = ({ data }: SectionInfoProps) => {
 
         <Box>
           <ShowMoreText
-            text={data?.content}
+            text={data?.content as string}
             row={10}
             className="text-gray-400 text-sm text-justify"
           />

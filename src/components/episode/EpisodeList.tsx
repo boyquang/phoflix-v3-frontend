@@ -16,20 +16,12 @@ import EpisodeItem from "./EpisodeItem";
 import HoverOutlineWrapper from "@/components/shared/HoverOutlineWrapper";
 import EmptyData from "../shared/EmptyData";
 
-type Episode = {
-  name: string;
-  slug: string;
-  link_embed: string;
-  link_m3u8: string;
-  filename: string;
-};
-
 interface EpisodesListProps {
   language: languageType;
-  episodes: Episode[];
-  currentEpisode: Episode;
-  setCurrentEpisode: (item: Episode) => void;
-  callbackSocket?: (item: Episode) => void;
+  episodes: EpisodeMerged[];
+  currentEpisode: EpisodeMerged | null;
+  setCurrentEpisode: (item: EpisodeMerged) => void;
+  callbackSocket?: (item: EpisodeMerged) => void;
   colums?: {
     base: number;
     md: number;
@@ -61,7 +53,7 @@ const EpisodesList = ({
   isScroll = false,
   elementScrollName = "movie-main",
 }: EpisodesListProps) => {
-  const [episodeDisplay, setEpisodeDisplay] = useState<Episode[]>([]);
+  const [episodeDisplay, setEpisodeDisplay] = useState<EpisodeMerged[]>([]);
   const { windowWidth } = useSelector((state: RootState) => state.system);
   const [page, setPage] = useState(1);
 
@@ -90,7 +82,7 @@ const EpisodesList = ({
     }
   };
 
-  const handleSetCurrentEpisode = (item: Episode) => {
+  const handleSetCurrentEpisode = (item: EpisodeMerged) => {
     if (!redirect) {
       if (currentEpisode?.link_embed === item.link_embed) return;
 
@@ -147,7 +139,7 @@ const EpisodesList = ({
               gap-3
             `}
       >
-        {episodeDisplay?.map((item: any, index: number) => (
+        {episodeDisplay?.map((item, index: number) => (
           <HoverOutlineWrapper rounded="md" key={index} ringSize="2">
             <EpisodeItem
               item={item}

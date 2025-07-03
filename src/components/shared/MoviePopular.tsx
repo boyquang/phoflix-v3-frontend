@@ -22,7 +22,7 @@ const MoviePopular = () => {
         Top {limit} phim phổ biến nhất
       </h4>
       <div className="flex flex-col gap-4">
-        {[...items]?.splice(0, limit)?.map((item: any, index: number) => (
+        {[...items]?.splice(0, limit)?.map((item, index: number) => (
           <div className="flex items-center justify-between gap-2" key={index}>
             <div className="2xl:text-5xl text-2xl 2xl:w-[60px] w-[40px] italic text-gradient flex-shrink-0 font-bold">
               {index + 1}
@@ -30,7 +30,7 @@ const MoviePopular = () => {
             <Link
               className="flex-grow-1 block"
               href={`/thong-tin-phim/${formatString(
-                item?.name || item?.title
+                item?.name || item?.title || ""
               )}`}
             >
               <div className="group p-2 gap-4 flex items-start bg-[#ffffff05] flex-grow-1 rounded-xl">

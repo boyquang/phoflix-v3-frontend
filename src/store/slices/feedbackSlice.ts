@@ -228,7 +228,7 @@ const feedbackSlice = createSlice({
       // Xử lý khi cập nhật nội dung phản hồi gốc
       if (feedbackId === rootFeedbackId) {
         const feedbackIndex = state.feedbackData.items.findIndex(
-          (feedback: any) => feedback._id === feedbackId
+          (feedback) => feedback._id === feedbackId
         );
 
         if (feedbackIndex !== -1) {
@@ -240,7 +240,7 @@ const feedbackSlice = createSlice({
 
           if (repliesData) {
             const replyIndex = repliesData.items.findIndex(
-              (reply: any) => reply._id === feedbackId
+              (reply) => reply._id === feedbackId
             );
 
             if (replyIndex !== -1) {
@@ -258,7 +258,7 @@ const feedbackSlice = createSlice({
 
       if (feedbackId === rootFeedbackId) {
         const feedbackIndex = state.feedbackData.items.findIndex(
-          (feedback: any) => feedback._id === feedbackId
+          (feedback) => feedback._id === feedbackId
         );
         if (feedbackIndex !== -1) {
           // Xóa phản hồi khỏi danh sách phản hồi gốc
@@ -277,13 +277,13 @@ const feedbackSlice = createSlice({
 
           if (repliesData) {
             const replyIndex = repliesData.items.findIndex(
-              (reply: any) => reply._id === feedbackId
+              (reply) => reply._id === feedbackId
             );
 
             if (replyIndex !== -1) {
               // Tìm vị trí phản hồi trong danh sách phản hồi gốc
               const rootFeedbackIndex = state.feedbackData.items.findIndex(
-                (feedback: any) => feedback._id === rootFeedbackId
+                (feedback) => feedback._id === rootFeedbackId
               );
 
               // Xóa phản hồi khỏi danh sách phản hồi gốc

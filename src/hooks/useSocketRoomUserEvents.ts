@@ -19,7 +19,7 @@ interface UseSocketRoomUserEventsProps {
 }
 
 const useSocketRoomUserEvents = ({ roomId }: UseSocketRoomUserEventsProps) => {
-  const { data: session, status }: any = useSession();
+  const { data: session, status } = useSession();
   const dispatch: AppDispatch = useDispatch();
   const { roomOwnerId, currentEpisode, maxUserInRoom, movieData } = useSelector(
     (state: RootState) => state.watchingTogether
@@ -82,7 +82,7 @@ const useSocketRoomUserEvents = ({ roomId }: UseSocketRoomUserEventsProps) => {
       dispatch(
         getRoomDataWatchingTogether({
           roomId,
-          accessToken: session?.user?.accessToken,
+          accessToken: session?.user?.accessToken as string,
         })
       );
     }

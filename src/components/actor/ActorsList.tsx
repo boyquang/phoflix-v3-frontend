@@ -10,7 +10,7 @@ import EmptyData from "@/components/shared/EmptyData";
 import HoverOutlineWrapper from "@/components/shared/HoverOutlineWrapper";
 
 interface ActorsListProps {
-  items: any[];
+  items: Actor[];
   classNameGrids?: string;
   loading?: boolean;
   showTitle?: boolean;

@@ -17,7 +17,7 @@ interface DeleteAllMoviesProps {
 }
 
 const DeleteAllMovies = ({ type, playlistId }: DeleteAllMoviesProps) => {
-  const { data: session }: any = useSession();
+  const { data: session } = useSession();
   const [loading, setLoading] = useState(false);
   const [title, setTitle] = useState("");
   const [content, setContent] = useState("");
@@ -48,10 +48,10 @@ const DeleteAllMovies = ({ type, playlistId }: DeleteAllMoviesProps) => {
   const handleDeleteAllMovies = async () => {
     setLoading(true);
     const response = await deleteAllMovies({
-      userId: session?.user?.id,
+      userId: session?.user?.id as string,
       type,
       playlistId: playlistId || null,
-      accessToken: session?.user?.accessToken,
+      accessToken: session?.user?.accessToken as string,
     });
     setLoading(false);
 

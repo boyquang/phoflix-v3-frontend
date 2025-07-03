@@ -13,7 +13,7 @@ const VideoPlayer = dynamic(
 );
 
 const VideoPlayerWrapper = () => {
-  const { data: session }: any = useSession();
+  const { data: session } = useSession();
   const { roomOwnerId, currentEpisode } = useSelector(
     (state: RootState) => state.watchingTogether
   );

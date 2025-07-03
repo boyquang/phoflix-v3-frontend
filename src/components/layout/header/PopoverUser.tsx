@@ -80,7 +80,7 @@ let menu = [
 ];
 
 const PopoverUser = () => {
-  const { data: session }: any = useSession();
+  const { data: session } = useSession();
   const [open, setOpen] = useState(false);
 
   // Chỉ hiển thị bảng điều khiển cho admin
@@ -97,7 +97,10 @@ const PopoverUser = () => {
     >
       <Popover.Trigger asChild>
         <Box className="cursor-pointer">
-          <AvatarUser name={session.user?.username} src={session.user?.image} />
+          <AvatarUser
+            name={session?.user?.username as string}
+            src={session?.user?.image as string}
+          />
         </Box>
       </Popover.Trigger>
       <Portal>

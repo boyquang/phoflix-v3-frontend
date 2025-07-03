@@ -27,7 +27,7 @@ import useSendSocketFeedback from "@/hooks/useSendSocketFeedback";
 import VoteActions from "./VoteActions";
 
 const FeedbackActions = ({ action, data }: FeedbackActionsProps) => {
-  const { data: session }: any = useSession();
+  const { data: session } = useSession();
   const context = useRootFeedback();
   const params = useParams();
   const { sendSocketDeleteFeedback } = useSendSocketFeedback();
@@ -93,8 +93,8 @@ const FeedbackActions = ({ action, data }: FeedbackActionsProps) => {
     setLoadingDelete(true);
     const response = await deleteFeedback({
       feedbackId,
-      userId: session?.user?.id,
-      accessToken: session?.user?.accessToken,
+      userId: session?.user?.id as string,
+      accessToken: session?.user?.accessToken as string,
     });
     setLoadingDelete(false);
 

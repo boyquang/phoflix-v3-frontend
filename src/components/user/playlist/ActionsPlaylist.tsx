@@ -43,7 +43,7 @@ const ActionsPlaylist = ({
     update: false,
     delete: false,
   });
-  const { data: session }: any = useSession();
+  const { data: session } = useSession();
   const router = useRouter();
   const inputRef = useRef<HTMLInputElement | null>(null);
 
@@ -105,7 +105,7 @@ const ActionsPlaylist = ({
       return;
     }
 
-    let response: any = null;
+    let response = null;
 
     setLoading((prev) => ({ ...prev, [action]: true }));
 

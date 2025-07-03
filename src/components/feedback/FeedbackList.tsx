@@ -86,7 +86,7 @@ const FeedbackList = () => {
     <Box className="flex flex-col gap-6">
       <Box className="flex flex-col gap-8">
         <>
-          {items?.map((item: any, index: number) => (
+          {items?.map((item: Feedback, index: number) => (
             <RootFeedbackProvider
               key={index}
               value={{

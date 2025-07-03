@@ -51,7 +51,7 @@ export async function generateMetadata() {
 }
 
 const Page = async ({ searchParams }: PageProps) => {
-  const session: any = await auth();
+  const session = await auth();
   const userId = session?.user?.id as string;
   const params = await searchParams;
   const limit = 18;
@@ -59,7 +59,7 @@ const Page = async ({ searchParams }: PageProps) => {
 
   const responsePlaylist = await getUserPlaylists({
     userId,
-    accessToken: session?.user?.accessToken,
+    accessToken: session?.user?.accessToken as string,
   });
 
   const playlists = responsePlaylist?.result?.playlists || [];
@@ -75,7 +75,7 @@ const Page = async ({ searchParams }: PageProps) => {
 
     // Kiểm tra playlistId có tồn tại trong danh sách playlist hay không
     const existsPlaylist = playlists?.some(
-      (playlist: any) => playlist?.id === playlistId
+      (playlist: Playlist) => playlist?.id === playlistId
     );
 
     // Nếu không tồn tại thì lấy playlistId đầu tiên trong danh sách
@@ -89,7 +89,7 @@ const Page = async ({ searchParams }: PageProps) => {
       playlistId: playlistId as string,
       page: currentPage,
       limit,
-      accessToken: session?.user?.accessToken,
+      accessToken: session?.user?.accessToken as string,
     });
   }
 
@@ -134,7 +134,6 @@ const Page = async ({ searchParams }: PageProps) => {
           totalItemsPerPage={totalItemsPerPage}
           currentPage={currentPage}
           limit={limit}
-          sesstion={session}
           type="playlist"
         />
       </Suspense>

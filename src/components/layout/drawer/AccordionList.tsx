@@ -8,17 +8,19 @@ import {
 } from "@/components/ui/accordion";
 import Link from "next/link";
 
+interface AccordionListProps {
+  label: string;
+  items: CategoryMovie[] | CountryMovie[] | TypeMovie[];
+  path: string;
+  callback: () => void;
+}
+
 const AccordionList = ({
   label,
   items,
   path,
   callback,
-}: {
-  label: string;
-  items: any[];
-  path: string;
-  callback: () => void;
-}) => (
+}: AccordionListProps) => (
   <AccordionRoot collapsible className="text-sm pl-2 pr-2">
     <AccordionItem value={label} className="border-none">
       <AccordionItemTrigger className="text-sm">{label}</AccordionItemTrigger>

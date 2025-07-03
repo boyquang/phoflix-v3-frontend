@@ -41,7 +41,7 @@ const ReplyList = ({ data, loading }: ReplyListProps) => {
     <Box className="flex flex-col gap-2 mt-6 sm:ml-0 ml-[-56px] sm:border-l-0 border-l-2 border-[#ffffff10] sm:pl-0 pl-4">
       <Box className="flex flex-col gap-4">
         <>
-          {replies?.map((item: any, index: number) => (
+          {replies?.map((item, index: number) => (
             <ReplyItem key={index} reply={item} />
           ))}
         </>

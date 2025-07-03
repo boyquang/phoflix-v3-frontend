@@ -14,7 +14,7 @@ import HighlightText from "../shared/HightlightText";
 import { TagClassic } from "@/components/shared/TagClassic";
 
 interface SearchPreviewItemProps {
-  item: any;
+  item: Movie;
   callback: (movieName: string) => void;
 }
 

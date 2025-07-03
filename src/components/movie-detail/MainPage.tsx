@@ -16,6 +16,7 @@ import TopicBackground from "@/components/shared/TopicBackground";
 import PaginationCustom from "@/components/shared/PaginationCustom";
 import { RiMovieFill } from "react-icons/ri";
 import MovieGrid from "@/components/shared/MovieGrid";
+import { scrollToTop } from "@/lib/utils";
 
 const MainPage = () => {
   const params = useParams();
@@ -37,6 +38,7 @@ const MainPage = () => {
         limit,
       })
     );
+    scrollToTop();
   }, [params["describe"], params["slug"], currentPage]);
 
   if (loading) return <SkeletonDetailPage slug={params?.slug as string} />;

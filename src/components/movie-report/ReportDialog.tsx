@@ -23,7 +23,7 @@ const ReportDialog = () => {
   const { reportError, reportDescription } = report;
   const [open, setOpen] = useState(false);
   const [pending, startTransition] = useTransition();
-  const { data: sesstion }: any = useSession();
+  const { data: sesstion } = useSession();
   const dispatch: AppDispatch = useDispatch();
 
   const handleCreateReport = () => {
@@ -40,10 +40,10 @@ const ReportDialog = () => {
     startTransition(async () => {
       const response = await createReportMovie({
         userId: sesstion?.user?.id as string,
-        movieSlug: movie?.slug,
+        movieSlug: movie?.slug as string,
         title: reportError,
         description: reportDescription,
-        movieName: movie?.name,
+        movieName: movie?.name as string,
         accessToken: sesstion?.user?.accessToken as string,
       });
 

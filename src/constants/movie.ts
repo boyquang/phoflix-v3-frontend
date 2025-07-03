@@ -737,7 +737,7 @@ export const countries = [
   },
 ];
 
-export const movieCatalog = [
+export const movieCatalog: TypeMovie[] = [
   { _id: "1", name: "Phim Lẻ", slug: "phim-le", type: "danh-sach" },
   { _id: "2", name: "Phim Bộ", slug: "phim-bo", type: "danh-sach" },
   {

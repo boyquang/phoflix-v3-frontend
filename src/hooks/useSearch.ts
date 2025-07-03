@@ -14,7 +14,7 @@ import useNotification from "./useNotification";
 
 const useSearch = () => {
   const dispatch: AppDispatch = useDispatch();
-  const { data: session }: any = useSession();
+  const { data: session } = useSession();
   const { notificationAlert } = useNotification();
 
   const handleCreateSearchHistory = async (keyword: string) => {

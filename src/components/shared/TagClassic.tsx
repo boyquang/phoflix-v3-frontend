@@ -3,7 +3,7 @@
 import Link from "next/link";
 
 interface TagClassicProps {
-  text: string;
+  text: string | number;
   isRedirect?: boolean;
   href?: string;
 }

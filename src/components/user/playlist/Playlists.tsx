@@ -39,7 +39,7 @@ const Playlists = ({ playlists }: PlaylistsProps) => {
     dispatch(setSelectedPlaylistId(playlists?.[0]?.id) || null);
   }, [playlists]);
 
-  const handleChangePlaylist = (playlist: any) => {
+  const handleChangePlaylist = (playlist: Playlist) => {
     const params = new URLSearchParams(window.location.search);
 
     params.set("playlistId", playlist?.id.toString());
@@ -53,7 +53,7 @@ const Playlists = ({ playlists }: PlaylistsProps) => {
 
   return (
     <Box className="grid grid-cols-2 gap-2 lg:grid-cols-3 md:grid-cols-3 xl:grid-cols-5 my-6">
-      {playlists.map((playlist: any, index: number) => (
+      {playlists.map((playlist, index: number) => (
         <Box
           onClick={() => handleChangePlaylist(playlist)}
           key={index}

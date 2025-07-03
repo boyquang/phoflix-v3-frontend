@@ -6,9 +6,7 @@ import {
   deleteMovie,
 } from "@/lib/actions/userMovieAction";
 import { handleShowToaster } from "@/lib/utils";
-import {
-  showDialogSinInWhenNotLogin,
-} from "@/store/slices/systemSlice";
+import { showDialogSinInWhenNotLogin } from "@/store/slices/systemSlice";
 import { AppDispatch, RootState } from "@/store/store";
 import { Box, Spinner } from "@chakra-ui/react";
 import { useSession } from "next-auth/react";
@@ -26,7 +24,7 @@ const FavoriteButton = ({
   placement = "horizontal",
   responsiveText = false,
 }: FavoriteButtonProps) => {
-  const { data: sesstion }: any = useSession();
+  const { data: sesstion } = useSession();
   const movie = useSelector((state: RootState) => state.movie.movieInfo.movie);
   const [favorite, setFavorite] = useState(false);
   const [loading, setLoading] = useState(false);
@@ -42,21 +40,24 @@ const FavoriteButton = ({
 
   const handleCheckMovieExists = async () => {
     setLoading(true);
-
     const response = await checkMovieExists({
       userId: sesstion?.user?.id as string,
-      movieSlug: movie?.slug,
+      movieSlug: movie?.slug as string,
       type: "favorite",
-      accessToken: sesstion?.user?.accessToken,
+      accessToken: sesstion?.user?.accessToken as string,
     });
-
     setLoading(false);
     setFavorite(response?.result?.exists ?? false);
   };
 
   const handleAddNewMovie = async () => {
+    if (!movie) {
+      handleShowToaster("Thông báo", "Phim không tồn tại.", "error");
+      return;
+    }
+
     const response = await addNewMovie({
-      userId: sesstion.user?.id as string,
+      userId: sesstion?.user?.id as string,
       movieData: {
         name: movie?.name,
         lang: movie?.lang,
@@ -71,18 +72,23 @@ const FavoriteButton = ({
         category: movie?.category,
       },
       type: "favorite",
-      accessToken: sesstion?.user?.accessToken,
+      accessToken: sesstion?.user?.accessToken as string,
     });
 
     return response;
   };
 
   const handleDeleteMovie = async () => {
+    if (!movie) {
+      handleShowToaster("Thông báo", "Phim không tồn tại.", "error");
+      return;
+    }
+
     const response = await deleteMovie({
-      userId: sesstion.user?.id as string,
+      userId: sesstion?.user?.id as string,
       movieSlug: movie?.slug,
       type: "favorite",
-      accessToken: sesstion?.user?.accessToken,
+      accessToken: sesstion?.user?.accessToken as string,
     });
 
     return response;
@@ -94,7 +100,7 @@ const FavoriteButton = ({
       return;
     }
 
-    let response: any = null;
+    let response = null;
 
     setLoading(true);
 

@@ -13,7 +13,7 @@ import { handleShowToaster } from "@/lib/utils";
 import { RiMovieFill } from "react-icons/ri";
 
 interface MovieGridProps {
-  items: any;
+  items: MovieDB[];
   userId: string;
   type: "favorite" | "playlist" | "history";
   colums?: {
@@ -30,7 +30,7 @@ const MovieGrid = ({ items, colums, userId, type }: MovieGridProps) => {
   const searchParams = useSearchParams();
   const { selectedPlaylistId } = useSelector((state: RootState) => state.user);
   const pathname = usePathname();
-  const { data: session }: any = useSession();
+  const { data: session } = useSession();
   const [idDelete, setIdDelete] = useState<string | null>(null);
 
   const updatePageAndRefresh = (newPage: number) => {
@@ -57,7 +57,7 @@ const MovieGrid = ({ items, colums, userId, type }: MovieGridProps) => {
       playlistId:
         pathname === "/nguoi-dung/danh-sach-phat" ? selectedPlaylistId : null,
       movieId: type === "history" ? id : null,
-      accessToken: session?.user?.accessToken,
+      accessToken: session?.user?.accessToken as string,
     });
     setIdDelete(null);
 
@@ -100,7 +100,7 @@ const MovieGrid = ({ items, colums, userId, type }: MovieGridProps) => {
         lg: 4,
       }}
     >
-      {items?.map((item: any, index: number) => (
+      {items?.map((item, index: number) => (
         <MovieItem
           key={index}
           item={item}

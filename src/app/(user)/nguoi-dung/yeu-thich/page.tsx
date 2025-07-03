@@ -46,7 +46,7 @@ export async function generateMetadata() {
 }
 
 const Page = async ({ searchParams }: PageProps) => {
-  const sesstion: any = await auth();
+  const sesstion = await auth();
   const params = await searchParams;
   const currentPage = params?.page ? Number(params?.page) : 1;
   const limit = 18;
@@ -56,7 +56,7 @@ const Page = async ({ searchParams }: PageProps) => {
     type: "favorite",
     page: currentPage,
     limit,
-    accessToken: sesstion?.user?.accessToken,
+    accessToken: sesstion?.user?.accessToken as string,
   });
 
   const { movies, totalItems, totalItemsPerPage } = response?.result || {};
@@ -76,7 +76,6 @@ const Page = async ({ searchParams }: PageProps) => {
         totalItemsPerPage={totalItemsPerPage}
         currentPage={currentPage}
         limit={limit}
-        sesstion={sesstion}
         type="favorite"
       />
     </Suspense>

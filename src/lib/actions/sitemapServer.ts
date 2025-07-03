@@ -2,7 +2,7 @@ import { auth } from "@/auth";
 import { getListRooms } from "./watchingTogetherServer";
 
 export const getRoomsList = async () => {
-  const sesstion: any = await auth();
+  const sesstion = await auth();
 
   if (!sesstion?.user?.accessToken) {
     return [];

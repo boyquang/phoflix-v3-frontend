@@ -1,7 +1,6 @@
 "use client";
 
 import useNotification from "@/hooks/useNotification";
-import { useRootFeedback } from "@/hooks/useRootFeedback";
 import useSendSocketFeedback from "@/hooks/useSendSocketFeedback";
 import { handleShowToaster } from "@/lib/utils";
 import { addVote } from "@/store/asyncThunks/feedbackAsyncThunk";
@@ -15,11 +14,11 @@ import { AiFillDislike, AiFillLike } from "react-icons/ai";
 import { useDispatch, useSelector } from "react-redux";
 
 interface FeedbackActionsProps {
-  data: any;
+  data: Feedback;
 }
 
 const VoteActions = ({ data }: FeedbackActionsProps) => {
-  const { data: session }: any = useSession();
+  const { data: session } = useSession();
   const dispatch: AppDispatch = useDispatch();
   const params = useParams();
   const [typeVote, setTypeVote] = useState<"like" | "dislike" | null>(null);
@@ -40,8 +39,10 @@ const VoteActions = ({ data }: FeedbackActionsProps) => {
   const { userLikedFeedbacks, userDislikedFeedbacks } = voteList || {};
   const totalLiked = userLikedFeedbacks?.[feedbackId]?.length || 0;
   const totalDisliked = userDislikedFeedbacks?.[feedbackId]?.length || 0;
-  const isLiked = userLikedFeedbacks?.[feedbackId]?.includes(userId);
-  const isDisliked = userDislikedFeedbacks?.[feedbackId]?.includes(userId);
+  const isLiked = userLikedFeedbacks?.[feedbackId]?.includes(userId as string);
+  const isDisliked = userDislikedFeedbacks?.[feedbackId]?.includes(
+    userId as string
+  );
 
   const handleCreateNotification = () => {
     const notificationData = {
@@ -64,11 +65,11 @@ const VoteActions = ({ data }: FeedbackActionsProps) => {
     setTypeVote(voteType);
     const response = await dispatch(
       addVote({
-        userId,
+        userId: userId as string,
         feedbackId,
         movieSlug: params.slug as string,
         voteType,
-        accessToken,
+        accessToken: accessToken as string,
       })
     );
     setTypeVote(null);

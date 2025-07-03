@@ -7,11 +7,13 @@ import { formatString } from "@/lib/utils";
 import Link from "next/link";
 
 interface ActorMoviesTime {
-  data: any;
+  data: MoviesByActor[];
 }
 
+type ACC = Record<string, MoviesByActor[]>;
+
 const ActorMoviesTime = ({ data }: ActorMoviesTime) => {
-  const moviesByYear = data?.reduce((acc: any, movie: any) => {
+  const moviesByYear = data?.reduce((acc: ACC, movie) => {
     const date = movie?.first_air_date || movie?.release_date;
     const year = date?.split("-")?.[0] || date?.split("-")?.[0];
 
@@ -48,11 +50,11 @@ const ActorMoviesTime = ({ data }: ActorMoviesTime) => {
             </span>
           </div>
           <div className="flex-grow-1 w-full grid xl:grid-cols-5 lg:grid-cols-4 md:grid-cols-5 grid-cols-3 lg:gap-x-4 gap-y-4 gap-x-2">
-            {moviesByYear[year]?.map((movie: any, index: number) => (
+            {moviesByYear[year]?.map((movie, index: number) => (
               <Link
                 key={index}
                 href={`/thong-tin-phim/${formatString(
-                  movie?.name || movie?.title
+                  movie?.name || movie?.title || ""
                 )}`}
               >
                 <div
@@ -64,7 +66,7 @@ const ActorMoviesTime = ({ data }: ActorMoviesTime) => {
                       <Image
                         className="group-hover:brightness-75 rounded-lg transition-all"
                         src={`${THEMOVIEDB_IMAGE_URL}${movie?.poster_path}`}
-                        alt={movie?.name}
+                        alt={movie?.name || movie?.title || ""}
                       />
                     </div>
                   </HoverOutlineWrapper>

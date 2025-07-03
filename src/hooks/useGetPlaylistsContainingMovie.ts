@@ -9,7 +9,7 @@ import { useDispatch } from "react-redux";
 
 const useGetPlaylistContainingMovie = () => {
   const params = useParams();
-  const { data: session, status }: any = useSession();
+  const { data: session, status } = useSession();
   const dispatch: AppDispatch = useDispatch();
 
   useEffect(() => {
@@ -18,7 +18,7 @@ const useGetPlaylistContainingMovie = () => {
         getPlaylistsContainingMovie({
           userId: session?.user?.id as string,
           movieSlug: params.slug as string,
-          accessToken: session?.user?.accessToken,
+          accessToken: session?.user?.accessToken as string,
         })
       );
     }

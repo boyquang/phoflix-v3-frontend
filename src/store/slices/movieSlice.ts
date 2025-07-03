@@ -27,7 +27,7 @@ const initialState: MovieSlice = {
   searchMoviePreview: {
     items: [],
     totalItems: 0,
-    loading: false,
+    loading: true,
     error: false,
   },
   actorsListByMovie: {
@@ -40,7 +40,7 @@ const initialState: MovieSlice = {
   },
   moviePopular: {
     items: [],
-    loading: false,
+    loading: true,
     error: false,
     totalPages: 0,
     totalResults: 0,
@@ -49,14 +49,15 @@ const initialState: MovieSlice = {
     movie: null,
     episodes: null,
     currentEpisode: null,
-    loading: false,
+    isLongSeries: false,
+    loading: true,
     error: false,
   },
   movieDetail: {
-    items: null,
+    items: [],
     titlePage: "",
     pagination: null,
-    loading: false,
+    loading: true,
     error: false,
     fetched: false,
   },
@@ -73,7 +74,7 @@ const initialState: MovieSlice = {
   },
   searchMovie: {
     items: [],
-    loading: false,
+    loading: true,
     error: false,
     titlePage: "",
     pagination: {
@@ -86,11 +87,7 @@ const initialState: MovieSlice = {
   episode: {
     displayMode: "list",
     selectedLanguage: null,
-    groups: {
-      vietsub: { items: [], label: "Vietsub" },
-      "thuyet-minh": { items: [], label: "Thuyết minh" },
-      "long-tieng": { items: [], label: "Lồng tiếng" },
-    },
+    groups: {},
   },
 };
 
@@ -267,14 +264,22 @@ const movieSlice = createSlice({
       state.movieInfo.episodes = null;
       state.movieInfo.movie = null;
       state.episode.groups = {};
+      state.movieInfo.isLongSeries = false;
     });
     builder.addCase(fetchDataMovieInfo.fulfilled, (state, action) => {
-      state.movieInfo.loading = false;
-      state.movieInfo.movie = action.payload?.movie;
-      state.movieInfo.episodes = action.payload?.episodes;
-      state.movieInfo.error = false;
+      const { movie, episodes } = action.payload || {};
 
-      action.payload?.episodes?.forEach((episode: any) => {
+      state.movieInfo.loading = false;
+      state.movieInfo.movie = movie;
+      state.movieInfo.episodes = episodes || null;
+      state.movieInfo.error = !movie;
+
+      // Kiểm tra phim có phải là series dài tập hay không
+      state.movieInfo.isLongSeries =
+        movie?.tmdb?.type === "tv" || episodes?.[0]?.server_data?.length > 1;
+
+      // Thêm tập phim theo ngôn ngữ
+      episodes?.forEach((episode: Episode) => {
         const data = formatTypeMovie(episode.server_name);
         const language = data.language as languageType;
 
@@ -293,6 +298,7 @@ const movieSlice = createSlice({
       state.movieInfo.movie = null;
       state.episode.groups = {};
       state.episode.selectedLanguage = null;
+      state.movieInfo.isLongSeries = false;
     });
 
     builder.addCase(fetchActorsListByMovie.pending, (state, action) => {

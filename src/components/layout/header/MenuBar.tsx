@@ -29,7 +29,7 @@ export const menu = [
 ];
 
 const MenuBar = () => {
-  const { data: session }: any = useSession();
+  const { data: session } = useSession();
   const [openDropdown, setOpenDropdown] = useState<string | null>(null);
   const pathname = usePathname();
   const isAuthenticated = session?.user?.accessToken ? true : false;

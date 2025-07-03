@@ -11,25 +11,13 @@ import EmptyData from "@/components/shared/EmptyData";
 import { FaCommentAlt } from "react-icons/fa";
 import Link from "next/link";
 
-interface Feedback {
-  id: string;
-  sender_name: string;
-  receiver_name: string | null;
-  content: string;
-  type: "comment" | "preview";
-  movie_slug: string;
-  total_likes: number;
-  total_dislikes: number;
-  created_at: string;
-}
-
 interface TableFeedbacksProps {
-  items: Feedback[];
+  items: FeedbackTable[];
 }
 
 const TableFeedbacks = ({ items }: TableFeedbacksProps) => {
   const router = useRouter();
-  const { data: sesstion }: any = useSession();
+  const { data: sesstion } = useSession();
   const [markFeedbackAsSpamId, setMarkFeedbackAsSpamId] = useState<
     string | null
   >(null);
@@ -52,7 +40,7 @@ const TableFeedbacks = ({ items }: TableFeedbacksProps) => {
       feedbackId,
       spam,
       adminId: sesstion?.user?.id as string,
-      accessToken: sesstion?.user?.accessToken,
+      accessToken: sesstion?.user?.accessToken as string,
     });
 
     setMarkFeedbackAsSpamId(null);

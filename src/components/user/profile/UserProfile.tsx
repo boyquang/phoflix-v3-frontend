@@ -21,7 +21,7 @@ type Values = {
 };
 
 const UserProfile = () => {
-  const { data: sesstion, update }: any = useSession();
+  const { data: session, update } = useSession();
   const [values, setValues] = useState<Values | null>(null);
   const [pending, startTransition] = useTransition();
 
@@ -32,13 +32,13 @@ const UserProfile = () => {
   ];
 
   useEffect(() => {
-    if (sesstion) {
+    if (session) {
       setValues({
-        name: sesstion.user?.name,
-        gender: sesstion.user?.gender,
+        name: session?.user?.name as string,
+        gender: session?.user?.gender as Gender,
       });
     }
-  }, [sesstion]);
+  }, [session]);
 
   const handleUpdateUserProfile = () => {
     if (values?.name?.trim() === "") {
@@ -51,18 +51,19 @@ const UserProfile = () => {
       return;
     }
 
-    const { name, gender } = sesstion.user;
+    const name = session?.user?.name as string;
+    const gender = session?.user?.gender as Gender;
 
     if (name === values?.name && gender === values?.gender) return;
 
     startTransition(async () => {
       const response = await updateUserProfile({
-        userId: sesstion.user?.id,
+        userId: session?.user?.id as string,
         username: values?.name as string,
-        gender: values?.gender as any,
-        avatar: sesstion.user?.image,
-        typeAccount: sesstion.user?.typeAccount,
-        accessToken: sesstion.user?.accessToken,
+        gender: values?.gender as Gender,
+        avatar: session?.user?.image as string,
+        typeAccount: session?.user?.typeAccount as TypeAcccount,
+        accessToken: session?.user?.accessToken as string,
       });
 
       if (response?.status) {
@@ -77,7 +78,7 @@ const UserProfile = () => {
     });
   };
 
-  if (!sesstion) return null;
+  if (!session) return null;
 
   return (
     <Box className="flex flex-col gap-2 lg:p-10 xl:max-w-[640px] lg:max-w-[560px] md:max-w-[420px] max-w-full lg:mx-0 mx-auto">
@@ -98,7 +99,7 @@ const UserProfile = () => {
                 backgroundColor: "#ffffff05 !important",
               }}
               disabled
-              value={sesstion.user?.email ?? ""}
+              value={session.user?.email ?? ""}
               variant="outline"
             />
           </Field.Root>
@@ -152,7 +153,7 @@ const UserProfile = () => {
             </Button>
           </Box>
 
-          {sesstion.user?.typeAccount === "credentials" && (
+          {session.user?.typeAccount === "credentials" && (
             <Box className="mt-6 text-gray-50 text-sm">
               <span>Đổi mật khẩu nhấn vào</span> <ResetPassword />
             </Box>

@@ -28,14 +28,14 @@ import ReportDialog from "../movie-report/ReportDialog";
 import MovieSuggesstions from "@/components/shared/MovieSuggestions";
 import EpisodeTabs from "../episode/EpisodeTabs";
 import MovieVersionList from "../movie-version/MovieVersionList";
+import { scrollToTop } from "@/lib/utils";
 
 const MainPage = () => {
   const params = useParams();
-  const { data: session }: any = useSession();
+  const { data: session } = useSession();
   const dispatch: AppDispatch = useDispatch();
-  const { movie, episodes, loading, error, currentEpisode } = useSelector(
-    (state: RootState) => state.movie.movieInfo
-  );
+  const { movie, episodes, loading, error, currentEpisode, isLongSeries } =
+    useSelector((state: RootState) => state.movie.movieInfo);
   const { groups, selectedLanguage } = useSelector(
     (state: RootState) => state.movie.episode
   );
@@ -44,7 +44,7 @@ const MainPage = () => {
   useEffect(() => {
     if (movie && session && movie.slug === params?.slug) {
       addNewMovie({
-        userId: session.user?.id as string,
+        userId: session?.user?.id as string,
         movieData: {
           name: movie.name,
           lang: movie.lang,
@@ -59,7 +59,7 @@ const MainPage = () => {
           category: movie.category,
         },
         type: "history",
-        accessToken: session.user?.accessToken,
+        accessToken: session?.user?.accessToken as string,
       });
     }
   }, [movie, session]);
@@ -73,6 +73,7 @@ const MainPage = () => {
           page: "watching",
         })
       );
+      scrollToTop();
     }
   }, [params?.slug]);
 
@@ -84,7 +85,7 @@ const MainPage = () => {
 
   // Lấy dữ liệu tập phim hiện tại từ id
   useSetCurrenEpisode({
-    episodes: episodes,
+    episodes: episodes || [],
     callback: (item) => dispatch(setCurrentEpisode(item)),
   });
 
@@ -98,6 +99,9 @@ const MainPage = () => {
         />
       </Box>
     );
+  }
+  if (!movie) {
+    return <div className="min-h-screen"></div>;
   }
 
   return (
@@ -128,7 +132,7 @@ const MainPage = () => {
           <SectionInfo data={movie} />
           <Box className="lg:w-[0.5px] w-full lg:h-auto h-[0.5px] bg-[#ffffff10]"></Box>
           <Box className="xl:flex-2 flex-1">
-            {movie?.tmdb?.type === "tv" || movie?.type === "hoathinh" || movie?.type === "series" ? (
+            {isLongSeries ? (
               <>
                 <EpisodeTabs />
                 {Object.keys(groups)?.length > 0 && selectedLanguage && (

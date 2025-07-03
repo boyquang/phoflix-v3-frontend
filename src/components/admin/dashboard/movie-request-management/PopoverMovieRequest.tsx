@@ -17,7 +17,7 @@ const options = [
 ];
 
 interface PopoverMovieRequestProps {
-  movieRequest: any;
+  movieRequest: MovieRequest;
   loading: boolean;
   onClickSubmit: (agrs: MovieRequestProcess) => Promise<boolean>;
 }
@@ -27,7 +27,7 @@ const PopoverMovieRequest = ({
   loading,
   onClickSubmit,
 }: PopoverMovieRequestProps) => {
-  const [status, setStatus] = useState<"approved" | "rejected" | null>(null);
+  const [status, setStatus] = useState<MovieRequestStatus | null>(null);
   const [response, setResponse] = useState<string>("");
   const [open, setOpen] = useState(false);
 

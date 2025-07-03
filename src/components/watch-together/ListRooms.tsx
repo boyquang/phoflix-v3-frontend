@@ -9,7 +9,7 @@ import Image from "../shared/Image";
 import AvatarCustom from "../shared/AvatarCustom";
 
 interface ListRoomsProps {
-  rooms: any[];
+  rooms: Rooms[];
   classNameGrid: string;
 }
 
@@ -27,7 +27,7 @@ const ListRooms = ({ rooms, classNameGrid }: ListRoomsProps) => {
 
   return (
     <ul className={`${classNameGrid} mt-6`}>
-      {rooms?.map((room: any) => (
+      {rooms?.map((room) => (
         <li key={room.roomId}>
           <div className="flex flex-col gap-3 transition-all group hover:-translate-y-1">
             <div className="relative">

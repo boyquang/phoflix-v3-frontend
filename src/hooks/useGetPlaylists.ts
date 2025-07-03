@@ -7,7 +7,7 @@ import { useEffect } from "react";
 import { useDispatch } from "react-redux";
 
 const useGetPlaylists = () => {
-  const { data: session, status }: any = useSession();
+  const { data: session, status } = useSession();
   const dispatch: AppDispatch = useDispatch();
 
   useEffect(() => {
@@ -15,7 +15,7 @@ const useGetPlaylists = () => {
       dispatch(
         getPlaylists({
           userId: session?.user?.id as string,
-          accessToken: session?.user?.accessToken,
+          accessToken: session?.user?.accessToken as string,
         })
       );
     }
