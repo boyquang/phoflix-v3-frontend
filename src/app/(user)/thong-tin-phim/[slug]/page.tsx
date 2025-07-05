@@ -1,8 +1,10 @@
 import Loading from "@/app/loading";
-import MoviePage from "@/components/movie-info/MainPage";
+import ClientWrapper from "@/components/movie-info/ClientWrapper";
+import EmptyData from "@/components/shared/EmptyData";
 import { NEXTAUTH_URL } from "@/lib/env";
 import { Metadata } from "next";
 import { Suspense } from "react";
+import { FaPhotoFilm } from "react-icons/fa6";
 
 interface PageProps {
   params: Promise<{ [key: string]: string | string[] | undefined }>;
@@ -10,54 +12,102 @@ interface PageProps {
 }
 
 export async function generateMetadata({
-  searchParams,
   params,
 }: PageProps): Promise<Metadata> {
-  const _params = (await searchParams) ?? {};
   const { slug } = await params;
 
-  let name = "PHOFLIX-V3 - Xem phim online miễn phí";
+  try {
+    const res = await fetch(`${NEXTAUTH_URL}/api/movie/info/${slug}`, {
+      cache: "force-cache",
+    });
 
-  if (typeof _params.name === "string") {
-    name = _params.name.replace(/-/g, " ");
-  } else if (Array.isArray(_params.name) && _params.name.length > 0) {
-    name = _params.name[0].replace(/-/g, " ");
+    const data = await res.json();
+    const movie = data?.movie || {};
+
+    const {
+      name = "PHOFLIX-V3 - Xem phim online miễn phí",
+      origin_name = "",
+      content = "Xem phim chất lượng cao, miễn phí, cập nhật nhanh nhất tại PHOFLIX-V3.",
+      poster_url = "/default-poster.jpg",
+    } = movie;
+
+    return {
+      title: `Phim ${name} | PHOFLIX-V3`,
+      description: content,
+      keywords: [
+        name,
+        origin_name,
+        "xem phim online",
+        "phim miễn phí",
+        "phim chất lượng cao",
+        "PHOFLIX",
+      ],
+      robots: "index, follow",
+      openGraph: {
+        title: `${name} | PHOFLIX-V3`,
+        description: content,
+        url: `${NEXTAUTH_URL}/thong-tin-phim/${slug}`,
+        siteName: "PHOFLIX-V3",
+        locale: "vi_VN",
+        type: "video.movie",
+        images: [
+          {
+            url: poster_url.startsWith("http")
+              ? poster_url
+              : `${NEXTAUTH_URL}${poster_url}`,
+            width: 800,
+            height: 1200,
+            alt: name,
+          },
+        ],
+      },
+      twitter: {
+        card: "summary_large_image",
+        title: `${name} | PHOFLIX-V3`,
+        description: content,
+        images: [
+          poster_url.startsWith("http")
+            ? poster_url
+            : `${NEXTAUTH_URL}${poster_url}`,
+        ],
+      },
+    };
+  } catch (error) {
+    console.error("Metadata fetch error:", error);
+    return {
+      title: "PHOFLIX-V3 - Xem phim online miễn phí",
+      description:
+        "Xem phim chất lượng cao, miễn phí, cập nhật nhanh nhất tại PHOFLIX-V3.",
+    };
   }
-
-  return {
-    title: `${name} | PHOFLIX-V3`,
-    description: `Xem phim ${name} chất lượng cao, miễn phí, cập nhật nhanh nhất tại PHOFLIX-V3. Trải nghiệm xem phim mượt mà với nhiều thể loại hấp dẫn.`,
-    keywords: [
-      name,
-      "xem phim online",
-      "phim miễn phí",
-      "phim chất lượng cao",
-      "PHOFLIX",
-      "phim cập nhật nhanh",
-    ],
-    robots: "index, follow",
-    openGraph: {
-      title: `${name} | PHOFLIX-V3`,
-      description: `Xem phim ${name} chất lượng cao, miễn phí tại PHOFLIX-V3.`,
-      url: `${NEXTAUTH_URL}/thong-tin-phim/${slug}?name=${encodeURIComponent(
-        _params.name as string
-      )}`,
-      siteName: "PHOFLIX-V3",
-      locale: "vi_VN",
-      type: "website",
-    },
-    twitter: {
-      card: "summary_large_image",
-      title: `${name} | PHOFLIX-V3`,
-      description: `Xem phim ${name} chất lượng cao, miễn phí tại PHOFLIX-V3.`,
-    },
-  };
 }
 
-const Page = () => {
+const Page = async ({ searchParams, params }: PageProps) => {
+  const { slug } = await params;
+
+  const response = await fetch(`${NEXTAUTH_URL}/api/movie/info/${slug}`, {
+    cache: "force-cache",
+  });
+
+  const data = await response.json();
+
+  const movie = data.movie || {};
+  const episodes = data.episodes || [];
+
+  if (!movie) {
+    <div className="min-h-screen flex items-center justify-center max-w-2xl mx-auto px-4">
+      <EmptyData
+        className="bg-[#0003] rounded-2xl"
+        icon={<FaPhotoFilm />}
+        title="Không tìm thấy dữ liệu"
+        description="Bộ phim này không tồn tại hoặc có thể đã bị xóa."
+      />
+    </div>;
+  }
+
   return (
     <Suspense fallback={<Loading type="text" />}>
-      <MoviePage />
+      <ClientWrapper movie={movie} episodes={episodes} />
     </Suspense>
   );
 };

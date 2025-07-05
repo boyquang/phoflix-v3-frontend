@@ -57,6 +57,21 @@ const MainPage = () => {
     return <Loading type="bars" />;
   }
 
+  if (!session) {
+    return (
+      <RootLayout>
+        <Box className="flex flex-col items-center justify-center h-screen text-center px-4">
+          <h2 className="text-2xl md:text-3xl font-semibold text-white mb-2">
+            Bạn chưa đăng nhập
+          </h2>
+          <p className="text-gray-400 text-base md:text-lg">
+            Vui lòng đăng nhập để xem phòng.
+          </p>
+        </Box>
+      </RootLayout>
+    );
+  }
+
   return (
     <RootLayout>
       <Box className="lg:pt-28 pt-24 text-gray-50">

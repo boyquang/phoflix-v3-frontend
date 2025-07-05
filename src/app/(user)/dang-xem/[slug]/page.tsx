@@ -1,11 +1,15 @@
 import Loading from "@/app/loading";
+import EmptyData from "@/components/shared/EmptyData";
+import ClientWrapper from "@/components/watch-movie/ClientWrapper";
 import MainPage from "@/components/watch-movie/MainPage";
 import { NEXTAUTH_URL } from "@/lib/env";
 import { Metadata } from "next";
 import { Suspense } from "react";
+import { FaPhotoFilm } from "react-icons/fa6";
 
 interface PageProps {
   params: Promise<{ [key: string]: string | string[] | undefined }>;
+  searchParams: Promise<{ [key: string]: string | string[] | undefined }>;
 }
 
 export async function generateMetadata({
@@ -13,41 +17,98 @@ export async function generateMetadata({
 }: PageProps): Promise<Metadata> {
   const { slug } = await params;
 
-  const title = `Xem phim online miễn phí, chất lượng cao | PHOFLIX-V3`;
-  const description = `Xem phim thuyết minh, Vietsub chất lượng cao, miễn phí trên PHOFLIX-V3. Cập nhật nhanh, trải nghiệm xem phim mượt mà.`;
+  try {
+    const res = await fetch(`${NEXTAUTH_URL}/api/movie/info/${slug}`, {
+      cache: "force-cache",
+    });
 
-  return {
-    title,
-    description,
-    keywords: [
-      "xem phim online",
-      "phim miễn phí",
-      "phim chất lượng cao",
-      "phim thuyết minh",
-      "phim Vietsub",
-      "PHOFLIX",
-    ],
-    robots: "index, follow",
-    openGraph: {
-      title,
-      description,
-      url: `${NEXTAUTH_URL}/waching/${slug}`,
-      siteName: "PHOFLIX-V3",
-      locale: "vi_VN",
-      type: "video.movie",
-    },
-    twitter: {
-      card: "summary_large_image",
-      title,
-      description,
-    },
-  };
+    const data = await res.json();
+    const movie = data?.movie || {};
+
+    const {
+      name = "PHOFLIX-V3 - Xem phim online miễn phí",
+      origin_name = "",
+      content = "Xem phim chất lượng cao, miễn phí, cập nhật nhanh nhất tại PHOFLIX-V3.",
+      poster_url = "/default-poster.jpg",
+    } = movie;
+
+    return {
+      title: `Đang xem ${name} | PHOFLIX-V3`,
+      description: content,
+      keywords: [
+        name,
+        origin_name,
+        "xem phim online",
+        "phim miễn phí",
+        "phim chất lượng cao",
+        "PHOFLIX",
+      ],
+      robots: "index, follow",
+      openGraph: {
+        title: `${name} | PHOFLIX-V3`,
+        description: content,
+        url: `${NEXTAUTH_URL}/dang-xem/${slug}`,
+        siteName: "PHOFLIX-V3",
+        locale: "vi_VN",
+        type: "video.movie",
+        images: [
+          {
+            url: poster_url.startsWith("http")
+              ? poster_url
+              : `${NEXTAUTH_URL}${poster_url}`,
+            width: 800,
+            height: 1200,
+            alt: name,
+          },
+        ],
+      },
+      twitter: {
+        card: "summary_large_image",
+        title: `${name} | PHOFLIX-V3`,
+        description: content,
+        images: [
+          poster_url.startsWith("http")
+            ? poster_url
+            : `${NEXTAUTH_URL}${poster_url}`,
+        ],
+      },
+    };
+  } catch (error) {
+    console.error("Metadata fetch error:", error);
+    return {
+      title: "PHOFLIX-V3 - Xem phim online miễn phí",
+      description:
+        "Xem phim chất lượng cao, miễn phí, cập nhật nhanh nhất tại PHOFLIX-V3.",
+    };
+  }
 }
 
-const Page = () => {
+const Page = async ({ params, searchParams }: PageProps) => {
+  const { slug } = await params;
+
+  const response = await fetch(`${NEXTAUTH_URL}/api/movie/watching/${slug}`, {
+    cache: "force-cache",
+  });
+
+  const data = await response.json();
+
+  const movie = data.movie || {};
+  const episodes = data.episodes || [];
+
+  if (!movie) {
+    <div className="min-h-screen flex items-center justify-center max-w-2xl mx-auto px-4">
+      <EmptyData
+        className="bg-[#0003] rounded-2xl"
+        icon={<FaPhotoFilm />}
+        title="Không tìm thấy dữ liệu"
+        description="Bộ phim này không tồn tại hoặc có thể đã bị xóa."
+      />
+    </div>;
+  }
+
   return (
     <Suspense fallback={<Loading type="text" />}>
-      <MainPage />
+      <ClientWrapper movie={movie} episodes={episodes} />
     </Suspense>
   );
 };

@@ -6,7 +6,7 @@ import { useDispatch, useSelector } from "react-redux";
 import Image from "../shared/Image";
 import { Button } from "@chakra-ui/react";
 import { setCurrentEpisode } from "@/store/slices/movieSlice";
-import { useRouter } from "next/navigation";
+import { useParams, useRouter } from "next/navigation";
 
 interface MovieVersionListProps {
   redirect?: boolean;
@@ -34,6 +34,7 @@ const MovieVersionList = ({
     (state: RootState) => state.movie.movieInfo
   );
   const dispatch: AppDispatch = useDispatch();
+  const params = useParams();
   const router = useRouter();
 
   const handleChangeVerion = (

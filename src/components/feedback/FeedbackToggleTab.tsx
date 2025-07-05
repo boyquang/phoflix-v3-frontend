@@ -29,24 +29,21 @@ const FeedbackToggleTab = () => {
   };
 
   return (
-    <ButtonGroup
-      variant="outline"
-      size="sm"
-      className="gap-0 border items-baseline border-gray-50 rounded-lg h-8 p-0.5 overflow-hidden"
-    >
+    <div className="flex gap-0 border items-baseline border-gray-50 rounded-lg h-8 p-0.5 overflow-hidden">
       {tabs.map((tab) => (
-        <Button
+        <button
           key={tab.id}
-          size="sm"
           onClick={() => handleChangeTab(tab.value as "comment" | "review")}
-          bg={feedbackType === tab.value ? "white" : "transparent"}
-          color={feedbackType === tab.value ? "black" : "white"}
-          className="rounded-md border-none h-[26px] lg:text-sm xs:text-xs text-[10px] px-2"
+          className={`flex items-center transition-all duration-300 justify-center rounded-md border-none h-[26px] lg:text-sm xs:text-xs text-[10px] px-2 ${
+            feedbackType === tab.value
+              ? "bg-white text-black cursor-default"
+              : "bg-transparent text-white cursor-pointer"
+          }`}
         >
           {tab.label}
-        </Button>
+        </button>
       ))}
-    </ButtonGroup>
+    </div>
   );
 };
 

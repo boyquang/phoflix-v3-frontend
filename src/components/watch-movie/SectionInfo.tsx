@@ -3,7 +3,7 @@
 import Image from "@/components/shared/Image";
 import ShowMoreText from "@/components/shared/ShowMoreText";
 import { TagClassic } from "@/components/shared/TagClassic";
-import { formatStringForURL, generateUrlImage } from "@/lib/utils";
+import { generateUrlImage } from "@/lib/utils";
 import { Box } from "@chakra-ui/react";
 import Link from "next/link";
 import { RiArrowRightWideFill } from "react-icons/ri";
@@ -69,10 +69,7 @@ const SectionInfo = ({ data }: SectionInfoProps) => {
           />
           <Link
             className="text-[#ffd875] mt-4 text-sm gap-1 hover:underline inline-flex items-center"
-            href={`/thong-tin-phim/${data?.slug}?name=${formatStringForURL(
-              data?.name,
-              "-"
-            )}`}
+            href={`/thong-tin-phim/${data?.slug}`}
           >
             Thông tin phim
             <RiArrowRightWideFill />

@@ -116,6 +116,29 @@ const movieSlice = createSlice({
     setSelectedLanguage: (state, action) => {
       state.episode.selectedLanguage = action.payload;
     },
+    setDataMovieInfo: (state, action) => {
+      const { movie, episodes } = action.payload || {};
+
+      state.movieInfo.movie = movie;
+      state.movieInfo.episodes = episodes || null;
+
+      // Kiểm tra phim có phải là series dài tập hay không
+      state.movieInfo.isLongSeries =
+        movie?.tmdb?.type === "tv" || episodes?.[0]?.server_data?.length > 1;
+
+      // Thêm tập phim theo ngôn ngữ
+      episodes?.forEach((episode: Episode) => {
+        const data = formatTypeMovie(episode.server_name);
+        const language = data.language as languageType;
+
+        if (!state.episode.groups[language as languageType]) {
+          state.episode.groups[language as languageType] = {
+            items: episode.server_data,
+            label: data.title,
+          };
+        }
+      });
+    },
   },
   extraReducers: (builder) => {
     builder.addCase(fetchDataSlideShow.pending, (state, action) => {
@@ -353,5 +376,6 @@ export const {
   setFetchedMovieDataHomePage,
   setFetchedMovieDetail,
   setFilterActor,
+  setDataMovieInfo,
 } = movieSlice.actions;
 export default movieSlice.reducer;

@@ -1,8 +1,20 @@
 import Loading from "@/app/loading";
+import FilterBox from "@/components/advance-filter/FilterBox";
 import MainPage from "@/components/advance-filter/MainPage";
+import RootLayout from "@/components/layout/RootLayout";
+import EmptyData from "@/components/shared/EmptyData";
+import MovieGrid from "@/components/shared/MovieGrid";
+import PaginationCustom from "@/components/shared/PaginationCustom";
 import { NEXTAUTH_URL } from "@/lib/env";
 import { Metadata } from "next";
 import { Suspense } from "react";
+import { IoSearch } from "react-icons/io5";
+import { RiMovieFill } from "react-icons/ri";
+
+interface PageProps {
+  searchParams: Promise<{ [key: string]: string | string[] | undefined }>;
+  params: Promise<{ [key: string]: string | string[] | undefined }>;
+}
 
 export async function generateMetadata(): Promise<Metadata> {
   return {
@@ -36,10 +48,81 @@ export async function generateMetadata(): Promise<Metadata> {
   };
 }
 
-const Page = () => {
+const Page = async ({ params, searchParams }: PageProps) => {
+  const searchParamsObj = await searchParams;
+  const keyword = searchParamsObj.keyword || "a";
+  const country = searchParamsObj.country || "";
+  const category = searchParamsObj.category || "";
+  const sort_lang = searchParamsObj.sort_lang || "";
+  const year = searchParamsObj.year || "";
+  const sort_type = searchParamsObj.sort_type || "desc";
+  const currentPage = Number(searchParamsObj.page) || 1;
+  const limit = 24;
+
+  const response = await fetch(
+    `${NEXTAUTH_URL}/api/movie/advance-filter?keyword=${keyword}&page=${currentPage}&limit=${limit}&country=${country}&category=${category}&sort_lang=${sort_lang}&year=${year}&sort_type=${sort_type}`,
+    {
+      cache: "force-cache",
+    }
+  );
+
+  const data = await response.json();
+
+  const items = data.items || [];
+  const pagination = data.params.pagination || {};
+  const totalItems = pagination.totalItems || 0;
+
+  console.log("Data from API:", data);
+
   return (
     <Suspense fallback={<Loading type="text" />}>
-      <MainPage />
+      <RootLayout>
+        <div className="lg:pt-28 pt-24">
+          <h3 className="inline-block title-text font-bold xl:text-3xl lg:text-2xl text-xl">
+            Lọc nâng cao
+          </h3>
+
+          <FilterBox />
+
+          <div className="filter-result" />
+
+          <div className="flex items-center gap-2 my-4 text-gray-100 font-bold lg:text-xl text-sm">
+            <IoSearch />
+            <h3>Tìm thấy {totalItems} kết quả</h3>
+          </div>
+
+          <div className="mt-12">
+            <>
+              {items?.length > 0 ? (
+                <MovieGrid
+                  items={items}
+                  classNameGrids="grid grid-cols-3 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 2xl:grid-cols-8 lg:gap-x-4 gap-x-2 gap-y-6"
+                  orientation="vertical"
+                />
+              ) : (
+                <div className="h-96 max-w-2xl mx-auto flex items-center justify-center">
+                  <EmptyData
+                    className="bg-[#0003] rounded-2xl"
+                    icon={<RiMovieFill />}
+                    title="Không tìm thấy dữ liệu"
+                    description="Không có bộ phim nào trong danh sách này"
+                  />
+                </div>
+              )}
+            </>
+          </div>
+
+          {totalItems >= limit && (
+            <PaginationCustom
+              currentPage={Number(currentPage)}
+              totalItems={totalItems}
+              itemsPerPage={limit}
+              isScroll={true}
+              showToaster={false}
+            />
+          )}
+        </div>
+      </RootLayout>
     </Suspense>
   );
 };

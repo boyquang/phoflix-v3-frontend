@@ -2,7 +2,7 @@
 
 import { createPortal } from "react-dom";
 import { Box, Button, Image } from "@chakra-ui/react";
-import { generateUrlImage } from "@/lib/utils";
+import { decodeHtmlEntities, generateUrlImage } from "@/lib/utils";
 import { useState } from "react";
 import { TagClassic } from "./TagClassic";
 import Link from "next/link";
@@ -50,7 +50,7 @@ const MovieTooltip = ({ data, position }: MovieTooltipProps) => {
       <Box className="bg-[#2f3346] h-full p-4">
         <h4 className="text-lg">{data?.name ?? "Không xác định"}</h4>
         <p className="text-[#ffd875] text-sm">
-          {data?.origin_name ?? "Không xác định"}
+          {decodeHtmlEntities(data?.origin_name) || "Không xác định"}
         </p>
         <Box className="flex gap-4 items-center mb-4 mt-2">
           <Link href={`/dang-xem/${data?.slug}`}>
