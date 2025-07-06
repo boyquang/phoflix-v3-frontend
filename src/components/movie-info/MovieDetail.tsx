@@ -25,7 +25,7 @@ const MovieDetail = ({ data }: MovieDetailProps) => {
           />
         </Box>
       </Box>
-
+ 
       <Box className="flex flex-col gap-2 xl:items-start items-center">
         <h4 className="lg:text-2xl text-lg text-gray-50 font-semibold">
           {data?.name || "Không xác định"}

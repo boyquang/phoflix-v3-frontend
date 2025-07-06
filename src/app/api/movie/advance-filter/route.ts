@@ -45,7 +45,7 @@ export async function GET(
 
     const data = await response.json();
 
-    return NextResponse.json(data.data, { status: 200 });
+    return NextResponse.json(data, { status: 200 });
   } catch (error) {
     console.error("Error fetching movie search:", error);
     return NextResponse.json(

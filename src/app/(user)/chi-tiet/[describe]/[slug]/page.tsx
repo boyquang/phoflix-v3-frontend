@@ -4,6 +4,7 @@ import EmptyData from "@/components/shared/EmptyData";
 import MovieGrid from "@/components/shared/MovieGrid";
 import PaginationCustom from "@/components/shared/PaginationCustom";
 import TopicBackground from "@/components/shared/TopicBackground";
+import { fetchMovieDetail } from "@/lib/actions/movieActionServer";
 import { NEXTAUTH_URL } from "@/lib/env";
 import { Metadata } from "next";
 import { Suspense } from "react";
@@ -20,14 +21,10 @@ export async function generateMetadata({
   const { slug, describe } = await params;
 
   try {
-    const res = await fetch(
-      `${NEXTAUTH_URL}/api/movie/detail/${describe}/${slug}?page=1&limit=1`,
-      { cache: "force-cache" }
-    );
-
-    const data = await res.json();
-    const seoOnPage = data?.seoOnPage || {};
-    const totalItems = data?.totalItems || 0;
+    const {
+      seoOnPage,
+      pagination: { totalItems },
+    } = await fetchMovieDetail(describe as string, slug as string);
 
     const {
       titleHead = "Danh sách phim",
@@ -82,18 +79,16 @@ const Page = async ({ params, searchParams }: PageProps) => {
   const currentPage = Number(searchParamsObj.page) || 1;
   const limit = 24;
 
-  const response = await fetch(
-    `${NEXTAUTH_URL}/api/movie/detail/${describe}/${slug}?page=${currentPage}&limit=${limit}`,
-    {
-      cache: "force-cache",
-    }
+  const {
+    items,
+    pagination: { totalItems },
+    titlePage,
+  } = await fetchMovieDetail(
+    describe as string,
+    slug as string,
+    currentPage,
+    limit
   );
-
-  const data = await response.json();
-  const items = data.items || [];
-  const pagination = data.params.pagination || {};
-  const totalItems = pagination.totalItems || 0;
-  const titlePage = data.titlePage || "Danh sách phim";
 
   if (!items || items?.length === 0) {
     return (
@@ -124,9 +119,9 @@ const Page = async ({ params, searchParams }: PageProps) => {
               />
             </div>
 
-            {(pagination?.totalItems as number) >= limit && (
+            {(totalItems as number) >= limit && (
               <PaginationCustom
-                totalItems={pagination?.totalItems as number}
+                totalItems={totalItems as number}
                 itemsPerPage={limit}
                 currentPage={currentPage}
                 showToaster={false}

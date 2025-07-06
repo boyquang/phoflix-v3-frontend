@@ -1,6 +1,7 @@
 import Loading from "@/app/loading";
 import ClientWrapper from "@/components/movie-info/ClientWrapper";
 import EmptyData from "@/components/shared/EmptyData";
+import { fetchMovieInfo } from "@/lib/actions/movieActionServer";
 import { NEXTAUTH_URL } from "@/lib/env";
 import { Metadata } from "next";
 import { Suspense } from "react";
@@ -17,12 +18,7 @@ export async function generateMetadata({
   const { slug } = await params;
 
   try {
-    const res = await fetch(`${NEXTAUTH_URL}/api/movie/info/${slug}`, {
-      cache: "force-cache",
-    });
-
-    const data = await res.json();
-    const movie = data?.movie || {};
+    const { movie } = await fetchMovieInfo(slug as string);
 
     const {
       name = "PHOFLIX-V3 - Xem phim online miễn phí",
@@ -85,24 +81,19 @@ export async function generateMetadata({
 const Page = async ({ searchParams, params }: PageProps) => {
   const { slug } = await params;
 
-  const response = await fetch(`${NEXTAUTH_URL}/api/movie/info/${slug}`, {
-    cache: "force-cache",
-  });
+  const { movie, episodes, status } = await fetchMovieInfo(slug as string);
 
-  const data = await response.json();
-
-  const movie = data.movie || {};
-  const episodes = data.episodes || [];
-
-  if (!movie) {
-    <div className="min-h-screen flex items-center justify-center max-w-2xl mx-auto px-4">
-      <EmptyData
-        className="bg-[#0003] rounded-2xl"
-        icon={<FaPhotoFilm />}
-        title="Không tìm thấy dữ liệu"
-        description="Bộ phim này không tồn tại hoặc có thể đã bị xóa."
-      />
-    </div>;
+  if (!status || Object.keys(movie).length === 0) {
+    return (
+      <div className="min-h-screen flex items-center justify-center max-w-2xl mx-auto px-4">
+        <EmptyData
+          className="bg-[#0003] rounded-2xl"
+          icon={<FaPhotoFilm />}
+          title="Không tìm thấy dữ liệu"
+          description="Bộ phim này không tồn tại hoặc có thể đã bị xóa."
+        />
+      </div>
+    );
   }
 
   return (

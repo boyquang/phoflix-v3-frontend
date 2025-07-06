@@ -19,11 +19,11 @@ const useSetCurrentEpisode = ({
   const id = searchParams.get("id");
 
   useEffect(() => {
-    if (!enabled) return;
+    if (!enabled || !episodes || episodes.length === 0) return;
 
     if (episodes?.length >= 0) {
       // Gộp các server lại với nhau
-      const data = mergeEpisodeData(episodes);
+      const data = episodes.flatMap((item) => item?.server_data || []);
 
       // Tìm episode tương ứng với id
       const currentEpisode = findEpisodeById(data, id as string);

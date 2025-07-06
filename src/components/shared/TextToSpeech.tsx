@@ -50,10 +50,9 @@ const TextToSpeech = ({
   };
 
   return (
-    <Button
+    <button
       onClick={handleTextToSpeech}
-      size={size}
-      className="bg-transparent border border-[#ffffff10] hover:bg-[#ffffff10] rounded-full"
+      className="bg-transparent cursor-pointer flex items-center text-gray-300 gap-1 h-8 px-4 border border-[#ffffff10] hover:bg-[#ffffff10] rounded-full"
     >
       {icon || <RiUserVoiceFill />}
       {showText && (
@@ -61,7 +60,7 @@ const TextToSpeech = ({
           {isSpeaking ? "Dừng đọc" : textString}
         </span>
       )}
-    </Button>
+    </button>
   );
 };
 

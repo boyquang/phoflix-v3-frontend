@@ -1,10 +1,13 @@
 import Loading from "@/app/loading";
 import RootLayout from "@/components/layout/RootLayout";
+import EmptyData from "@/components/shared/EmptyData";
 import MovieGrid from "@/components/shared/MovieGrid";
 import PaginationCustom from "@/components/shared/PaginationCustom";
+import { fetchSearchMovies } from "@/lib/actions/movieActionServer";
 import { NEXTAUTH_URL } from "@/lib/env";
 import { Metadata } from "next";
 import { Suspense } from "react";
+import { FaPhotoFilm } from "react-icons/fa6";
 
 interface PageProps {
   searchParams: Promise<{ [key: string]: string | string[] | undefined }>;
@@ -18,14 +21,10 @@ export async function generateMetadata({
   const { keyword: searchKeyword } = await searchParams;
 
   try {
-    const res = await fetch(
-      `${NEXTAUTH_URL}/api/movie/search?keyword=${searchKeyword}page=1&limit=24`,
-      { cache: "force-cache" }
-    );
-
-    const data = await res.json();
-    const seoOnPage = data?.seoOnPage || {};
-    const totalItems = data?.totalItems || 0;
+    const {
+      seoOnPage,
+      pagination: { totalItems },
+    } = await fetchSearchMovies(searchKeyword as string);
 
     const {
       titleHead = "Danh sách phim",
@@ -80,18 +79,24 @@ const Page = async ({ params, searchParams }: PageProps) => {
   const currentPage = Number(searchParamsObj.page) || 1;
   const limit = 24;
 
-  const response = await fetch(
-    `${NEXTAUTH_URL}/api/movie/search?keyword=${keyword}&page=${currentPage}&limit=${limit}`,
-    {
-      cache: "force-cache",
-    }
-  );
+  const {
+    status,
+    movies: items,
+    pagination: { totalItems },
+  } = await fetchSearchMovies(keyword as string, currentPage, limit);
 
-  const data = await response.json();
-
-  const items = data.items || [];
-  const pagination = data.params.pagination || {};
-  const totalItems = pagination.totalItems || 0;
+  if (!status || items.length === 0) {
+    return (
+      <div className="min-h-screen flex items-center justify-center max-w-2xl mx-auto px-4">
+        <EmptyData
+          className="bg-[#0003] rounded-2xl"
+          icon={<FaPhotoFilm />}
+          title="Không tìm thấy dữ liệu"
+          description="Không có kết quả nào phù hợp với từ khóa tìm kiếm của bạn."
+        />
+      </div>
+    );
+  }
 
   return (
     <Suspense fallback={<Loading type="text" />}>
@@ -110,9 +115,9 @@ const Page = async ({ params, searchParams }: PageProps) => {
             />
           </div>
 
-          {(pagination?.totalItems as number) >= limit && (
+          {(totalItems as number) >= limit && (
             <PaginationCustom
-              totalItems={pagination?.totalItems as number}
+              totalItems={totalItems as number}
               itemsPerPage={limit}
               showToaster={false}
               currentPage={currentPage}

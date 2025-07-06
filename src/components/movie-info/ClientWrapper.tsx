@@ -83,9 +83,7 @@ const ClientWrapper = ({ movie, episodes }: ClientWrapperProps) => {
                     </Box>
                   </Box>
                   <MovieTabs />
-
                   <Box className="w-full h-[0.5px] bg-[#ffffff10] my-6"></Box>
-
                   <FeedbackSection />
                 </Box>
               </Box>

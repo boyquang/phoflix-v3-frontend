@@ -117,6 +117,12 @@ const movieSlice = createSlice({
       state.episode.selectedLanguage = action.payload;
     },
     setDataMovieInfo: (state, action) => {
+      state.episode.groups = {};
+      state.movieInfo.isLongSeries = false;
+      state.movieInfo.episodes = null;
+      state.movieInfo.movie = null;
+      state.movieInfo.currentEpisode = null;
+
       const { movie, episodes } = action.payload || {};
 
       state.movieInfo.movie = movie;

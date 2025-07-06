@@ -5,6 +5,7 @@ import RootLayout from "@/components/layout/RootLayout";
 import EmptyData from "@/components/shared/EmptyData";
 import MovieGrid from "@/components/shared/MovieGrid";
 import PaginationCustom from "@/components/shared/PaginationCustom";
+import { fetchAdvanceFilterMovies } from "@/lib/actions/movieActionServer";
 import { NEXTAUTH_URL } from "@/lib/env";
 import { Metadata } from "next";
 import { Suspense } from "react";
@@ -59,20 +60,20 @@ const Page = async ({ params, searchParams }: PageProps) => {
   const currentPage = Number(searchParamsObj.page) || 1;
   const limit = 24;
 
-  const response = await fetch(
-    `${NEXTAUTH_URL}/api/movie/advance-filter?keyword=${keyword}&page=${currentPage}&limit=${limit}&country=${country}&category=${category}&sort_lang=${sort_lang}&year=${year}&sort_type=${sort_type}`,
-    {
-      cache: "force-cache",
-    }
-  );
-
-  const data = await response.json();
-
-  const items = data.items || [];
-  const pagination = data.params.pagination || {};
-  const totalItems = pagination.totalItems || 0;
-
-  console.log("Data from API:", data);
+  const {
+    items,
+    pagination: { totalItems },
+    status,
+  } = await fetchAdvanceFilterMovies({
+    keyword: keyword as string,
+    page: currentPage,
+    limit,
+    country: country as string,
+    category: category as string,
+    sort_lang: sort_lang as string,
+    year: year as string,
+    sort_type: sort_type as string,
+  });
 
   return (
     <Suspense fallback={<Loading type="text" />}>
