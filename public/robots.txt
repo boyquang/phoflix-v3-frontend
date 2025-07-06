@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://phoflix-v3.vercel.app/sitemap.xml
