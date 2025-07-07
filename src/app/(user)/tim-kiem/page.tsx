@@ -4,7 +4,7 @@ import EmptyData from "@/components/shared/EmptyData";
 import MovieGrid from "@/components/shared/MovieGrid";
 import PaginationCustom from "@/components/shared/PaginationCustom";
 import { fetchSearchMovies } from "@/lib/actions/movieActionServer";
-import { NEXTAUTH_URL } from "@/lib/env";
+import { NEXT_PUBLIC_SITE_URL } from "@/lib/env";
 import { Metadata } from "next";
 import { Suspense } from "react";
 import { FaPhotoFilm } from "react-icons/fa6";
@@ -35,7 +35,7 @@ export async function generateMetadata({
     } = seoOnPage;
 
     const ogImageFullUrls = og_image?.map(
-      (img: string) => `${NEXTAUTH_URL}${img}`
+      (img: string) => `${NEXT_PUBLIC_SITE_URL}${img}`
     );
 
     return {
@@ -52,7 +52,7 @@ export async function generateMetadata({
       openGraph: {
         title: `${titleHead} - ${totalItems} bộ phim | PHOFLIX-V3`,
         description: `Xem ngay danh sách phim "${titleHead}" gồm ${totalItems} phim nổi bật, cập nhật liên tục tại PHOFLIX-V3.`,
-        url: `${NEXTAUTH_URL}/tim-kiem?keyword=${searchKeyword}`,
+        url: `${NEXT_PUBLIC_SITE_URL}/tim-kiem?keyword=${searchKeyword}`,
         siteName: "PHOFLIX-V3",
         locale: "vi_VN",
         type: og_type,

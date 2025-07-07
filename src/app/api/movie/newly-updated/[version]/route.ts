@@ -3,26 +3,27 @@ import { NextRequest, NextResponse } from "next/server";
 
 const API_URL = process.env.NEXT_PUBLIC_API_URL;
 
-interface MovieSearchParams {
-  keyword: string;
-  page: number;
-  limit?: number | undefined;
+interface NewlyUpdatedMoviesParams {
+  version?: "v1" | "v2" | "v3";
+  limit?: number;
+  page?: number;
 }
 
 export async function GET(
   req: NextRequest,
-  { params }: { params: Promise<MovieSearchParams> }
+  { params }: { params: Promise<NewlyUpdatedMoviesParams> }
 ) {
   try {
     const search = req.nextUrl.searchParams;
-    const page = search.get("page") || "1";
-    const limit = search.get("limit") || "24";
-    const keyword = search.get("keyword") || "";
+    const { version } = await params;
 
-    const baseUrl = `${API_URL}/v1/api/tim-kiem`;
+    const limit = search.get("limit") || "24";
+    const page = search.get("page") || "1";
+    const versionPath = version !== "v1" ? `-${version}` : "";
+
+    const baseUrl = `${API_URL}/danh-sach/phim-moi-cap-nhat${versionPath}`;
     const url = new URL(baseUrl);
 
-    url.searchParams.append("keyword", keyword);
     url.searchParams.append("page", page);
     url.searchParams.append("limit", limit);
 
@@ -32,18 +33,17 @@ export async function GET(
 
     if (!response.ok) {
       return NextResponse.json(
-        { error: "Failed to fetch movie search results" },
+        { error: "Failed to fetch newly updated movies" },
         { status: 500 }
       );
     }
 
     const data = await response.json();
-
     return NextResponse.json(data, { status: 200 });
   } catch (error) {
-    console.error("Error fetching movie search:", error);
+    console.error("Error fetching newly updated movies:", error);
     return NextResponse.json(
-      { error: "Failed to fetch movie search results" },
+      { error: "Failed to fetch newly updated movies" },
       { status: 500 }
     );
   }

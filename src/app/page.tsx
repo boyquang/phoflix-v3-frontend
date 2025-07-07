@@ -2,7 +2,7 @@ import Home from "@/components/home/MainPage";
 import { Suspense } from "react";
 import Loading from "./loading";
 import { Metadata } from "next";
-import { NEXTAUTH_URL } from "@/lib/env";
+import { NEXT_PUBLIC_SITE_URL } from "@/lib/env";
 
 export const metadata: Metadata = {
   title: "PHOFLIX-V3 | Xem Phim Online Miễn Phí, Chất Lượng Cao Full HD",
@@ -27,7 +27,7 @@ export const metadata: Metadata = {
     title: "PHOFLIX-V3 | Xem Phim Online Miễn Phí, Chất Lượng Cao Full HD",
     description:
       "Xem phim online miễn phí tại PHOFLIX-V3 với hàng ngàn bộ phim hay, chất lượng cao, cập nhật liên tục, hỗ trợ mọi thiết bị.",
-    url: `${NEXTAUTH_URL}`,
+    url: `${NEXT_PUBLIC_SITE_URL}`,
     siteName: "PHOFLIX-V3",
     type: "website",
   },

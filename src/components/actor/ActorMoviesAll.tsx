@@ -11,7 +11,6 @@ interface ActorMovieAllProps {
 }
 
 const ActorMovieAll = ({ data }: ActorMovieAllProps) => {
-  console.log("ActorMovieAll data:", data);
 
   return (
     <div className="grid xl:grid-cols-5 lg:grid-cols-4 md:grid-cols-5 grid-cols-3 lg:lg:gap-x-4 gap-y-6 gap-x-2">

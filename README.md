@@ -1,4 +1,3 @@
-
 # 🎬 Phoflix V3 – Ứng dụng Xem Phim với Next.js
 
 **Phoflix V3** là một ứng dụng web xem phim hiện đại, được xây dựng với Next.js, Tailwind CSS và TypeScript. Ứng dụng cung cấp trải nghiệm người dùng mượt mà, hỗ trợ xem phim trực tuyến với giao diện thân thiện và tối ưu hóa cho mọi thiết bị.
@@ -43,7 +42,7 @@ Tạo tệp `.env` và thêm các biến sau:
 ```env
 NEXT_PUBLIC_BACKEND_URL="http://localhost:8080"
 NEXT_PUBLIC_API_URL="https://phimapi.com"
-NEXTAUTH_URL="http://localhost:3000"
+NEXT_PUBLIC_SITE_URL="http://localhost:3000"
 NEXTAUTH_SECRET="phohoccode"
 NEXTAUTH_JWT_SECRET="phohoccode"
 GOOGLE_CLIENT_ID=""

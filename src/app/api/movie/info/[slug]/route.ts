@@ -1,3 +1,4 @@
+import { fetcher, REVALIDATE_TIME } from "@/lib/fetcher";
 import { NextRequest, NextResponse } from "next/server";
 
 const API_URL = process.env.NEXT_PUBLIC_API_URL;
@@ -12,7 +13,11 @@ export async function GET(
 ) {
   try {
     const { slug } = await params;
-    const response = await fetch(`${API_URL}/phim/${slug}`);
+    const response = await fetcher(`${API_URL}/phim/${slug}`, {
+      next: {
+        revalidate: REVALIDATE_TIME,
+      },
+    });
 
     if (!response.ok) {
       return NextResponse.json(

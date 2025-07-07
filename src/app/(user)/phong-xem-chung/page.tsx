@@ -6,7 +6,7 @@ import { Metadata } from "next";
 import { Suspense } from "react";
 import ListRooms from "@/components/watch-together/ListRooms";
 import PaginationCustom from "@/components/shared/PaginationCustom";
-import { NEXTAUTH_URL } from "@/lib/env";
+import { NEXT_PUBLIC_SITE_URL } from "@/lib/env";
 import RootLayout from "@/components/layout/RootLayout";
 
 export function generateMetadata(): Metadata {
@@ -28,7 +28,7 @@ export function generateMetadata(): Metadata {
       title: "Phòng cộng đồng - Kết nối và giải trí cùng nhau | PHOFLIX-V3",
       description:
         "Xem phim cùng bạn bè, tạo phòng riêng, trò chuyện trực tiếp khi xem phim chỉ có tại PHOFLIX-V3.",
-      url: `${NEXTAUTH_URL}/xem-chung`,
+      url: `${NEXT_PUBLIC_SITE_URL}/xem-chung`,
       siteName: "PHOFLIX-V3",
       locale: "vi_VN",
       type: "website",

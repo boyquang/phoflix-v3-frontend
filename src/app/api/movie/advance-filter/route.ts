@@ -1,4 +1,6 @@
+import { fetcher } from "@/lib/fetcher";
 import { NextRequest, NextResponse } from "next/server";
+import { REVALIDATE_TIME } from "@/lib/fetcher";
 
 const API_URL = process.env.NEXT_PUBLIC_API_URL;
 
@@ -28,13 +30,22 @@ export async function GET(
     const year = search.get("year");
     const sortType = search.get("sort_type");
 
-    const response = await fetch(
-      `${API_URL}/v1/api/tim-kiem?keyword=${keyword}&page=${page}&limit=${limit}&sort_lang=${
-        sortLanguage || ""
-      }&category=${category || ""}&country=${country || ""}&year=${
-        year || ""
-      }&sort_type=${sortType || "desc"}`
-    );
+    const baseUrl = `${API_URL}/v1/api/tim-kiem`;
+    const url = new URL(baseUrl);
+
+    url.searchParams.append("keyword", keyword);
+    url.searchParams.append("page", page);
+    url.searchParams.append("limit", limit);
+    url.searchParams.append("sort_type", sortType || "desc");
+
+    if (sortLanguage) url.searchParams.append("sort_lang", sortLanguage);
+    if (category) url.searchParams.append("category", category);
+    if (country) url.searchParams.append("country", country);
+    if (year) url.searchParams.append("year", year);
+
+    const response = await fetcher(url.toString(), {
+      next: { revalidate: REVALIDATE_TIME },
+    });
 
     if (!response.ok) {
       return NextResponse.json(

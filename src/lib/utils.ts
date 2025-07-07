@@ -614,6 +614,7 @@ export const formatString = (str: string) => {
   // Hàm này dùng để giải mã các ký tự HTML entities
   // Ví dụ: "&amp;" sẽ được chuyển thành "&", "&lt;" sẽ được chuyển thành "<", v.v.
   const decodeHtmlEntities = (text: string) => {
+    if (typeof window === "undefined") return text; 
     const textArea = document.createElement("textarea");
     textArea.innerHTML = text;
     return textArea.value;

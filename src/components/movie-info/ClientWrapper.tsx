@@ -5,9 +5,9 @@ import useFetchMoviePopular from "@/hooks/useFetchMoviePopular";
 import useGetPlaylists from "@/hooks/useGetPlaylists";
 import useGetPlaylistContainingMovie from "@/hooks/useGetPlaylistsContainingMovie";
 import { setDataMovieInfo } from "@/store/slices/movieSlice";
-import { AppDispatch } from "@/store/store";
+import { AppDispatch, RootState } from "@/store/store";
 import { useEffect } from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import BackgroundMovie from "./BackgroundMovie";
 import { Box, Button } from "@chakra-ui/react";
 import MovieDetail from "./MovieDetail";
@@ -28,6 +28,9 @@ interface ClientWrapperProps {
 
 const ClientWrapper = ({ movie, episodes }: ClientWrapperProps) => {
   const dispatch: AppDispatch = useDispatch();
+  const { movie: movieInfo } = useSelector(
+    (state: RootState) => state.movie.movieInfo
+  );
 
   useEffect(() => {
     dispatch(setDataMovieInfo({ movie, episodes }));
@@ -46,6 +49,10 @@ const ClientWrapper = ({ movie, episodes }: ClientWrapperProps) => {
 
   // Lấy danh sách phát của người dùng
   useGetPlaylists();
+
+  if (!movieInfo || Object.keys(movieInfo).length === 0) {
+    return <div className="min-h-screen"></div>;
+  }
 
   return (
     <>

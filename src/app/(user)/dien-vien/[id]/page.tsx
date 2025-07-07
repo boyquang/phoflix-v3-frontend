@@ -1,14 +1,15 @@
 import Loading from "@/app/loading";
-import {
-  getActorDetails,
-  getMoviesByActor,
-} from "@/lib/actions/actorActionServer";
+import { getActorDetails } from "@/lib/actions/actorActionServer";
 import { Metadata } from "next";
 import { Suspense } from "react";
 import { orderBy } from "lodash";
-import { NEXTAUTH_URL } from "@/lib/env";
+import { NEXT_PUBLIC_SITE_URL } from "@/lib/env";
 import ActorDetail from "@/components/actor/ActorDetail";
 import MoviesByActor from "@/components/actor/MoviesByActor";
+import {
+  fetchActorDetail,
+  fetchMoviesByActor,
+} from "@/lib/actions/movieActionServer";
 
 interface PageProps {
   params: Promise<{ [key: string]: string | string[] | undefined }>;
@@ -19,7 +20,8 @@ export async function generateMetadata({
 }: PageProps): Promise<Metadata> {
   const { id } = await params;
 
-  const actor = await getActorDetails({ actorId: Number(id) });
+  const response = await fetchActorDetail(Number(id), "vi");
+  const actor = response?.data || null;
 
   const name = actor?.name || "Diễn viên";
   const knownFor = actor?.known_for_department || "diễn viên điện ảnh";
@@ -42,7 +44,7 @@ export async function generateMetadata({
     openGraph: {
       title: `Diễn viên ${name} - PHOFLIX-V3`,
       description: biography,
-      url: `${NEXTAUTH_URL}/actors/${id}`,
+      url: `${NEXT_PUBLIC_SITE_URL}/actors/${id}`,
       siteName: "PHOFLIX-V3",
       locale: "vi_VN",
       type: "profile",
@@ -58,14 +60,14 @@ export async function generateMetadata({
 const Page = async ({ params }: PageProps) => {
   const { id } = await params;
 
-  const [actorDetail, moviesByActor] = await Promise.all([
-    getActorDetails({ actorId: Number(id) }),
-    getMoviesByActor({ actorId: Number(id) }),
+  const [resActorDetail, resMoviesByActor] = await Promise.all([
+    fetchActorDetail(Number(id), "vi"),
+    fetchMoviesByActor(Number(id), "vi"),
   ]);
 
   // Sắp xếp danh sách phim theo ngày phát hành
   const moviesByActorSorted = orderBy(
-    moviesByActor?.cast,
+    resMoviesByActor?.movie?.cast,
     [(movie) => movie?.release_date || movie?.first_air_date || "0000-00-00"],
     ["desc"]
   );
@@ -74,7 +76,7 @@ const Page = async ({ params }: PageProps) => {
     <Suspense fallback={<Loading type="text" />}>
       <div className="max-w-[1620px] mx-auto 2xl:px-12 px-4 lg:pt-28 pt-24">
         <div className="flex lg:flex-row flex-col">
-          <ActorDetail data={actorDetail} />
+          <ActorDetail data={resActorDetail.data} />
           <MoviesByActor data={moviesByActorSorted} />
         </div>
       </div>

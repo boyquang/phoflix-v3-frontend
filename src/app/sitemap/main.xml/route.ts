@@ -1,9 +1,9 @@
 import { categories, countries } from "@/constants/movie";
-import { NEXTAUTH_URL } from "@/lib/env";
+import { NEXT_PUBLIC_SITE_URL } from "@/lib/env";
 import { NextResponse } from "next/server";
 
 export async function GET() {
-  const baseUrl = NEXTAUTH_URL;
+  const baseUrl = NEXT_PUBLIC_SITE_URL;
 
   const urls = [
     ...categories.map(
@@ -33,6 +33,7 @@ export async function GET() {
           <loc>${url}</loc>
           <changefreq>daily</changefreq>
           <priority>0.7</priority>
+          <lastmod>${new Date().toISOString().split("T")[0]}</lastmod>
         </url>`
     )
     .join("")}

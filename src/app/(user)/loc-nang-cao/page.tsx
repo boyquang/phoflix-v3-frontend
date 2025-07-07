@@ -6,7 +6,7 @@ import EmptyData from "@/components/shared/EmptyData";
 import MovieGrid from "@/components/shared/MovieGrid";
 import PaginationCustom from "@/components/shared/PaginationCustom";
 import { fetchAdvanceFilterMovies } from "@/lib/actions/movieActionServer";
-import { NEXTAUTH_URL } from "@/lib/env";
+import { NEXT_PUBLIC_SITE_URL } from "@/lib/env";
 import { Metadata } from "next";
 import { Suspense } from "react";
 import { IoSearch } from "react-icons/io5";
@@ -35,7 +35,7 @@ export async function generateMetadata(): Promise<Metadata> {
       title: `Lọc phim nâng cao - PHOFLIX-V3`,
       description:
         "Khám phá kho phim đa dạng, lọc theo nhu cầu của bạn: thể loại, quốc gia, năm, đánh giá…",
-      url: `${NEXTAUTH_URL}/loc-nang-cao`,
+      url: `${NEXT_PUBLIC_SITE_URL}/loc-nang-cao`,
       siteName: "PHOFLIX-V3",
       locale: "vi_VN",
       type: "website",

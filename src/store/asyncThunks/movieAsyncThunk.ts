@@ -1,25 +1,25 @@
+import {
+  fetchActorsByMovie,
+  fetchAdvanceFilterMovies,
+  fetchMovieDetail,
+  fetchMovieInfo,
+  fetchMoviePopular,
+  fetchNewlyUpdatedMovies,
+  fetchSearchMovies,
+} from "@/lib/actions/movieActionServer";
 import { createAsyncThunk } from "@reduxjs/toolkit";
 
-const API_URL = process.env.NEXT_PUBLIC_API_URL;
-const API_THEMOVIEDB_URL = process.env.NEXT_PUBLIC_API_THEMOVIEDB_URL;
-const API_THEMOVIEDB_KEY = process.env.NEXT_PUBLIC_API_THEMOVIEDB_KEY;
 const ENVIRONMENT = process.env.ENV;
 
 export const fetchDataSlideShow = createAsyncThunk(
   "movie/fetchDataSlideShow",
   async () => {
     try {
-      const response = await fetch(
-        `${API_URL}/danh-sach/phim-moi-cap-nhat-v3?page=1`
-      );
+      const response = await fetchNewlyUpdatedMovies();
 
-      if (!response.ok) {
-        throw new Error("Fetch failed");
-      }
+      console.log("SlideShow data:", response);
 
-      const data = await response.json();
-
-      return data;
+      return response;
     } catch (error) {
       if (ENVIRONMENT === "development") {
         console.log("Error in fetchDataSlideShow:", error);
@@ -64,27 +64,19 @@ export const fetchDataMovie = createAsyncThunk(
     { rejectWithValue }
   ) => {
     try {
-      const _params = new URLSearchParams({
-        page: (params.page ?? 1).toString(),
-        limit: (params.limit ?? 10)?.toString(),
-      });
-
-      const response = await fetch(
-        `${API_URL}/v1/api/${describe}/${type}?${_params.toString()}`
+      const response = await fetchMovieDetail(
+        describe,
+        type,
+        params.page,
+        params.limit
       );
 
-      if (!response.ok) {
-        throw new Error("Fetch failed");
-      }
-
-      const data = await response.json();
 
       return {
-        res: data,
+        res: response,
         type,
       };
     } catch (error: any) {
-      // vào hàm fechaDataMovie.redirect
       return rejectWithValue({
         error: error.message,
         type,
@@ -123,23 +115,10 @@ export const fetchDataMovieDetail = createAsyncThunk(
     { rejectWithValue }
   ) => {
     try {
-      const _params = new URLSearchParams({
-        page: page.toString(),
-        limit: limit.toString(),
-      });
-
-      const response = await fetch(
-        `${API_URL}/v1/api/${describe}/${slug}?${_params.toString()}`
-      );
-
-      if (!response.ok) {
-        throw new Error("Fetch failed");
-      }
-
-      const dataJson = await response.json();
+      const response = await fetchMovieDetail(describe, slug, page, limit);
 
       return {
-        data: dataJson.data,
+        data: response,
         target,
       };
     } catch (error: any) {
@@ -167,20 +146,9 @@ export const fetchDataMoviePreview = createAsyncThunk(
   "movie/fetchDataMoviePreview",
   async ({ keyword, limit }: FetchDataMoviePreview, { rejectWithValue }) => {
     try {
-      const params = new URLSearchParams({
-        keyword,
-        limit: limit.toString(),
-      });
+      const response = await fetchSearchMovies(keyword, 1, limit);
 
-      const response = await fetch(
-        `${API_URL}/v1/api/tim-kiem?${params.toString()}`
-      );
-
-      if (!response.ok) {
-        throw new Error("Fetch failed");
-      }
-
-      return response.json();
+      return response;
     } catch (error: any) {
       if (ENVIRONMENT === "development") {
         console.log("Error in fetchDataMoviePreview:", error);
@@ -230,26 +198,18 @@ export const fetchDataMovieSearch = createAsyncThunk(
     { rejectWithValue }
   ) => {
     try {
-      const params = new URLSearchParams({
+      const response = await fetchAdvanceFilterMovies({
         keyword,
-        page: page.toString(),
-        limit: limit.toString(),
-        sort_lang,
-        category,
+        page,
+        limit,
         country,
+        category,
+        sort_lang,
         year: year.toString(),
         sort_type,
       });
 
-      const response = await fetch(
-        `${API_URL}/v1/api/tim-kiem?${params.toString()}`
-      );
-
-      if (!response.ok) {
-        throw new Error("Fetch failed");
-      }
-
-      return response.json();
+      return response;
     } catch (error: any) {
       if (ENVIRONMENT === "development") {
         console.log("Error in fetchDataMovieSearch:", error);
@@ -275,19 +235,9 @@ export const fetchDataMovieInfo = createAsyncThunk(
   "movie/fetchMovieInfo",
   async ({ slug, page }: FetchMovieInfo, { rejectWithValue }) => {
     try {
-      const response = await fetch(`${API_URL}/phim/${slug}`);
+      const response = await fetchMovieInfo(slug);
 
-      if (!response.ok) {
-        throw new Error("Fetch failed");
-      }
-
-      const data = await response.json();
-
-      if (!data?.status) {
-        throw new Error("Fetch failed");
-      }
-
-      return data;
+      return response;
     } catch (error: any) {
       if (ENVIRONMENT === "development") {
         console.log("Error in fetchDataMovieInfo:", error);
@@ -314,17 +264,19 @@ export const fetchDataMovieEvent = createAsyncThunk(
     { rejectWithValue }
   ) => {
     try {
-      const response = await fetch(
-        `${API_URL}/v1/api/${describe}/${slug}?limit=${limit}&country=${country}`
+      const response = await fetchMovieDetail(
+        describe,
+        slug,
+        1,
+        limit,
+        country
       );
 
-      if (!response.ok) {
+      if (!response.status) {
         throw new Error("Fetch failed");
       }
 
-      const data = await response.json();
-
-      return data;
+      return response;
     } catch (error: any) {
       if (ENVIRONMENT === "development") {
         console.log("Error in fetchDataMovieEvent:", error);
@@ -346,23 +298,31 @@ export const fetchActorsListByMovie = createAsyncThunk(
   "movie/fetchActorsListByMovie",
   async ({ type, season, id }: FetchActorsListByMovie, { rejectWithValue }) => {
     try {
-      let baseUrl = "";
+      // let baseUrl = "";
 
-      if (type === "tv") {
-        baseUrl = `${API_THEMOVIEDB_URL}/tv/${id}/season/${season}/credits?api_key=${API_THEMOVIEDB_KEY}`;
-      } else if (type === "movie") {
-        baseUrl = `${API_THEMOVIEDB_URL}/movie/${id}/credits?api_key=${API_THEMOVIEDB_KEY}`;
-      }
+      // if (type === "tv") {
+      //   baseUrl = `${API_THEMOVIEDB_URL}/tv/${id}/season/${season}/credits?api_key=${API_THEMOVIEDB_KEY}`;
+      // } else if (type === "movie") {
+      //   baseUrl = `${API_THEMOVIEDB_URL}/movie/${id}/credits?api_key=${API_THEMOVIEDB_KEY}`;
+      // }
 
-      const response = await fetch(baseUrl);
+      // const response = await fetch(baseUrl);
 
-      if (!response.ok) {
-        throw new Error("Fetch failed");
-      }
+      // if (!response.ok) {
+      //   throw new Error("Fetch failed");
+      // }
 
-      const data = await response.json();
+      // const data = await response.json();
 
-      return data;
+      // return data;
+
+      const response = await fetchActorsByMovie(
+        type,
+        id,
+        season ? season.toString() : ""
+      )
+
+      return response;
     } catch (error: any) {
       if (ENVIRONMENT === "development") {
         console.log("Error in fetchActorsListByMovie:", error);
@@ -378,24 +338,20 @@ interface FetchMoviePopular {
   page: number;
 }
 
-export const fetchMoviePopular = createAsyncThunk(
-  "movie/fetchMoviePopular",
+export const fetchDataMoviePopular = createAsyncThunk(
+  "movie/fetchDataMoviePopular",
   async ({ page = 1 }: FetchMoviePopular, { rejectWithValue }) => {
     try {
-      const response = await fetch(
-        `${API_THEMOVIEDB_URL}/movie/popular?api_key=${API_THEMOVIEDB_KEY}&page=${page}`
-      );
+      const response = await fetchMoviePopular(page);
 
-      if (!response.ok) {
+      if (!response.status) {
         throw new Error("Fetch failed");
       }
 
-      const data = await response.json();
-
-      return data;
+      return response;
     } catch (error: any) {
       if (ENVIRONMENT === "development") {
-        console.log("Error in fetchMoviePopular:", error);
+        console.log("Error in fetchDataMoviePopular:", error);
       }
       return rejectWithValue({
         error: error.message,

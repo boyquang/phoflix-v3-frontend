@@ -22,7 +22,7 @@ export async function GET(
   }
 
   const group = combined[pageNumber - 1];
-  const baseUrl = process.env.NEXTAUTH_URL;
+  const baseUrl = process.env.NEXT_PUBLIC_SITE_URL;
 
   const response = await fetchMovieDetail(
     group.type === "country" ? "/quoc-gia" : "/the-loai",
@@ -42,6 +42,7 @@ ${movies
     <loc>${baseUrl}/thong-tin-phim/${movie.slug}</loc>
     <changefreq>daily</changefreq>
     <priority>0.8</priority>
+    <lastmod>${new Date().toISOString().split("T")[0]}</lastmod>
   </url>`
   )
   .join("\n")}

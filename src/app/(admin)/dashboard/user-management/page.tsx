@@ -3,7 +3,7 @@ import { auth } from "@/auth";
 import TableUsers from "@/components/admin/dashboard/user-management/TableUsers";
 import PaginationCustom from "@/components/shared/PaginationCustom";
 import { getUsers } from "@/lib/actions/adminActionServer";
-import { NEXTAUTH_URL } from "@/lib/env";
+import { NEXT_PUBLIC_SITE_URL } from "@/lib/env";
 import { Box } from "@chakra-ui/react";
 import { Suspense } from "react";
 
@@ -29,7 +29,7 @@ export const generateMetadata = async () => {
       title: "Quản lý người dùng - PHOFLIX-V3",
       description:
         "Theo dõi và quản lý tài khoản người dùng với giao diện Admin trên PHOFLIX-V3.",
-      url: `${NEXTAUTH_URL}/dashboard/user-management`,
+      url: `${NEXT_PUBLIC_SITE_URL}/dashboard/user-management`,
       siteName: "PHOFLIX-V3",
       locale: "vi_VN",
       type: "website",

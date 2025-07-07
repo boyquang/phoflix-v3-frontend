@@ -124,7 +124,7 @@ const SignIn = () => {
           size="sm"
           variant="solid"
           onClick={() =>
-            signIn("google", { callbackUrl: process.env.NEXTAUTH_URL })
+            signIn("google", { callbackUrl: process.env.NEXT_PUBLIC_SITE_URL })
           }
           className="bg-gray-50 text-gray-900 shadow-sub"
         >

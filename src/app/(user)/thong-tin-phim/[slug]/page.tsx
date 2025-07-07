@@ -2,7 +2,7 @@ import Loading from "@/app/loading";
 import ClientWrapper from "@/components/movie-info/ClientWrapper";
 import EmptyData from "@/components/shared/EmptyData";
 import { fetchMovieInfo } from "@/lib/actions/movieActionServer";
-import { NEXTAUTH_URL } from "@/lib/env";
+import { NEXT_PUBLIC_SITE_URL } from "@/lib/env";
 import { Metadata } from "next";
 import { Suspense } from "react";
 import { FaPhotoFilm } from "react-icons/fa6";
@@ -42,7 +42,7 @@ export async function generateMetadata({
       openGraph: {
         title: `${name} | PHOFLIX-V3`,
         description: content,
-        url: `${NEXTAUTH_URL}/thong-tin-phim/${slug}`,
+        url: `${NEXT_PUBLIC_SITE_URL}/thong-tin-phim/${slug}`,
         siteName: "PHOFLIX-V3",
         locale: "vi_VN",
         type: "video.movie",
@@ -50,7 +50,7 @@ export async function generateMetadata({
           {
             url: poster_url.startsWith("http")
               ? poster_url
-              : `${NEXTAUTH_URL}${poster_url}`,
+              : `${NEXT_PUBLIC_SITE_URL}${poster_url}`,
             width: 800,
             height: 1200,
             alt: name,
@@ -64,7 +64,7 @@ export async function generateMetadata({
         images: [
           poster_url.startsWith("http")
             ? poster_url
-            : `${NEXTAUTH_URL}${poster_url}`,
+            : `${NEXT_PUBLIC_SITE_URL}${poster_url}`,
         ],
       },
     };

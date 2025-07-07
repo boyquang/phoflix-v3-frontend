@@ -1,6 +1,6 @@
 import Loading from "@/app/loading";
 import UserProfile from "@/components/user/profile/UserProfile";
-import { NEXTAUTH_URL } from "@/lib/env";
+import { NEXT_PUBLIC_SITE_URL } from "@/lib/env";
 import { Suspense } from "react";
 
 export async function generateMetadata() {
@@ -22,7 +22,7 @@ export async function generateMetadata() {
     openGraph: {
       title,
       description,
-      url: `${NEXTAUTH_URL}/nguoi-dung/tai-khoan`,
+      url: `${NEXT_PUBLIC_SITE_URL}/nguoi-dung/tai-khoan`,
       siteName: "PHOFLIX-V3",
       locale: "vi_VN",
       type: "website",

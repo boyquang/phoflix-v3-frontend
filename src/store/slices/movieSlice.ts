@@ -8,7 +8,7 @@ import {
   fetchDataMovieInfo,
   fetchDataMovieEvent,
   fetchActorsListByMovie,
-  fetchMoviePopular,
+  fetchDataMoviePopular,
 } from "../asyncThunks/movieAsyncThunk";
 import { formatTypeMovie } from "@/lib/utils";
 
@@ -173,7 +173,7 @@ const movieSlice = createSlice({
     builder.addCase(fetchDataMovie.fulfilled, (state, action) => {
       const { type } = action.payload;
       state.movieData.data[type].loading = false;
-      state.movieData.data[type].items = action.payload?.res?.data?.items ?? [];
+      state.movieData.data[type].items = action.payload?.res?.items || [];
     });
     builder.addCase(fetchDataMovie.rejected, (state, action: any) => {
       const { type } = action.meta.arg;
@@ -189,9 +189,9 @@ const movieSlice = createSlice({
     });
     builder.addCase(fetchDataMoviePreview.fulfilled, (state, action) => {
       state.searchMoviePreview.loading = false;
-      state.searchMoviePreview.items = action.payload?.data?.items ?? [];
+      state.searchMoviePreview.items = action.payload?.movies;
       state.searchMoviePreview.totalItems =
-        action.payload?.data?.params?.pagination?.totalItems ?? 0;
+        action.payload?.pagination?.totalItems;
       state.searchMoviePreview.error = false;
     });
     builder.addCase(fetchDataMoviePreview.rejected, (state, action) => {
@@ -209,7 +209,7 @@ const movieSlice = createSlice({
 
     builder.addCase(fetchDataMovieEvent.fulfilled, (state, action) => {
       state.movieEvent.loading = false;
-      state.movieEvent.items = action.payload?.data?.items ?? [];
+      state.movieEvent.items = action.payload?.items || [];
       state.movieEvent.error = false;
     });
 
@@ -241,11 +241,11 @@ const movieSlice = createSlice({
         state.movieDetail.loading = false;
         state.movieDetail.titlePage = action.payload?.data?.titlePage;
         state.movieDetail.items = action.payload?.data?.items;
-        state.movieDetail.pagination = action.payload?.data?.params?.pagination;
+        state.movieDetail.pagination = action.payload?.data?.pagination;
         state.movieDetail.error = false;
       } else if (target === "suggestion") {
         state.movieSuggestion.loading = false;
-        state.movieSuggestion.items = action.payload?.data?.items ?? [];
+        state.movieSuggestion.items = action.payload?.data?.items;
         state.movieSuggestion.error = false;
       }
     });
@@ -274,9 +274,9 @@ const movieSlice = createSlice({
     });
     builder.addCase(fetchDataMovieSearch.fulfilled, (state, action) => {
       state.searchMovie.loading = false;
-      state.searchMovie.items = action.payload?.data?.items ?? [];
-      state.searchMovie.titlePage = action.payload?.data?.titlePage;
-      state.searchMovie.pagination = action.payload?.data?.params?.pagination;
+      state.searchMovie.items = action.payload?.items;
+      state.searchMovie.titlePage = action.payload?.titlePage;
+      state.searchMovie.pagination = action.payload?.pagination;
       state.searchMovie.error = false;
     });
     builder.addCase(fetchDataMovieSearch.rejected, (state, action) => {
@@ -338,7 +338,7 @@ const movieSlice = createSlice({
 
     builder.addCase(fetchActorsListByMovie.fulfilled, (state, action) => {
       state.actorsListByMovie.loading = false;
-      state.actorsListByMovie.items = action.payload?.cast ?? [];
+      state.actorsListByMovie.items = action.payload?.actor?.cast || [];
       state.actorsListByMovie.error = false;
     });
 
@@ -348,7 +348,7 @@ const movieSlice = createSlice({
       state.actorsListByMovie.items = [];
     });
 
-    builder.addCase(fetchMoviePopular.pending, (state, action) => {
+    builder.addCase(fetchDataMoviePopular.pending, (state, action) => {
       state.moviePopular.loading = true;
       state.moviePopular.error = false;
       state.moviePopular.items = [];
@@ -356,15 +356,17 @@ const movieSlice = createSlice({
       state.moviePopular.totalResults = 0;
     });
 
-    builder.addCase(fetchMoviePopular.fulfilled, (state, action) => {
+    builder.addCase(fetchDataMoviePopular.fulfilled, (state, action) => {
       state.moviePopular.loading = false;
-      state.moviePopular.items = action.payload?.results ?? [];
+      state.moviePopular.items = action.payload?.items || [];
       state.moviePopular.error = false;
-      state.moviePopular.totalPages = action.payload?.total_pages ?? 0;
-      state.moviePopular.totalResults = action.payload?.total_results ?? 0;
+      state.moviePopular.totalPages =
+        action.payload?.pagination.totalPages || 0;
+      state.moviePopular.totalResults =
+        action.payload?.pagination.totalResults || 0;
     });
 
-    builder.addCase(fetchMoviePopular.rejected, (state, action) => {
+    builder.addCase(fetchDataMoviePopular.rejected, (state, action) => {
       state.moviePopular.loading = false;
       state.moviePopular.error = true;
       state.moviePopular.items = [];

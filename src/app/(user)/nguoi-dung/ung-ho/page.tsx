@@ -1,5 +1,5 @@
 import Clipboard from "@/components/shared/Clipboard";
-import { NEXTAUTH_URL } from "@/lib/env";
+import { NEXT_PUBLIC_SITE_URL } from "@/lib/env";
 import { Box, Image } from "@chakra-ui/react";
 
 export async function generateMetadata() {
@@ -21,7 +21,7 @@ export async function generateMetadata() {
     openGraph: {
       title,
       description,
-      url: `${NEXTAUTH_URL}/nguoi-dung/ung-ho`,
+      url: `${NEXT_PUBLIC_SITE_URL}/nguoi-dung/ung-ho`,
       siteName: "PHOFLIX-V3",
       locale: "vi_VN",
       type: "website",

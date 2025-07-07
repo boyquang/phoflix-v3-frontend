@@ -4,7 +4,7 @@ import SlugSelectorFilter from "@/components/admin/dashboard/feedback-management
 import TableFeedbacks from "@/components/admin/dashboard/feedback-management/TableFeedbacks";
 import PaginationCustom from "@/components/shared/PaginationCustom";
 import { getFeedbacks } from "@/lib/actions/adminActionServer";
-import { NEXTAUTH_URL } from "@/lib/env";
+import { NEXT_PUBLIC_SITE_URL } from "@/lib/env";
 import { Box } from "@chakra-ui/react";
 import { Suspense } from "react";
 
@@ -30,7 +30,7 @@ export const generateMetadata = async () => {
       title: "Quản lý phản hồi - PHOFLIX-V3",
       description:
         "Theo dõi và xử lý phản hồi người dùng hiệu quả với PHOFLIX-V3.",
-      url: `${NEXTAUTH_URL}/dashboard/feedback-management`,
+      url: `${NEXT_PUBLIC_SITE_URL}/dashboard/feedback-management`,
       siteName: "PHOFLIX-V3",
       locale: "vi_VN",
       type: "website",

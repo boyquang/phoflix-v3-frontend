@@ -1,11 +1,11 @@
 import type { Metadata, Viewport } from "next";
 import { Inter } from "next/font/google";
-import "./globals.css";
 import { Provider } from "@/components/ui/provider";
 import { StoreProvider } from "@/store/StoreProvider";
 import NextTopLoader from "nextjs-toploader";
 import App from "@/components/App";
 import { SessionProvider } from "next-auth/react";
+import "./globals.css";
 
 const inter = Inter({
   subsets: ["latin", "vietnamese"],

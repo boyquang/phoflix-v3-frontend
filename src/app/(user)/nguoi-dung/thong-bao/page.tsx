@@ -1,7 +1,7 @@
 import { Suspense } from "react";
 import Loading from "@/app/loading";
 import MainPage from "@/components/user/notification/MainPage";
-import { NEXTAUTH_URL } from "@/lib/env";
+import { NEXT_PUBLIC_SITE_URL } from "@/lib/env";
 
 export async function generateMetadata() {
   const title = "PHOFLIX-V3 - Thông báo mới nhất";
@@ -22,7 +22,7 @@ export async function generateMetadata() {
     openGraph: {
       title,
       description,
-      url: `${NEXTAUTH_URL}/nguoi-dung/thong-bao`,
+      url: `${NEXT_PUBLIC_SITE_URL}/nguoi-dung/thong-bao`,
       siteName: "PHOFLIX-V3",
       locale: "vi_VN",
       type: "website",

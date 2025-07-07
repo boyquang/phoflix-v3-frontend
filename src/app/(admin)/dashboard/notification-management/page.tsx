@@ -4,7 +4,7 @@ import CreateNotification from "@/components/admin/dashboard/notification-manage
 import TableNotifications from "@/components/admin/dashboard/notification-management/TableNotifications";
 import PaginationCustom from "@/components/shared/PaginationCustom";
 import { getNotifications } from "@/lib/actions/adminActionServer";
-import { NEXTAUTH_URL } from "@/lib/env";
+import { NEXT_PUBLIC_SITE_URL } from "@/lib/env";
 import { Box } from "@chakra-ui/react";
 import { Suspense } from "react";
 
@@ -30,7 +30,7 @@ export const generateMetadata = async () => {
       title: "Quản lý thông báo - PHOFLIX-V3",
       description:
         "Tạo và theo dõi thông báo gửi tới người dùng một cách hiệu quả với PHOFLIX-V3.",
-      url: `${NEXTAUTH_URL}/dashboard/notification-management`,
+      url: `${NEXT_PUBLIC_SITE_URL}/dashboard/notification-management`,
       siteName: "PHOFLIX-V3",
       locale: "vi_VN",
       type: "website",

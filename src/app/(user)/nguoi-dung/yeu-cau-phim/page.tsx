@@ -4,7 +4,7 @@ import MovieRequestDialog from "@/components/user/movie-request/MovieRequestDial
 import MovieRequests from "@/components/user/movie-request/MovieRequests";
 import MovieRequestTabs from "@/components/user/movie-request/MovieRequestTabs";
 import { getMovieRequests } from "@/lib/actions/movieRequestActionsServer";
-import { NEXTAUTH_URL } from "@/lib/env";
+import { NEXT_PUBLIC_SITE_URL } from "@/lib/env";
 import { Suspense } from "react";
 
 interface PageProps {
@@ -31,7 +31,7 @@ export async function generateMetadata() {
     openGraph: {
       title,
       description,
-      url: `${NEXTAUTH_URL}/yeu-cau-phim`,
+      url: `${NEXT_PUBLIC_SITE_URL}/yeu-cau-phim`,
       siteName: "PHOFLIX-V3",
       locale: "vi_VN",
       type: "website",

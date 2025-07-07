@@ -1,6 +1,6 @@
 /** @type {import('next-sitemap').IConfig} */
 module.exports = {
-  siteUrl: process.env.NEXTAUTH_URL,
+  siteUrl: process.env.NEXT_PUBLIC_SITE_URL,
   generateRobotsTxt: true,
   changefreq: "daily",
   outDir: "./public",
@@ -12,7 +12,7 @@ module.exports = {
   ],
   robotsTxtOptions: {
     additionalSitemaps: [
-      `${process.env.NEXTAUTH_URL}/sitemap.xml`,
+      `${process.env.NEXT_PUBLIC_SITE_URL}/sitemap.xml`,
     ],
   },
 };

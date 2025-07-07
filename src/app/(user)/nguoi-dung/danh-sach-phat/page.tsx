@@ -9,7 +9,7 @@ import {
   getUserMoviesFromPlaylist,
   getUserPlaylists,
 } from "@/lib/actions/userActionServer";
-import { NEXTAUTH_URL } from "@/lib/env";
+import { NEXT_PUBLIC_SITE_URL } from "@/lib/env";
 import { Box, Button } from "@chakra-ui/react";
 import { Suspense } from "react";
 import { FaPlus } from "react-icons/fa6";
@@ -37,7 +37,7 @@ export async function generateMetadata() {
     openGraph: {
       title,
       description,
-      url: `${NEXTAUTH_URL}/nguoi-dung/danh-sach-phat`,
+      url: `${NEXT_PUBLIC_SITE_URL}/nguoi-dung/danh-sach-phat`,
       siteName: "PHOFLIX-V3",
       locale: "vi_VN",
       type: "website",

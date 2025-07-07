@@ -1,6 +1,7 @@
 export const NEXT_PUBLIC_BACKEND_URL = process.env.NEXT_PUBLIC_BACKEND_URL;
 export const NEXT_PUBLIC_API_URL = process.env.NEXT_PUBLIC_API_URL;
 export const NEXTAUTH_URL = process.env.NEXTAUTH_URL;
+export const NEXT_PUBLIC_SITE_URL = process.env.NEXT_PUBLIC_SITE_URL;
 export const NEXTAUTH_SECRET = process.env.NEXTAUTH_SECRET;
 export const NEXTAUTH_JWT_SECRET = process.env.NEXTAUTH_JWT_SECRET;
 export const GOOGLE_CLIENT_ID = process.env.GOOGLE_CLIENT_ID;

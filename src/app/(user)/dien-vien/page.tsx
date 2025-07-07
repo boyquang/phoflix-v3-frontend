@@ -2,10 +2,10 @@ import Loading from "@/app/loading";
 import RootLayout from "@/components/layout/RootLayout";
 import PaginationCustom from "@/components/shared/PaginationCustom";
 import ActorsList from "@/components/actor/ActorsList";
-import { getActorList } from "@/lib/actions/actorActionServer";
-import { NEXTAUTH_URL } from "@/lib/env";
+import { NEXT_PUBLIC_SITE_URL } from "@/lib/env";
 import { Metadata } from "next";
 import { Suspense } from "react";
+import { fetchActors } from "@/lib/actions/movieActionServer";
 
 export async function generateMetadata(): Promise<Metadata> {
   return {
@@ -25,7 +25,7 @@ export async function generateMetadata(): Promise<Metadata> {
       title: "Danh sách diễn viên nổi bật - PHOFLIX-V3",
       description:
         "Khám phá các diễn viên hàng đầu, tiểu sử và các vai diễn đáng nhớ trên PHOFLIX-V3.",
-      url: `${NEXTAUTH_URL}/dien-vien`,
+      url: `${NEXT_PUBLIC_SITE_URL}/dien-vien`,
       siteName: "PHOFLIX-V3",
       locale: "vi_VN",
       type: "website",
@@ -47,12 +47,10 @@ const Page = async ({ searchParams }: PageProps) => {
   const params = await searchParams;
   const currentPage = params?.page ? Number(params?.page) : 1;
 
-  const response = await getActorList({
-    page: currentPage,
-  });
+  const response = await fetchActors(currentPage, "vi");
 
   const totalItemsPerPage = 20;
-  const actors = response?.results || [];
+  const actors = response?.actors || [];
   // const totalItems = response?.total_results || 0;
   const totalItems = 10000; // Giới hạn do API trả về
 

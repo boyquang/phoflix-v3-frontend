@@ -1,6 +1,6 @@
 "use client";
 
-import { fetchMoviePopular } from "@/store/asyncThunks/movieAsyncThunk";
+import { fetchDataMoviePopular } from "@/store/asyncThunks/movieAsyncThunk";
 import { AppDispatch } from "@/store/store";
 import { useEffect } from "react";
 import { useDispatch } from "react-redux";
@@ -13,7 +13,7 @@ const useFetchMoviePopular = ({ page = 1 }: MoviePopularProps) => {
   const dispatch: AppDispatch = useDispatch();
 
   useEffect(() => {
-    dispatch(fetchMoviePopular({ page }));
+    dispatch(fetchDataMoviePopular({ page }));
   }, []);
 };
 

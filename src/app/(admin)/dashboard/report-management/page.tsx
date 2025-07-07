@@ -4,7 +4,7 @@ import TableReports from "@/components/admin/dashboard/report-management/TableRe
 import Pagination from "@/components/shared/Pagination";
 import PaginationCustom from "@/components/shared/PaginationCustom";
 import { getReports } from "@/lib/actions/adminActionServer";
-import { NEXTAUTH_URL } from "@/lib/env";
+import { NEXT_PUBLIC_SITE_URL } from "@/lib/env";
 import { Box } from "@chakra-ui/react";
 import { Suspense } from "react";
 
@@ -30,7 +30,7 @@ export const generateMetadata = async () => {
       title: "Quản lý báo cáo - PHOFLIX-V3",
       description:
         "Theo dõi báo cáo sự cố và phân tích dữ liệu người dùng trên PHOFLIX-V3.",
-      url: `${NEXTAUTH_URL}/dashboard/report-management`,
+      url: `${NEXT_PUBLIC_SITE_URL}/dashboard/report-management`,
       siteName: "PHOFLIX-V3",
       locale: "vi_VN",
       type: "website",

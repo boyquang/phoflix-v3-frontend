@@ -4,7 +4,7 @@ import StatusSelectorFilter from "@/components/admin/dashboard/movie-request-man
 import TableMovieRequest from "@/components/admin/dashboard/movie-request-management/TableMovieRequest";
 import PaginationCustom from "@/components/shared/PaginationCustom";
 import { getMovieRequests } from "@/lib/actions/adminActionServer";
-import { NEXTAUTH_URL } from "@/lib/env";
+import { NEXT_PUBLIC_SITE_URL } from "@/lib/env";
 import { Box, Status } from "@chakra-ui/react";
 import { Suspense } from "react";
 
@@ -30,7 +30,7 @@ export const generateMetadata = async () => {
       title: "Quản lý yêu cầu phim - PHOFLIX-V3",
       description:
         "Theo dõi và xử lý yêu cầu phim từ người dùng hiệu quả với PHOFLIX-V3.",
-      url: `${NEXTAUTH_URL}/dashboard/movie-request-management`,
+      url: `${NEXT_PUBLIC_SITE_URL}/dashboard/movie-request-management`,
       siteName: "PHOFLIX-V3",
       locale: "vi_VN",
       type: "website",

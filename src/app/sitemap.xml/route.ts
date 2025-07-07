@@ -2,7 +2,8 @@ import { categories, countries } from "@/constants/movie";
 import { NextResponse } from "next/server";
 
 export async function GET() {
-  const baseUrl = process.env.NEXTAUTH_URL || "https://yourdomain.com";
+  let baseUrl = process.env.NEXT_PUBLIC_SITE_URL as string;
+  baseUrl = baseUrl.endsWith("/") ? baseUrl.slice(0, -1) : baseUrl;
 
   const sitemapUrls = [...countries, ...categories].map(
     (_, i) => `${baseUrl}/sitemap/movie/${i + 1}.xml`
@@ -15,6 +16,7 @@ ${[`${baseUrl}/sitemap/main.xml`, ...sitemapUrls]
     (url) => `
   <sitemap>
     <loc>${url}</loc>
+    <lastmod>${new Date().toISOString().split("T")[0]}</lastmod>
   </sitemap>`
   )
   .join("")}

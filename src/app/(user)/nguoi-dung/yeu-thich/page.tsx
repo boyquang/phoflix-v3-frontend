@@ -5,7 +5,7 @@ import { Suspense } from "react";
 import MovieSection from "@/components/user/MovieSection";
 import { Box } from "@chakra-ui/react";
 import DeleteAllMovies from "@/components/user/DeleteAllMovies";
-import { NEXTAUTH_URL } from "@/lib/env";
+import { NEXT_PUBLIC_SITE_URL } from "@/lib/env";
 import DeleteSelectedMovies from "@/components/user/DeleteSeletedMovies";
 
 interface PageProps {
@@ -32,7 +32,7 @@ export async function generateMetadata() {
     openGraph: {
       title,
       description,
-      url: `${NEXTAUTH_URL}/nguoi-dung/yeu-thich`,
+      url: `${NEXT_PUBLIC_SITE_URL}/nguoi-dung/yeu-thich`,
       siteName: "PHOFLIX-V3",
       locale: "vi_VN",
       type: "website",

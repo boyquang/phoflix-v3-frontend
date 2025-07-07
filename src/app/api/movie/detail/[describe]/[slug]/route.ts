@@ -1,3 +1,4 @@
+import { fetcher, REVALIDATE_TIME } from "@/lib/fetcher";
 import { NextRequest, NextResponse } from "next/server";
 
 const API_URL = process.env.NEXT_PUBLIC_API_URL;
@@ -15,14 +16,21 @@ export async function GET(
   { params }: { params: Promise<MovieDetailParams> }
 ) {
   try {
+    const { slug, describe } = await params;
     const search = req.nextUrl.searchParams;
+
     const page = search.get("page") || "1";
     const limit = search.get("limit") || "24";
-    const { slug, describe } = await params;
 
-    const response = await fetch(
-      `${API_URL}/v1/api/${describe}/${slug}?page=${page}&limit=${limit}`
-    );
+    const baseUrl = `${API_URL}/v1/api/${describe}/${slug}`;
+    const url = new URL(baseUrl);
+
+    url.searchParams.append("page", page);
+    url.searchParams.append("limit", limit);
+
+    const response = await fetcher(url.toString(), {
+      next: { revalidate: REVALIDATE_TIME },
+    });
 
     if (!response.ok) {
       return NextResponse.json(

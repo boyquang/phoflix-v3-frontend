@@ -38,6 +38,7 @@ const ClientWrapper = ({ movie, episodes }: ClientWrapperProps) => {
     currentEpisode,
     isLongSeries,
     episodes: episodesStore,
+    movie: movieInfo,
   } = useSelector((state: RootState) => state.movie.movieInfo);
   const { groups, selectedLanguage } = useSelector(
     (state: RootState) => state.movie.episode
@@ -83,6 +84,9 @@ const ClientWrapper = ({ movie, episodes }: ClientWrapperProps) => {
     callback: (item) => dispatch(setCurrentEpisode(item)),
   });
 
+  if (!movieInfo || Object.keys(movieInfo).length === 0) {
+    return <div className="min-h-screen"></div>;
+  }
 
   return (
     <div className="flex flex-col gap-12 max-w-[1620px] mx-auto 2xl:px-12 px-4">
