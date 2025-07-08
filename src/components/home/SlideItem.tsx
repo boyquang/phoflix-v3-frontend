@@ -58,43 +58,40 @@ const SlideItem = ({ item }: SlideItemProps) => {
           <TagClassic text={item?.time || "Không xác định"} />
           <TagClassic text={item?.episode_current || "Không xác định"} />
         </Box>
-        {isDesktop && (
-          <>
-            <Box className="flex flex-wrap gap-2 mt-2">
-              {item?.category?.map((caterogy, index: number) => (
-                <TagClassic
-                  key={index}
-                  text={caterogy?.name || "Không xác định"}
-                  isRedirect
-                  href={`/chi-tiet/the-loai/${caterogy?.slug}`}
-                />
-              ))}
-            </Box>
-            <Box className="flex gap-4 items-center mt-6">
-              <Link href={`/dang-xem/${item?.slug}`}>
-                <Button
-                  size="lg"
-                  className="relative border-none duration-300 transition-all overflow-hidden shadow-primary bg-primary linear-gradient text-gray-900"
-                >
-                  <PlayIcon />
-                  Xem ngay
-                </Button>
-              </Link>
-              <Link href={`/thong-tin-phim/${item?.slug}`}>
-                <Button
-                  size="lg"
-                  colorPalette="gray"
-                  colorScheme="gray"
-                  variant="subtle"
-                  className="transition-all shadow-sub"
-                >
-                  <InfoIcon />
-                  Chi tiết
-                </Button>
-              </Link>
-            </Box>
-          </>
-        )}
+
+        <Box className="lg:flex hidden flex-wrap gap-2 mt-2">
+          {item?.category?.map((caterogy, index: number) => (
+            <TagClassic
+              key={index}
+              text={caterogy?.name || "Không xác định"}
+              isRedirect
+              href={`/chi-tiet/the-loai/${caterogy?.slug}`}
+            />
+          ))}
+        </Box>
+        <Box className="lg:flex hidden gap-4 items-center mt-6">
+          <Link href={`/dang-xem/${item?.slug}`}>
+            <Button
+              size="lg"
+              className="relative border-none duration-300 transition-all overflow-hidden shadow-primary bg-primary linear-gradient text-gray-900"
+            >
+              <PlayIcon />
+              Xem ngay
+            </Button>
+          </Link>
+          <Link href={`/thong-tin-phim/${item?.slug}`}>
+            <Button
+              size="lg"
+              colorPalette="gray"
+              colorScheme="gray"
+              variant="subtle"
+              className="transition-all shadow-sub"
+            >
+              <InfoIcon />
+              Chi tiết
+            </Button>
+          </Link>
+        </Box>
       </Box>
     </Box>
   );
