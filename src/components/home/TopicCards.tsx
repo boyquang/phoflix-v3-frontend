@@ -77,9 +77,7 @@ const TopicCards = () => {
                 >
                   <h4 className="text-lg">Khám phá</h4>
                   <Box className="flex items-center gap-1">
-                    <span className="text-sm">
-                      Xem tất cả {totalItems} chủ đề
-                    </span>
+                    <span className="text-sm">Xem tất cả</span>
                     <MdChevronRight />
                   </Box>
                 </Link>
