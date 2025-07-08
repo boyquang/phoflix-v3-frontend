@@ -17,8 +17,6 @@ export const fetchDataSlideShow = createAsyncThunk(
     try {
       const response = await fetchNewlyUpdatedMovies();
 
-      console.log("SlideShow data:", response);
-
       return response;
     } catch (error) {
       if (ENVIRONMENT === "development") {
@@ -70,7 +68,6 @@ export const fetchDataMovie = createAsyncThunk(
         params.page,
         params.limit
       );
-
 
       return {
         res: response,
@@ -320,7 +317,7 @@ export const fetchActorsListByMovie = createAsyncThunk(
         type,
         id,
         season ? season.toString() : ""
-      )
+      );
 
       return response;
     } catch (error: any) {

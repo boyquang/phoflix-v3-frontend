@@ -26,7 +26,7 @@ const AuthDialog = ({ isOpen, type, onClose }: AuthDialogProps) => {
       open={isOpen}
       onOpenChange={onClose}
     >
-      <DialogContent className="relative bg-[rgba(40,43,58,0.8)] rounded-2xl my-auto backdrop-blur lg:max-w-[720px] md:max-w-[640px] max-w-[420px] mx-4">
+      <DialogContent className="relative bg-[#1E2545] rounded-2xl my-auto backdrop-blur lg:max-w-[720px] md:max-w-[640px] max-w-[420px] mx-4">
         <DialogBody p={0}>
           <Box className="flex">
             <Box className="lg:w-80 md:w-60 w-0">

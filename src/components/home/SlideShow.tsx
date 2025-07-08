@@ -4,30 +4,13 @@ import { Swiper, SwiperSlide } from "swiper/react";
 import { Autoplay, EffectFade } from "swiper/modules";
 import "swiper/css";
 import "swiper/css/effect-fade";
-import { useSelector } from "react-redux";
-import { RootState } from "@/store/store";
 import SlideItem from "./SlideItem";
-import { Box, Skeleton } from "@chakra-ui/react";
-import Error from "../shared/Error";
 
-const SlideShow = () => {
-  const { items, loading, error } = useSelector(
-    (state: RootState) => state.movie.slideShows
-  );
+interface SlideShowProps {
+  items: Movie[];
+}
 
-  if (loading)
-    return (
-      <Box className="relative h-0 xl:pt-[42%] lg:pt-[44%] md:pt-[50%] pt-[80%]">
-        <Skeleton
-          className="w-full h-full absolute inset-0"
-          loading
-          rounded={0}
-        />
-      </Box>
-    );
-
-  if (error) return <Error />;
-
+const SlideShow = ({ items }: SlideShowProps) => {
   return (
     <Swiper
       slidesPerView={10}

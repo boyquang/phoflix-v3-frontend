@@ -17,7 +17,7 @@ export const metadata: Metadata = {
   title: "PHOFLIX-V3 | Xem Phim Online Miễn Phí",
   description: "WEBSITE XEM PHIM MIỄN PHÍ",
   icons: {
-    icon: "/icon/logo.ico",
+    icon: "/icons/logo.ico",
   },
 };
 

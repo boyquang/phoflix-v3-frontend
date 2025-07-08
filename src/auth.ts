@@ -33,6 +33,8 @@ interface ISESSION {
 
 type TypeAccount = "credentials" | "google";
 
+const MAX_AGE = 24 * 60 * 60; // 24 hours
+
 export const { handlers, signIn, signOut, auth } = NextAuth({
   providers: [
     Credentials({
@@ -67,10 +69,10 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
   ],
   session: {
     strategy: "jwt",
-    maxAge: 24 * 60 * 60, // 24 hours
+    maxAge: MAX_AGE,
   },
   jwt: {
-    maxAge: 24 * 60 * 60, // 24 hours
+    maxAge: MAX_AGE,
   },
   callbacks: {
     async jwt({ token, user, account, profile, isNewUser }: IJWT) {

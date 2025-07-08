@@ -1,8 +1,4 @@
-import {
-  NEXT_PUBLIC_API_THEMOVIEDB_KEY,
-  NEXT_PUBLIC_SITE_URL,
-  NEXTAUTH_SECRET,
-} from "@/lib/env";
+import { NEXT_PUBLIC_SITE_URL } from "@/lib/env";
 import { fetcher, IS_SUCCESS, REVALIDATE_TIME } from "../fetcher";
 
 export async function fetchMovieInfo(slug: string) {

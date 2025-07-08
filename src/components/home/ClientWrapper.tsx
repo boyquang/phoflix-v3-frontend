@@ -3,11 +3,9 @@
 import { AppDispatch, RootState } from "@/store/store";
 import { useDispatch, useSelector } from "react-redux";
 import { Box } from "@chakra-ui/react";
-import SlideShow from "@/components/home/SlideShow";
 import { useEffect, useRef, useState } from "react";
 import {
   fetchDataMovie,
-  fetchDataSlideShow,
 } from "@/store/asyncThunks/movieAsyncThunk";
 import { initialMovieConfig, quantitySectionMovie } from "@/constants/movie";
 import TopicCards from "@/components/home/TopicCards";
@@ -17,7 +15,7 @@ import Loading from "@/app/loading";
 import MovieSection from "@/components/shared/MovieSection";
 import { setFetchedMovieDataHomePage } from "@/store/slices/movieSlice";
 
-const Home = () => {
+const ClientWrapper = () => {
   const dispatch: AppDispatch = useDispatch();
   const { data, fetched } = useSelector(
     (state: RootState) => state.movie.movieData
@@ -34,7 +32,7 @@ const Home = () => {
         const rect = scrollableDivRef.current.getBoundingClientRect();
 
         // kiểm tra đã cuộn đến cuối phần scrollableDivRef chưa
-        if (rect.top <= window.innerHeight + 100) {
+        if (rect.top <= window.innerHeight + 300) {
           // kiểm tra xem đã fetch hết dữ liệu chưa
           if (quantityFetchedData.current < initialMovieConfig.length) {
             fetchMoreData();
@@ -66,7 +64,7 @@ const Home = () => {
           )
         );
 
-      await Promise.all([dispatch(fetchDataSlideShow()), ...fetchPromises]);
+      await Promise.all([...fetchPromises]);
 
       dispatch(setFetchedMovieDataHomePage(true));
     };
@@ -113,7 +111,6 @@ const Home = () => {
 
   return (
     <Box>
-      <SlideShow />
       <Box className="overflow-hidden">
         <TopicCards />
       </Box>
@@ -137,4 +134,4 @@ const Home = () => {
   );
 };
 
-export default Home;
+export default ClientWrapper;

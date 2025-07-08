@@ -1,15 +1,22 @@
-import Home from "@/components/home/MainPage";
+import ClientWrapper from "@/components/home/ClientWrapper";
 import { Suspense } from "react";
 import Loading from "./loading";
 import { Metadata } from "next";
 import { NEXT_PUBLIC_SITE_URL } from "@/lib/env";
+import { fetchNewlyUpdatedMovies } from "@/lib/actions/movieActionServer";
+import SlideShow from "@/components/home/SlideShow";
+
+interface PageProps {
+  searchParams: Promise<{ [key: string]: string | string[] | undefined }>;
+  params: Promise<{ [key: string]: string | string[] | undefined }>;
+}
 
 export const metadata: Metadata = {
   title: "PHOFLIX-V3 | Xem Phim Online Miễn Phí, Chất Lượng Cao Full HD",
   description:
     "PHOFLIX-V3 là website xem phim online miễn phí với kho phim lẻ, phim bộ, phim chiếu rạp chất lượng cao Full HD, cập nhật liên tục, không quảng cáo, xem mượt trên mọi thiết bị.",
   icons: {
-    icon: "/icon/logo.ico",
+    icon: "/icons/logo.ico",
   },
   keywords: [
     "xem phim online",
@@ -33,10 +40,15 @@ export const metadata: Metadata = {
   },
 };
 
-const Page = () => {
+const Page = async ({ params, searchParams }: PageProps) => {
+  const response = await fetchNewlyUpdatedMovies("v3", 10, 1);
+
+  const { items } = response;
+
   return (
     <Suspense fallback={<Loading type="text" />}>
-      <Home />
+      <SlideShow items={items} />
+      <ClientWrapper />
     </Suspense>
   );
 };

@@ -24,7 +24,7 @@ const FavoriteButton = ({
   placement = "horizontal",
   responsiveText = false,
 }: FavoriteButtonProps) => {
-  const { data: sesstion } = useSession();
+  const { data: session, status } = useSession();
   const movie = useSelector((state: RootState) => state.movie.movieInfo.movie);
   const [favorite, setFavorite] = useState(false);
   const [loading, setLoading] = useState(false);
@@ -33,18 +33,18 @@ const FavoriteButton = ({
 
   // Chỉ gọi api khi movie.slug là slug của movie hiện tại
   useEffect(() => {
-    if (sesstion && movie && params?.slug === movie?.slug) {
+    if (status === "authenticated" && movie && params?.slug === movie?.slug) {
       handleCheckMovieExists();
     }
-  }, []);
+  }, [movie, params?.slug, status]);
 
   const handleCheckMovieExists = async () => {
     setLoading(true);
     const response = await checkMovieExists({
-      userId: sesstion?.user?.id as string,
+      userId: session?.user?.id as string,
       movieSlug: movie?.slug as string,
       type: "favorite",
-      accessToken: sesstion?.user?.accessToken as string,
+      accessToken: session?.user?.accessToken as string,
     });
     setLoading(false);
     setFavorite(response?.result?.exists ?? false);
@@ -57,7 +57,7 @@ const FavoriteButton = ({
     }
 
     const response = await addNewMovie({
-      userId: sesstion?.user?.id as string,
+      userId: session?.user?.id as string,
       movieData: {
         name: movie?.name,
         lang: movie?.lang,
@@ -72,7 +72,7 @@ const FavoriteButton = ({
         category: movie?.category,
       },
       type: "favorite",
-      accessToken: sesstion?.user?.accessToken as string,
+      accessToken: session?.user?.accessToken as string,
     });
 
     return response;
@@ -85,17 +85,17 @@ const FavoriteButton = ({
     }
 
     const response = await deleteMovie({
-      userId: sesstion?.user?.id as string,
+      userId: session?.user?.id as string,
       movieSlug: movie?.slug,
       type: "favorite",
-      accessToken: sesstion?.user?.accessToken as string,
+      accessToken: session?.user?.accessToken as string,
     });
 
     return response;
   };
 
   const handleActionsFavorite = async () => {
-    if (!sesstion) {
+    if (!session) {
       dispatch(showDialogSinInWhenNotLogin());
       return;
     }

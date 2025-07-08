@@ -3,7 +3,7 @@
 import { Swiper, SwiperSlide } from "swiper/react";
 
 import "swiper/css";
-import { categories } from "@/constants/movie";
+import { categories, countries } from "@/constants/movie";
 import { Box } from "@chakra-ui/react";
 import Link from "next/link";
 import RootLayout from "../layout/RootLayout";
@@ -11,6 +11,9 @@ import { MdChevronRight } from "react-icons/md";
 import { colorGradients } from "@/constants/color";
 
 const TopicCards = () => {
+  const totalItems = [...categories, ...countries].length;
+  const totalShow = 6;
+
   return (
     <RootLayout>
       <Box className="relative my-12 lg:px-0">
@@ -46,7 +49,7 @@ const TopicCards = () => {
               },
             }}
           >
-            {categories.map((category, index) => (
+            {categories.slice(0, totalShow).map((category, index) => (
               <SwiperSlide key={index} className="relative">
                 <Box
                   className={`bg-gradient-to-r ${
@@ -66,6 +69,22 @@ const TopicCards = () => {
                 </Box>
               </SwiperSlide>
             ))}
+            <SwiperSlide>
+              <Box className="bg-[#ffffff0d] border border-[#ffffff10] rounded-xl overflow-hidden hover:-translate-y-2 transition-all duration-300 shadow-lg">
+                <Link
+                  className="flex flex-col justify-center gap-2 lg:min-h-32 min-h-28 p-4 text-white"
+                  href="/kham-pha"
+                >
+                  <h4 className="text-lg">Khám phá</h4>
+                  <Box className="flex items-center gap-1">
+                    <span className="text-sm">
+                      Xem tất cả {totalItems} chủ đề
+                    </span>
+                    <MdChevronRight />
+                  </Box>
+                </Link>
+              </Box>
+            </SwiperSlide>
           </Swiper>
         </Box>
       </Box>

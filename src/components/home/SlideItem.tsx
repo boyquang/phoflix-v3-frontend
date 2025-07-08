@@ -1,23 +1,26 @@
 "use client";
 
-import { Box, Button } from "@chakra-ui/react";
+import { Box, Button, useMediaQuery } from "@chakra-ui/react";
 import Link from "next/link";
-import { RootState } from "@/store/store";
-import { useSelector } from "react-redux";
 import { generateUrlImage } from "@/lib/utils";
 import PlayIcon from "@/components/icons/PlayIcon";
 import InfoIcon from "@/components/icons/InfoIcon";
 import OverlayFade from "@/components/shared/OverlayFade";
 import Image from "@/components/shared/Image";
 import { TagClassic } from "@/components/shared/TagClassic";
+import { useRouter } from "next/navigation";
 
 interface SlideItemProps {
   item: SlideItem;
 }
 
 const SlideItem = ({ item }: SlideItemProps) => {
-  const { windowWidth } = useSelector((state: RootState) => state.system);
-  const href = windowWidth > 1024 ? "#" : `/thong-tin-phim/${item?.slug}`;
+  const router = useRouter();
+  const [isDesktop] = useMediaQuery(["(min-width: 1024px)"], {
+    ssr: true,
+    fallback: [true],
+  });
+  const href = isDesktop ? "#" : `/thong-tin-phim/${item?.slug}`;
 
   return (
     <Box className="relative max-w-[1900px] mx-auto border border-[#191b24] overflow-hidden">
@@ -34,7 +37,14 @@ const SlideItem = ({ item }: SlideItemProps) => {
         </Link>
       </Box>
 
-      <Box className="absolute bottom-4 left-0 right-0 2xl:px-12 xl:pb-20 p-4 z-6 lg:w-[50%] overflow-hidden">
+      <Box
+        onClick={() => {
+          if (!isDesktop) {
+            router.push(`/thong-tin-phim/${item?.slug}`);
+          }
+        }}
+        className="absolute bottom-4 left-0 right-0 2xl:px-12 xl:pb-20 p-4 z-6 lg:w-[50%] overflow-hidden"
+      >
         <h4 className="title-text lg:text-4xl md:text-2xl font-semibold lg:inline-block truncate-lines-2 block text-xl lg:text-left text-center mb-1">
           {item?.name || "Không xác định"}
         </h4>
@@ -48,7 +58,7 @@ const SlideItem = ({ item }: SlideItemProps) => {
           <TagClassic text={item?.time || "Không xác định"} />
           <TagClassic text={item?.episode_current || "Không xác định"} />
         </Box>
-        {windowWidth > 1024 && (
+        {isDesktop && (
           <>
             <Box className="flex flex-wrap gap-2 mt-2">
               {item?.category?.map((caterogy, index: number) => (
