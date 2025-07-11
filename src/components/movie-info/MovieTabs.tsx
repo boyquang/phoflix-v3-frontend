@@ -8,6 +8,7 @@ import { RootState } from "@/store/store";
 import ActorsList from "../actor/ActorsList";
 import MovieSuggesstions from "@/components/shared/MovieSuggestions";
 import MovieVersionList from "../movie-version/MovieVersionList";
+import { useEffect, useState } from "react";
 
 // CSS dùng chung
 const selectedTabStyle = {
@@ -29,24 +30,40 @@ const contentAnimClose = {
 };
 
 const tabs = [
-  { value: "episodes", label: "Tập phim" },
-  { value: "trailer", label: "Trailer" },
-  { value: "actors", label: "Diễn viên" },
-  { value: "suggest", label: "Đề xuất" },
+  { value: "episodes", label: "Tập phim", isShow: true },
+  { value: "trailer", label: "Trailer", isShow: true },
+  { value: "actors", label: "Diễn viên", isShow: true },
+  { value: "suggest", label: "Đề xuất", isShow: true },
 ];
 
 const MovieTabs = () => {
   const { items, loading } = useSelector(
     (state: RootState) => state.movie.actorsListByMovie
   );
-  const { isLongSeries } = useSelector(
+  const { isLongSeries, isValidEpisodes } = useSelector(
     (state: RootState) => state.movie.movieInfo
   );
+  const [tabsToShow, setTabsToShow] = useState(tabs);
+  const [activeTab, setActiveTab] = useState("episodes");
+
+  useEffect(() => {
+    if (!isValidEpisodes) {
+      setTabsToShow((prev) => prev.filter((tab) => tab.value !== "episodes"));
+      setActiveTab("trailer");
+    } else {
+      setTabsToShow(tabs);
+      setActiveTab("episodes");
+    }
+  }, [isValidEpisodes]);
 
   return (
-    <Tabs.Root defaultValue="episodes" colorPalette="yellow">
+    <Tabs.Root
+      value={activeTab}
+      onValueChange={(details) => setActiveTab(details.value)}
+      colorPalette="yellow"
+    >
       <Tabs.List className="border-[#ffffff10]">
-        {tabs.map(({ value, label }) => (
+        {tabsToShow.map(({ value, label }) => (
           <Tabs.Trigger
             key={value}
             value={value}
@@ -58,15 +75,17 @@ const MovieTabs = () => {
         ))}
       </Tabs.List>
 
-      <Tabs.Content
-        value="episodes"
-        _open={contentAnimOpen}
-        _closed={contentAnimClose}
-      >
-        <Box className="mt-6">
-          {isLongSeries ? <TabEpisodes /> : <MovieVersionList />}
-        </Box>
-      </Tabs.Content>
+      {isValidEpisodes && (
+        <Tabs.Content
+          value="episodes"
+          _open={contentAnimOpen}
+          _closed={contentAnimClose}
+        >
+          <Box className="mt-6">
+            {isLongSeries ? <TabEpisodes /> : <MovieVersionList />}
+          </Box>
+        </Tabs.Content>
+      )}
 
       <Tabs.Content
         value="trailer"

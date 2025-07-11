@@ -10,7 +10,7 @@ interface LoadingProps {
   type?: "text" | "spin" | "bars";
 }
 
-const Loading = ({ height = "h-screen", type = "spin" }: LoadingProps) => {
+const Loading = ({ height = "h-screen", type = "bars" }: LoadingProps) => {
   return (
     <div className={`flex justify-center items-center ${height}`}>
       {type === "spin" ? (

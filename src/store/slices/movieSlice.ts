@@ -10,7 +10,7 @@ import {
   fetchActorsListByMovie,
   fetchDataMoviePopular,
 } from "../asyncThunks/movieAsyncThunk";
-import { formatTypeMovie } from "@/lib/utils";
+import { formatTypeMovie, hasValidEpisode } from "@/lib/utils";
 
 const data = {
   items: [],
@@ -52,6 +52,7 @@ const initialState: MovieSlice = {
     isLongSeries: false,
     loading: true,
     error: false,
+    isValidEpisodes: true,
   },
   movieDetail: {
     items: [],
@@ -122,28 +123,35 @@ const movieSlice = createSlice({
       state.movieInfo.episodes = null;
       state.movieInfo.movie = null;
       state.movieInfo.currentEpisode = null;
+      state.movieInfo.isValidEpisodes = true;
 
       const { movie, episodes } = action.payload || {};
 
       state.movieInfo.movie = movie;
       state.movieInfo.episodes = episodes || null;
 
-      // Kiểm tra phim có phải là series dài tập hay không
-      state.movieInfo.isLongSeries =
-        movie?.tmdb?.type === "tv" || episodes?.[0]?.server_data?.length > 1;
+      const isValidEpisodes = hasValidEpisode(episodes);
 
-      // Thêm tập phim theo ngôn ngữ
-      episodes?.forEach((episode: Episode) => {
-        const data = formatTypeMovie(episode.server_name);
-        const language = data.language as languageType;
+      if (isValidEpisodes) {
+        // Kiểm tra phim có phải là series dài tập hay không
+        state.movieInfo.isLongSeries =
+          movie?.tmdb?.type === "tv" || episodes?.[0]?.server_data?.length > 1;
 
-        if (!state.episode.groups[language as languageType]) {
-          state.episode.groups[language as languageType] = {
-            items: episode.server_data,
-            label: data.title,
-          };
-        }
-      });
+        // Thêm tập phim theo ngôn ngữ
+        episodes?.forEach((episode: Episode) => {
+          const data = formatTypeMovie(episode.server_name);
+          const language = data.language as languageType;
+
+          if (!state.episode.groups[language as languageType]) {
+            state.episode.groups[language as languageType] = {
+              items: episode.server_data,
+              label: data.title,
+            };
+          }
+        });
+      } else {
+        state.movieInfo.isValidEpisodes = false;
+      }
     },
   },
   extraReducers: (builder) => {

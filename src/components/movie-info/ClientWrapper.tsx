@@ -28,7 +28,7 @@ interface ClientWrapperProps {
 
 const ClientWrapper = ({ movie, episodes }: ClientWrapperProps) => {
   const dispatch: AppDispatch = useDispatch();
-  const { movie: movieInfo } = useSelector(
+  const { movie: movieInfo, isValidEpisodes } = useSelector(
     (state: RootState) => state.movie.movieInfo
   );
 

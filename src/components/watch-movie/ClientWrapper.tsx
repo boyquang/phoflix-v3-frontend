@@ -92,7 +92,7 @@ const ClientWrapper = ({ movie, episodes }: ClientWrapperProps) => {
     <div className="flex flex-col gap-12 max-w-[1620px] mx-auto 2xl:px-12 px-4">
       <div className="lg:mt-32 mt-24">
         <h3 className="xl:text-4xl lg:text-3xl md:text-2xl text-xl title-text font-bold mb-6 sm:inline-block hidden">
-          {movie?.name} - {currentEpisode?.name}
+          {movie?.name} - {currentEpisode?.name || "Trailer"}
         </h3>
 
         <div className="flex flex-col relative watch-player xs:-mx-0 -mx-4">

@@ -614,7 +614,7 @@ export const formatString = (str: string) => {
   // Hàm này dùng để giải mã các ký tự HTML entities
   // Ví dụ: "&amp;" sẽ được chuyển thành "&", "&lt;" sẽ được chuyển thành "<", v.v.
   const decodeHtmlEntities = (text: string) => {
-    if (typeof window === "undefined") return text; 
+    if (typeof window === "undefined") return text;
     const textArea = document.createElement("textarea");
     textArea.innerHTML = text;
     return textArea.value;
@@ -854,4 +854,24 @@ export const getFromStorage = <T>(key: string, fallback: T): T => {
 
 export const setToStorage = <T>(key: string, value: T): void => {
   localStorage.setItem(key, JSON.stringify(value));
+};
+
+
+/**
+ * @param episodes - Mảng chứa các episode
+ * @returns - true nếu có ít nhất một episode hợp lệ, false nếu không
+ * @description - Hàm này sẽ kiểm tra xem có ít nhất một episode hợp lệ trong mảng hay không.
+ *                Một episode được coi là hợp lệ nếu nó có ít nhất một trong các thuộc tính: filename, link_embed, link_m3u8 hoặc name.
+ */
+
+export const hasValidEpisode = (episodes: Episode[]) => {
+  return episodes?.some((server) =>
+    server.server_data?.some(
+      (episode) =>
+        episode.filename ||
+        episode.link_embed ||
+        episode.link_m3u8 ||
+        episode.name
+    )
+  );
 };

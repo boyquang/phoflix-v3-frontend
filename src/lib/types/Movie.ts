@@ -155,6 +155,7 @@ type MovieSlice = {
     episodes: Episode[] | null;
     currentEpisode: EpisodeMerged | null;
     isLongSeries: boolean;
+    isValidEpisodes: boolean;
   };
   movieDetail: {
     items: Movie[] | null;

@@ -49,7 +49,7 @@ const DrawerCustom = ({ isOpen, onClose }: DrawerCustomProps) => {
         <DrawerBody p={3}>
           <ul className="flex flex-col gap-1 h-full">
             {menu.map((item, index) => {
-              if (item.path === "/community-room" && !isAuthenticated)
+              if (item.path === "/phong-xem-chung" && !isAuthenticated)
                 return null;
 
               return (

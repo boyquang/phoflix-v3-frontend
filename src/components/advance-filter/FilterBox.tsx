@@ -8,7 +8,6 @@ import { useRouter, useSearchParams } from "next/navigation";
 import { useState, useTransition } from "react";
 import { useDispatch } from "react-redux";
 import FilterItem from "./FilterItem";
-import FilterActions from "./FilterActions";
 import { isEqual } from "lodash";
 import { filterOptions } from "@/constants/filter-movie";
 import Refreshicon from "../icons/RefresIcon";

@@ -1,6 +1,6 @@
 "use client";
 
-import { findEpisodeById, mergeEpisodeData } from "@/lib/utils";
+import { findEpisodeById } from "@/lib/utils";
 import { useSearchParams } from "next/navigation";
 import { useEffect } from "react";
 
