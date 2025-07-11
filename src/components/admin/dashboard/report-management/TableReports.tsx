@@ -3,6 +3,7 @@
 import EmptyData from "@/components/shared/EmptyData";
 import { formatDate } from "@/lib/utils";
 import { Box, Table } from "@chakra-ui/react";
+import Link from "next/link";
 import { TbMessageReportFilled } from "react-icons/tb";
 
 interface Report {
@@ -12,6 +13,7 @@ interface Report {
   description: string;
   movie_name: string;
   created_at: string;
+  movie_slug: string;
 }
 
 interface TableReportsProps {
@@ -55,7 +57,14 @@ const TableReports = ({ items }: TableReportsProps) => {
               <Table.Cell>{item.reporter}</Table.Cell>
               <Table.Cell>{item.title}</Table.Cell>
               <Table.Cell>{item.description}</Table.Cell>
-              <Table.Cell>{item.movie_name}</Table.Cell>
+              <Table.Cell>
+                <Link
+                  href={`/thong-tin-phim/${item.movie_slug}`}
+                  className="text-blue-500 hover:underline"
+                >
+                  {item.movie_name}
+                </Link>
+              </Table.Cell>
               <Table.Cell textAlign="end">
                 {formatDate(item.created_at)}
               </Table.Cell>

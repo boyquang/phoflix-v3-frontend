@@ -1,6 +1,6 @@
 "use client";
 
-import { Button, CloseButton, Dialog, Portal } from "@chakra-ui/react";
+import { Button, CloseButton, Dialog, Portal, Spinner } from "@chakra-ui/react";
 import React, { useState } from "react";
 import { appConfig } from "@/configs/appConfig";
 
@@ -64,11 +64,13 @@ const AlertDialog = ({
                 </Button>
               </Dialog.ActionTrigger>
               <Button
-                loading={loading}
                 onClick={handleConfirm}
                 size="xs"
-                className="min-w-24 shadow-primary bg-primary text-gray-900"
+                className={`min-w-24 shadow-primary bg-primary text-gray-900 ${
+                  loading ? "opacity-50 cursor-not-allowed" : ""
+                }`}
               >
+                {loading && <Spinner size="xs" />}
                 Xác nhận
               </Button>
             </Dialog.Footer>

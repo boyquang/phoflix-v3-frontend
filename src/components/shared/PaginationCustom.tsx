@@ -3,6 +3,7 @@
 import useNotification from "@/hooks/useNotification";
 import { generatePagination } from "@/lib/utils";
 import { useRouter } from "next/navigation";
+import { useTransition } from "react";
 
 interface PaginationCustomProps {
   currentPage: number;
@@ -24,12 +25,17 @@ const PaginationCustom = ({
   const router = useRouter();
   const totalPages = Math.ceil(totalItems / itemsPerPage);
   const paginationItems = generatePagination(currentPage, totalPages);
+  const [pending, startTransition] = useTransition();
   const { notificationAlert } = useNotification();
 
   const handleChangePage = (page: number | string) => {
     const params = new URLSearchParams(window.location.search);
+
     params.set("page", page.toString());
-    router.replace(`?${params.toString()}`);
+
+    startTransition(() => {
+      router.replace(`?${params.toString()}`, { scroll: false });
+    });
 
     if (isScroll) {
       window.scrollTo({
@@ -70,7 +76,7 @@ const PaginationCustom = ({
                 onClick={() => handleChangePage(page)}
                 disabled={page === currentPage}
                 key={index}
-                className={`flex text-sm select-none font-semibold items-center justify-center px-4 py-2 text-gray-100 rounded-md ${
+                className={`inline-flex text-sm select-none font-semibold items-center justify-center px-4 py-2 text-gray-100 rounded-md ${
                   page === currentPage
                     ? "bg-primary text-gray-900 cursor-not-allowed"
                     : "bg-[#2a314e] text-gray-100 cursor-pointer hover:opacity-80 transition-all duration-200"

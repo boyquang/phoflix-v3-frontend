@@ -1,92 +1,88 @@
 "use client";
 
+import { useDispatch, useSelector } from "react-redux";
 import { setReportError } from "@/store/slices/userSlice";
-import { createListCollection, Portal, Select } from "@chakra-ui/react";
-import { useDispatch } from "react-redux";
-
-const options = createListCollection({
-  items: [
-    { label: "Không thể phát phim", value: "Không thể phát phim" },
-    {
-      label: "Phim load chậm hoặc bị giật",
-      value: "Phim load chậm hoặc bị giật",
-    },
-    {
-      label: "Chất lượng video kém (mờ, nhòe, sai tỷ lệ)",
-      value: "Chất lượng video kém (mờ, nhòe, sai tỷ lệ)",
-    },
-    { label: "Sai hoặc thiếu phụ đề", value: "Sai hoặc thiếu phụ đề" },
-    {
-      label: "Không có âm thanh hoặc âm thanh bị lệch",
-      value: "Không có âm thanh hoặc âm thanh bị lệch",
-    },
-    {
-      label: "Sai ngôn ngữ (thuyết minh/phụ đề không đúng)",
-      value: "Sai ngôn ngữ (thuyết minh/phụ đề không đúng)",
-    },
-    {
-      label: "Phim bị cắt hoặc thiếu tập",
-      value: "Phim bị cắt hoặc thiếu tập",
-    },
-    {
-      label: "Sai nội dung (nhầm tập, nhầm bản phim)",
-      value: "Sai nội dung (nhầm tập, nhầm bản phim)",
-    },
-    { label: "Không thể tải trang phim", value: "Không thể tải trang phim" },
-    {
-      label: "Link phim bị lỗi (404, 500...)",
-      value: "Link phim bị lỗi (404, 500...)",
-    },
-    {
-      label: "Lỗi tương thích với trình duyệt / thiết bị",
-      value: "Lỗi tương thích với trình duyệt / thiết bị",
-    },
-  ],
-});
+import { useEffect } from "react";
+import { RootState } from "@/store/store";
 
 const ErrorReportSelect = () => {
   const dispatch = useDispatch();
+  const {
+    report: { reportError },
+  } = useSelector((state: RootState) => state.user);
 
-  const handleChangeSelect = (value: string) => {
-    dispatch(setReportError(value));
+  useEffect(() => {
+    dispatch(setReportError("Không thể phát phim"));
+  }, []);
+
+  const handleChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    dispatch(setReportError(e.target.value));
   };
 
   return (
-    <Select.Root
-      collection={options}
-      size="sm"
-      onValueChange={(details) => handleChangeSelect(details?.value?.[0])}
-    >
-      <Select.HiddenSelect />
-      <Select.Label>Lỗi mà bạn gặp phải</Select.Label>
-      <Select.Control>
-        <Select.Trigger>
-          <Select.ValueText
-            placeholder="---Chọn lỗi---"
-            className="text-gray-50 border-gray-400 focus:border-gray-50"
-          />
-        </Select.Trigger>
-        <Select.IndicatorGroup>
-          <Select.Indicator />
-        </Select.IndicatorGroup>
-      </Select.Control>
-      <Portal>
-        <Select.Positioner
-          css={{
-            zIndex: "9999 !important",
-          }}
+    <div className="flex flex-col gap-1">
+      <label
+        htmlFor="error-report"
+        className="text-sm font-medium text-gray-200"
+      >
+        Lỗi gặp phải:
+      </label>
+      <select
+        id="error-report"
+        className="w-full px-3 py-2 text-sm text-white rounded-md border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500"
+        value={reportError}
+        onChange={handleChange}
+      >
+        <option className="text-black" value="Không thể phát phim">
+          Không thể phát phim
+        </option>
+        <option className="text-black" value="Phim load chậm hoặc bị giật">
+          Phim load chậm hoặc bị giật
+        </option>
+        <option
+          className="text-black"
+          value="Chất lượng video kém (mờ, nhòe, sai tỷ lệ)"
         >
-          <Select.Content>
-            {options.items.map((option) => (
-              <Select.Item item={option} key={option.value}>
-                {option.label}
-                <Select.ItemIndicator />
-              </Select.Item>
-            ))}
-          </Select.Content>
-        </Select.Positioner>
-      </Portal>
-    </Select.Root>
+          Chất lượng video kém (mờ, nhòe, sai tỷ lệ)
+        </option>
+        <option className="text-black" value="Sai hoặc thiếu phụ đề">
+          Sai hoặc thiếu phụ đề
+        </option>
+        <option
+          className="text-black"
+          value="Không có âm thanh hoặc âm thanh bị lệch"
+        >
+          Không có âm thanh hoặc âm thanh bị lệch
+        </option>
+        <option
+          className="text-black"
+          value="Sai ngôn ngữ (thuyết minh/phụ đề không đúng)"
+        >
+          Sai ngôn ngữ (thuyết minh/phụ đề không đúng)
+        </option>
+        <option className="text-black" value="Phim bị cắt hoặc thiếu tập">
+          Phim bị cắt hoặc thiếu tập
+        </option>
+        <option
+          className="text-black"
+          value="Sai nội dung (nhầm tập, nhầm bản phim)"
+        >
+          Sai nội dung (nhầm tập, nhầm bản phim)
+        </option>
+        <option className="text-black" value="Không thể tải trang phim">
+          Không thể tải trang phim
+        </option>
+        <option className="text-black" value="Link phim bị lỗi (404, 500...)">
+          Link phim bị lỗi (404, 500...)
+        </option>
+        <option
+          className="text-black"
+          value="Lỗi tương thích với trình duyệt / thiết bị"
+        >
+          Lỗi tương thích với trình duyệt / thiết bị
+        </option>
+      </select>
+    </div>
   );
 };
 

@@ -1,16 +1,14 @@
 "use client";
 
 import { updateSearchParams } from "@/lib/utils";
-import { fetchDataMovieSearch } from "@/store/asyncThunks/movieAsyncThunk";
-import { AppDispatch } from "@/store/store";
-import { Box } from "@chakra-ui/react";
+import { Box, Spinner } from "@chakra-ui/react";
 import { useRouter, useSearchParams } from "next/navigation";
-import { useState, useTransition } from "react";
-import { useDispatch } from "react-redux";
+import { useRef, useState, useTransition } from "react";
 import FilterItem from "./FilterItem";
 import { isEqual } from "lodash";
 import { filterOptions } from "@/constants/filter-movie";
 import Refreshicon from "../icons/RefresIcon";
+import useScrollIntoView from "@/hooks/useScrollIntoView";
 
 const options = {
   charactor: "a",
@@ -22,11 +20,11 @@ const options = {
 };
 
 const FilterBox = () => {
-  const dispatch: AppDispatch = useDispatch();
   const [filter, setFilter] = useState<any>(options);
   const [pending, startTransition] = useTransition();
   const searchParams = useSearchParams();
   const router = useRouter();
+  const elementScrollRef = useRef<HTMLDivElement | null>(null);
 
   const objSearchParams = {
     charactor: searchParams.get("keyword") || "a",
@@ -53,17 +51,26 @@ const FilterBox = () => {
 
     if (!notChange) {
       const newQuery = updateSearchParams({ page: 1, ...filter });
-      router.replace(`?${newQuery}`);
+
+      startTransition(() => {
+        router.replace(`?${newQuery}`, { scroll: false });
+      });
     }
   };
 
+  useScrollIntoView({
+    ref: elementScrollRef,
+    options: { behavior: "smooth", block: "start", delay: 500 },
+    dependencys: [searchParams.toString()],
+  });
+
   return (
-    <Box className="flex flex-col border border-[#ffffff10] rounded-2xl my-12">
+    <Box className="flex flex-col xs:mx-0 -mx-4 border border-[#ffffff10] xs:rounded-2xl rounded-none my-12">
       <>
         {filterOptions.map((option) => (
           <Box
             key={option.id}
-            className="flex lg:gap-6 gap-4 items-start p-4 border-b border-[#ffffff10]"
+            className="flex lg:gap-6 gap-4 items-start xs:p-4 py-4 px-0 border-b border-dashed border-[#ffffff10]"
           >
             <span className="lg:text-sm text-xs text-end lg:min-w-32 min-w-20 text-gray-50 font-semibold">
               {`${option.title}:`}
@@ -80,9 +87,11 @@ const FilterBox = () => {
         <span className=" min-w-32 md:inline-block hidden">&nbsp;</span>
         <Box className="flex gap-4">
           <button
+            disabled={pending}
             onClick={() => handleSearch()}
-            className="rounded-full text-sm cursor-pointer px-4 h-10 shadow-primary bg-[#ffda7d] text-[#1e2939]"
+            className={`rounded-full inline-flex items-center gap-2 text-sm cursor-pointer px-4 h-10 shadow-primary bg-[#ffda7d] text-[#1e2939] disabled:cursor-not-allowed disabled:opacity-50`}
           >
+            {pending && <Spinner size="sm" />}
             Lọc kết quả
           </button>
 
@@ -94,6 +103,8 @@ const FilterBox = () => {
           </button>
         </Box>
       </Box>
+
+      <div ref={elementScrollRef}></div>
     </Box>
   );
 };

@@ -856,7 +856,6 @@ export const setToStorage = <T>(key: string, value: T): void => {
   localStorage.setItem(key, JSON.stringify(value));
 };
 
-
 /**
  * @param episodes - Mảng chứa các episode
  * @returns - true nếu có ít nhất một episode hợp lệ, false nếu không
@@ -874,4 +873,41 @@ export const hasValidEpisode = (episodes: Episode[]) => {
         episode.name
     )
   );
+};
+
+/**
+ * @param episodes - Mảng chứa các episode
+ * @returns - true nếu có ít nhất một episode có nhiều hơn một server, false nếu không
+ * @description - Hàm này sẽ kiểm tra xem có ít nhất một episode có nhiều hơn một server hay không.
+ *                Một episode được coi là có nhiều hơn một server nếu thuộc tính server_data của nó có độ dài lớn hơn 1.
+ */
+
+export const hasMultipleEpisodes = (episodes: Episode[]) => {
+  return episodes?.some((server) => server.server_data?.length > 1);
+};
+
+
+/**
+ * @param episodeCurrent - Chuỗi trạng thái của episode hiện tại
+ * @returns - Đối tượng chứa trạng thái và thông tin episode
+ * @description - Hàm này sẽ phân tích chuỗi trạng thái của episode hiện tại và trả về đối tượng chứa trạng thái và thông tin episode.
+ *                Nếu chuỗi là "full", trả về trạng thái "Đã phát hành" và không có thông tin episode.
+ *                Nếu chuỗi là "trailer", trả về trạng thái "Sắp phát hành" và không có thông tin episode.
+ *                Nếu chuỗi có định dạng "status (current/total)", trả về trạng thái và thông tin episode tương ứng.
+ */
+
+export const parseEpisodeCurrent = (episodeCurrent: string) => {
+  if (episodeCurrent.toLowerCase() === "full") {
+    return { status: "Đã phát hành", episodeInfo: null };
+  }
+
+  if (episodeCurrent.toLowerCase() === "trailer") {
+    return { status: "Sắp phát hành", episodeInfo: null };
+  }
+
+  const match = episodeCurrent.match(/^(.*)\s+\((\d+\/\d+)\)$/);
+  const status = match?.[1] || episodeCurrent;
+  const episodeInfo = match?.[2] || null;
+
+  return { status, episodeInfo };
 };

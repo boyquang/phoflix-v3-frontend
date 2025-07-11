@@ -63,7 +63,7 @@ const SearchHistory = () => {
   }
 
   return (
-    <Box className="mt-6 mb-4">
+    <Box className="mt-4 mb-4">
       <div className="flex items-center justify-between gap-2 px-4">
         <h4 className="text-gray-50 text-sm font-bold inline-block">
           Lịch sử tìm kiếm

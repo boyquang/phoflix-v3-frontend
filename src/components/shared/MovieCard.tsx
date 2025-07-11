@@ -4,14 +4,14 @@ import {
   generateUrlImage,
   onMouseEnterShowTooltip,
   onMouseLeaveHideTooltip,
+  parseEpisodeCurrent,
 } from "@/lib/utils";
-import { Box } from "@chakra-ui/react";
+import { Badge, Box } from "@chakra-ui/react";
 import Link from "next/link";
 import { useRef, useState } from "react";
 import { RootState } from "@/store/store";
 import { useSelector } from "react-redux";
 import MovieTooltip from "./MovieTooltip";
-import StatusTag from "../shared/StatusTag";
 import Image from "../shared/Image";
 import HoverOutlineWrapper from "../shared/HoverOutlineWrapper";
 
@@ -28,11 +28,31 @@ interface Tooltip {
   visible: boolean;
 }
 
+const paletteList = [
+  "purple",
+  "blue",
+  "cyan",
+  "pink",
+  "orange",
+  "green",
+  "red",
+  "teal",
+  "gray",
+];
+
 const MovieCard = ({ data, orientation }: MovieItemProps) => {
   const currentElementRef = useRef<HTMLImageElement | null>(null);
   const tooltipTimeout = useRef<NodeJS.Timeout | null>(null);
   const [tooltip, setTooltip] = useState<Tooltip | null>(null);
   const { windowWidth } = useSelector((state: RootState) => state.system);
+
+  const episodeCurrent =
+    data?.episode_current.toLowerCase() || "Không xác định";
+  const { episodeInfo, status } = parseEpisodeCurrent(episodeCurrent);
+  const episodeText =
+    episodeCurrent?.includes("hoàn tất") && episodeInfo
+      ? `Tập ${episodeInfo}`
+      : status;
 
   const handleMouseEnter = () => {
     if (windowWidth <= 1280) return;
@@ -70,14 +90,28 @@ const MovieCard = ({ data, orientation }: MovieItemProps) => {
               className="group-hover:brightness-75 transition-all rounded-lg"
               alt={data?.name || "Không xác định"}
             />
-            <Box className="absolute left-1/2 transform -translate-x-1/2 bottom-0 xs:block hidden">
-              <StatusTag
-                uppercase={false}
-                bordered
-                size="md"
-                rounded="rounded-t-sm"
-                text={data?.episode_current || "Không xác định"}
-              />
+            <Box className="absolute xs:right-2 top-2 left-2 xs:inline-flex hidden flex-wrap items-center gap-1">
+              <Badge colorPalette="green" className="uppercase" size="xs">
+                {data?.quality}
+              </Badge>
+              {data?.lang?.split("+")?.map((lang, index) => (
+                <Badge
+                  key={index}
+                  colorPalette={paletteList[index % paletteList.length]}
+                  size="xs"
+                  className="uppercase"
+                >
+                  {lang}
+                </Badge>
+              ))}
+            </Box>
+            <Box className="absolute left-1.5 inline-flex top-1.5 xs:left-1/2 xs:bottom-1.5 xs:top-auto xs:-translate-x-1/2 overflow-hidden transform">
+              <Badge
+                className="bg-primary uppercase linear-gradient text-black"
+                size="xs"
+              >
+                {episodeText}
+              </Badge>
             </Box>
           </Box>
         </HoverOutlineWrapper>

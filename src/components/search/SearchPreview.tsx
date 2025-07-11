@@ -7,10 +7,10 @@ import { useDispatch, useSelector } from "react-redux";
 import EmptyData from "../shared/EmptyData";
 import { setIsShowModalSearch } from "@/store/slices/systemSlice";
 import SearchPreviewItem from "./SearchPreviewItem";
-import { FaArrowRight } from "react-icons/fa6";
 import { LuSearchX } from "react-icons/lu";
 import Loading from "@/app/loading";
 import useSearch from "@/hooks/useSearch";
+import { limitSearchPreview } from "./SearchDialog";
 
 const SearchPreview = () => {
   const { items, loading } = useSelector(
@@ -39,7 +39,7 @@ const SearchPreview = () => {
     );
 
   return (
-    <Box className="flex flex-col gap-4 mb-4">
+    <Box className="flex flex-col gap-4">
       <ul className="flex flex-col gap-2">
         {items?.map((item, index: number) => (
           <SearchPreviewItem
@@ -50,18 +50,17 @@ const SearchPreview = () => {
         ))}
       </ul>
 
-      {items?.length >= 10 && (
+      {items?.length >= limitSearchPreview && (
         <Link
           href={`/tim-kiem?keyword=${encodeURIComponent(keyword)}`}
-          className="w-full flex items-center gap-2 mt-3 px-4"
+          className="w-full flex items-center gap-2 mt-3"
         >
           <Button
             onClick={() => dispatch(setIsShowModalSearch(false))}
-            size="sm"
-            className="w-full bg-primary shadow-primary text-gray-900"
+            size="xl"
+            className="xs:text-sm text-xs w-full bg-[#ffffff10] text-white hover:text-[#ffd875] rounded-b-xl rounded-t-none"
           >
-            Xem tất cả
-            <FaArrowRight />
+            Toàn bộ kết quả
           </Button>
         </Link>
       )}

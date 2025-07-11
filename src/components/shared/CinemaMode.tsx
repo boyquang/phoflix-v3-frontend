@@ -20,7 +20,7 @@ const CinemaMode = () => {
       onClick={handleToggleCinemaMode}
       className="p-2 select-none sm:min-w-16 cursor-pointer rounded-lg flex justify-center items-center gap-2 transition-all hover:bg-[#ffffff05]"
     >
-      <span className="xs:text-xs text-[10px] whitespace-nowrap text-gray-50">
+      <span className="text-xs whitespace-nowrap text-gray-50">
         Rạp phim
       </span>
       <span

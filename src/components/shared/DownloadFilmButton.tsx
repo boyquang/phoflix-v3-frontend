@@ -17,13 +17,13 @@ const DownloadFilmButton = ({
     <DownloadFilmDialog
       trigger={
         <Box
-          className={`flex p-2 select-none sm:min-w-16 cursor-pointer rounded-lg justify-center items-center gap-2 text-gray-50 transition-all hover:bg-[#ffffff05] ${
+          className={`p-2 select-none xs:flex hidden sm:min-w-16 cursor-pointer rounded-lg justify-center items-center gap-2 text-gray-50 transition-all hover:bg-[#ffffff05] ${
             placement === "vertical" ? "flex-col" : "flex-row"
           }`}
         >
           <IoMdDownload />
           <span
-            className={`xs:text-xs text-[10px] whitespace-nowrap ${
+            className={`text-xs whitespace-nowrap ${
               !responsiveText ? "block" : "hidden xs:block"
             }`}
           >

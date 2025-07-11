@@ -90,7 +90,7 @@ const ReportDialog = () => {
             zIndex: "9998 !important",
           }}
         >
-          <Dialog.Content className="bg-[#2a314e] text-gray-50 relative max-w-[460px] lg:h-auto h-full mx-4">
+          <Dialog.Content className="bg-[#2a314e] text-gray-50 relative max-w-[460px] mx-4">
             <Dialog.Header>
               <Dialog.Title>{movie?.name}</Dialog.Title>
             </Dialog.Header>

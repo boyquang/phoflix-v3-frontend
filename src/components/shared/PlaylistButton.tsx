@@ -27,7 +27,7 @@ const PlaylistButton = ({
     >
       <PlusIcon />
       <span
-        className={`xs:text-xs whitespace-nowrap text-[10px] ${
+        className={`text-xs whitespace-nowrap ${
           !responsiveText ? "block" : "hidden xs:block"
         }`}
       >

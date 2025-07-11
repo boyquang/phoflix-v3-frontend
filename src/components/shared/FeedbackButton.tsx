@@ -27,7 +27,7 @@ const FeedbackButton = ({
     >
       <TbMessageFilled />
       <span
-        className={`xs:text-xs text-[10px] whitespace-nowrap ${
+        className={`text-xs whitespace-nowrap ${
           !responsiveText ? "block" : "hidden xs:block"
         }`}
       >

@@ -33,7 +33,7 @@ const SearchPreviewItem = ({ item, callback }: SearchPreviewItemProps) => {
     <li onClick={() => callback(item?.name)}>
       <Link href={`/thong-tin-phim/${item?.slug}`} className="block">
         <Box className="flex gap-4 p-4 hover:bg-[#ffffff05] transition-all">
-          <Box className="w-20 h-28 relative flex-shrink-0">
+          <Box className="xs:w-20 w-16 xs:h-28 h-24 relative flex-shrink-0">
             <Image
               src={generateUrlImage(item?.poster_url)}
               alt={item?.name}
@@ -41,14 +41,14 @@ const SearchPreviewItem = ({ item, callback }: SearchPreviewItemProps) => {
             />
           </Box>
           <Box className="flex-1 overflow-hidden">
-            <h3 className="text-sm text-gray-50 truncate-lines-2">
+            <h3 className="xs:text-sm text-xs text-gray-50 truncate">
               {partsName.length > 0 ? (
                 <HighlightText parts={partsName} />
               ) : (
                 <span>{itemName}</span>
               )}
             </h3>
-            <p className="text-xs text-gray-300 truncate">
+            <p className="text-xs text-gray-400 mt-0.5 truncate">
               {partsNameOrigin.length > 0 ? (
                 <HighlightText parts={partsNameOrigin} />
               ) : (

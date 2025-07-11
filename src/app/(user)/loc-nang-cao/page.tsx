@@ -1,6 +1,5 @@
 import Loading from "@/app/loading";
 import FilterBox from "@/components/advance-filter/FilterBox";
-import MainPage from "@/components/advance-filter/MainPage";
 import RootLayout from "@/components/layout/RootLayout";
 import EmptyData from "@/components/shared/EmptyData";
 import MovieGrid from "@/components/shared/MovieGrid";
@@ -118,7 +117,7 @@ const Page = async ({ params, searchParams }: PageProps) => {
               currentPage={Number(currentPage)}
               totalItems={totalItems}
               itemsPerPage={limit}
-              isScroll={true}
+              isScroll={false}
               showToaster={false}
             />
           )}

@@ -26,21 +26,21 @@ export interface MovieConfigItem {
 
 const CountriesConfig: MovieConfigItem[] = [
   {
-    title: "Phim Việt Nam mới",
+    title: "Phim Việt Nam",
     link: "/chi-tiet/quoc-gia/viet-nam",
     type: "viet-nam",
     describe: "quoc-gia",
     orientation: "horizontal",
   },
   {
-    title: "Phim Trung Quốc mới",
+    title: "Phim Trung Quốc",
     link: "/chi-tiet/quoc-gia/trung-quoc",
     type: "trung-quoc",
     describe: "quoc-gia",
     orientation: "horizontal",
   },
   {
-    title: "Phim Hàn Quốc mới",
+    title: "Phim Hàn Quốc",
     link: "/chi-tiet/quoc-gia/han-quoc",
     type: "han-quoc",
     describe: "quoc-gia",
@@ -295,7 +295,7 @@ const CategoriesConfig: MovieConfigItem[] = [
     orientation: "vertical",
   },
   {
-    title: "Gia đình ấm áp",
+    title: "Khoảnh khắc gia đình",
     link: "/chi-tiet/the-loai/gia-dinh",
     type: "gia-dinh",
     describe: "the-loai",
@@ -323,14 +323,14 @@ const CategoriesConfig: MovieConfigItem[] = [
     orientation: "vertical",
   },
   {
-    title: "Hài hước cười sảng khoái",
+    title: "Cười không nhặt được mồm",
     link: "/chi-tiet/the-loai/hai-huoc",
     type: "hai-huoc",
     describe: "the-loai",
     orientation: "horizontal",
   },
   {
-    title: "Âm nhạc và đam mê",
+    title: "Nhạc là chân ái",
     link: "/chi-tiet/the-loai/am-nhac",
     type: "am-nhac",
     describe: "the-loai",
@@ -351,7 +351,7 @@ const CategoriesConfig: MovieConfigItem[] = [
     orientation: "horizontal",
   },
   {
-    title: "Học đường vui nhộn",
+    title: "Drama học đường",
     link: "/chi-tiet/the-loai/hoc-duong",
     type: "hoc-duong",
     describe: "the-loai",
@@ -754,7 +754,7 @@ export const movieCatalog: TypeMovie[] = [
   },
   {
     _id: "5",
-    name: "Phim Vietsub",
+    name: "Phim Phụ Đề",
     slug: "phim-vietsub",
     type: "danh-sach",
   },

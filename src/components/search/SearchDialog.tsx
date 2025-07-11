@@ -23,6 +23,8 @@ import SearchPreview from "./SearchPreview";
 const { dialog } = appConfig.charka;
 const motionPresetDefault = dialog.motionPresetDefault;
 
+export const limitSearchPreview = 5;
+
 const SearchDialog = () => {
   const dispatch: AppDispatch = useDispatch();
   const router = useRouter();
@@ -35,7 +37,12 @@ const SearchDialog = () => {
   const fetchData = useCallback(
     debounce((searchTerm: string) => {
       if (searchTerm.trim()) {
-        dispatch(fetchDataMoviePreview({ keyword: searchTerm, limit: 10 }));
+        dispatch(
+          fetchDataMoviePreview({
+            keyword: searchTerm,
+            limit: limitSearchPreview,
+          })
+        );
       }
     }, 500),
     [dispatch]
@@ -52,7 +59,7 @@ const SearchDialog = () => {
       return;
     }
 
-    router.push(`/tim-kiem?keyword=${keyword.replace(/\s+/g, "+")}`);
+    router.push(`/tim-kiem?keyword=${keyword.trim().replace(/\s+/g, "+")}`);
 
     // Gọi hàm để tạo lịch sử tìm kiếm
     handleCreateSearchHistory(keyword);
