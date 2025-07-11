@@ -39,6 +39,7 @@ const ClientWrapper = ({ movie, episodes }: ClientWrapperProps) => {
     isLongSeries,
     episodes: episodesStore,
     movie: movieInfo,
+    isValidEpisodes,
   } = useSelector((state: RootState) => state.movie.movieInfo);
   const { groups, selectedLanguage } = useSelector(
     (state: RootState) => state.movie.episode
@@ -114,36 +115,40 @@ const ClientWrapper = ({ movie, episodes }: ClientWrapperProps) => {
       <div className="flex flex-col gap-12">
         <div className="flex gap-12 lg:flex-row flex-col pb-12 border-b border-[#ffffff10]">
           <SectionInfo data={movie} />
-          <div className="lg:w-[0.5px] w-full lg:h-auto h-[0.5px] bg-[#ffffff10]"></div>
-          <div className="xl:flex-2 flex-1">
-            {isLongSeries ? (
-              <>
-                <EpisodeTabs />
-                {Object.keys(groups)?.length > 0 && selectedLanguage && (
-                  <EpisodesList
-                    currentEpisode={currentEpisode}
-                    setCurrentEpisode={(item) =>
-                      dispatch(setCurrentEpisode(item))
-                    }
-                    colums={{
-                      base: 3,
-                      md: 5,
-                      lg: 3,
-                      xl: 6,
-                    }}
+          {isValidEpisodes && (
+            <>
+              <div className="lg:w-[0.5px] w-full lg:h-auto h-[0.5px] bg-[#ffffff10]"></div>
+              <div className="xl:flex-2 flex-1">
+                {isLongSeries ? (
+                  <>
+                    <EpisodeTabs />
+                    {Object.keys(groups)?.length > 0 && selectedLanguage && (
+                      <EpisodesList
+                        currentEpisode={currentEpisode}
+                        setCurrentEpisode={(item) =>
+                          dispatch(setCurrentEpisode(item))
+                        }
+                        colums={{
+                          base: 3,
+                          md: 5,
+                          lg: 3,
+                          xl: 6,
+                        }}
+                        redirect={false}
+                        episodes={groups[selectedLanguage]?.items || []}
+                        language={selectedLanguage}
+                      />
+                    )}
+                  </>
+                ) : (
+                  <MovieVersionList
                     redirect={false}
-                    episodes={groups[selectedLanguage]?.items || []}
-                    language={selectedLanguage}
+                    classNameGrid="lg:grid-cols-3 md:grid-cols-3 xs:grid-cols-2 grid-cols-1"
                   />
                 )}
-              </>
-            ) : (
-              <MovieVersionList
-                redirect={false}
-                classNameGrid="lg:grid-cols-3 md:grid-cols-3 xs:grid-cols-2 grid-cols-1"
-              />
-            )}
-          </div>
+              </div>
+            </>
+          )}
         </div>
 
         <FeedbackSection />
