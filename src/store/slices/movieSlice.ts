@@ -137,12 +137,8 @@ const movieSlice = createSlice({
       const isValidEpisodes = hasValidEpisode(episodes);
 
       if (isValidEpisodes) {
-
         // Kiểm tra phim có phải là series dài tập hay không
         state.movieInfo.isLongSeries = hasMultipleEpisodes(episodes);
-
-        // state.movieInfo.isLongSeries =
-        //   movie?.tmdb?.type === "tv" && episodes?.[0]?.server_data?.length > 1;
 
         // Thêm tập phim theo ngôn ngữ
         episodes?.forEach((episode: Episode) => {

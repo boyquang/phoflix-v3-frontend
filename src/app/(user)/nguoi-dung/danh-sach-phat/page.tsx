@@ -98,7 +98,7 @@ const Page = async ({ searchParams }: PageProps) => {
   const totalItemsPerPage = responseMovies?.result?.totalItemsPerPage || 0;
 
   return (
-    <>
+    <Suspense fallback={<Loading type="bars" height="h-96" />}>
       <Box className="flex items-center justify-between flex-wrap gap-2 mb-4">
         <h3 className="text-gray-50 text-lg">Danh sách phát</h3>
 
@@ -123,21 +123,17 @@ const Page = async ({ searchParams }: PageProps) => {
         </Box>
       </Box>
 
-      <Suspense fallback={<Loading type="bars" height="h-12" />}>
-        <Playlists playlists={playlists} />
-      </Suspense>
+      <Playlists playlists={playlists} />
 
-      <Suspense fallback={<Loading type="bars" height="h-96" />}>
-        <MovieSection
-          movies={movies}
-          totalItems={totalItems}
-          totalItemsPerPage={totalItemsPerPage}
-          currentPage={currentPage}
-          limit={limit}
-          type="playlist"
-        />
-      </Suspense>
-    </>
+      <MovieSection
+        movies={movies}
+        totalItems={totalItems}
+        totalItemsPerPage={totalItemsPerPage}
+        currentPage={currentPage}
+        limit={limit}
+        type="playlist"
+      />
+    </Suspense>
   );
 };
 

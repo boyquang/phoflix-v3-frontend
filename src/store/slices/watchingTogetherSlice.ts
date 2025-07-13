@@ -2,7 +2,6 @@ import { createSlice } from "@reduxjs/toolkit";
 import {
   createRoomWatchingTogether,
   getRoomDataWatchingTogether,
-  getUsersInRoom,
   joinRoomWatchingTogether,
 } from "../asyncThunks/watchingTogetherAsyncThunk";
 

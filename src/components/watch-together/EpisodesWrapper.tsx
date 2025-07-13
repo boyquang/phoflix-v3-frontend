@@ -9,6 +9,7 @@ import { Box } from "@chakra-ui/react";
 import { debounce } from "lodash";
 import { useDispatch, useSelector } from "react-redux";
 import LanguageIcon from "../episode/LanguageIcon";
+import { useEffect } from "react";
 
 const EpisodeWrapper = () => {
   const { movieData, currentEpisode } = useSelector(
@@ -48,7 +49,9 @@ const EpisodeWrapper = () => {
                 lg: 6,
                 xl: 6,
               }}
-              language={episode?.server_name as languageType}
+              language={
+                formatTypeMovie(episode?.server_name).language as languageType
+              }
               episodes={episode?.server_data}
             />
           </Box>
