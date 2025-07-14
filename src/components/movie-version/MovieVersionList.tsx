@@ -119,7 +119,7 @@ const MovieVersionList = ({
                     <span>{label}</span>
                   </div>
                 </div>
-                <h4 className="max-w-[90%] truncate-lines-3 text-[1rem] text-gray-50 font-semibold">
+                <h4 className="max-w-[90%] truncate-lines-2 text-[1rem] text-gray-50 font-semibold">
                   {movie?.name}
                 </h4>
                 <Button size="xs" className="rounded-md bg-white text-black">

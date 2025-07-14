@@ -41,15 +41,15 @@ const SkeletonMovieThumb = ({ orientation }: SkeletonMovieThumbProps) => {
       }}
     >
       {[...Array(10)].map((_, index) => (
-        <SwiperSlide key={index} className="relative">
+        <SwiperSlide key={index} className="relative pt-4">
           <Box
             className={`h-0 relative ${
               orientation === "horizontal" ? "pb-[62%]" : "pb-[150%]"
             }`}
           >
-            <Skeleton className="absolute inset-0 w-full h-full rounded-lg" />
+            <div className="absolute inset-0 w-full h-full rounded-lg bg-gray-300 animate-pulse" />
           </Box>
-          <SkeletonText noOfLines={1} className="mt-2" />
+          <div className="mt-2 h-3 w-full bg-gray-300 rounded animate-pulse" />
         </SwiperSlide>
       ))}
     </Swiper>

@@ -58,7 +58,7 @@ const Page = async ({ searchParams }: PageProps) => {
     <Suspense fallback={<Loading type="text" />}>
       <RootLayout>
         <div className="lg:pt-28 pt-24">
-          <h3 className="inline-block xl:text-3xl lg:text-2xl text-xl title-text font-bold mb-8">
+          <h3 className="inline-block xl:text-3xl lg:text-2xl text-xl title-text font-bold mb-12">
             Diễn viên nổi bật
           </h3>
 

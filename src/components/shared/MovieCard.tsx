@@ -91,15 +91,17 @@ const MovieCard = ({ data, orientation }: MovieItemProps) => {
               alt={data?.name || "Không xác định"}
             />
             <Box className="absolute xs:right-2 top-2 left-2 xs:inline-flex hidden flex-wrap items-center gap-1">
-              <Badge colorPalette="green" className="uppercase" size="xs">
+              <Badge
+                className="uppercase bg-gray-900 text-white shadow-sm"
+                size="xs"
+              >
                 {data?.quality}
               </Badge>
               {data?.lang?.split("+")?.map((lang, index) => (
                 <Badge
                   key={index}
-                  colorPalette={paletteList[index % paletteList.length]}
                   size="xs"
-                  className="uppercase"
+                  className="uppercase bg-white text-gray-900 shadow-sm"
                 >
                   {lang}
                 </Badge>
