@@ -117,7 +117,7 @@ const Page = async ({ params, searchParams }: PageProps) => {
               currentPage={Number(currentPage)}
               totalItems={totalItems}
               itemsPerPage={limit}
-              isScroll={false}
+              isScroll={true}
               showToaster={false}
             />
           )}

@@ -33,16 +33,17 @@ const PaginationCustom = ({
 
     params.set("page", page.toString());
 
-    startTransition(() => {
-      router.replace(`?${params.toString()}`, { scroll: false });
-    });
-
     if (isScroll) {
       window.scrollTo({
         top: 0,
         behavior: "smooth",
       });
     }
+    
+    startTransition(() => {
+      router.replace(`?${params.toString()}`, { scroll: false });
+    });
+
 
     if (showToaster) {
       notificationAlert({

@@ -1,13 +1,13 @@
 "use client";
 
 import { createPortal } from "react-dom";
-import { Box, Button, Image } from "@chakra-ui/react";
+import { Box, Button } from "@chakra-ui/react";
 import { decodeHtmlEntities, generateUrlImage } from "@/lib/utils";
-import { useState } from "react";
 import { TagClassic } from "./TagClassic";
 import Link from "next/link";
 import PlayIcon from "../icons/PlayIcon";
 import InfoIcon from "../icons/InfoIcon";
+import Image from "./Image";
 
 import "@/assets/css/animation.css";
 interface MovieTooltipProps {
@@ -21,8 +21,6 @@ interface MovieTooltipProps {
 }
 
 const MovieTooltip = ({ data, position }: MovieTooltipProps) => {
-  const [image, setImage] = useState<string>("/images/placeholder.jpg");
-
   return createPortal(
     <div
       style={{
@@ -33,16 +31,11 @@ const MovieTooltip = ({ data, position }: MovieTooltipProps) => {
       }}
       className="bg-[#2f3346] rounded-xl shadow-lg text-white absolute overflow-hidden tooltip-animation z-50"
     >
-      <div className="relative">
+      <div className="relative h-52">
         <Image
-          onError={({ currentTarget }) => {
-            currentTarget.onerror = null;
-            currentTarget.src = "/images/notfound.png";
-          }}
-          src={image}
-          onLoad={() => setImage(() => generateUrlImage(data?.thumb_url))}
+          src={generateUrlImage(data?.thumb_url)}
           alt={data?.name}
-          className="h-52 w-full object-cover rounded-xl"
+          className="rounded-xl"
         />
         <div className="bg-gradient-to-t h-1/2 absolute bottom-0 from-[#2f3346] inset-x-0 to-transparent"></div>
       </div>

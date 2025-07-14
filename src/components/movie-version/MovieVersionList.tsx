@@ -6,7 +6,7 @@ import { useDispatch, useSelector } from "react-redux";
 import Image from "../shared/Image";
 import { Button } from "@chakra-ui/react";
 import { setCurrentEpisode } from "@/store/slices/movieSlice";
-import { useParams, useRouter } from "next/navigation";
+import { useRouter } from "next/navigation";
 
 interface MovieVersionListProps {
   redirect?: boolean;
@@ -34,7 +34,6 @@ const MovieVersionList = ({
     (state: RootState) => state.movie.movieInfo
   );
   const dispatch: AppDispatch = useDispatch();
-  const params = useParams();
   const router = useRouter();
 
   const handleChangeVerion = (
@@ -90,7 +89,7 @@ const MovieVersionList = ({
                 );
               }}
               key={language}
-              className={`relative border-2 rounded-lg overflow-hidden hover:-translate-y-2 transition-transform duration-300 
+              className={`relative border-2 rounded-xl overflow-hidden hover:-translate-y-2 transition-transform duration-300 
                 ${backgroundColor[language]}  
                 ${
                   isCurrent && !redirect

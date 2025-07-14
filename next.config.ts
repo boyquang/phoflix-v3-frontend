@@ -3,8 +3,26 @@ import type { NextConfig } from "next";
 const nextConfig: NextConfig = {
   reactStrictMode: false,
   images: {
+    remotePatterns: [
+      {
+        protocol: "https",
+        hostname: "phimimg.com",
+        pathname: "/**",
+      },
+      {
+        protocol: "https",
+        hostname: "image.tmdb.org",
+        pathname: "/**",
+      },
+      {
+        protocol: "https",
+        hostname: "lh3.googleusercontent.com",
+        pathname: "/**",
+      },
+    ],
     domains: ["phimimg.com", "image.tmdb.org", "lh3.googleusercontent.com"],
   },
+
   compiler: {
     emotion: true,
   },
