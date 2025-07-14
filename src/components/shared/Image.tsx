@@ -19,8 +19,14 @@ const Image = ({
   ref = null,
 }: ImageProps) => {
   const [blurData, setBlurData] = useState<string | null>(null);
+  const [error, setError] = useState<boolean>(false);
 
   useEffect(() => {
+    if (!src) {
+      setError(true);
+      return;
+    }
+
     fetch(`/api/blur?src=${encodeURIComponent(src)}`)
       .then((res) => res.json())
       .then((data) => {
@@ -31,13 +37,14 @@ const Image = ({
   return (
     <NextImage
       ref={ref}
-      src={src}
+      src={error ? "/images/notfound.png" : src}
       blurDataURL={blurData ? blurData : undefined}
       placeholder={blurData ? "blur" : "empty"}
       alt={alt}
       fill
       quality={quality}
       priority
+      onError={() => setError(true)}
       sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
       className={`block w-full h-full object-cover inset-0 transition-all duration-700 ease-in-out absolute ${className}`}
     />
