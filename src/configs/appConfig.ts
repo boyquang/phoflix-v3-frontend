@@ -127,6 +127,9 @@ export const appConfig: AppConfig = {
     "/dashboard/report-management": {
       status: FeatureStatus.ACTIVE,
     },
+    "/dashboard/telegram-bot": {
+      status: FeatureStatus.ACTIVE,
+    },
     "/dashboard/notification-management": {
       status: FeatureStatus.ACTIVE,
     },
