@@ -14,6 +14,7 @@ import useNotification from "@/hooks/useNotification";
 
 interface TableMovieRequestProps {
   items: MovieRequest[];
+  offset: number;
 }
 
 export interface MovieRequestProcess {
@@ -22,7 +23,7 @@ export interface MovieRequestProcess {
   adminResponse?: string;
 }
 
-const TableMovieRequest = ({ items }: TableMovieRequestProps) => {
+const TableMovieRequest = ({ items, offset }: TableMovieRequestProps) => {
   const router = useRouter();
   const { data: session } = useSession();
   const [movieRequestId, setMovieRequestId] = useState<string | null>(null);
@@ -82,6 +83,7 @@ const TableMovieRequest = ({ items }: TableMovieRequestProps) => {
         <table className="w-full table-auto text-sm text-gray-200 bg-transparent">
           <thead className="bg-transparent border-b border-[#ffffff10]">
             <tr>
+              <th className="px-4 py-3 whitespace-nowrap text-left">#</th>
               <th className="px-4 py-3 whitespace-nowrap text-left">
                 Tên phim
               </th>
@@ -109,11 +111,14 @@ const TableMovieRequest = ({ items }: TableMovieRequestProps) => {
             </tr>
           </thead>
           <tbody>
-            {items.map((item) => (
+            {items.map((item, index) => (
               <tr
                 key={item.id}
                 className="border-b border-[#ffffff10] last:border-b-0 hover:bg-[#ffffff05] transition"
               >
+                <td className="px-4 py-3 whitespace-nowrap">
+                  <span className="font-medium text-white">{index + 1 + offset}</span>
+                </td>
                 <td className="px-4 py-3 whitespace-nowrap">
                   {item.movie_name}
                 </td>

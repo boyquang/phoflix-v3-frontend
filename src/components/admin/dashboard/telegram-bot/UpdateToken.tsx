@@ -36,7 +36,7 @@ const UpdateToken = () => {
   return (
     <div className="flex items-center gap-4">
       <Input
-        size="sm"
+        size="md"
         placeholder="Nhập token mới cần cập nhật"
         value={token}
         min={45}
@@ -45,13 +45,13 @@ const UpdateToken = () => {
         onChange={(e) => setToken(e.target.value)}
       />
       <Button
-        disabled={token.trim() === ""}
+        disabled={token.trim() === "" || loading}
         onClick={handleUpdateToken}
-        size="sm"
+        size="md"
         className="bg-primary rounded-lg text-gray-900 shadow-primary"
       >
-        {loading && <Spinner size="sm" />}
         Cập nhật
+        {loading && <Spinner size="sm" />}
       </Button>
     </div>
   );

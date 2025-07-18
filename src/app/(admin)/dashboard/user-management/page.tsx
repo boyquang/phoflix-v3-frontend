@@ -1,4 +1,5 @@
 import Loading from "@/app/loading";
+import { PageProps } from "@/app/page";
 import { auth } from "@/auth";
 import TableUsers from "@/components/admin/dashboard/user-management/TableUsers";
 import PaginationCustom from "@/components/shared/PaginationCustom";
@@ -6,10 +7,6 @@ import { getUsers } from "@/lib/actions/adminActionServer";
 import { NEXT_PUBLIC_SITE_URL } from "@/lib/env";
 import { Box } from "@chakra-ui/react";
 import { Suspense } from "react";
-
-interface PageProps {
-  searchParams: Promise<{ [key: string]: string | string[] | undefined }>;
-}
 
 export const generateMetadata = async () => {
   return {
@@ -63,7 +60,7 @@ const Page = async ({ searchParams }: PageProps) => {
       <Box className="text-gray-50">
         <h1 className="lg:text-3xl text-xl">Quản lý người dùng</h1>
 
-        <TableUsers items={items} />
+        <TableUsers items={items} offset={(page - 1) * limit} />
 
         {totalItems >= limit && (
           <PaginationCustom

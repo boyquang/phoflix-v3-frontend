@@ -3,7 +3,20 @@
  * Sắp xếp theo thứ tự thời gian từ đầu năm đến cuối năm để hiển thị đúng thứ tự
  */
 
-export const eventConfig = [
+export type DateEvent = `${number}/${number}`;
+
+interface Event {
+  name: string;
+  date: DateEvent;
+  description: string;
+  slug: string;
+  country: string;
+  describe: string;
+  isLunar: boolean;
+  icon: string;
+}
+
+export const eventConfig: Event[] = [
   {
     name: "Lễ Tình nhân",
     date: "14/02",

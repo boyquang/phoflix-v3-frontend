@@ -13,9 +13,10 @@
 
   interface TableFeedbacksProps {
     items: FeedbackTable[];
+    offset: number;
   }
 
-  const TableFeedbacks = ({ items }: TableFeedbacksProps) => {
+  const TableFeedbacks = ({ items, offset }: TableFeedbacksProps) => {
     const router = useRouter();
     const { data: sesstion } = useSession();
     const [markFeedbackAsSpamId, setMarkFeedbackAsSpamId] = useState<
@@ -73,6 +74,7 @@
           <table className="w-full table-auto text-sm text-gray-200 bg-transparent">
             <thead className="bg-transparent border-b border-[#ffffff10]">
               <tr>
+                <th className="px-4 py-3 whitespace-nowrap text-left">#</th>
                 <th className="px-4 py-3 whitespace-nowrap text-left">
                   Đánh dấu spam
                 </th>
@@ -95,11 +97,14 @@
               </tr>
             </thead>
             <tbody>
-              {items.map((item) => (
+              {items.map((item, index) => (
                 <tr
                   key={item.id}
                   className="border-b border-[#ffffff10] last:border-b-0 hover:bg-[#ffffff05] transition"
                 >
+                  <td className="px-4 py-3 whitespace-nowrap">
+                    <span className="font-medium text-white">{index + 1 + offset}</span>
+                  </td>
                   <td className="px-4 py-3 whitespace-nowrap">
                     <MarkFeedbackAsSpam
                       loading={markFeedbackAsSpamId === item.id}
@@ -107,11 +112,15 @@
                       onMarkAsSpam={handleMarkAsSpam}
                     />
                   </td>
-                  <td className="px-4 py-3 whitespace-nowrap">{item.sender_name}</td>
+                  <td className="px-4 py-3 whitespace-nowrap">
+                    {item.sender_name}
+                  </td>
                   <td className="px-4 py-3 whitespace-nowrap">
                     {item.receiver_name ?? "Không có"}
                   </td>
-                  <td className="px-4 py-3 whitespace-nowrap">{item.content}</td>
+                  <td className="px-4 py-3 whitespace-nowrap">
+                    {item.content}
+                  </td>
                   <td className="px-4 py-3 whitespace-nowrap">
                     {item.type === "comment" ? "Bình luận" : "Đánh giá"}
                   </td>
@@ -123,8 +132,12 @@
                       {item.movie_slug}
                     </Link>
                   </td>
-                  <td className="px-4 py-3 whitespace-nowrap">{item.total_likes}</td>
-                  <td className="px-4 py-3 whitespace-nowrap">{item.total_dislikes}</td>
+                  <td className="px-4 py-3 whitespace-nowrap">
+                    {item.total_likes}
+                  </td>
+                  <td className="px-4 py-3 whitespace-nowrap">
+                    {item.total_dislikes}
+                  </td>
                   <td className="px-4 py-3 whitespace-nowrap text-right">
                     {formatDate(item.created_at)}
                   </td>

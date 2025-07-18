@@ -6,6 +6,7 @@ import { NEXT_PUBLIC_SITE_URL } from "@/lib/env";
 import { Metadata } from "next";
 import { Suspense } from "react";
 import { fetchActors } from "@/lib/actions/movieActionServer";
+import { PageProps } from "@/app/page";
 
 export async function generateMetadata(): Promise<Metadata> {
   return {
@@ -37,10 +38,6 @@ export async function generateMetadata(): Promise<Metadata> {
         "Tổng hợp các gương mặt diễn viên xuất sắc và được yêu thích nhất hiện nay.",
     },
   };
-}
-
-interface PageProps {
-  searchParams: Promise<{ [key: string]: string | string[] | undefined }>;
 }
 
 const Page = async ({ searchParams }: PageProps) => {

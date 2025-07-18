@@ -8,6 +8,7 @@ import ListRooms from "@/components/watch-together/ListRooms";
 import PaginationCustom from "@/components/shared/PaginationCustom";
 import { NEXT_PUBLIC_SITE_URL } from "@/lib/env";
 import RootLayout from "@/components/layout/RootLayout";
+import { PageProps } from "@/app/page";
 
 export function generateMetadata(): Metadata {
   return {
@@ -42,9 +43,6 @@ export function generateMetadata(): Metadata {
   };
 }
 
-interface PageProps {
-  searchParams: Promise<{ [key: string]: string | string[] | undefined }>;
-}
 
 const CommunityRoom = async ({ searchParams }: PageProps) => {
   const sesstion = await auth();

@@ -1,4 +1,5 @@
 import Loading from "@/app/loading";
+import { PageProps } from "@/app/page";
 import EmptyData from "@/components/shared/EmptyData";
 import ClientWrapper from "@/components/watch-movie/ClientWrapper";
 import { fetchMovieInfo } from "@/lib/actions/movieActionServer";
@@ -6,11 +7,6 @@ import { NEXT_PUBLIC_SITE_URL } from "@/lib/env";
 import { Metadata } from "next";
 import { Suspense } from "react";
 import { FaPhotoFilm } from "react-icons/fa6";
-
-interface PageProps {
-  params: Promise<{ [key: string]: string | string[] | undefined }>;
-  searchParams: Promise<{ [key: string]: string | string[] | undefined }>;
-}
 
 export async function generateMetadata({
   params,
@@ -83,7 +79,6 @@ const Page = async ({ params, searchParams }: PageProps) => {
 
   const { movie, episodes, status } = await fetchMovieInfo(slug as string);
 
-  
   if (!status || Object.keys(movie).length === 0) {
     return (
       <div className="min-h-screen flex items-center justify-center max-w-2xl mx-auto px-4">

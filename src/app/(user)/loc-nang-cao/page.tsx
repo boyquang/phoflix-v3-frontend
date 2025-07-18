@@ -1,4 +1,5 @@
 import Loading from "@/app/loading";
+import { PageProps } from "@/app/page";
 import FilterBox from "@/components/advance-filter/FilterBox";
 import RootLayout from "@/components/layout/RootLayout";
 import EmptyData from "@/components/shared/EmptyData";
@@ -10,11 +11,6 @@ import { Metadata } from "next";
 import { Suspense } from "react";
 import { IoSearch } from "react-icons/io5";
 import { RiMovieFill } from "react-icons/ri";
-
-interface PageProps {
-  searchParams: Promise<{ [key: string]: string | string[] | undefined }>;
-  params: Promise<{ [key: string]: string | string[] | undefined }>;
-}
 
 export async function generateMetadata(): Promise<Metadata> {
   return {

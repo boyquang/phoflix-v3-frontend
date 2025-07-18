@@ -99,7 +99,6 @@ export const updateToken = async (token: string, userId: string) => {
     }
 
     return data;
-
   } catch (error) {
     console.error("Error updating token:", error);
     return {
@@ -109,4 +108,41 @@ export const updateToken = async (token: string, userId: string) => {
       statusCode: 500,
     };
   }
-}
+};
+
+export const showToken = async (userId: string, tokenId: string) => {
+  try {
+    const response = await fetch(
+      `${NEXT_PUBLIC_BACKEND_URL}/telegram/show-token`,
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ userId, tokenId }),
+      }
+    );
+
+    const data = await response.json();
+
+    if (!response.ok) {
+      const { status, message, result } = data || {};
+
+      return {
+        status: status || false,
+        message: message || "Lỗi server! Vui lòng thử lại sau.",
+        result: result || null,
+      };
+    }
+
+    return data;
+  } catch (error) {
+    console.error("Error showing token:", error);
+    return {
+      status: false,
+      message: "Error showing token",
+      result: null,
+      statusCode: 500,
+    };
+  }
+};

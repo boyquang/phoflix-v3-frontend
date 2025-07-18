@@ -41,11 +41,13 @@ const DrawerCustom = ({ isOpen, onClose }: DrawerCustomProps) => {
         p={1}
         className="bg-[#2a314e] text-gray-50 border-r border-[#ffffff10]"
       >
-        <DrawerHeader p={3}>
-          <DrawerTitle>
-            <ProfileHeader />
-          </DrawerTitle>
-        </DrawerHeader>
+        {session && (
+          <DrawerHeader p={3}>
+            <DrawerTitle>
+              <ProfileHeader />
+            </DrawerTitle>
+          </DrawerHeader>
+        )}
         <DrawerBody p={3}>
           <ul className="flex flex-col gap-1 h-full">
             {menu.map((item, index) => {

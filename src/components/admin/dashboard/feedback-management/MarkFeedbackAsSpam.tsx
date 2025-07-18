@@ -26,6 +26,9 @@ const MarkFeedbackAsSpam = ({
       }}
       color="primary"
       size="small"
+      label={
+        feedback?.is_spam ? "Bỏ đánh dấu" : "Đánh dấu"
+      }
     />
   );
 };

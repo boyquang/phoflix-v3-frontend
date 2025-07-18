@@ -5,7 +5,7 @@ import { toaster } from "@/components/ui/toaster";
 import { decode } from "he";
 import "dayjs/locale/vi";
 import { delay } from "lodash";
-import { eventConfig } from "@/configs/eventConfig";
+import { DateEvent, eventConfig } from "@/configs/eventConfig";
 
 dayjs.locale("vi");
 dayjs.extend(relativeTime);
@@ -141,13 +141,14 @@ export const getImageSrc = (
  * @returns - Ngày dương lịch tương ứng (định dạng "MM/dd")
  */
 
-export const convertLunarToSolar = (lunarDate: string) => {
+export const convertLunarToSolar = (lunarDate: string): DateEvent => {
   const [day, month] = lunarDate.split("/").map(Number);
   const lunar = Lunar.fromYmd(new Date().getFullYear(), month, day);
   const solar = lunar.getSolar();
   const dayStr = String(solar.getDay()).padStart(2, "0");
   const monthStr = String(solar.getMonth()).padStart(2, "0");
-  return `${dayStr}/${monthStr}`; // chuẩn định dạng dd/MM
+
+  return `${dayStr}/${monthStr}` as DateEvent;
 };
 
 ///////////////////////////////////////////////////////////////
@@ -885,7 +886,6 @@ export const hasValidEpisode = (episodes: Episode[]) => {
 export const hasMultipleEpisodes = (episodes: Episode[]) => {
   return episodes?.some((server) => server.server_data?.length > 1);
 };
-
 
 /**
  * @param episodeCurrent - Chuỗi trạng thái của episode hiện tại

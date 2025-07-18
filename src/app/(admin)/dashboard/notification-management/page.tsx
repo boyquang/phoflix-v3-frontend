@@ -1,4 +1,5 @@
 import Loading from "@/app/loading";
+import { PageProps } from "@/app/page";
 import { auth } from "@/auth";
 import CreateNotification from "@/components/admin/dashboard/notification-management/CreateNotification";
 import TableNotifications from "@/components/admin/dashboard/notification-management/TableNotifications";
@@ -7,10 +8,6 @@ import { getNotifications } from "@/lib/actions/adminActionServer";
 import { NEXT_PUBLIC_SITE_URL } from "@/lib/env";
 import { Box } from "@chakra-ui/react";
 import { Suspense } from "react";
-
-interface PageProps {
-  searchParams: Promise<{ [key: string]: string | string[] | undefined }>;
-}
 
 export const generateMetadata = async () => {
   return {
@@ -64,7 +61,7 @@ const Page = async ({ searchParams }: PageProps) => {
       <Box className="text-gray-50">
         <h1 className="lg:text-3xl text-xl">Quản lý thông báo</h1>
 
-        <TableNotifications items={items} />
+        <TableNotifications offset={(page - 1) * limit} items={items} />
 
         {totalItems >= limit && (
           <PaginationCustom

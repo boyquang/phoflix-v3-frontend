@@ -74,4 +74,3 @@ Truy cập [http://localhost:3000](http://localhost:3000) để xem ứng dụng
 
 ---
 
-Hy vọng tệp `README.md` này sẽ giúp bạn khởi đầu dự án Next.js một cách dễ dàng và hiệu quả. Nếu bạn cần thêm thông tin hoặc hỗ trợ, đừng ngần ngại liên hệ!

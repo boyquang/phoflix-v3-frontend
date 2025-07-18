@@ -51,16 +51,16 @@ const EditableInfo = ({
       onChange={handleChange}
     >
       <Tooltip showArrow content="Nhấn vào để chỉnh sửa" openDelay={100}>
-        <Editable.Preview className="min-h-6 cursor-pointer">
+        <Editable.Preview className="min-h-6 cursor-pointer hover:bg-transparent hover:underline">
           {children}
         </Editable.Preview>
       </Tooltip>
-      <Editable.Textarea className="focus-visible:outline-gray-400 min-h-8 min-w-64 max-w-80 text-gray-600 text-xs bg-transparent" />
+      <Editable.Textarea className="focus-visible:outline-gray-400 min-h-8 min-w-64 max-w-80 text-white text-sm bg-transparent" />
       <Editable.Control>
         <Editable.EditTrigger asChild>
           <IconButton
             size="xs"
-            className="border border-[#ffffff10] text-white bg-transparent"
+            className="border border-[#ffffff10]  text-white bg-transparent rounded-full"
           >
             <LuPencilLine />
           </IconButton>
@@ -68,14 +68,14 @@ const EditableInfo = ({
         <Editable.CancelTrigger asChild>
           <IconButton
             size="xs"
-            className="border border-[#ffffff10] text-white bg-transparent"
+            className="border border-[#ffffff10] text-white bg-transparent rounded-full"
           >
             <LuX />
           </IconButton>
         </Editable.CancelTrigger>
         <Editable.SubmitTrigger asChild>
           <IconButton
-            className="border border-[#ffffff10] text-white bg-transparent"
+            className="border border-[#ffffff10] hover:border-[#ffd875] hover:text-[#ffd875] text-white bg-transparent rounded-full"
             size="xs"
           >
             <LuCheck />

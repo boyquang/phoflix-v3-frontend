@@ -1,4 +1,5 @@
 import Loading from "@/app/loading";
+import { PageProps } from "@/app/page";
 import { auth } from "@/auth";
 import StatusSelectorFilter from "@/components/admin/dashboard/movie-request-management/StatusSelecterFilter";
 import TableMovieRequest from "@/components/admin/dashboard/movie-request-management/TableMovieRequest";
@@ -7,10 +8,6 @@ import { getMovieRequests } from "@/lib/actions/adminActionServer";
 import { NEXT_PUBLIC_SITE_URL } from "@/lib/env";
 import { Box, Status } from "@chakra-ui/react";
 import { Suspense } from "react";
-
-interface PageProps {
-  searchParams: Promise<{ [key: string]: string | string[] | undefined }>;
-}
 
 export const generateMetadata = async () => {
   return {
@@ -70,7 +67,7 @@ const Page = async ({ searchParams }: PageProps) => {
           <h1 className="lg:text-3xl text-xl">Quản lý yêu cầu phim</h1>
           <StatusSelectorFilter status={status || "all"} />
         </div>
-        <TableMovieRequest items={items} />
+        <TableMovieRequest items={items} offset={(page - 1) * limit} />
         {totalItems >= limit && (
           <PaginationCustom
             currentPage={page}

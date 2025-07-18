@@ -7,10 +7,7 @@ import { Box } from "@chakra-ui/react";
 import DeleteAllMovies from "@/components/user/DeleteAllMovies";
 import { NEXT_PUBLIC_SITE_URL } from "@/lib/env";
 import DeleteSelectedMovies from "@/components/user/DeleteSeletedMovies";
-
-interface PageProps {
-  searchParams: Promise<{ [key: string]: string | string[] | undefined }>;
-}
+import { PageProps } from "@/app/page";
 
 export async function generateMetadata() {
   const title = "PHOFLIX-V3 - Danh sách phim yêu thích của bạn";

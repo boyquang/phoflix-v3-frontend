@@ -2,10 +2,6 @@ import Loading from "@/app/loading";
 import MainPage from "@/components/watch-together/MainPage";
 import { Suspense } from "react";
 
-interface PageProps {
-  params: Promise<{ [key: string]: string | string[] | undefined }>;
-}
-
 const Page = () => {
   return (
     <Suspense fallback={<Loading type="text" />}>

@@ -6,7 +6,7 @@ import { NEXT_PUBLIC_SITE_URL } from "@/lib/env";
 import { fetchNewlyUpdatedMovies } from "@/lib/actions/movieActionServer";
 import SlideShow from "@/components/home/SlideShow";
 
-interface PageProps {
+export interface PageProps {
   searchParams: Promise<{ [key: string]: string | string[] | undefined }>;
   params: Promise<{ [key: string]: string | string[] | undefined }>;
 }
@@ -42,12 +42,12 @@ export const metadata: Metadata = {
 
 const Page = async ({ params, searchParams }: PageProps) => {
   const response = await fetchNewlyUpdatedMovies("v3", 10, 1);
-
   const { items } = response;
+  const totalItems = 7;
 
   return (
     <Suspense fallback={<Loading type="text" />}>
-      <SlideShow items={items} />
+      <SlideShow items={items.slice(0, totalItems)} />
       <ClientWrapper />
     </Suspense>
   );

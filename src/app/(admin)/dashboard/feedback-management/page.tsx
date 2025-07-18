@@ -1,4 +1,5 @@
 import Loading from "@/app/loading";
+import { PageProps } from "@/app/page";
 import { auth } from "@/auth";
 import SlugSelectorFilter from "@/components/admin/dashboard/feedback-management/SlugSelectorFilter";
 import TableFeedbacks from "@/components/admin/dashboard/feedback-management/TableFeedbacks";
@@ -7,10 +8,6 @@ import { getFeedbacks } from "@/lib/actions/adminActionServer";
 import { NEXT_PUBLIC_SITE_URL } from "@/lib/env";
 import { Box } from "@chakra-ui/react";
 import { Suspense } from "react";
-
-interface PageProps {
-  searchParams: Promise<{ [key: string]: string | string[] | undefined }>;
-}
 
 export const generateMetadata = async () => {
   return {
@@ -68,7 +65,7 @@ const Page = async ({ searchParams }: PageProps) => {
           <h1 className="lg:text-3xl text-xl">Quản lý phản hồi</h1>
           <SlugSelectorFilter slugs={slugs} />
         </div>
-        <TableFeedbacks items={items} />
+        <TableFeedbacks items={items} offset={(page - 1) * limit} />
         {totalItems >= limit && (
           <PaginationCustom
             currentPage={page}

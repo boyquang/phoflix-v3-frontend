@@ -18,9 +18,10 @@ interface Report {
 
 interface TableReportsProps {
   items: Report[];
+  offset: number;
 }
 
-const TableReports = ({ items }: TableReportsProps) => {
+const TableReports = ({ items, offset }: TableReportsProps) => {
   if (!items || items.length === 0) {
     return (
       <Box className="min-h-96 flex items-center justify-center">
@@ -38,6 +39,7 @@ const TableReports = ({ items }: TableReportsProps) => {
         <table className="w-full table-auto text-sm text-gray-200 bg-transparent">
           <thead className="bg-transparent border-b border-[#ffffff10]">
             <tr>
+              <th className="px-4 py-3 whitespace-nowrap text-left">#</th>
               <th className="px-4 py-3 whitespace-nowrap text-left">
                 Người báo cáo
               </th>
@@ -50,11 +52,14 @@ const TableReports = ({ items }: TableReportsProps) => {
             </tr>
           </thead>
           <tbody>
-            {items.map((item) => (
+            {items.map((item, index) => (
               <tr
                 className="whitespace-nowrap border-b border-[#ffffff10] last:border-b-0 hover:bg-[#ffffff05] transition"
                 key={item.id}
               >
+                <td className="px-4 py-3 whitespace-nowrap">
+                  <span className="font-medium text-white">{index + 1 + offset}</span>
+                </td>
                 <td className="px-4 py-3 whitespace-nowrap">{item.reporter}</td>
                 <td className="px-4 py-3 whitespace-nowrap">{item.title}</td>
                 <td className="px-4 py-3 whitespace-nowrap">

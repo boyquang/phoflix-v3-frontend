@@ -28,9 +28,10 @@ interface Users {
 
 interface TableUsersProps {
   items: Users[];
+  offset: number;
 }
 
-const TableUsers = ({ items }: TableUsersProps) => {
+const TableUsers = ({ items, offset }: TableUsersProps) => {
   const { data: sesstion } = useSession();
   const router = useRouter();
   const [userId, setUserId] = useState<string | null>(null);
@@ -110,6 +111,9 @@ const TableUsers = ({ items }: TableUsersProps) => {
           <thead className="bg-transparent border-b border-[#ffffff10]">
             <tr>
               <th className="px-4 py-3 text-left whitespace-nowrap">
+                #
+              </th>
+              <th className="px-4 py-3 text-left whitespace-nowrap">
                 Trạng thái
               </th>
               <th className="px-4 py-3 text-left whitespace-nowrap">
@@ -135,11 +139,14 @@ const TableUsers = ({ items }: TableUsersProps) => {
             </tr>
           </thead>
           <tbody>
-            {items.map((item) => (
+            {items.map((item, index) => (
               <tr
                 key={item.id}
                 className="border-b border-[#ffffff10] last:border-b-0 hover:bg-[#ffffff05] transition"
               >
+                <td className="px-4 py-3 whitespace-nowrap">
+                  <span className="font-medium text-white">{index + 1 + offset}</span>
+                </td>
                 <td className="px-4 py-3 whitespace-normal">
                   <ChangeStatus
                     user={item}
@@ -155,7 +162,7 @@ const TableUsers = ({ items }: TableUsersProps) => {
                     <span className="text-green-500 font-semibold"> (Bạn)</span>
                   )}
                 </td>
-                <td className="px-4 py-3 text-gray-400 whitespace-nowrap">
+                <td className="px-4 py-3 text-white whitespace-nowrap">
                   {item.email}
                 </td>
                 <td className="px-4 py-3 whitespace-nowrap">
@@ -188,7 +195,7 @@ const TableUsers = ({ items }: TableUsersProps) => {
                 <td className="px-4 py-3 whitespace-nowrap">
                   {item.type_account}
                 </td>
-                <td className="px-4 py-3 text-right text-gray-500 whitespace-nowrap">
+                <td className="px-4 py-3 text-right text-white whitespace-nowrap">
                   {formatDate(item.created_at)}
                 </td>
               </tr>

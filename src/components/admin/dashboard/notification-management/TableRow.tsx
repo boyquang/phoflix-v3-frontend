@@ -6,6 +6,7 @@ import TableCellImage from "./TableCellImage";
 import { formatDate } from "@/lib/utils";
 
 interface TableRowProps {
+  index: number;
   item: NotificationTable;
   editingField: {
     id: string;
@@ -17,6 +18,7 @@ interface TableRowProps {
 }
 
 const TableRow = ({
+  index,
   item,
   editingField,
   loadingDelete,
@@ -25,6 +27,9 @@ const TableRow = ({
 }: TableRowProps) => {
   return (
     <tr className="border-b border-[#ffffff10] last:border-b-0 hover:bg-[#ffffff05] transition">
+      <td className="px-4 py-3 whitespace-nowrap">
+        <span className="font-medium text-white">{index + 1}</span>
+      </td>
       <td className="px-4 py-3 whitespace-nowrap">
         <AlertDialog
           title="Xóa thông báo"

@@ -1,4 +1,5 @@
 import Loading from "@/app/loading";
+import { PageProps } from "@/app/page";
 import RootLayout from "@/components/layout/RootLayout";
 import EmptyData from "@/components/shared/EmptyData";
 import MovieGrid from "@/components/shared/MovieGrid";
@@ -8,11 +9,6 @@ import { NEXT_PUBLIC_SITE_URL } from "@/lib/env";
 import { Metadata } from "next";
 import { Suspense } from "react";
 import { FaPhotoFilm } from "react-icons/fa6";
-
-interface PageProps {
-  searchParams: Promise<{ [key: string]: string | string[] | undefined }>;
-  params: Promise<{ [key: string]: string | string[] | undefined }>;
-}
 
 export async function generateMetadata({
   params,

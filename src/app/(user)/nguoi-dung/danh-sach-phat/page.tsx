@@ -1,4 +1,5 @@
 import Loading from "@/app/loading";
+import { PageProps } from "@/app/page";
 import { auth } from "@/auth";
 import DeleteAllMovies from "@/components/user/DeleteAllMovies";
 import DeleteSelectedMovies from "@/components/user/DeleteSeletedMovies";
@@ -13,10 +14,6 @@ import { NEXT_PUBLIC_SITE_URL } from "@/lib/env";
 import { Box, Button } from "@chakra-ui/react";
 import { Suspense } from "react";
 import { FaPlus } from "react-icons/fa6";
-
-interface PageProps {
-  searchParams: Promise<{ [key: string]: string | string[] | undefined }>;
-}
 
 export async function generateMetadata() {
   const title = "PHOFLIX-V3 - Danh sách phát phim yêu thích";

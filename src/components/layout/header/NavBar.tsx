@@ -42,7 +42,7 @@ const NavBar = () => {
           href="/"
           className="font-bold lg:text-lg text-sm xs:flex hidden flex-col"
         >
-          <span className="text-gradient"> {appName}</span>{" "}
+          <span className="text-gradient">{appName}</span>{" "}
           <span className="text-white text-[8px] uppercase">
             {event ? ` ${event.name} (${event.date})` : ""}
           </span>

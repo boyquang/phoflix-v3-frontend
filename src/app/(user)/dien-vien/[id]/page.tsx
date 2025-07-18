@@ -10,10 +10,7 @@ import {
   fetchActorDetail,
   fetchMoviesByActor,
 } from "@/lib/actions/movieActionServer";
-
-interface PageProps {
-  params: Promise<{ [key: string]: string | string[] | undefined }>;
-}
+import { PageProps } from "@/app/page";
 
 export async function generateMetadata({
   params,

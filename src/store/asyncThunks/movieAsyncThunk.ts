@@ -250,7 +250,7 @@ export const fetchDataMovieInfo = createAsyncThunk(
 interface FetchDataMovieEvent {
   slug: string;
   describe: Describe;
-  country?: "viet-nam";
+  country?: Countries;
   limit?: number;
 }
 

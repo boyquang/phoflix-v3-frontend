@@ -14,9 +14,10 @@ import { handleShowToaster } from "@/lib/utils";
 
 interface TableNotificationsProps {
   items: NotificationTable[];
+  offset: number;
 }
 
-const TableNotifications = ({ items }: TableNotificationsProps) => {
+const TableNotifications = ({ items, offset }: TableNotificationsProps) => {
   const router = useRouter();
   const { data: session } = useSession();
   const [editingField, setEditingField] = useState<{
@@ -106,17 +107,31 @@ const TableNotifications = ({ items }: TableNotificationsProps) => {
         <table className="w-full table-auto text-sm text-gray-200 bg-transparent">
           <thead className="bg-transparent border-b border-[#ffffff10]">
             <tr>
-              <th className="px-4 py-3 whitespace-nowrap text-left">Hành động</th>
-              <th className="px-4 py-3 whitespace-nowrap text-left">Người tạo</th>
-              <th className="px-4 py-3 whitespace-nowrap text-left">Nội dung</th>
-              <th className="px-4 py-3 whitespace-nowrap text-left">Hình ảnh</th>
-              <th className="px-4 py-3 whitespace-nowrap text-left">Liên kết chuyển hướng</th>
-              <th className="px-4 py-3 whitespace-nowrap text-right">Thời gian tạo</th>
+              <th className="px-4 py-3 whitespace-nowrap text-left">#</th>
+              <th className="px-4 py-3 whitespace-nowrap text-left">
+                Hành động
+              </th>
+              <th className="px-4 py-3 whitespace-nowrap text-left">
+                Người tạo
+              </th>
+              <th className="px-4 py-3 whitespace-nowrap text-left">
+                Nội dung
+              </th>
+              <th className="px-4 py-3 whitespace-nowrap text-left">
+                Hình ảnh
+              </th>
+              <th className="px-4 py-3 whitespace-nowrap text-left">
+                Liên kết chuyển hướng
+              </th>
+              <th className="px-4 py-3 whitespace-nowrap text-right">
+                Thời gian tạo
+              </th>
             </tr>
           </thead>
           <tbody>
-            {items.map((item) => (
+            {items.map((item, index) => (
               <TableRow
+                index={offset + index}
                 key={item.id}
                 item={item}
                 loadingDelete={idDelete === item.id}

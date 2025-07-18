@@ -1,4 +1,5 @@
 import Loading from "@/app/loading";
+import { PageProps } from "@/app/page";
 import { auth } from "@/auth";
 import MovieRequestDialog from "@/components/user/movie-request/MovieRequestDialog";
 import MovieRequests from "@/components/user/movie-request/MovieRequests";
@@ -6,10 +7,6 @@ import MovieRequestTabs from "@/components/user/movie-request/MovieRequestTabs";
 import { getMovieRequests } from "@/lib/actions/movieRequestActionsServer";
 import { NEXT_PUBLIC_SITE_URL } from "@/lib/env";
 import { Suspense } from "react";
-
-interface PageProps {
-  searchParams: Promise<{ [key: string]: string | string[] | undefined }>;
-}
 
 export async function generateMetadata() {
   const title = "PHOFLIX-V3 - Yêu cầu phim bạn muốn xem";

@@ -1,4 +1,5 @@
 import Loading from "@/app/loading";
+import { PageProps } from "@/app/page";
 import ClientWrapper from "@/components/movie-info/ClientWrapper";
 import EmptyData from "@/components/shared/EmptyData";
 import { fetchMovieInfo } from "@/lib/actions/movieActionServer";
@@ -6,11 +7,6 @@ import { NEXT_PUBLIC_SITE_URL } from "@/lib/env";
 import { Metadata } from "next";
 import { Suspense } from "react";
 import { FaPhotoFilm } from "react-icons/fa6";
-
-interface PageProps {
-  params: Promise<{ [key: string]: string | string[] | undefined }>;
-  searchParams: Promise<{ [key: string]: string | string[] | undefined }>;
-}
 
 export async function generateMetadata({
   params,

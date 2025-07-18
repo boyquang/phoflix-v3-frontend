@@ -7,6 +7,7 @@ import { Suspense } from "react";
 import ListRooms from "@/components/watch-together/ListRooms";
 import { NEXT_PUBLIC_SITE_URL } from "@/lib/env";
 import PaginationCustom from "@/components/shared/PaginationCustom";
+import { PageProps } from "@/app/page";
 
 export function generateMetadata(): Metadata {
   const title = "Phòng của tôi - Nơi gặp gỡ và kết nối | PHOFLIX-V3";
@@ -39,10 +40,6 @@ export function generateMetadata(): Metadata {
       description,
     },
   };
-}
-
-interface PageProps {
-  searchParams: Promise<{ [key: string]: string | string[] | undefined }>;
 }
 
 const Page = async ({ searchParams }: PageProps) => {
