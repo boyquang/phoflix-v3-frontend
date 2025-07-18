@@ -2,7 +2,7 @@
 
 import EmptyData from "@/components/shared/EmptyData";
 import { formatDate } from "@/lib/utils";
-import { Box, Table } from "@chakra-ui/react";
+import { Box } from "@chakra-ui/react";
 import Link from "next/link";
 import { TbMessageReportFilled } from "react-icons/tb";
 
@@ -33,46 +33,50 @@ const TableReports = ({ items }: TableReportsProps) => {
   }
 
   return (
-    <Table.ScrollArea>
-      <Table.Root
-        stickyHeader
-        size="sm"
-        interactive
-        className="mt-8 text-gray-600 border-[#ffffff10]"
-      >
-        <Table.Header>
-          <Table.Row>
-            <Table.ColumnHeader>Người báo cáo</Table.ColumnHeader>
-            <Table.ColumnHeader>Tiêu đề</Table.ColumnHeader>
-            <Table.ColumnHeader>Mô tả</Table.ColumnHeader>
-            <Table.ColumnHeader>Phim</Table.ColumnHeader>
-            <Table.ColumnHeader textAlign="end">
-              Thời gian báo cáo
-            </Table.ColumnHeader>
-          </Table.Row>
-        </Table.Header>
-        <Table.Body>
-          {items.map((item) => (
-            <Table.Row key={item.id}>
-              <Table.Cell>{item.reporter}</Table.Cell>
-              <Table.Cell>{item.title}</Table.Cell>
-              <Table.Cell>{item.description}</Table.Cell>
-              <Table.Cell>
-                <Link
-                  href={`/thong-tin-phim/${item.movie_slug}`}
-                  className="text-blue-500 hover:underline"
-                >
-                  {item.movie_name}
-                </Link>
-              </Table.Cell>
-              <Table.Cell textAlign="end">
-                {formatDate(item.created_at)}
-              </Table.Cell>
-            </Table.Row>
-          ))}
-        </Table.Body>
-      </Table.Root>
-    </Table.ScrollArea>
+    <div className="mt-8 border border-[#ffffff10] rounded-xl">
+      <div className="w-full overflow-x-auto">
+        <table className="w-full table-auto text-sm text-gray-200 bg-transparent">
+          <thead className="bg-transparent border-b border-[#ffffff10]">
+            <tr>
+              <th className="px-4 py-3 whitespace-nowrap text-left">
+                Người báo cáo
+              </th>
+              <th className="px-4 py-3 whitespace-nowrap text-left">Tiêu đề</th>
+              <th className="px-4 py-3 whitespace-nowrap text-left">Mô tả</th>
+              <th className="px-4 py-3 whitespace-nowrap text-left">Phim</th>
+              <th className="px-4 py-3 whitespace-nowrap text-right">
+                Thời gian báo cáo
+              </th>
+            </tr>
+          </thead>
+          <tbody>
+            {items.map((item) => (
+              <tr
+                className="whitespace-nowrap border-b border-[#ffffff10] last:border-b-0 hover:bg-[#ffffff05] transition"
+                key={item.id}
+              >
+                <td className="px-4 py-3 whitespace-nowrap">{item.reporter}</td>
+                <td className="px-4 py-3 whitespace-nowrap">{item.title}</td>
+                <td className="px-4 py-3 whitespace-nowrap">
+                  {item.description}
+                </td>
+                <td className="px-4 py-3 whitespace-nowrap">
+                  <Link
+                    className="text-blue-500 hover:underline"
+                    href={`/thong-tin-phim/${item.movie_slug}`}
+                  >
+                    {item.movie_name}
+                  </Link>
+                </td>
+                <td className="px-4 py-3 text-right whitespace-nowrap">
+                  {formatDate(item.created_at)}
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+    </div>
   );
 };
 

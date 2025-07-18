@@ -77,62 +77,81 @@ const TableMovieRequest = ({ items }: TableMovieRequestProps) => {
   }
 
   return (
-    <Table.ScrollArea>
-      <Table.Root
-        stickyHeader
-        size="sm"
-        interactive
-        className="mt-8 text-gray-600 border-[#ffffff10]"
-      >
-        <Table.Header>
-          <Table.Row>
-            <Table.ColumnHeader>Tên phim</Table.ColumnHeader>
-            <Table.ColumnHeader>Năm phát hành</Table.ColumnHeader>
-            <Table.ColumnHeader>Quốc gia</Table.ColumnHeader>
-            <Table.ColumnHeader>Thể loại</Table.ColumnHeader>
-            <Table.ColumnHeader>Người yêu cầu</Table.ColumnHeader>
-            <Table.ColumnHeader>Trạng thái</Table.ColumnHeader>
-            <Table.ColumnHeader>Ngày tạo</Table.ColumnHeader>
-            <Table.ColumnHeader textAlign="end">Hành động</Table.ColumnHeader>
-          </Table.Row>
-        </Table.Header>
-        <Table.Body>
-          {items.map((item) => (
-            <Table.Row key={item.id}>
-              <Table.Cell>{item.movie_name}</Table.Cell>
-              <Table.Cell>
-                {item.release_year ? item.release_year : "Chưa xác định"}
-              </Table.Cell>
-              <Table.Cell>
-                {item.country ? item.country : "Chưa xác định"}
-              </Table.Cell>
-              <Table.Cell>
-                {item.genre ? item.genre : "Chưa xác định"}
-              </Table.Cell>
-              <Table.Cell>{item.username}</Table.Cell>
-
-              <Table.Cell>
-                <Box
-                  className={`inline-flex items-center justify-center rounded-full lg:h-5 h-4 lg:text-sm text-xs px-2 ${
-                    status[item.status]?.className || "bg-gray-500 text-white"
-                  }`}
-                >
-                  {status[item.status]?.label || "Không xác định"}
-                </Box>
-              </Table.Cell>
-              <Table.Cell>{formatDate(item.created_at)}</Table.Cell>
-              <Table.Cell textAlign="end">
-                <PopoverMovieRequest
-                  movieRequest={item}
-                  loading={movieRequestId === item.id}
-                  onClickSubmit={handleMovieRequestProcess}
-                />
-              </Table.Cell>
-            </Table.Row>
-          ))}
-        </Table.Body>
-      </Table.Root>
-    </Table.ScrollArea>
+    <div className="mt-8 border border-[#ffffff10] rounded-xl">
+      <div className="w-full overflow-x-auto">
+        <table className="w-full table-auto text-sm text-gray-200 bg-transparent">
+          <thead className="bg-transparent border-b border-[#ffffff10]">
+            <tr>
+              <th className="px-4 py-3 whitespace-nowrap text-left">
+                Tên phim
+              </th>
+              <th className="px-4 py-3 whitespace-nowrap text-left">
+                Năm phát hành
+              </th>
+              <th className="px-4 py-3 whitespace-nowrap text-left">
+                Quốc gia
+              </th>
+              <th className="px-4 py-3 whitespace-nowrap text-left">
+                Thể loại
+              </th>
+              <th className="px-4 py-3 whitespace-nowrap text-left">
+                Người yêu cầu
+              </th>
+              <th className="px-4 py-3 whitespace-nowrap text-left">
+                Trạng thái
+              </th>
+              <th className="px-4 py-3 whitespace-nowrap text-left">
+                Ngày tạo
+              </th>
+              <th className="px-4 py-3 whitespace-nowrap text-right">
+                Hành động
+              </th>
+            </tr>
+          </thead>
+          <tbody>
+            {items.map((item) => (
+              <tr
+                key={item.id}
+                className="border-b border-[#ffffff10] last:border-b-0 hover:bg-[#ffffff05] transition"
+              >
+                <td className="px-4 py-3 whitespace-nowrap">
+                  {item.movie_name}
+                </td>
+                <td className="px-4 py-3 whitespace-nowrap">
+                  {item.release_year || "Chưa xác định"}
+                </td>
+                <td className="px-4 py-3 whitespace-nowrap">
+                  {item.country || "Chưa xác định"}
+                </td>
+                <td className="px-4 py-3 whitespace-nowrap">
+                  {item.genre || "Chưa xác định"}
+                </td>
+                <td className="px-4 py-3 whitespace-nowrap">{item.username}</td>
+                <td className="px-4 py-3 whitespace-nowrap">
+                  <span
+                    className={`inline-flex items-center justify-center rounded-full lg:h-5 h-4 lg:text-sm text-xs px-2 ${
+                      status[item.status]?.className || "bg-gray-500 text-white"
+                    }`}
+                  >
+                    {status[item.status]?.label || "Không xác định"}
+                  </span>
+                </td>
+                <td className="px-4 py-3 whitespace-nowrap">
+                  {formatDate(item.created_at)}
+                </td>
+                <td className="px-4 py-3 text-right whitespace-nowrap">
+                  <PopoverMovieRequest
+                    movieRequest={item}
+                    loading={movieRequestId === item.id}
+                    onClickSubmit={handleMovieRequestProcess}
+                  />
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+    </div>
   );
 };
 

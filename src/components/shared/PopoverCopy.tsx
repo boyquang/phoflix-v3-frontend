@@ -1,20 +1,27 @@
 "use client";
 
 import { Box, Button, Input, Popover, Portal } from "@chakra-ui/react";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 interface PopoverCopyProps {
   title?: string;
+  value?: string;
   trigger: React.ReactNode;
 }
 
-const PopoverCopy = ({ title, trigger }: PopoverCopyProps) => {
+const PopoverCopy = ({ title, value, trigger }: PopoverCopyProps) => {
   const [isCopy, setIsCopy] = useState(false);
-  const value = window.location.href;
+  const [valueCopy, setValueCopy] = useState("");
+
+  useEffect(() => {
+    if (typeof window !== "undefined") {
+      setValueCopy(value || window.location.href);
+    }
+  }, [])
 
   const handleCopyLink = () => {
     navigator.clipboard
-      .writeText(value)
+      .writeText(valueCopy)
       .then(() => {
         setIsCopy(true);
         setTimeout(() => setIsCopy(false), 2000);

@@ -1,17 +1,16 @@
 "use client";
 
-import { handleShowToaster } from "@/lib/utils";
-import { Box, Table } from "@chakra-ui/react";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
+import { useSession } from "next-auth/react";
+import { IoMdNotifications } from "react-icons/io";
+import EmptyData from "@/components/shared/EmptyData";
+import TableRow from "./TableRow";
 import {
   deleteNotification,
   updateNotification,
 } from "@/lib/actions/adminActionClient";
-import { useSession } from "next-auth/react";
-import TableRow from "./TableRow";
-import EmptyData from "@/components/shared/EmptyData";
-import { IoMdNotifications } from "react-icons/io";
+import { handleShowToaster } from "@/lib/utils";
 
 interface TableNotificationsProps {
   items: NotificationTable[];
@@ -19,7 +18,7 @@ interface TableNotificationsProps {
 
 const TableNotifications = ({ items }: TableNotificationsProps) => {
   const router = useRouter();
-  const { data: sesstion } = useSession();
+  const { data: session } = useSession();
   const [editingField, setEditingField] = useState<{
     id: string;
     key: string;
@@ -30,7 +29,7 @@ const TableNotifications = ({ items }: TableNotificationsProps) => {
     data: Record<string, any>,
     keyEdit: string
   ) => {
-    if (!sesstion) {
+    if (!session) {
       handleShowToaster(
         "Thông báo",
         "Token không hợp lệ hoặc đã hết hạn",
@@ -43,18 +42,16 @@ const TableNotifications = ({ items }: TableNotificationsProps) => {
 
     const response = await updateNotification({
       notificationId: data.id,
-      userId: sesstion?.user?.id as string,
+      userId: session.user.id as string,
       content: data.content,
       href: data.href,
       image: data.image,
-      accessToken: sesstion?.user?.accessToken as string,
+      accessToken: session.user.accessToken as string,
     });
 
     setEditingField(null);
 
-    if (response?.status) {
-      router.refresh();
-    }
+    if (response?.status) router.refresh();
 
     handleShowToaster(
       "Thông báo",
@@ -64,7 +61,7 @@ const TableNotifications = ({ items }: TableNotificationsProps) => {
   };
 
   const handleDeleteNotification = async (id: string) => {
-    if (!sesstion) {
+    if (!session) {
       handleShowToaster(
         "Thông báo",
         "Token không hợp lệ hoặc đã hết hạn",
@@ -74,16 +71,16 @@ const TableNotifications = ({ items }: TableNotificationsProps) => {
     }
 
     setIdDelete(id);
+
     const response = await deleteNotification({
       notificationId: id,
-      userId: sesstion?.user?.id as string,
-      accessToken: sesstion?.user?.accessToken as string,
+      userId: session.user.id as string,
+      accessToken: session.user.accessToken as string,
     });
+
     setIdDelete(null);
 
-    if (response?.status) {
-      router.refresh();
-    }
+    if (response?.status) router.refresh();
 
     handleShowToaster(
       "Thông báo",
@@ -94,49 +91,44 @@ const TableNotifications = ({ items }: TableNotificationsProps) => {
 
   if (!items || items.length === 0) {
     return (
-      <Box className="min-h-96 flex items-center justify-center">
+      <div className="min-h-96 flex items-center justify-center">
         <EmptyData
           title="Không có thông báo nào tại đây"
           icon={<IoMdNotifications />}
         />
-      </Box>
+      </div>
     );
   }
 
   return (
-    <Table.ScrollArea>
-      <Table.Root
-        stickyHeader
-        size="sm"
-        interactive
-        className="mt-8 text-gray-600 border-[#ffffff10]"
-      >
-        <Table.Header>
-          <Table.Row>
-            <Table.ColumnHeader>Hành động</Table.ColumnHeader>
-            <Table.ColumnHeader>Người tạo</Table.ColumnHeader>
-            <Table.ColumnHeader>Nội dung</Table.ColumnHeader>
-            <Table.ColumnHeader>Hình ảnh</Table.ColumnHeader>
-            <Table.ColumnHeader>Liên kết chuyển hướng</Table.ColumnHeader>
-            <Table.ColumnHeader textAlign="end">
-              Thời gian tạo
-            </Table.ColumnHeader>
-          </Table.Row>
-        </Table.Header>
-        <Table.Body>
-          {items.map((item) => (
-            <TableRow
-              key={item.id}
-              item={item}
-              loadingDelete={idDelete === item.id}
-              editingField={editingField}
-              callbackDelete={handleDeleteNotification}
-              callbackUpdate={handleUpdateInfo}
-            />
-          ))}
-        </Table.Body>
-      </Table.Root>
-    </Table.ScrollArea>
+    <div className="mt-8 border border-[#ffffff10] rounded-xl overflow-hidden">
+      <div className="overflow-x-auto w-full">
+        <table className="w-full table-auto text-sm text-gray-200 bg-transparent">
+          <thead className="bg-transparent border-b border-[#ffffff10]">
+            <tr>
+              <th className="px-4 py-3 whitespace-nowrap text-left">Hành động</th>
+              <th className="px-4 py-3 whitespace-nowrap text-left">Người tạo</th>
+              <th className="px-4 py-3 whitespace-nowrap text-left">Nội dung</th>
+              <th className="px-4 py-3 whitespace-nowrap text-left">Hình ảnh</th>
+              <th className="px-4 py-3 whitespace-nowrap text-left">Liên kết chuyển hướng</th>
+              <th className="px-4 py-3 whitespace-nowrap text-right">Thời gian tạo</th>
+            </tr>
+          </thead>
+          <tbody>
+            {items.map((item) => (
+              <TableRow
+                key={item.id}
+                item={item}
+                loadingDelete={idDelete === item.id}
+                editingField={editingField}
+                callbackDelete={handleDeleteNotification}
+                callbackUpdate={handleUpdateInfo}
+              />
+            ))}
+          </tbody>
+        </table>
+      </div>
+    </div>
   );
 };
 

@@ -25,12 +25,12 @@ const MovieDetail = ({ data }: MovieDetailProps) => {
           />
         </Box>
       </Box>
- 
-      <Box className="flex flex-col gap-2 xl:items-start items-center">
-        <h4 className="lg:text-2xl text-lg text-gray-50 font-semibold">
+
+      <Box className="flex flex-col gap-2 xl:items-start items-center overflow-hidden">
+        <h4 className="lg:text-2xl text-lg text-gray-50 font-semibold truncate-lines-2 break-all lg:text-left text-center">
           {data?.name || "Không xác định"}
         </h4>
-        <p className="text-[#ffd875] text-sm">
+        <p className="text-[#ffd875] text-sm truncate-lines-2 lg:text-left text-center">
           {data?.origin_name || "Không xác định"}
         </p>
         <Box className="flex flex-wrap gap-2 items-center sm:justify-start justify-center">

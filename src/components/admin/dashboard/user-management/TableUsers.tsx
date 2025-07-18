@@ -104,81 +104,99 @@ const TableUsers = ({ items }: TableUsersProps) => {
   }
 
   return (
-    <Table.ScrollArea>
-      <Table.Root
-        stickyHeader
-        size="sm"
-        interactive
-        className="mt-8 text-gray-600 border-[#ffffff10]"
-      >
-        <Table.Header>
-          <Table.Row>
-            <Table.ColumnHeader>Trạng thái</Table.ColumnHeader>
-            <Table.ColumnHeader>Tên người dùng</Table.ColumnHeader>
-            <Table.ColumnHeader>Email</Table.ColumnHeader>
-            <Table.ColumnHeader>Vai trò</Table.ColumnHeader>
-            <Table.ColumnHeader>Ảnh đại diện</Table.ColumnHeader>
-            <Table.ColumnHeader>Giới tính</Table.ColumnHeader>
-            <Table.ColumnHeader>Tình trạng</Table.ColumnHeader>
-            <Table.ColumnHeader>Loại tài khoản</Table.ColumnHeader>
-            <Table.ColumnHeader textAlign="end">
-              Thời gian tham gia
-            </Table.ColumnHeader>
-          </Table.Row>
-        </Table.Header>
-        <Table.Body>
-          {items.map((item) => (
-            <Table.Row key={item.id}>
-              <Table.Cell>
-                <ChangeStatus
-                  user={item}
-                  loading={userId === item.id}
-                  onChangeStatusUser={handleChangeStatus}
-                />
-              </Table.Cell>
-              <Table.Cell>
-                {item.username}
-                {item.id === sesstion?.user?.id && (
-                  <span className="text-green-500 font-semibold"> (Bạn)</span>
-                )}
-              </Table.Cell>
-              <Table.Cell>{item.email}</Table.Cell>
-              <Table.Cell>
-                <ChangeRole
-                  userId={item.id}
-                  role={item.role}
-                  onChangeRole={handleChangeRole}
-                />
-              </Table.Cell>
-              <Table.Cell>
-                <Avatar.Root size="sm">
-                  <Avatar.Fallback name={item.username} />
-                  <Avatar.Image src={item.avatar} />
-                </Avatar.Root>
-              </Table.Cell>
-              <Table.Cell>
-                {item.gender === "female"
-                  ? "Nữ"
-                  : item.gender === "male"
-                  ? "Nam"
-                  : "Khác"}
-              </Table.Cell>
-              <Table.Cell
-                className={`${
-                  item.status === "banned" ? "text-red-500" : "text-green-500"
-                }`}
+    <div className="mt-8 border-[#ffffff10] rounded-xl border">
+      <div className="w-full overflow-x-auto">
+        <table className="w-full table-auto text-sm text-gray-200 bg-transparent">
+          <thead className="bg-transparent border-b border-[#ffffff10]">
+            <tr>
+              <th className="px-4 py-3 text-left whitespace-nowrap">
+                Trạng thái
+              </th>
+              <th className="px-4 py-3 text-left whitespace-nowrap">
+                Tên người dùng
+              </th>
+              <th className="px-4 py-3 text-left whitespace-nowrap">Email</th>
+              <th className="px-4 py-3 text-left whitespace-nowrap">Vai trò</th>
+              <th className="px-4 py-3 text-left whitespace-nowrap">
+                Ảnh đại diện
+              </th>
+              <th className="px-4 py-3 text-left whitespace-nowrap">
+                Giới tính
+              </th>
+              <th className="px-4 py-3 text-left whitespace-nowrap">
+                Tình trạng
+              </th>
+              <th className="px-4 py-3 text-left whitespace-nowrap">
+                Loại tài khoản
+              </th>
+              <th className="px-4 py-3 text-right whitespace-nowrap">
+                Thời gian tham gia
+              </th>
+            </tr>
+          </thead>
+          <tbody>
+            {items.map((item) => (
+              <tr
+                key={item.id}
+                className="border-b border-[#ffffff10] last:border-b-0 hover:bg-[#ffffff05] transition"
               >
-                {item.status === "active" ? "Đang hoạt động" : "Đã bị khóa"}
-              </Table.Cell>
-              <Table.Cell>{item.type_account}</Table.Cell>
-              <Table.Cell textAlign="end">
-                {formatDate(item.created_at)}
-              </Table.Cell>
-            </Table.Row>
-          ))}
-        </Table.Body>
-      </Table.Root>
-    </Table.ScrollArea>
+                <td className="px-4 py-3 whitespace-normal">
+                  <ChangeStatus
+                    user={item}
+                    loading={userId === item.id}
+                    onChangeStatusUser={handleChangeStatus}
+                  />
+                </td>
+                <td className="px-4 py-3 whitespace-nowrap">
+                  <span className="font-medium text-white">
+                    {item.username}
+                  </span>
+                  {item.id === sesstion?.user?.id && (
+                    <span className="text-green-500 font-semibold"> (Bạn)</span>
+                  )}
+                </td>
+                <td className="px-4 py-3 text-gray-400 whitespace-nowrap">
+                  {item.email}
+                </td>
+                <td className="px-4 py-3 whitespace-nowrap">
+                  <ChangeRole
+                    userId={item.id}
+                    role={item.role}
+                    onChangeRole={handleChangeRole}
+                  />
+                </td>
+                <td className="px-4 py-3 whitespace-nowrap">
+                  <Avatar.Root size="sm">
+                    <Avatar.Fallback name={item.username} />
+                    <Avatar.Image src={item.avatar} />
+                  </Avatar.Root>
+                </td>
+                <td className="px-4 py-3 whitespace-nowrap">
+                  {item.gender === "female"
+                    ? "Nữ"
+                    : item.gender === "male"
+                    ? "Nam"
+                    : "Khác"}
+                </td>
+                <td
+                  className={`px-4 py-3 font-medium whitespace-nowrap ${
+                    item.status === "banned" ? "text-red-500" : "text-green-500"
+                  }`}
+                >
+                  {item.status === "active" ? "Đang hoạt động" : "Đã bị khóa"}
+                </td>
+                <td className="px-4 py-3 whitespace-nowrap">
+                  {item.type_account}
+                </td>
+                <td className="px-4 py-3 text-right text-gray-500 whitespace-nowrap">
+                  {formatDate(item.created_at)}
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+    </div>
   );
 };
 

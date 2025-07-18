@@ -1,10 +1,9 @@
 "use client";
 
-import { Button, Table } from "@chakra-ui/react";
+import AlertDialog from "@/components/shared/AlertDialog";
 import EditableInfo from "./EditableInfo";
 import TableCellImage from "./TableCellImage";
 import { formatDate } from "@/lib/utils";
-import AlertDialog from "@/components/shared/AlertDialog";
 
 interface TableRowProps {
   item: NotificationTable;
@@ -19,72 +18,69 @@ interface TableRowProps {
 
 const TableRow = ({
   item,
-  loadingDelete,
   editingField,
+  loadingDelete,
   callbackDelete,
   callbackUpdate,
 }: TableRowProps) => {
   return (
-    <Table.Row key={item?.id}>
-      <Table.Cell>
+    <tr className="border-b border-[#ffffff10] last:border-b-0 hover:bg-[#ffffff05] transition">
+      <td className="px-4 py-3 whitespace-nowrap">
         <AlertDialog
           title="Xóa thông báo"
           content="Bạn có chắc chắn muốn xóa thông báo này không?"
           loading={loadingDelete}
-          confirmCallback={() => callbackDelete(item?.id)}
+          confirmCallback={() => callbackDelete(item.id)}
           trigger={
-            <Button
-              size="xs"
-              className="text-red-500 hover:text-red-700 bg-transparent"
-            >
+            <button className="text-red-500 text-xs hover:underline cursor-pointer transition">
               Xóa
-            </Button>
+            </button>
           }
         />
-      </Table.Cell>
-      <Table.Cell>{item?.sender_name}</Table.Cell>
-      <Table.Cell>
+      </td>
+      <td className="px-4 py-3 whitespace-nowrap">{item.sender_name}</td>
+      <td className="px-4 py-3 whitespace-nowrap">
         <EditableInfo
           loading={
-            editingField?.id === item?.id && editingField?.key === "content"
+            editingField?.id === item.id && editingField.key === "content"
           }
           keyEdit="content"
-          defaultValue={item?.content}
+          defaultValue={item.content}
           data={item}
           callback={callbackUpdate}
         >
-          {item?.content}
+          {item.content}
         </EditableInfo>
-      </Table.Cell>
-      <Table.Cell>
-        {item?.image ? (
+      </td>
+      <td className="px-4 py-3 whitespace-nowrap">
+        {item.image ? (
           <TableCellImage
             loading={
-              editingField?.id === item?.id && editingField?.key === "image"
+              editingField?.id === item.id && editingField.key === "image"
             }
-            image={item?.image}
+            image={item.image}
             data={item}
             callback={callbackUpdate}
           />
         ) : (
           <span>Không có ảnh</span>
         )}
-      </Table.Cell>
-      <Table.Cell>
+      </td>
+      <td className="px-4 py-3 whitespace-nowrap">
         <EditableInfo
-          loading={
-            editingField?.id === item?.id && editingField?.key === "href"
-          }
+          loading={editingField?.id === item.id && editingField.key === "href"}
           keyEdit="href"
-          defaultValue={item?.href}
+          defaultValue={item.href}
           data={item}
           callback={callbackUpdate}
         >
-          {item?.href}
+          {item.href}
         </EditableInfo>
-      </Table.Cell>
-      <Table.Cell textAlign="end">{formatDate(item?.created_at)}</Table.Cell>
-    </Table.Row>
+      </td>
+      <td className="px-4 py-3 text-right whitespace-nowrap">
+        {formatDate(item.created_at)}
+      </td>
+    </tr>
   );
 };
 

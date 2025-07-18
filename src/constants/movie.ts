@@ -6,6 +6,7 @@
 
 // Số lượng hiển thị phim khi load thêm
 export const quantitySectionMovie = 3;
+export const initShowMovieSSR = 3;
 
 export interface MovieConfigItem {
   title: string;

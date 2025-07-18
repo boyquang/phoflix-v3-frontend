@@ -9,6 +9,7 @@ import { IoMdNotifications } from "react-icons/io";
 import { usePathname } from "next/navigation";
 import ProfileHeader from "../../components/shared/ProfileHeader";
 import { SiGoogleforms } from "react-icons/si";
+import { FaRobot } from "react-icons/fa6";
 
 const links = [
   { label: "Trang chủ", icon: <TiHome />, path: "/" },
@@ -36,6 +37,11 @@ const links = [
     label: "Quản lý yêu cầu phim",
     icon: <SiGoogleforms />,
     path: "/dashboard/movie-request-management",
+  },
+  {
+    label: "Telegram Bot",
+    icon: <FaRobot />,
+    path: "/dashboard/telegram-bot",
   },
 ];
 

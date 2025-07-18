@@ -58,17 +58,26 @@ const EditableInfo = ({
       <Editable.Textarea className="focus-visible:outline-gray-400 min-h-8 min-w-64 max-w-80 text-gray-600 text-xs bg-transparent" />
       <Editable.Control>
         <Editable.EditTrigger asChild>
-          <IconButton variant="ghost" size="xs">
+          <IconButton
+            size="xs"
+            className="border border-[#ffffff10] text-white bg-transparent"
+          >
             <LuPencilLine />
           </IconButton>
         </Editable.EditTrigger>
         <Editable.CancelTrigger asChild>
-          <IconButton variant="outline" size="xs">
+          <IconButton
+            size="xs"
+            className="border border-[#ffffff10] text-white bg-transparent"
+          >
             <LuX />
           </IconButton>
         </Editable.CancelTrigger>
         <Editable.SubmitTrigger asChild>
-          <IconButton variant="outline" size="xs">
+          <IconButton
+            className="border border-[#ffffff10] text-white bg-transparent"
+            size="xs"
+          >
             <LuCheck />
           </IconButton>
         </Editable.SubmitTrigger>

@@ -1,8 +1,8 @@
 "use client";
 
-import { Checkbox } from "@/components/ui/checkbox";
 import { Box, Spinner } from "@chakra-ui/react";
 import { Tooltip } from "@/components/ui/tooltip";
+import CheckboxCustom from "@/components/shared/CheckboxCustom";
 
 interface ChangeStatusProps {
   user: User;
@@ -27,18 +27,16 @@ const ChangeStatus = ({
       showArrow
       openDelay={0}
     >
-      <Box>
-        <Checkbox
-          colorPalette="whiteAlpha"
-          variant="subtle"
-          className="flex items-center gap-2 cursor-pointer"
+      <Box className="whitespace-nowrap">
+        <CheckboxCustom
           checked={user.status === "banned"}
-          onCheckedChange={(checked) => {
-            onChangeStatusUser(user.id, checked.checked === true);
+          onChange={(e) => {
+            onChangeStatusUser(user.id, e.target.checked);
           }}
-        >
-          {user.status === "active" ? "Đang mở" : "Đang khóa"}
-        </Checkbox>
+          color="primary"
+          label={user.status === "active" ? "Đang mở" : "Đang khóa"}
+          size="small"
+        />
       </Box>
     </Tooltip>
   );
