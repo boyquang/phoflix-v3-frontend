@@ -76,6 +76,7 @@ const initialState: MovieSlice = {
     items: [],
     loading: false,
     error: false,
+    fetched: false,
   },
   searchMovie: {
     items: [],
@@ -120,6 +121,9 @@ const movieSlice = createSlice({
     },
     setSelectedLanguage: (state, action) => {
       state.episode.selectedLanguage = action.payload;
+    },
+    setFetchedMovieEvent: (state, action) => {
+      state.movieEvent.fetched = action.payload;
     },
     setDataMovieInfo: (state, action) => {
       state.episode.groups = {};
@@ -395,6 +399,7 @@ export const {
   setFetchedMovieDataHomePage,
   setFetchedMovieDetail,
   setFilterActor,
+  setFetchedMovieEvent,
   setDataMovieInfo,
 } = movieSlice.actions;
 export default movieSlice.reducer;

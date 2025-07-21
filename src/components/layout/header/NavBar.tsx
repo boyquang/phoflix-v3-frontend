@@ -14,7 +14,6 @@ import PopoverNotification from "./PopoverNotification";
 import SearchDialog from "@/components/search/SearchDialog";
 import { usePathname } from "next/navigation";
 import { appConfig } from "@/configs/appConfig";
-import { getUpcomingEvent } from "@/lib/utils";
 import PopoverSetting from "./PopoverSetting";
 
 const { appName } = appConfig;
@@ -23,7 +22,6 @@ const NavBar = () => {
   const { isVisiable, lastScrollY } = useSelector(
     (state: RootState) => state.system
   );
-  const event = getUpcomingEvent(7);
   const { status } = useSession();
   const pathname = usePathname();
 
@@ -42,10 +40,7 @@ const NavBar = () => {
           href="/"
           className="font-bold lg:text-lg text-sm xs:flex hidden flex-col"
         >
-          <span className="text-gradient">{appName}</span>{" "}
-          <span className="text-white text-[8px] uppercase">
-            {event ? ` ${event.name} (${event.date})` : ""}
-          </span>
+          <span className="text-gradient">{appName}</span>
         </Link>
         <MenuBar />
       </Box>

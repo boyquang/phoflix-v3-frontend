@@ -6,39 +6,55 @@ import RootLayout from "../layout/RootLayout";
 import { useEffect, useState } from "react";
 import { AppDispatch, RootState } from "@/store/store";
 import { useDispatch, useSelector } from "react-redux";
-import {
-  Describe,
-  fetchDataMovieEvent,
-} from "@/store/asyncThunks/movieAsyncThunk";
+import { fetchDataMovieEvent } from "@/store/asyncThunks/movieAsyncThunk";
 import ShowMoreText from "../shared/ShowMoreText";
 import { PiCalendarStarFill } from "react-icons/pi";
 import { MdCelebration } from "react-icons/md";
 import MovieSwiper from "@/components/shared/MovieSwiper";
+import { getEventList } from "@/lib/actions/eventAction";
+import { eventConfig } from "@/configs/eventConfig";
+import { setFetchedMovieEvent } from "@/store/slices/movieSlice";
 
 const EventContainer = () => {
-  const event = getUpcomingEvent(7);
-  const isTodayAnEvent = checkIsTodayAnEvent();
-  const { items, error } = useSelector(
+  const [event, setEvent] = useState<EventData | null>(null);
+  const [isTodayAnEvent, setIsTodayAnEvent] = useState(false);
+  const { items, error, fetched } = useSelector(
     (state: RootState) => state.movie.movieEvent
   );
   const dispatch: AppDispatch = useDispatch();
   const [loading, setLoading] = useState(false);
 
   useEffect(() => {
+    const fetchEvents = async () => {
+      const response = await getEventList();
+
+      if (response?.status && response?.result?.length > 0) {
+        setIsTodayAnEvent(checkIsTodayAnEvent(response.result));
+        setEvent(getUpcomingEvent(response.result, 7));
+      } else {
+        setIsTodayAnEvent(checkIsTodayAnEvent(eventConfig));
+        setEvent(getUpcomingEvent(eventConfig, 7));
+      }
+    };
+
+    fetchEvents();
+  }, []);
+
+  useEffect(() => {
     const handleFetchData = async () => {
       setLoading(true);
       await dispatch(
         fetchDataMovieEvent({
-          slug: event?.slug as string,
-          describe: event?.describe as Describe,
-          country: event?.country as "viet-nam",
+          category: event?.category as Categories,
+          country: event?.country as Countries,
           limit: 12,
         })
       );
       setLoading(false);
+      dispatch(setFetchedMovieEvent(true));
     };
 
-    if (event) {
+    if (event && !fetched) {
       handleFetchData();
     }
   }, [event]);
@@ -52,12 +68,14 @@ const EventContainer = () => {
 
         <div className="absolute inset-0 bg-black/20 backdrop-blur-xl" />
 
-        <Box className="relative z-10 flex flex-col gap-6 lg:p-10 md:p-8 p-5 text-center">
+        <Box className="relative z-10 flex flex-col gap-4 lg:p-10 md:p-8 p-5 text-center">
           <Box className="flex flex-col items-center gap-2">
-            <Box className="flex items-center justify-center gap-2 text-white text-xl md:text-3xl font-semibold">
-              {isTodayAnEvent ? <MdCelebration /> : <PiCalendarStarFill />}
+            <Box className="flex items-center capitalize italic justify-center gap-1 text-white text-base md:text-xl lg:text-3xl font-semibold">
+              <div>
+                {isTodayAnEvent ? <MdCelebration /> : <PiCalendarStarFill />}
+              </div>
               {isTodayAnEvent
-                ? `Hôm nay là ngày ${event?.name} - ${event?.date}`
+                ? `Ngày ${event?.name} - ${event?.date}`
                 : "Sắp tới có sự kiện gì thế?"}
             </Box>
           </Box>
@@ -68,7 +86,7 @@ const EventContainer = () => {
             className="text-white text-sm md:text-base text-justify"
           />
           <Box className="mt-4 text-left">
-            <h4 className="text-gray-50 mb-3 lg:text-2xl md:text-xl text-lg font-semibold">
+            <h4 className="text-gray-50 mb-2 lg:text-2xl md:text-xl text-lg font-semibold">
               Có thể bạn sẽ muốn xem
             </h4>
             <MovieSwiper

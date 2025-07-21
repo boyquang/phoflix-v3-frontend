@@ -141,7 +141,9 @@ type MovieSlice = {
     totalPages: number;
     totalResults: number;
   };
-  movieEvent: Movies;
+  movieEvent: Movies & {
+    fetched: boolean;
+  };
   searchMoviePreview: {
     items: Movie[];
     loading: boolean;

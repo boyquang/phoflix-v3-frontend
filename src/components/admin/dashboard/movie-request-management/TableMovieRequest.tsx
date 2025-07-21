@@ -3,7 +3,7 @@
 import EmptyData from "@/components/shared/EmptyData";
 import { status } from "@/constants/movie-request";
 import { formatDate } from "@/lib/utils";
-import { Box, Table } from "@chakra-ui/react";
+import { Box } from "@chakra-ui/react";
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import { SiGoogleforms } from "react-icons/si";

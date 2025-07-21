@@ -4,6 +4,9 @@ import AlertDialog from "@/components/shared/AlertDialog";
 import EditableInfo from "./EditableInfo";
 import TableCellImage from "./TableCellImage";
 import { formatDate } from "@/lib/utils";
+import { IconButton } from "@chakra-ui/react";
+import { MdDelete } from "react-icons/md";
+import IconButtonAction from "@/components/shared/IconButtonAction";
 
 interface TableRowProps {
   index: number;
@@ -36,11 +39,7 @@ const TableRow = ({
           content="Bạn có chắc chắn muốn xóa thông báo này không?"
           loading={loadingDelete}
           confirmCallback={() => callbackDelete(item.id)}
-          trigger={
-            <button className="text-red-500 text-xs hover:underline cursor-pointer transition">
-              Xóa
-            </button>
-          }
+          trigger={<IconButtonAction action="delete" size="xs" />}
         />
       </td>
       <td className="px-4 py-3 whitespace-nowrap">{item.sender_name}</td>

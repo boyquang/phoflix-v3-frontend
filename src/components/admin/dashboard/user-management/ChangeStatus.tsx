@@ -16,7 +16,12 @@ const ChangeStatus = ({
   onChangeStatusUser,
 }: ChangeStatusProps) => {
   if (loading) {
-    return <Spinner size="sm" />;
+    return (
+      <div className="flex items-center gap-1 whitespace-nowrap">
+        <Spinner size="sm" />
+        <span className="text-sm text-white">Đang xử lý...</span>
+      </div>
+    );
   }
 
   return (

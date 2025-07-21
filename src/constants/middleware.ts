@@ -5,6 +5,7 @@ export const adminPaths = [
   "/dashboard/report-management",
   "/dashboard/movie-request-management",
   "/dashboard/telegram-bot",
+  "/dashboard/event-management",
 ];
 
 export const userPaths = [

@@ -5,7 +5,7 @@ import { toaster } from "@/components/ui/toaster";
 import { decode } from "he";
 import "dayjs/locale/vi";
 import { delay } from "lodash";
-import { DateEvent, eventConfig } from "@/configs/eventConfig";
+import { DateEvent } from "@/configs/eventConfig";
 
 dayjs.locale("vi");
 dayjs.extend(relativeTime);
@@ -170,11 +170,11 @@ export const getTodayDateString = () => {
 /**
  * @returns - true nếu hôm nay có sự kiện, false nếu không
  */
-export const checkIsTodayAnEvent = () => {
+export const checkIsTodayAnEvent = (events: EventData[]) => {
   const todayDate = getTodayDateString();
 
   // Lặp qua danh sách sự kiện để kiểm tra
-  for (const event of eventConfig) {
+  for (const event of events) {
     let eventDate = event.date;
 
     // Nếu sự kiện là âm lịch, chuyển đổi ngày âm lịch sang dương lịch
@@ -198,46 +198,71 @@ export const checkIsTodayAnEvent = () => {
  * @returns - Sự kiện sắp diễn ra trong khoảng thời gian đã chỉ định
  */
 
-export function getUpcomingEvent(thresholdDays = 7) {
+
+export function getUpcomingEvent(
+  events: EventData[],
+  thresholdDays = 7
+): EventData | null {
+  if (!Array.isArray(events) || events.length === 0) return null;
+
   const today = dayjs();
 
-  return eventConfig.find((event) => {
-    let eventDate;
+  const validEvents = events
+    .map((event) => {
+      let eventDate: dayjs.Dayjs | null = null;
 
-    if (event.isLunar) {
-      const [day, month] = event.date.split("/").map(Number); // lấy ngày và tháng từ lunarDate
-      const lunarToday = Lunar.fromDate(today.toDate()); // Chuyển đổi ngày hôm nay sang lịch âm
-      const solar = Lunar.fromYmd(lunarToday.getYear(), month, day).getSolar(); // Chuyển đổi ngày âm lịch sang dương lịch
-      eventDate = dayjs(
-        `${solar.getYear()}-${solar.getMonth() + 1}-${solar.getDay()}` // +1 vì month trong JS là từ 0 (0-11)
-      );
+      try {
+        const [dayStr, monthStr] = event.date.split("/");
+        const day = Number(dayStr);
+        const month = Number(monthStr);
 
-      // Nếu ngày âm lịch đã qua, lấy năm sau
-      if (eventDate.isBefore(today, "day")) {
-        const nextSolar = Lunar.fromYmd(
-          lunarToday.getYear() + 1, // thêm 1 năm
-          month,
-          day
-        ).getSolar();
-        eventDate = dayjs(
-          `${nextSolar.getYear()}-${
-            nextSolar.getMonth() + 1
-          }-${nextSolar.getDay()}`
-        );
+        if (!day || !month) return null;
+
+        if (event.isLunar) {
+          const lunarToday = Lunar.fromDate(today.toDate());
+          const lunarYear = lunarToday.getYear();
+
+          // Chuyển âm lịch sang dương lịch trong năm nay
+          let solar = Lunar.fromYmd(lunarYear, month, day).getSolar();
+          eventDate = dayjs(
+            `${solar.getYear()}-${solar.getMonth() + 1}-${solar.getDay()}`
+          );
+
+          // Nếu đã qua -> chuyển sang năm sau
+          if (eventDate.isBefore(today, "day")) {
+            solar = Lunar.fromYmd(lunarYear + 1, month, day).getSolar();
+            eventDate = dayjs(
+              `${solar.getYear()}-${solar.getMonth() + 1}-${solar.getDay()}`
+            );
+          }
+        } else {
+          eventDate = dayjs(`${today.year()}-${month}-${day}`, "YYYY-MM-DD");
+
+          // Nếu đã qua -> chuyển sang năm sau
+          if (eventDate.isBefore(today, "day")) {
+            eventDate = eventDate.add(1, "year");
+          }
+        }
+
+        const diff = eventDate.diff(today, "day");
+        if (diff >= 0 && diff <= thresholdDays) {
+          return { ...event, eventDate };
+        }
+      } catch (e) {
+        console.warn("Lỗi khi xử lý sự kiện:", event, e);
+        return null;
       }
-    } else {
-      const [day, month] = event.date.split("/").map(Number);
-      eventDate = dayjs(`${today.year()}-${month}-${day}`, "YYYY-MM-DD");
 
-      // Nếu sự kiện đã qua trong năm nay, cộng thêm 1 năm
-      if (eventDate.isBefore(today, "day")) {
-        eventDate = eventDate.add(1, "year");
-      }
-    }
+      return null;
+    })
+    .filter(Boolean) as (EventData & { eventDate: dayjs.Dayjs })[];
 
-    const diff = Math.abs(eventDate.diff(today, "day"));
-    return diff <= thresholdDays; // Kiểm tra xem sự kiện có trong khoảng thời gian đã chỉ định không
-  });
+  if (validEvents.length === 0) return null;
+
+  // Sắp xếp theo ngày gần nhất
+  validEvents.sort((a, b) => a.eventDate.diff(b.eventDate));
+
+  return validEvents[0];
 }
 
 ////////////////////////////////////////////////////////////////////////
@@ -910,4 +935,21 @@ export const parseEpisodeCurrent = (episodeCurrent: string) => {
   const episodeInfo = match?.[2] || null;
 
   return { status, episodeInfo };
+};
+
+/**
+ * @param date - Ngày cần kiểm tra
+ * @param separate - Ký tự phân tách ngày, tháng, năm (ví dụ: "/", "-")
+ * @returns - true nếu ngày hợp lệ, false nếu không hợp lệ
+ * @description - Hàm này sẽ kiểm tra xem ngày có hợp lệ hay không.
+ *                Ngày được coi là hợp lệ nếu:
+ *                - Ngày nằm trong khoảng từ 1 đến 31
+ *                - Tháng nằm trong khoảng từ 1 đến 12
+ *                - Năm lớn hơn 1900
+ */
+
+export const validateDate = (date: string, separate: string) => {
+  const [day, month] = date.split(separate).map(Number);
+  const isValid = day > 0 && day <= 31 && month > 0 && month <= 12;
+  return isValid;
 };

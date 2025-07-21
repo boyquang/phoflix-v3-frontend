@@ -2,7 +2,6 @@ import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
   reactStrictMode: false,
-  
   images: {
     remotePatterns: [
       {
@@ -23,7 +22,6 @@ const nextConfig: NextConfig = {
     ],
     domains: ["phimimg.com", "image.tmdb.org", "lh3.googleusercontent.com"],
   },
-
   compiler: {
     emotion: true,
   },

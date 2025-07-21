@@ -248,8 +248,7 @@ export const fetchDataMovieInfo = createAsyncThunk(
 );
 
 interface FetchDataMovieEvent {
-  slug: string;
-  describe: Describe;
+  category?: Categories;
   country?: Countries;
   limit?: number;
 }
@@ -257,17 +256,24 @@ interface FetchDataMovieEvent {
 export const fetchDataMovieEvent = createAsyncThunk(
   "movie/fetchDataMovieEvent",
   async (
-    { slug, describe, limit = 10, country = "viet-nam" }: FetchDataMovieEvent,
+    {
+      limit = 10,
+      country = "viet-nam",
+      category = "lich-su",
+    }: FetchDataMovieEvent,
     { rejectWithValue }
   ) => {
     try {
-      const response = await fetchMovieDetail(
-        describe,
-        slug,
-        1,
+      const response = await fetchAdvanceFilterMovies({
+        keyword: "a",
+        page: 1,
         limit,
-        country
-      );
+        country,
+        category,
+        sort_lang: "",
+        year: "",
+        sort_type: "desc",
+      });
 
       if (!response.status) {
         throw new Error("Fetch failed");

@@ -58,7 +58,7 @@ const PopoverMovieRequest = ({
         <Button
           onClick={() => setOpen(!open)}
           size="xs"
-          className="bg-blue-500 text-gray-50"
+          className="border border-[#ffffff10] text-white bg-transparent rounded-md hover:border-[#ffd875] hover:text-[#ffd875] transition"
         >
           Xử lý
         </Button>

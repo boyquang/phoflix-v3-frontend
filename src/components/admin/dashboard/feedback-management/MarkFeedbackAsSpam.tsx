@@ -15,7 +15,12 @@ const MarkFeedbackAsSpam = ({
   onMarkAsSpam,
 }: MarkFeedbackAsSpamProps) => {
   if (loading) {
-    return <Spinner size="sm" />;
+    return (
+      <div className="flex items-center gap-1 whitespace-nowrap">
+        <Spinner size="sm" />
+        <span className="text-sm text-white">Đang xử lý...</span>
+      </div>
+    );
   }
 
   return (
@@ -26,9 +31,7 @@ const MarkFeedbackAsSpam = ({
       }}
       color="primary"
       size="small"
-      label={
-        feedback?.is_spam ? "Bỏ đánh dấu" : "Đánh dấu"
-      }
+      label={feedback?.is_spam ? "Bỏ đánh dấu" : "Đánh dấu"}
     />
   );
 };

@@ -1,9 +1,10 @@
 import Loading from "@/app/loading";
 import { PageProps } from "@/app/page";
 import { auth } from "@/auth";
-import CreateNotification from "@/components/admin/dashboard/notification-management/CreateNotification";
 import TableNotifications from "@/components/admin/dashboard/notification-management/TableNotifications";
+import AddNewButton from "@/components/shared/AddNewButton";
 import PaginationCustom from "@/components/shared/PaginationCustom";
+import NotificationDialog from "@/components/user/notification/NotificationDialog";
 import { getNotifications } from "@/lib/actions/adminActionServer";
 import { NEXT_PUBLIC_SITE_URL } from "@/lib/env";
 import { Box } from "@chakra-ui/react";
@@ -59,7 +60,16 @@ const Page = async ({ searchParams }: PageProps) => {
   return (
     <Suspense fallback={<Loading type="bars" />}>
       <Box className="text-gray-50">
-        <h1 className="lg:text-3xl text-xl">Quản lý thông báo</h1>
+        <div className="flex items-center justify-between">
+          <h1 className="lg:text-3xl text-xl font-semibold">
+            Quản lý thông báo
+          </h1>
+          <NotificationDialog
+            trigger={
+              <AddNewButton size="sm" label="Tạo thông báo" rounded="full" />
+            }
+          />
+        </div>
 
         <TableNotifications offset={(page - 1) * limit} items={items} />
 
@@ -72,8 +82,6 @@ const Page = async ({ searchParams }: PageProps) => {
             showToaster={false}
           />
         )}
-
-        <CreateNotification />
       </Box>
     </Suspense>
   );
