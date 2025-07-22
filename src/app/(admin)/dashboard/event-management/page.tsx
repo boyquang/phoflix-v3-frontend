@@ -10,6 +10,8 @@ const Page = async ({ params, searchParams }: PageProps) => {
   const response = await getEventList();
   const { status, result } = response || {};
 
+  console.log("Event List Response:", response);
+
   return (
     <Suspense fallback={<Loading type="bars" />}>
       <div className="text-gray-50">

@@ -1,8 +1,6 @@
 "use client";
 
 import AlertDialog from "@/components/shared/AlertDialog";
-import { IconButton } from "@chakra-ui/react";
-import { MdDelete, MdEdit } from "react-icons/md";
 import EventDialog from "./EventDialog";
 import { useState } from "react";
 import { deleteEvent } from "@/lib/actions/eventAction";

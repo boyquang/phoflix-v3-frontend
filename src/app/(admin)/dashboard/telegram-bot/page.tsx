@@ -1,10 +1,8 @@
 import Loading from "@/app/loading";
 import { auth } from "@/auth";
 import TableTokens from "@/components/admin/dashboard/telegram-bot/TableTokens";
-import Token from "@/components/admin/dashboard/telegram-bot/Token";
 import UpdateToken from "@/components/admin/dashboard/telegram-bot/UpdateToken";
 import { getTokens } from "@/lib/actions/telegramBotAction";
-import { formatDate } from "@/lib/utils";
 import { Box } from "@chakra-ui/react";
 import { Suspense } from "react";
 
@@ -23,7 +21,7 @@ const Page = async () => {
           <div className="mt-8 overflow-x-auto">
             <h4 className="text-lg text-white mb-4">Lịch sử cập nhật</h4>
 
-            {tokens?.length === 0 ? (
+            {!tokens || tokens?.length === 0 ? (
               <p className="text-gray-400 text-base">
                 Chưa có token nào được cập nhật.
               </p>

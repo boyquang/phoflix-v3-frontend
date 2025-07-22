@@ -82,6 +82,7 @@ const App = ({ children }: { children: React.ReactNode }) => {
       />
 
       <ReposeUserAlert />
+      
       <GoToSleepAnimation />
 
       <AuthDialog
