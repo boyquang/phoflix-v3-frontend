@@ -10,7 +10,7 @@ import {
   Portal,
   Textarea,
 } from "@chakra-ui/react";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import useNotification from "@/hooks/useNotification";
 import { useForm } from "react-hook-form";
 import { categories, countries } from "@/constants/movie";
@@ -41,9 +41,14 @@ const EventDialog = ({ action, data, trigger }: EventDialogProps) => {
     handleSubmit,
     formState: { errors },
   } = useForm<EventData>({
-    defaultValues: data,
     mode: "onSubmit",
   });
+
+  useEffect(() => {
+    if (data && action === "update") {
+      reset(data);
+    }
+  }, [data, open, action]);
 
   const onSubmit = async (formData: EventData) => {
     setLoading(true);

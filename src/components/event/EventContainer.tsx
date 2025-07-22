@@ -85,17 +85,19 @@ const EventContainer = () => {
             row={8}
             className="text-white text-sm md:text-base text-justify"
           />
-          <Box className="mt-4 text-left">
-            <h4 className="text-gray-50 mb-2 lg:text-2xl md:text-xl text-lg font-semibold">
-              Có thể bạn sẽ muốn xem
-            </h4>
-            <MovieSwiper
-              items={items}
-              loading={loading}
-              error={error}
-              orientation="horizontal"
-            />
-          </Box>
+          {items?.length > 0 && (
+            <Box className="mt-4 text-left">
+              <h4 className="text-gray-50 mb-2 lg:text-2xl md:text-xl text-lg font-semibold">
+                Có thể bạn sẽ muốn xem
+              </h4>
+              <MovieSwiper
+                items={items}
+                loading={loading}
+                error={error}
+                orientation="horizontal"
+              />
+            </Box>
+          )}
         </Box>
       </Box>
     </RootLayout>
