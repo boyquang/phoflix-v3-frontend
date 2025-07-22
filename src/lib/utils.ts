@@ -198,7 +198,6 @@ export const checkIsTodayAnEvent = (events: EventData[]) => {
  * @returns - Sự kiện sắp diễn ra trong khoảng thời gian đã chỉ định
  */
 
-
 export function getUpcomingEvent(
   events: EventData[],
   thresholdDays = 7
@@ -219,20 +218,22 @@ export function getUpcomingEvent(
         if (!day || !month) return null;
 
         if (event.isLunar) {
+          // Chuyển ngày hôm nay (dương lịch) sang âm lịch
           const lunarToday = Lunar.fromDate(today.toDate());
           const lunarYear = lunarToday.getYear();
 
           // Chuyển âm lịch sang dương lịch trong năm nay
           let solar = Lunar.fromYmd(lunarYear, month, day).getSolar();
+
           eventDate = dayjs(
-            `${solar.getYear()}-${solar.getMonth() + 1}-${solar.getDay()}`
+            `${solar.getYear()}-${solar.getMonth()}-${solar.getDay()}`
           );
 
           // Nếu đã qua -> chuyển sang năm sau
           if (eventDate.isBefore(today, "day")) {
             solar = Lunar.fromYmd(lunarYear + 1, month, day).getSolar();
             eventDate = dayjs(
-              `${solar.getYear()}-${solar.getMonth() + 1}-${solar.getDay()}`
+              `${solar.getYear()}-${solar.getMonth()}-${solar.getDay()}`
             );
           }
         } else {

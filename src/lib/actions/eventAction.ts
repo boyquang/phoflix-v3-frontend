@@ -1,6 +1,6 @@
 import { ENV, NEXT_PUBLIC_BACKEND_URL } from "../env";
 
-export const getEventList = async (accessToken: string): Promise<any> => {
+export const getEventList = async (accessToken?: string): Promise<any> => {
   try {
     const baseUrl = `${NEXT_PUBLIC_BACKEND_URL}/event/list`;
 
@@ -8,7 +8,7 @@ export const getEventList = async (accessToken: string): Promise<any> => {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
-        Authorization: `Bearer ${accessToken}`,
+        Authorization: `Bearer ${accessToken || ""}`,
       },
     });
 
@@ -80,7 +80,10 @@ export const createEvent = async (
   }
 };
 
-export const deleteEvent = async (eventId: string, accessToken: string): Promise<any> => {
+export const deleteEvent = async (
+  eventId: string,
+  accessToken: string
+): Promise<any> => {
   try {
     const baseUrl = `${NEXT_PUBLIC_BACKEND_URL}/event/deleteEvent/${eventId}`;
 

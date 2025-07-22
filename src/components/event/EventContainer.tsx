@@ -14,7 +14,6 @@ import MovieSwiper from "@/components/shared/MovieSwiper";
 import { getEventList } from "@/lib/actions/eventAction";
 import { eventConfig } from "@/configs/eventConfig";
 import { setFetchedMovieEvent } from "@/store/slices/movieSlice";
-import { useSession } from "next-auth/react";
 
 const EventContainer = () => {
   const [event, setEvent] = useState<EventData | null>(null);
@@ -24,11 +23,10 @@ const EventContainer = () => {
   );
   const dispatch: AppDispatch = useDispatch();
   const [loading, setLoading] = useState(false);
-  const { data: session } = useSession();
 
   useEffect(() => {
     const fetchEvents = async () => {
-      const response = await getEventList(session?.user.accessToken as string);
+      const response = await getEventList();
 
       if (response?.status && response?.result?.length > 0) {
         setIsTodayAnEvent(checkIsTodayAnEvent(response.result));

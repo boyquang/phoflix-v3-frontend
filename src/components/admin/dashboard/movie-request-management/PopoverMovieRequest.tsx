@@ -30,6 +30,13 @@ const PopoverMovieRequest = ({
   const [status, setStatus] = useState<MovieRequestStatus | null>(null);
   const [response, setResponse] = useState<string>("");
   const [open, setOpen] = useState(false);
+  const [processed, setProcessed] = useState(false);
+
+  useEffect(() => {
+    setProcessed(
+      movieRequest.status === "approved" || movieRequest.status === "rejected"
+    );
+  }, [movieRequest]);
 
   useEffect(() => {
     if (movieRequest) {
@@ -39,6 +46,9 @@ const PopoverMovieRequest = ({
   }, [movieRequest]);
 
   const handleClick = async (agrs: MovieRequestProcess) => {
+    // Chỉ xử lý các trạng thái đang chờ hoặc đang xử lý
+    if (processed) return;
+
     const status = await onClickSubmit(agrs);
 
     if (status) {
@@ -56,11 +66,12 @@ const PopoverMovieRequest = ({
     >
       <Popover.Trigger asChild>
         <Button
+          disabled={processed}
           onClick={() => setOpen(!open)}
           size="xs"
           className="border border-[#ffffff10] text-white bg-transparent rounded-md hover:border-[#ffd875] hover:text-[#ffd875] transition"
         >
-          Xử lý
+          {processed ? "Đã xử lý" : "Xử lý"}
         </Button>
       </Popover.Trigger>
       <Portal>

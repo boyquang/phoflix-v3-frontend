@@ -9,7 +9,7 @@ import { Suspense } from "react";
 
 const Page = async ({ params, searchParams }: PageProps) => {
   const session = await auth();
-  const response = await getEventList(session?.user.accessToken as string);
+  const response = await getEventList(session?.user?.accessToken as string);
   const { result } = response || {};
 
   return (

@@ -21,7 +21,7 @@ const AddNewButton = ({
       onClick={onClick}
       size={size}
       rounded={rounded}
-      className="xs:text-xs text-[10px] text-gray-200 bg-transparent border border-gray-400 hover:bg-[#25272f] transition-all"
+      className="text-sm font-semibold text-gray-200 bg-transparent border border-gray-400 hover:bg-[#25272f] transition-all"
     >
       <IoAdd />
       {label}
