@@ -75,7 +75,7 @@ const EventContainer = () => {
                 {isTodayAnEvent ? <MdCelebration /> : <PiCalendarStarFill />}
               </div>
               {isTodayAnEvent
-                ? `Ngày ${event?.name} - ${event?.date}`
+                ? `${event?.name} - ${event?.date}`
                 : "Sắp tới có sự kiện gì thế?"}
             </Box>
           </Box>
