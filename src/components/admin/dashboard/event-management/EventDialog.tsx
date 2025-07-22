@@ -17,7 +17,6 @@ import { categories, countries } from "@/constants/movie";
 import { createEvent, updateEvent } from "@/lib/actions/eventAction";
 import { useRouter } from "next/navigation";
 import { validateDate } from "@/lib/utils";
-import DialogRoot from "@/components/shared/DialogRoot";
 
 const { dialog } = appConfig.charka;
 const motionPresetDefault = dialog.motionPresetDefault;
@@ -59,6 +58,8 @@ const EventDialog = ({ action, data, trigger }: EventDialogProps) => {
     }
 
     setLoading(false);
+
+    console.log("Event Dialog Response:", response);
 
     if (response?.status) {
       router.refresh();

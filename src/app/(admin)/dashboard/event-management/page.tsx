@@ -11,6 +11,7 @@ const Page = async ({ params, searchParams }: PageProps) => {
   const { status, result } = response || {};
 
   console.log("Event List Response:", response);
+  console.log("Event List Result:", result);
 
   return (
     <Suspense fallback={<Loading type="bars" />}>

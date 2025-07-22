@@ -13,8 +13,6 @@ export const getEventList = async (): Promise<any> => {
 
     const data = await response.json();
 
-    console.log("Response", response);
-
     if (!response.ok) {
       const { status, message, result } = data || {};
 

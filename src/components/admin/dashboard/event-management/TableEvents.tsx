@@ -1,7 +1,5 @@
 "use client";
 
-"use client";
-
 import { formatDate } from "@/lib/utils";
 import EmptyData from "@/components/shared/EmptyData";
 import { MdCelebration } from "react-icons/md";
