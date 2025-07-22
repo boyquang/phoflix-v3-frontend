@@ -1,6 +1,6 @@
 import { ENV, NEXT_PUBLIC_BACKEND_URL } from "../env";
 
-export const getEventList = async (): Promise<any> => {
+export const getEventList = async (accessToken: string): Promise<any> => {
   try {
     const baseUrl = `${NEXT_PUBLIC_BACKEND_URL}/event/list`;
 
@@ -8,6 +8,7 @@ export const getEventList = async (): Promise<any> => {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
+        Authorization: `Bearer ${accessToken}`,
       },
     });
 
@@ -37,7 +38,10 @@ export const getEventList = async (): Promise<any> => {
   }
 };
 
-export const createEvent = async (eventData: EventData): Promise<any> => {
+export const createEvent = async (
+  eventData: EventData,
+  accessToken: string
+): Promise<any> => {
   try {
     const baseUrl = `${NEXT_PUBLIC_BACKEND_URL}/event/createEvent`;
     const body = JSON.stringify(eventData);
@@ -45,6 +49,7 @@ export const createEvent = async (eventData: EventData): Promise<any> => {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
+        Authorization: `Bearer ${accessToken}`,
       },
       body,
     });
@@ -75,7 +80,7 @@ export const createEvent = async (eventData: EventData): Promise<any> => {
   }
 };
 
-export const deleteEvent = async (eventId: string): Promise<any> => {
+export const deleteEvent = async (eventId: string, accessToken: string): Promise<any> => {
   try {
     const baseUrl = `${NEXT_PUBLIC_BACKEND_URL}/event/deleteEvent/${eventId}`;
 
@@ -83,6 +88,7 @@ export const deleteEvent = async (eventId: string): Promise<any> => {
       method: "DELETE",
       headers: {
         "Content-Type": "application/json",
+        Authorization: `Bearer ${accessToken}`,
       },
     });
 
@@ -114,7 +120,8 @@ export const deleteEvent = async (eventId: string): Promise<any> => {
 
 export const updateEvent = async (
   eventId: string,
-  eventData: EventData
+  eventData: EventData,
+  accessToken: string
 ): Promise<any> => {
   try {
     const baseUrl = `${NEXT_PUBLIC_BACKEND_URL}/event/updateEvent/${eventId}`;
@@ -123,6 +130,7 @@ export const updateEvent = async (
       method: "PUT",
       headers: {
         "Content-Type": "application/json",
+        Authorization: `Bearer ${accessToken}`,
       },
       body,
     });

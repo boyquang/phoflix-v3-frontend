@@ -1,5 +1,6 @@
 import Loading from "@/app/loading";
 import { PageProps } from "@/app/page";
+import { auth } from "@/auth";
 import EventDialog from "@/components/admin/dashboard/event-management/EventDialog";
 import TableEvents from "@/components/admin/dashboard/event-management/TableEvents";
 import AddNewButton from "@/components/shared/AddNewButton";
@@ -7,11 +8,9 @@ import { getEventList } from "@/lib/actions/eventAction";
 import { Suspense } from "react";
 
 const Page = async ({ params, searchParams }: PageProps) => {
-  const response = await getEventList();
-  const { status, result } = response || {};
-
-  console.log("Event List Response:", response);
-  console.log("Event List Result:", result);
+  const session = await auth();
+  const response = await getEventList(session?.user.accessToken as string);
+  const { result } = response || {};
 
   return (
     <Suspense fallback={<Loading type="bars" />}>

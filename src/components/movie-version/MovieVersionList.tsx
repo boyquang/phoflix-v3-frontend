@@ -108,10 +108,8 @@ const MovieVersionList = ({
               <div className="relative z-10 w-[90%] p-6 flex flex-col items-start justify-center gap-4">
                 <div className="flex items-center gap-1 text-sm text-gray-50">
                   <div className="flex items-center gap-1">
-                    <div className="w-5 h-5">
-                      <img
-                        className="w-full h-full object-cover"
-                        loading="lazy"
+                    <div className="w-5 h-5 relative">
+                      <Image
                         src={icon[language as languageType]}
                         alt={language}
                       />

@@ -1,5 +1,6 @@
 "use client";
 
+import Image from "@/components/shared/Image";
 import { emojis } from "@/constants/review";
 import { setSelectedReview } from "@/store/slices/userSlice";
 import { AppDispatch, RootState } from "@/store/store";
@@ -26,8 +27,8 @@ const ReviewEmo = () => {
               }
             `}
         >
-          <Box className="md:w-16 md:h-16 w-8 h-8">
-            <img src={emoji.emoji} alt={emoji.text} className="w-full h-full" />
+          <Box className="md:w-16 md:h-16 w-8 h-8 relative">
+            <Image src={emoji.emoji} alt={emoji.text} />
           </Box>
           <p className="text-xs text-gray-50">{emoji.text}</p>
         </Box>

@@ -1,5 +1,4 @@
-import { NEXT_PUBLIC_BACKEND_URL, NEXT_PUBLIC_SITE_URL } from "../env";
-import { fetcher } from "../fetcher";
+import { NEXT_PUBLIC_BACKEND_URL } from "../env";
 
 export const getGroupChatInfo = async (chatId: string) => {
   try {

@@ -17,6 +17,7 @@ import { categories, countries } from "@/constants/movie";
 import { createEvent, updateEvent } from "@/lib/actions/eventAction";
 import { useRouter } from "next/navigation";
 import { validateDate } from "@/lib/utils";
+import { useSession } from "next-auth/react";
 
 const { dialog } = appConfig.charka;
 const motionPresetDefault = dialog.motionPresetDefault;
@@ -32,6 +33,7 @@ const EventDialog = ({ action, data, trigger }: EventDialogProps) => {
   const [loading, setLoading] = useState(false);
   const { notificationAlert } = useNotification();
   const router = useRouter();
+  const { data: session } = useSession();
 
   const {
     register: rhfEvent,
@@ -50,16 +52,21 @@ const EventDialog = ({ action, data, trigger }: EventDialogProps) => {
 
     switch (action) {
       case "create":
-        response = await createEvent(formData);
+        response = await createEvent(
+          formData,
+          session?.user.accessToken as string
+        );
         break;
       case "update":
-        response = await updateEvent(data?.id as string, formData);
+        response = await updateEvent(
+          data?.id as string,
+          formData,
+          session?.user.accessToken as string
+        );
         break;
     }
 
     setLoading(false);
-
-    console.log("Event Dialog Response:", response);
 
     if (response?.status) {
       router.refresh();
