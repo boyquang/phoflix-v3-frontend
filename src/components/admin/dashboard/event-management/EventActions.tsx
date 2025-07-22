@@ -7,6 +7,7 @@ import { deleteEvent } from "@/lib/actions/eventAction";
 import { useRouter } from "next/navigation";
 import useNotification from "@/hooks/useNotification";
 import IconButtonAction from "@/components/shared/IconButtonAction";
+import { useSession } from "next-auth/react";
 
 interface EventActionsProps {
   item: EventData;
@@ -16,12 +17,16 @@ const EventActions = ({ item }: EventActionsProps) => {
   const [loadingDelete, setLoadingDelete] = useState(false);
   const router = useRouter();
   const { notificationAlert } = useNotification();
+  const { data: session } = useSession();
 
   const handleDelete = async () => {
     if (!item.id) return;
 
     setLoadingDelete(true);
-    const response = await deleteEvent(item.id);
+    const response = await deleteEvent(
+      item.id,
+      session?.user?.accessToken as string
+    );
     setLoadingDelete(false);
 
     if (response?.status) router.refresh();
