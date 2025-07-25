@@ -113,6 +113,7 @@ const SearchDialog = () => {
                       callback={(keyword: string) =>
                         handleCallbackVoiceSearch(keyword)
                       }
+                      size="xs"
                     />
                   }
                   className="w-full"

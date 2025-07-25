@@ -954,3 +954,62 @@ export const validateDate = (date: string, separate: string) => {
   const isValid = day > 0 && day <= 31 && month > 0 && month <= 12;
   return isValid;
 };
+
+type TypeFormatTimestamp =
+  | "DD"
+  | "MM"
+  | "YYYY"
+  | "HH"
+  | "mm"
+  | "ss"
+  | "DD/MM/YYYY"
+  | "HH:mm:ss"
+  | "HH:mm";
+
+/**
+ *
+ * @param timestamp - Thời gian cần định dạng (dạng số hoặc chuỗi)
+ * @param type - Loại định dạng thời gian cần trả về
+ * @returns - Chuỗi đã được định dạng theo kiểu đã cho
+ */
+
+export const formatTimestamp = (
+  timestamp: number | string,
+  type: TypeFormatTimestamp
+) => {
+  const date = new Date(Number(timestamp));
+
+  const vnDate = new Date(
+    date.toLocaleString("en-US", { timeZone: "Asia/Ho_Chi_Minh" })
+  );
+
+  const day = String(vnDate.getDate()).padStart(2, "0");
+  const month = String(vnDate.getMonth() + 1).padStart(2, "0"); // Tháng bắt đầu từ 0
+  const year = vnDate.getFullYear();
+  const hours = String(vnDate.getHours()).padStart(2, "0");
+  const minutes = String(vnDate.getMinutes()).padStart(2, "0");
+  const seconds = String(vnDate.getSeconds()).padStart(2, "0");
+
+  switch (type) {
+    case "DD":
+      return day;
+    case "MM":
+      return month;
+    case "YYYY":
+      return year;
+    case "HH":
+      return hours;
+    case "mm":
+      return minutes;
+    case "ss":
+      return seconds;
+    case "DD/MM/YYYY":
+      return `${day}/${month}/${year}`;
+    case "HH:mm:ss":
+      return `${hours}:${minutes}:${seconds}`;
+    case "HH:mm":
+      return `${hours}:${minutes}`;
+    default:
+      throw new Error("Invalid format type");
+  }
+};

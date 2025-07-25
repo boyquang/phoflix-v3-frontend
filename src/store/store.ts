@@ -6,6 +6,7 @@ import feedbackReducer from "./slices/feedbackSlice";
 import notificationReducer from "./slices/notificationSlice";
 import watchingTogetherReducer from "./slices/watchingTogetherSlice";
 import roomUsersReducer from "./slices/roomUsersSlice";
+import chatBotReducer from "./slices/chatBotSlice";
 
 export const store = configureStore({
   reducer: {
@@ -15,6 +16,7 @@ export const store = configureStore({
     feedback: feedbackReducer,
     notification: notificationReducer,
     roomUsers: roomUsersReducer,
+    chatBot: chatBotReducer,
     watchingTogether: watchingTogetherReducer,
   },
 });

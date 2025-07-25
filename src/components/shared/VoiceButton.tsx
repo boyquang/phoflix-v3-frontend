@@ -6,9 +6,15 @@ import { IconButton } from "@chakra-ui/react";
 import { MdKeyboardVoice, MdStop } from "react-icons/md";
 interface VoiceButtonProps {
   callback: (value: string) => void;
+  size?: "xs" | "sm" | "md" | "lg" | "xl";
+  rounded?: "xs" | "sm" | "md" | "lg" | "xl" | "full";
 }
 
-const VoiceButton = ({ callback }: VoiceButtonProps) => {
+const VoiceButton = ({
+  callback,
+  size = "md",
+  rounded = "full",
+}: VoiceButtonProps) => {
   const [isListening, setIsListening] = useState(false);
   const [isSupported, setIsSupported] = useState(false);
   const recognitionRef = useRef<SpeechRecognition | null>(null);
@@ -82,7 +88,8 @@ const VoiceButton = ({ callback }: VoiceButtonProps) => {
   return (
     <IconButton
       onClick={handleVoiceSearch}
-      size="xs"
+      size={size}
+      rounded={rounded}
       className={`bg-transparent rounded-full hover:bg-[#ffffff2f] ${
         isListening ? "text-red-500" : ""
       }`}

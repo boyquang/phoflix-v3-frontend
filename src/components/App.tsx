@@ -25,6 +25,7 @@ import useSocketShowNotification from "@/hooks/useSocketShowNotification";
 import SnowEffect from "./effects/SnowEffect";
 import dynamic from "next/dynamic";
 import GoToSleepAnimation from "./warn-user/repose/GoToSleepAnimation";
+import ChatBotDialog from "./chat-bot/ChatBotDialog";
 
 const ReposeUserAlert = dynamic(
   () => import("./warn-user/repose/ReposeUserAlert"),
@@ -82,7 +83,7 @@ const App = ({ children }: { children: React.ReactNode }) => {
       />
 
       <ReposeUserAlert />
-      
+
       <GoToSleepAnimation />
 
       <AuthDialog
@@ -97,7 +98,12 @@ const App = ({ children }: { children: React.ReactNode }) => {
 
       <Box className="focus-backdrop" />
 
-      <ScrollToTopButton />
+      <div className="fixed z-[99] right-4 bottom-4">
+       <div className="flex flex-col gap-2">
+          <ScrollToTopButton />
+          <ChatBotDialog />
+       </div>
+      </div>
     </Box>
   );
 };
