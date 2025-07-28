@@ -5,13 +5,12 @@ import AvatarUser from "./AvatarUser";
 import { signOut, useSession } from "next-auth/react";
 import Link from "next/link";
 import { FaHeart, FaPlus, FaUser } from "react-icons/fa6";
-import { FaDonate, FaHistory } from "react-icons/fa";
+import {  FaHistory } from "react-icons/fa";
 import { FiLogOut } from "react-icons/fi";
 import ProfileHeader from "@/components/shared/ProfileHeader";
 import { useState } from "react";
 import { BsFillGridFill } from "react-icons/bs";
 import { appConfig, FeatureStatus } from "@/configs/appConfig";
-import { RiMovieAiFill } from "react-icons/ri";
 import StatusTag from "@/components/shared/StatusTag";
 import { SiGoogleforms } from "react-icons/si";
 

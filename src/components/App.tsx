@@ -26,6 +26,8 @@ import SnowEffect from "./effects/SnowEffect";
 import dynamic from "next/dynamic";
 import GoToSleepAnimation from "./warn-user/repose/GoToSleepAnimation";
 import ChatBotDialog from "./chat-bot/ChatBotDialog";
+import { auth } from "@/auth";
+import { signOut } from "next-auth/react";
 
 const ReposeUserAlert = dynamic(
   () => import("./warn-user/repose/ReposeUserAlert"),
@@ -35,11 +37,19 @@ const ReposeUserAlert = dynamic(
 );
 
 const App = ({ children }: { children: React.ReactNode }) => {
-  const { isOpenDrawer, isShowAuthDialog, typeAuth } = useSelector(
+  const { isOpenDrawer, isShowAuthDialog, typeAuth, reboot } = useSelector(
     (state: RootState) => state.system
   );
   const dispatch: AppDispatch = useDispatch();
   const pathname = usePathname();
+
+  useEffect(() => {
+    if (reboot.status) {
+      signOut({
+        callbackUrl: window.location.href,
+      });
+    }
+  }, [reboot.status]);
 
   // Kiểm tra trạng thái phiên đăng nhập
   useCheckSessionStatus();
@@ -99,10 +109,10 @@ const App = ({ children }: { children: React.ReactNode }) => {
       <Box className="focus-backdrop" />
 
       <div className="fixed z-[99] right-4 bottom-4">
-       <div className="flex flex-col gap-2">
+        <div className="flex flex-col gap-2">
           <ScrollToTopButton />
           <ChatBotDialog />
-       </div>
+        </div>
       </div>
     </Box>
   );

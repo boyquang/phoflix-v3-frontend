@@ -5,7 +5,7 @@ import { register } from "@/lib/actions/authActionServer";
 import { isValidEmail } from "@/lib/utils";
 import { setIsShowAuthDialog, setTypeAuth } from "@/store/slices/systemSlice";
 import { AppDispatch } from "@/store/store";
-import { Box, Button, Field, Input } from "@chakra-ui/react";
+import { Box, Button, Field, Input, Spinner } from "@chakra-ui/react";
 import { useState } from "react";
 import { useDispatch } from "react-redux";
 import { useForm } from "react-hook-form";
@@ -149,10 +149,10 @@ const SignUp = () => {
         <Button
           type="submit"
           size="sm"
-          loading={loading}
           className="shadow-primary bg-primary linear-gradient text-gray-900"
         >
-          Đăng ký
+          {loading && <Spinner size="xs" />}
+          {loading ? "Đang xử lý" : "Đăng ký"}
         </Button>
       </form>
     </Box>

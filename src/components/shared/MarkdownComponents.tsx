@@ -7,7 +7,7 @@ export const markdownComponents: Components = {
   a: ({ href, children }: any) => {
     if (href?.startsWith("/")) {
       return (
-        <Link href={href} className="text-blue-500 underline">
+        <Link href={href} className="text-gray-200 underline">
           {children}
         </Link>
       );
@@ -17,7 +17,7 @@ export const markdownComponents: Components = {
         href={href}
         target="_blank"
         rel="noopener noreferrer"
-        className="text-blue-500 underline"
+        className="text-gray-200 underline"
       >
         {children}
       </a>
@@ -45,4 +45,7 @@ export const markdownComponents: Components = {
   td: ({ children }) => (
     <td className="px-4 py-2 border text-black border-black/10">{children}</td>
   ),
+  hr: ({ children }) => {
+    return <hr className="border-transparent" />;
+  },
 };

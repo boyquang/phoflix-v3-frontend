@@ -30,6 +30,9 @@ const initialState: SystemSlice = {
     },
   },
   warnUser: WARN_USER,
+  reboot: {
+    status: false,
+  },
 };
 
 const systemSlice = createSlice({
@@ -90,6 +93,9 @@ const systemSlice = createSlice({
       state.warnUser.repose.status = action.payload;
       localStorage.setItem("sleepReminder", JSON.stringify(action.payload));
     },
+    setReboot: (state, action) => {
+      state.reboot = action.payload;
+    },
     setOpenAlertRepose: (state, action) => {
       state.warnUser.repose.openAlert = action.payload;
     },
@@ -103,7 +109,7 @@ const systemSlice = createSlice({
       localStorage.setItem("sleepStartTime", JSON.stringify(startTime));
       localStorage.setItem("sleepEndTime", JSON.stringify(endTime));
       localStorage.setItem("sleepCustomPrompt", JSON.stringify(customPrompt));
-    }
+    },
   },
 
   extraReducers: (builder) => {
@@ -145,5 +151,6 @@ export const {
   setStatusRepose,
   setCustomReposeUser,
   setOpenAlertRepose,
+  setReboot,
 } = systemSlice.actions;
 export default systemSlice.reducer;

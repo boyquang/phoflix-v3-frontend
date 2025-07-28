@@ -78,7 +78,6 @@ export const completions = async (params: CompletionsParams) => {
     const data = await response.json();
 
     if (!response.ok) {
-      console.error("Error fetching completions:", data.message);
       return {
         status: false,
         message: data.message || "Failed to fetch completions",
@@ -182,7 +181,7 @@ export const clearHistory = async (userId: string, accessToken: string) => {
 
     return {
       status: true,
-      message: "History cleared successfully",
+      message: data.message || "History cleared successfully",
       result: data.result || {},
       statusCode: response.status,
     };

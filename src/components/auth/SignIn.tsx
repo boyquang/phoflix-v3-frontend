@@ -6,10 +6,10 @@ import { authenticate } from "@/lib/actions/authActionServer";
 import { isValidEmail } from "@/lib/utils";
 import { setTypeAuth } from "@/store/slices/systemSlice";
 import { AppDispatch } from "@/store/store";
-import { Box, Button, Field, Input } from "@chakra-ui/react";
+import { Box, Button, Field, Input, Spinner } from "@chakra-ui/react";
 import { delay } from "lodash";
 import { signIn } from "next-auth/react";
-import { useState } from "react";
+import { useState, useTransition } from "react";
 import { useForm } from "react-hook-form";
 import { FaGoogle } from "react-icons/fa6";
 import { useDispatch } from "react-redux";
@@ -21,7 +21,10 @@ interface FormValues {
 
 const SignIn = () => {
   const dispatch: AppDispatch = useDispatch();
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState({
+    credentials: false,
+    google: false,
+  });
   const { notificationAlert } = useNotification();
 
   const {
@@ -34,9 +37,15 @@ const SignIn = () => {
   const onSubmit = async (data: FormValues) => {
     const { email, password } = data;
 
-    setLoading(true);
+    setLoading({
+      credentials: true,
+      google: false,
+    });
     const response = await authenticate(email, password);
-    setLoading(false);
+    setLoading({
+      credentials: false,
+      google: false,
+    });
 
     if (!response?.status) {
       notificationAlert({
@@ -51,6 +60,14 @@ const SignIn = () => {
         reset(); // Làm mới lại form sau khi đăng nhập thành công
       }, 500);
     }
+  };
+
+  const handleLoginWithGoogle = () => {
+    setLoading({
+      credentials: false,
+      google: true,
+    });
+    signIn("google", { callbackUrl: window.location.href });
   };
 
   return (
@@ -106,10 +123,11 @@ const SignIn = () => {
         <Button
           type="submit"
           size="sm"
-          loading={loading}
+          disabled={loading.credentials}
           className="shadow-primary bg-primary linear-gradient text-gray-900"
         >
-          Đăng nhập
+          {loading.credentials && <Spinner size="xs" />}
+          {loading.credentials ? "Đang xử lý" : "Đăng nhập"}
         </Button>
         <span
           onClick={() => dispatch(setTypeAuth("forgot-password"))}
@@ -123,9 +141,8 @@ const SignIn = () => {
         <Button
           size="sm"
           variant="solid"
-          onClick={() =>
-            signIn("google", { callbackUrl: process.env.NEXT_PUBLIC_SITE_URL })
-          }
+          disabled={loading.google}
+          onClick={handleLoginWithGoogle}
           className="bg-gray-50 text-gray-900 shadow-sub"
         >
           <FaGoogle />

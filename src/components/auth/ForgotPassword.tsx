@@ -5,7 +5,7 @@ import { forgotPassword } from "@/lib/actions/authActionServer";
 import { isValidEmail } from "@/lib/utils";
 import { setIsShowAuthDialog, setTypeAuth } from "@/store/slices/systemSlice";
 import { AppDispatch } from "@/store/store";
-import { Box, Button, Field, Input } from "@chakra-ui/react";
+import { Box, Button, Field, Input, Spinner } from "@chakra-ui/react";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { useDispatch } from "react-redux";
@@ -78,10 +78,10 @@ const ForgotPassword = () => {
         <Button
           type="submit"
           size="sm"
-          loading={loading}
           className="shadow-primary bg-primary linear-gradient text-gray-900"
         >
-          Gửi yêu cầu
+          {loading && <Spinner size="xs" />}
+          {loading ? "Đang xử lý" : "Gửi yêu cầu"}
         </Button>
       </form>
       <p className="text-gray-400 text-right text-xs mt-3">

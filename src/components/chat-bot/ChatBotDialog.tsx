@@ -1,7 +1,7 @@
 "use client";
 
 import { appConfig } from "@/configs/appConfig";
-import { CloseButton, Dialog, IconButton, Portal } from "@chakra-ui/react";
+import { Box, CloseButton, Dialog, IconButton, Portal } from "@chakra-ui/react";
 import React, { useRef, useState } from "react";
 import ChatHistoryBox from "./ChatHistoryBox";
 import { useSession } from "next-auth/react";
@@ -65,8 +65,14 @@ const ChatBotDialog = () => {
               <CloseButton size="sm" />
             </Dialog.CloseTrigger>
 
-            <Dialog.Header>
-              <Dialog.Title>Trò chuyện với trợ lý ảo</Dialog.Title>
+            <Dialog.Header p={0}>
+              <Box className="xs:p-4 p-2 flex md:flex-row flex-col md:gap-2 gap-0 md:items-center items-start">
+                <Dialog.Title className="xs:text-lg text-base">Trợ lý ảo</Dialog.Title>
+                <Dialog.Description className="flex gap-1 items-center text-green-500 text-xs">
+                  <Box className="w-2 h-2 bg-green-500 rounded-full animate-pulse" />
+                  Đang hoạt động
+                </Dialog.Description>
+              </Box>
             </Dialog.Header>
             <div className="w-full h-[1px] bg-[#ffffff10]"></div>
             <Dialog.Body
@@ -78,7 +84,7 @@ const ChatBotDialog = () => {
               }`}
             >
               {!session ? (
-                <h4 className="xs:text-lg text-base text-gray-400 font-semibold">
+                <h4 className="text-base text-gray-400 font-semibold">
                   Bạn cần đăng nhập để trò chuyện với Bot.
                 </h4>
               ) : (

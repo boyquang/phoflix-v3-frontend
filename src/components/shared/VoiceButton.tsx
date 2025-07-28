@@ -68,6 +68,7 @@ const VoiceButton = ({
 
     recognition.onresult = (event: SpeechRecognitionEvent) => {
       const transcript = event.results[0][0].transcript;
+
       callback(transcript);
     };
 

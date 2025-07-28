@@ -15,14 +15,16 @@ import { useDispatch, useSelector } from "react-redux";
 import ClearChat from "./ClearChat";
 import VoiceButton from "../shared/VoiceButton";
 import { delay } from "lodash";
+import useNotification from "@/hooks/useNotification";
 
 const ChatComposer = () => {
-  const { loadingSendQuestion } = useSelector(
+  const { loadingSendQuestion, groupedChatByDate } = useSelector(
     (state: RootState) => state.chatBot
   );
   const [prompt, setPrompt] = useState("");
   const { data: session } = useSession();
   const dispatch: AppDispatch = useDispatch();
+  const { notificationAlert } = useNotification();
 
   const handlSendQuestion = async (prompt: string) => {
     if (!prompt.trim()) return;
@@ -56,10 +58,16 @@ const ChatComposer = () => {
           message: result?.message,
         })
       );
+    } else {
+      notificationAlert({
+        title: "Lỗi",
+        description: response?.message || "Đã có lỗi xảy ra khi gửi câu hỏi",
+        type: "error",
+      });
     }
   };
 
-  const handleCallbackVoiceSearch = async (keyword: string) => {
+  const handleCallbackVoiceSearch = (keyword: string) => {
     setPrompt(keyword);
     delay(() => handlSendQuestion(keyword), 200);
   };
@@ -67,8 +75,9 @@ const ChatComposer = () => {
   return (
     <Box className="w-full border p-4 focus-within:border-white border-[#ffffff10] rounded-2xl focus:border-gray-50">
       <Textarea
-        placeholder="Bạn có câu hỏi gì cho Bot không?"
+        placeholder="Bạn có gì muốn hỏi tôi không?"
         rows={1}
+        autoFocus
         resize="none"
         autoresize
         size="sm"
@@ -85,8 +94,8 @@ const ChatComposer = () => {
         rounded="none"
         className="flex-1 border-0 text-white w-full p-0 outline-0 ring-0"
       />
-      <Box className="flex items-center justify-between mt-4">
-        <ClearChat />
+      <Box className="flex items-center justify-between mt-6">
+        {groupedChatByDate?.length > 0 ? <ClearChat /> : <Box />}
         <Box className="flex items-center gap-2">
           <VoiceButton
             callback={(keyword: string) => handleCallbackVoiceSearch(keyword)}
@@ -97,9 +106,8 @@ const ChatComposer = () => {
             size="md"
             onClick={() => handlSendQuestion(prompt)}
             disabled={!prompt.trim() || loadingSendQuestion}
-            loading={loadingSendQuestion}
             aria-label="Send question"
-            className="bg-primary border-0 linear-gradient hover:opacity-80 text-black"
+            className="bg-primary disabled:opacity-50 border-0 linear-gradient hover:opacity-80 text-black"
             rounded="full"
           >
             <IoArrowUp />

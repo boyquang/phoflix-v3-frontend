@@ -42,4 +42,7 @@ type SystemSlice = {
       endTime?: string; // Thời gian kết thúc nghỉ ngơi
     };
   };
+  reboot: {
+    status: boolean;
+  };
 };

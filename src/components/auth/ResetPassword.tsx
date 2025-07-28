@@ -5,7 +5,7 @@ import useNotification from "@/hooks/useNotification";
 import { resetPassword } from "@/lib/actions/authActionServer";
 import { setTypeAuth } from "@/store/slices/systemSlice";
 import { AppDispatch } from "@/store/store";
-import { Box, Button, Field } from "@chakra-ui/react";
+import { Box, Button, Field, Spinner } from "@chakra-ui/react";
 import { useSearchParams } from "next/navigation";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
@@ -99,10 +99,10 @@ const ResetPassword = () => {
         <Button
           type="submit"
           size="sm"
-          loading={loading}
           className="shadow-primary bg-primary linear-gradient text-gray-900"
         >
-          Đặt lại mật khẩu
+          {loading && <Spinner size="xs" />}
+          {loading ? "Đang xử lý..." : "Đặt lại mật khẩu"}
         </Button>
       </form>
     </Box>

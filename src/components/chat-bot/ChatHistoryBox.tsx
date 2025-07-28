@@ -14,6 +14,7 @@ import LoadingSendQuestion from "./LoadingSendQuestion";
 import ChatTime from "./ChatTime";
 import remarkGfm from "remark-gfm";
 import { markdownComponents } from "../shared/MarkdownComponents";
+import useScrollLoadTop from "@/hooks/useScrollLoadTop";
 
 const ChatHistoryBox = () => {
   const dispatch: AppDispatch = useDispatch();
@@ -29,6 +30,34 @@ const ChatHistoryBox = () => {
   const containerRef = useRef<HTMLDivElement | null>(null);
   const scrollToBottomRef = useRef<HTMLDivElement | null>(null);
   const [loadMore, setLoadMore] = useState(false);
+
+  const handleLoadMore = async () => {
+    const lastChat = chatHistory?.[0];
+
+    if (lastChat) {
+      setLoadMore(true);
+      await dispatch(
+        fetchChatHistory({
+          userId: session?.user.id as string,
+          limit: 10,
+          before: lastChat?.createdAt || undefined,
+        })
+      );
+      setLoadMore(false);
+    }
+  };
+
+  // Sử dụng hook để tải thêm dữ liệu khi cuộn lên đầu
+  useScrollLoadTop({
+    containerRef,
+    onLoadMore: handleLoadMore,
+    enabled: fetched && hasMore,
+    options: {
+      restoreOffset: 120,
+      debounceTime: 300,
+      behavior: "instant",
+    },
+  });
 
   useEffect(() => {
     if (status === "authenticated" && session?.user?.id && !fetched) {
@@ -49,39 +78,9 @@ const ChatHistoryBox = () => {
     }
   }, [fetched, loadingSendQuestion]);
 
-  const handleScroll = async () => {
-    if (!containerRef.current || loading || !hasMore) return;
-
-    const { scrollTop } = containerRef.current;
-
-    // Kiểm tra nếu đã cuộn đến đầu danh sách
-    if (scrollTop === 0) {
-      const lastChat = chatHistory?.[0];
-
-      if (lastChat) {
-        setLoadMore(true);
-        await dispatch(
-          fetchChatHistory({
-            userId: session?.user.id as string,
-            limit: 10,
-            before: lastChat.createdAt,
-          })
-        );
-        setLoadMore(false);
-
-        if (containerRef.current) {
-          containerRef.current.scrollTo({
-            top: 240, // Giữ khoảng cách 120px từ đầu
-            behavior: "instant",
-          });
-        }
-      }
-    }
-  };
-
   if (loading && !fetched) {
     return (
-      <Box className="flex items-center justify-center h-full">
+      <Box className="flex items-center justify-center h-[calc(70vh-32px)]">
         <Loading type="bars" />
       </Box>
     );
@@ -90,25 +89,22 @@ const ChatHistoryBox = () => {
   if (groupedChatByDate?.length === 0 && fetched) {
     return (
       <Box className="flex items-center justify-center h-full">
-        <h4 className="xs:text-lg text-base text-gray-400 font-semibold">
-          Bạn chưa có cuộc trò chuyện nào với Bot.
+        <h4 className="text-base text-gray-400 font-semibold">
+          Xin chào {session?.user.name || "bạn"}! Bạn muốn hỏi gì hôm nay?
         </h4>
       </Box>
     );
   }
 
   return (
-    <Box
-      className="overflow-y-auto max-h-[70vh]"
-      ref={containerRef}
-      onScroll={fetched ? handleScroll : undefined}
-    >
+    <Box className="overflow-y-auto max-h-[calc(70vh-32px)]" ref={containerRef}>
       {loadMore && (
         <Box className="flex text-xs text-primary font-semibold items-center justify-center my-4 gap-1">
           <Spinner size="xs" />
-          <span>Đang tải thêm...</span>
+          <span>Đang tải thêm tin nhắn...</span>
         </Box>
       )}
+
       <Box className="flex flex-col gap-6 h-full xs:p-4 p-2">
         {groupedChatByDate?.map((section, index) => (
           <Box key={index}>
@@ -118,36 +114,43 @@ const ChatHistoryBox = () => {
             {section?.messages?.map((chat, index) => (
               <Box
                 key={index}
-                className={`flex gap-2 mb-4 last:mb-0 items-start ${
-                  chat.role === "user" ? "justify-end" : "justify-start"
+                className={`flex gap-2 mb-6 last:mb-0 items-start ${
+                  chat?.role === "user" ? "justify-end" : "justify-start"
                 }`}
               >
-                {chat.role === "bot" && <AvatarBot />}
-                <Box className="rounded-2xl p-2 bg-white text-black max-w-[75%]">
-                  <Box className="text-sm font-semibold text-gray-600">
-                    {chat.role === "user"
-                      ? session?.user?.name || "Người dùng"
-                      : "Bot"}
-                  </Box>
-                  {chat.content && (
+                {chat?.role === "bot" && <AvatarBot />}
+                <Box
+                  className={`p-2 shadow-sm text-black max-w-[75%] 
+                  ${
+                    chat?.role === "user"
+                      ? "bg-white liner-gradient rounded-tl-2xl rounded-tr-md rounded-bl-2xl rounded-br-2xl"
+                      : "bg-gradient-to-r from-blue-500 via-purple-500 to-pink-500 rounded-tl-md rounded-tr-2xl rounded-bl-2xl rounded-br-2xl"
+                  }`}
+                >
+                  {chat?.role === "bot" && (
+                    <Box className="text-sm font-semibold truncate text-white">
+                      Trợ lý ảo
+                    </Box>
+                  )}
+                  {chat?.content && (
                     <div className="text-sm text-justify">
                       <ReactMarkdown
                         remarkPlugins={[remarkGfm]}
                         components={markdownComponents}
                       >
-                        {chat.content}
+                        {chat?.content || "Nội dung trống"}
                       </ReactMarkdown>
                     </div>
                   )}
-                  <span className="text-xs text-gray-500">
-                    {formatTimestamp(chat.createdAt, "HH:mm")}
+                  <span className="text-xs text-gray-700">
+                    {formatTimestamp(chat?.createdAt, "HH:mm")}
                   </span>
                 </Box>
               </Box>
             ))}
-            {loadingSendQuestion && <LoadingSendQuestion />}
           </Box>
         ))}
+        {loadingSendQuestion && <LoadingSendQuestion />}
       </Box>
       <div ref={scrollToBottomRef} className="h-0"></div>
     </Box>
