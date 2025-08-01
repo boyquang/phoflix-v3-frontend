@@ -2,6 +2,8 @@
 
 import { useEffect, useState } from "react";
 import NextImage from "next/image";
+import { generateUrlImage, getImageSrc } from "@/lib/utils";
+import { NEXT_PUBLIC_API_KKPHIM_IMAGE_URL as API_KKPHIM_IMAGE_URL } from "@/lib/env";
 
 interface ImageProps {
   src: string;
@@ -9,6 +11,7 @@ interface ImageProps {
   className?: string;
   ref?: React.Ref<HTMLImageElement> | null;
   quality?: number;
+  unoptimized?: boolean;
 }
 
 const Image = ({
@@ -17,37 +20,69 @@ const Image = ({
   quality = 80,
   className = "",
   ref = null,
+  unoptimized = false,
 }: ImageProps) => {
   const [blurData, setBlurData] = useState<string | null>(null);
   const [error, setError] = useState<boolean>(false);
+  const [status, setStatus] = useState<"loading" | "success" | "error">(
+    "loading"
+  );
 
   useEffect(() => {
     if (!src) {
       setError(true);
+      setStatus("error");
       return;
     }
 
-    fetch(`/api/blur?src=${encodeURIComponent(src)}`)
-      .then((res) => res.json())
-      .then((data) => {
-        setBlurData(data.blurDataURL);
-      });
+    if (unoptimized) {
+      fetch(`/api/blur?src=${encodeURIComponent(src)}`)
+        .then((res) => res.json())
+        .then((data) => {
+          setBlurData(data.blurDataURL);
+        })
+        .catch(() => {
+          setBlurData(null);
+        });
+    } else {
+      const img = new window.Image();
+      const newSrc = generateUrlImage(src);
+      const finalSrc = `${API_KKPHIM_IMAGE_URL}?url=${newSrc}`;
+
+      img.src = finalSrc;
+      img.onload = () => setStatus("success");
+      img.onerror = () => setStatus("error");
+    }
   }, [src]);
 
   return (
-    <NextImage
-      ref={ref}
-      src={error ? "/images/notfound.png" : src}
-      blurDataURL={blurData ? blurData : undefined}
-      placeholder={blurData ? "blur" : "empty"}
-      alt={alt}
-      fill
-      quality={quality}
-      priority
-      onError={() => setError(true)}
-      sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-      className={`block w-full h-full object-cover inset-0 transition-all duration-700 ease-in-out absolute ${className}`}
-    />
+    <>
+      {unoptimized ? (
+        <NextImage
+          ref={ref}
+          src={error ? "/images/notfound.webp" : src}
+          blurDataURL={blurData ? blurData : undefined}
+          placeholder={blurData ? "blur" : "empty"}
+          alt={alt}
+          fill
+          quality={quality}
+          priority
+          onError={() => setError(true)}
+          sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+          className={`block w-full h-full object-cover inset-0 transition-all duration-700 ease-in-out absolute ${className}`}
+        />
+      ) : (
+        <img
+          ref={ref}
+          src={getImageSrc(src, status)}
+          alt={alt}
+          className={`block w-full h-full object-cover inset-0 absolute ${className} ${
+            status === "loading" ? "blink" : ""
+          }`}
+          loading="lazy"
+        />
+      )}
+    </>
   );
 };
 
