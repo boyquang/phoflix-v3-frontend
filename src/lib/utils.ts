@@ -5,7 +5,7 @@ import { toaster } from "@/components/ui/toaster";
 import { decode } from "he";
 import "dayjs/locale/vi";
 import { delay } from "lodash";
-import { DateEvent } from "@/configs/eventConfig";
+import { DateEvent } from "@/configs/event.config";
 
 dayjs.locale("vi");
 dayjs.extend(relativeTime);
@@ -129,8 +129,8 @@ export const getImageSrc = (
   status: "loading" | "success" | "error"
 ) => {
   if (status === "success") return src;
-  if (status === "error") return "/images/notfound.png";
-  return "/images/placeholder.jpg";
+  if (status === "error") return "/images/notfound.webp";
+  return "/images/placeholder.webp";
 };
 
 ///////////////////////////////////////////////////////////////////////
