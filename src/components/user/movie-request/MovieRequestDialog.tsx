@@ -1,9 +1,9 @@
 "use client";
 
 import CreateMovieRequest from "@/components/user/movie-request/CreateMovieRequest";
-import { categories, countries } from "@/constants/movie";
+import { categories, countries } from "@/constants/movie.contant";
 import useNotification from "@/hooks/useNotification";
-import { createMovieRequest } from "@/lib/actions/movieRequestActionsServer";
+import { createMovieRequest } from "@/lib/actions/movie-request-server.action";
 import {
   Box,
   Button,
@@ -18,7 +18,7 @@ import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
-import { appConfig } from "@/configs/appConfig";
+import { appConfig } from "@/configs/app.config";
 
 const { dialog } = appConfig.charka;
 const motionPresetDefault = dialog.motionPresetDefault;

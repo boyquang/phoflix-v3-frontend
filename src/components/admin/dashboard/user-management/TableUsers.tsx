@@ -7,7 +7,7 @@ import { useSession } from "next-auth/react";
 import {
   changeRoleUser,
   changeStatusUser,
-} from "@/lib/actions/adminActionClient";
+} from "@/lib/actions/admin-client.action";
 import { useRouter } from "next/navigation";
 import ChangeStatus from "./ChangeStatus";
 import { useState } from "react";
@@ -110,9 +110,7 @@ const TableUsers = ({ items, offset }: TableUsersProps) => {
         <table className="w-full table-auto text-sm text-gray-200 bg-transparent">
           <thead className="bg-transparent border-b border-[#ffffff10]">
             <tr>
-              <th className="px-4 py-3 text-left whitespace-nowrap">
-                #
-              </th>
+              <th className="px-4 py-3 text-left whitespace-nowrap">#</th>
               <th className="px-4 py-3 text-left whitespace-nowrap">
                 Trạng thái
               </th>
@@ -145,7 +143,9 @@ const TableUsers = ({ items, offset }: TableUsersProps) => {
                 className="border-b border-[#ffffff10] last:border-b-0 hover:bg-[#ffffff05] transition"
               >
                 <td className="px-4 py-3 whitespace-nowrap">
-                  <span className="font-medium text-white">{index + 1 + offset}</span>
+                  <span className="font-medium text-white">
+                    {index + 1 + offset}
+                  </span>
                 </td>
                 <td className="px-4 py-3 whitespace-normal">
                   <ChangeStatus

@@ -2,11 +2,11 @@
 
 import { useState } from "react";
 import AlertDialog from "../shared/AlertDialog";
-import { clearHistory } from "@/lib/actions/chatBotAction";
+import { clearHistory } from "@/lib/actions/chat-bot.action";
 import { useSession } from "next-auth/react";
 import { useDispatch } from "react-redux";
 import { AppDispatch } from "@/store/store";
-import { resetChat } from "@/store/slices/chatBotSlice";
+import { resetChat } from "@/store/slices/chat-bot.slice";
 import useNotification from "@/hooks/useNotification";
 import { Button } from "@chakra-ui/react";
 

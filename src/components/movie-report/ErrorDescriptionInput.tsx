@@ -1,6 +1,6 @@
 "use client";
 
-import { setReportDescription } from "@/store/slices/userSlice";
+import { setReportDescription } from "@/store/slices/user.slice";
 import { AppDispatch, RootState } from "@/store/store";
 import { Box, Field, Textarea } from "@chakra-ui/react";
 import { useState } from "react";

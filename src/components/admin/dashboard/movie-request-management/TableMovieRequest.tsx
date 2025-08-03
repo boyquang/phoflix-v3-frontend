@@ -1,7 +1,7 @@
 "use client";
 
 import EmptyData from "@/components/shared/EmptyData";
-import { status } from "@/constants/movie-request";
+import { status } from "@/constants/movie-request.contant";
 import { formatDate } from "@/lib/utils";
 import { Box } from "@chakra-ui/react";
 import { useSession } from "next-auth/react";
@@ -9,7 +9,7 @@ import { useRouter } from "next/navigation";
 import { SiGoogleforms } from "react-icons/si";
 import PopoverMovieRequest from "./PopoverMovieRequest";
 import { useState } from "react";
-import { movieRequestProcess } from "@/lib/actions/adminActionClient";
+import { movieRequestProcess } from "@/lib/actions/admin-client.action";
 import useNotification from "@/hooks/useNotification";
 
 interface TableMovieRequestProps {
@@ -117,7 +117,9 @@ const TableMovieRequest = ({ items, offset }: TableMovieRequestProps) => {
                 className="border-b border-[#ffffff10] last:border-b-0 hover:bg-[#ffffff05] transition"
               >
                 <td className="px-4 py-3 whitespace-nowrap">
-                  <span className="font-medium text-white">{index + 1 + offset}</span>
+                  <span className="font-medium text-white">
+                    {index + 1 + offset}
+                  </span>
                 </td>
                 <td className="px-4 py-3 whitespace-nowrap">
                   {item.movie_name}

@@ -6,7 +6,7 @@ import { useEffect, useState, useTransition } from "react";
 import { IoPlayCircleOutline } from "react-icons/io5";
 import { AppDispatch } from "@/store/store";
 import { useDispatch } from "react-redux";
-import { setSelectedPlaylistId } from "@/store/slices/userSlice";
+import { setSelectedPlaylistId } from "@/store/slices/user.slice";
 import ActionsPlaylist from "./ActionsPlaylist";
 interface PlaylistsProps {
   playlists: Playlist[];

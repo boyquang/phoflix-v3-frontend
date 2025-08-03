@@ -1,11 +1,11 @@
 import Loading from "@/app/loading";
 import { auth } from "@/auth";
-import { getUserMovies } from "@/lib/actions/userActionServer";
+import { getUserMovies } from "@/lib/actions/user-server.action";
 import { Suspense } from "react";
 import MovieSection from "@/components/user/MovieSection";
 import { Box } from "@chakra-ui/react";
 import DeleteAllMovies from "@/components/user/DeleteAllMovies";
-import { NEXT_PUBLIC_SITE_URL } from "@/lib/env";
+import { NEXT_PUBLIC_SITE_URL } from "@/constants/env.contant";
 import DeleteSelectedMovies from "@/components/user/DeleteSeletedMovies";
 import { PageProps } from "@/app/page";
 

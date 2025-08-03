@@ -84,7 +84,7 @@ body.repose-user {
   );
 }
 
-.title-text {
+.text-gradient-primary {
   background: radial-gradient(
       50% 124.93% at 95.86% -10%,
       #3efad9 0,
@@ -94,6 +94,16 @@ body.repose-user {
   background-clip: text;
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
+}
+
+.border-gradient-primary {
+  background: linear-gradient(white, white) padding-box,
+    radial-gradient(
+      50% 124.93% at 95.86% -10%,
+      #3efad9 0%,
+      rgba(255, 255, 255, 0) 100%
+    ),
+    linear-gradient(91.56deg, #ff9357 1.54%, #9100ff 98.71%) border-box;
 }
 
 .rounded-inherit {
@@ -215,5 +225,3 @@ input[type="time"]::-webkit-calendar-picker-indicator {
   -webkit-mask-repeat: no-repeat;
   mask-repeat: no-repeat;
 }
-
-

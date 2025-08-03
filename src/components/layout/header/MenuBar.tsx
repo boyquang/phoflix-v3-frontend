@@ -3,13 +3,13 @@
 import { useState } from "react";
 import Link from "next/link";
 import CategoryAndCountryList from "./CategoryAndCountryList";
-import { categories, countries } from "@/constants/movie";
+import { categories, countries } from "@/constants/movie.contant";
 import { usePathname } from "next/navigation";
 import { IoIosArrowDown } from "react-icons/io";
 import { useSession } from "next-auth/react";
 import MovieCatalog from "./MovieCatalog";
 import StatusTag from "@/components/shared/StatusTag";
-import { appConfig, FeatureStatus } from "@/configs/appConfig";
+import { appConfig, FeatureStatus } from "@/configs/app.config";
 
 const { watchingTogether, advancedFilter } = appConfig.feature;
 

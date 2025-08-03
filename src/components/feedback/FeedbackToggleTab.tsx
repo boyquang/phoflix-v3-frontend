@@ -1,6 +1,6 @@
 "use client";
 
-import { setFeedbackType } from "@/store/slices/feedbackSlice";
+import { setFeedbackType } from "@/store/slices/feedback.slice";
 import { AppDispatch, RootState } from "@/store/store";
 import { Button, ButtonGroup } from "@chakra-ui/react";
 import { usePathname } from "next/navigation";

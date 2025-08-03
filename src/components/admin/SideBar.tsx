@@ -11,6 +11,8 @@ import ProfileHeader from "../../components/shared/ProfileHeader";
 import { SiGoogleforms } from "react-icons/si";
 import { FaRobot } from "react-icons/fa6";
 import { MdCelebration } from "react-icons/md";
+import { FiLogOut } from "react-icons/fi";
+import { signOut } from "next-auth/react";
 
 const links = [
   { label: "Trang chủ", icon: <TiHome />, path: "/" },
@@ -103,6 +105,16 @@ const SideBar = () => {
               </Link>
             </li>
           ))}
+
+          <li>
+            <div
+              onClick={() => signOut({ callbackUrl: "/" })}
+              className="flex cursor-pointer items-center p-2 text-gray-100 rounded-lg hover:bg-[#ffffff0f] group"
+            >
+              <FiLogOut />
+              <span className="flex-1 ms-3 whitespace-nowrap">Đăng xuất</span>
+            </div>
+          </li>
         </ul>
       </aside>
     </>

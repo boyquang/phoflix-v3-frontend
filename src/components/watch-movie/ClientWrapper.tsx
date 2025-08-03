@@ -3,8 +3,11 @@
 import useGetPlaylists from "@/hooks/useGetPlaylists";
 import useGetPlaylistContainingMovie from "@/hooks/useGetPlaylistsContainingMovie";
 import useSetCurrentEpisode from "@/hooks/useSetCurrentEpisode";
-import { addNewMovie } from "@/lib/actions/userMovieAction";
-import { setCurrentEpisode, setDataMovieInfo } from "@/store/slices/movieSlice";
+import { addNewMovie } from "@/lib/actions/user-movie.action";
+import {
+  setCurrentEpisode,
+  setDataMovieInfo,
+} from "@/store/slices/movie.slice";
 import { AppDispatch, RootState } from "@/store/store";
 import { useSession } from "next-auth/react";
 import { useParams } from "next/navigation";
@@ -92,7 +95,7 @@ const ClientWrapper = ({ movie, episodes }: ClientWrapperProps) => {
   return (
     <div className="flex flex-col gap-12 max-w-[1620px] mx-auto 2xl:px-12 px-4">
       <div className="lg:mt-32 mt-24">
-        <h3 className="xl:text-4xl lg:text-3xl md:text-2xl text-xl title-text font-bold mb-6 sm:inline-block hidden">
+        <h3 className="xl:text-4xl lg:text-3xl md:text-2xl text-xl text-gradient-primary font-bold mb-6 sm:inline-block hidden">
           {movie?.name} - {currentEpisode?.name || "Trailer"}
         </h3>
 

@@ -1,7 +1,7 @@
 import { Suspense } from "react";
 import Loading from "@/app/loading";
 import MainPage from "@/components/user/notification/MainPage";
-import { NEXT_PUBLIC_SITE_URL } from "@/lib/env";
+import { NEXT_PUBLIC_SITE_URL } from "@/constants/env.contant";
 
 export async function generateMetadata() {
   const title = "PHOFLIX-V3 - Thông báo mới nhất";

@@ -1,7 +1,7 @@
 "use client";
 
 import RootLayout from "@/components/layout/RootLayout";
-import { fetchDataMovieSearch } from "@/store/asyncThunks/movieAsyncThunk";
+import { fetchDataMovieSearch } from "@/store/async-thunks/movie.thunk";
 import { AppDispatch, RootState } from "@/store/store";
 import { Box } from "@chakra-ui/react";
 import { useSearchParams } from "next/navigation";
@@ -53,7 +53,7 @@ const MainPage = () => {
   return (
     <RootLayout>
       <Box className="lg:pt-28 pt-24">
-        <h3 className="inline-block xl:text-3xl lg:text-2xl text-xl title-text font-bold">
+        <h3 className="inline-block xl:text-3xl lg:text-2xl text-xl text-gradient-primary font-bold">
           Tìm thấy {pagination?.totalItems} kết quả cho từ khóa &quot;
           {keyword}
           &quot;

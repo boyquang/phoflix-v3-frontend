@@ -1,6 +1,6 @@
 "use client";
 
-import { createNotification } from "@/lib/actions/adminActionClient";
+import { createNotification } from "@/lib/actions/admin-client.action";
 import { handleShowToaster } from "@/lib/utils";
 import {
   Box,
@@ -17,7 +17,7 @@ import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import UploadFile from "../../upload-file/UploadFile";
-import { appConfig } from "@/configs/appConfig";
+import { appConfig } from "@/configs/app.config";
 
 const { dialog } = appConfig.charka;
 const motionPresetDefault = dialog.motionPresetDefault;

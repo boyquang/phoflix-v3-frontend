@@ -1,9 +1,9 @@
 "use client";
 
-import { appConfig } from "@/configs/appConfig";
+import { appConfig } from "@/configs/app.config";
 import useNotification from "@/hooks/useNotification";
 import { getFromStorage, setToStorage, splitTime } from "@/lib/utils";
-import { setCustomReposeUser } from "@/store/slices/systemSlice";
+import { setCustomReposeUser } from "@/store/slices/system.slice";
 import { AppDispatch, RootState } from "@/store/store";
 import { VscSettings } from "react-icons/vsc";
 import {

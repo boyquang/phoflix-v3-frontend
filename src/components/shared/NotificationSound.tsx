@@ -3,7 +3,7 @@
 import { AppDispatch, RootState } from "@/store/store";
 import { useEffect, useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { playAudioNotification } from "@/store/slices/systemSlice";
+import { playAudioNotification } from "@/store/slices/system.slice";
 import useNotification from "@/hooks/useNotification";
 
 const NotificationSound = () => {

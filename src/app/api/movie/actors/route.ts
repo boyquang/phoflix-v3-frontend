@@ -1,9 +1,8 @@
 import { NextRequest, NextResponse } from "next/server";
 import {
-  ENV,
   NEXT_PUBLIC_API_THEMOVIEDB_KEY,
   NEXT_PUBLIC_API_THEMOVIEDB_URL,
-} from "@/lib/env";
+} from "@/constants/env.contant";
 import { fetcher, REVALIDATE_TIME } from "@/lib/fetcher";
 
 interface GetActorsParams {

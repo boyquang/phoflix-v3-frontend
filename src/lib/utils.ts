@@ -6,6 +6,8 @@ import { decode } from "he";
 import "dayjs/locale/vi";
 import { delay } from "lodash";
 import { DateEvent } from "@/configs/event.config";
+import { NEXT_PUBLIC_API_KKPHIM_IMAGE_URL } from "@/constants/env.contant";
+import { notFoundImage, placeholderImage } from "@/constants/image.contant";
 
 dayjs.locale("vi");
 dayjs.extend(relativeTime);
@@ -129,8 +131,8 @@ export const getImageSrc = (
   status: "loading" | "success" | "error"
 ) => {
   if (status === "success") return src;
-  if (status === "error") return "/images/notfound.webp";
-  return "/images/placeholder.webp";
+  if (status === "error") return notFoundImage;
+  return placeholderImage;
 };
 
 ///////////////////////////////////////////////////////////////////////
@@ -270,15 +272,22 @@ export function getUpcomingEvent(
 
 /**
  * @param url - Đường dẫn của ảnh
+ * @param optimal - true nếu muốn tối ưu hóa ảnh, false nếu không
  * @returns - Đường dẫn của ảnh đã được định dạng
  */
 
-export const generateUrlImage = (url: string) => {
+export const generateUrlImage = (url: string, optimal: boolean = true) => {
+  let finalUrl = "";
+
   if (url?.includes("https://phimimg.com")) {
-    return url;
+    finalUrl = url;
   } else {
-    return `https://phimimg.com/${url}`;
+    finalUrl = `https://phimimg.com/${url}`;
   }
+
+  return optimal
+    ? `${NEXT_PUBLIC_API_KKPHIM_IMAGE_URL}?url=${finalUrl}`
+    : finalUrl;
 };
 
 ////////////////////////////////////////////////////////////////////////

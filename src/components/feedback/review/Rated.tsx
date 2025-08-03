@@ -1,7 +1,7 @@
 "use client";
 
 import Image from "@/components/shared/Image";
-import { emojis } from "@/constants/review";
+import { emojis } from "@/constants/review.contant";
 import { Box } from "@chakra-ui/react";
 
 interface RatedProps {

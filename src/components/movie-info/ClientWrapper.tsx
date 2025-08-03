@@ -4,7 +4,7 @@ import useFetchActorsList from "@/hooks/useFetchActorsList";
 import useFetchMoviePopular from "@/hooks/useFetchMoviePopular";
 import useGetPlaylists from "@/hooks/useGetPlaylists";
 import useGetPlaylistContainingMovie from "@/hooks/useGetPlaylistsContainingMovie";
-import { setDataMovieInfo } from "@/store/slices/movieSlice";
+import { setDataMovieInfo } from "@/store/slices/movie.slice";
 import { AppDispatch, RootState } from "@/store/store";
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";

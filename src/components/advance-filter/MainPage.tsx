@@ -8,7 +8,7 @@ import { AppDispatch, RootState } from "@/store/store";
 import SkeletonMovieGrid from "@/components/skeletons/SkeletonMovieGrid";
 import EmptyData from "@/components/shared/EmptyData";
 import { useEffect, useRef } from "react";
-import { fetchDataMovieSearch } from "@/store/asyncThunks/movieAsyncThunk";
+import { fetchDataMovieSearch } from "@/store/async-thunks/movie.thunk";
 import { useSearchParams } from "next/navigation";
 import { IoSearch } from "react-icons/io5";
 import PaginationCustom from "@/components/shared/PaginationCustom";
@@ -56,7 +56,7 @@ const MainPage = () => {
   return (
     <RootLayout>
       <Box className="lg:pt-28 pt-24">
-        <h3 className="inline-block title-text font-bold xl:text-3xl lg:text-2xl text-xl">
+        <h3 className="inline-block text-gradient-primary font-bold xl:text-3xl lg:text-2xl text-xl">
           Lọc nâng cao
         </h3>
 

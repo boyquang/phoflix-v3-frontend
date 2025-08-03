@@ -7,9 +7,9 @@ import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "@/store/store";
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
-import { showDialogSinInWhenNotLogin } from "@/store/slices/systemSlice";
-import { createRoomWatchingTogether } from "@/store/asyncThunks/watchingTogetherAsyncThunk";
-import { appConfig, FeatureStatus } from "@/configs/appConfig";
+import { showDialogSinInWhenNotLogin } from "@/store/slices/system.slice";
+import { createRoomWatchingTogether } from "@/store/async-thunks/watching-together.thunk";
+import { appConfig, FeatureStatus } from "@/configs/app.config";
 import StatusTag from "@/components/shared/StatusTag";
 
 interface WatchingTogetherButtonProps {

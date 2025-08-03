@@ -1,6 +1,6 @@
 "use client";
 
-import { setIsShowAuthDialog, setTypeAuth } from "@/store/slices/systemSlice";
+import { setIsShowAuthDialog, setTypeAuth } from "@/store/slices/system.slice";
 import { AppDispatch, RootState } from "@/store/store";
 import { Box, Button } from "@chakra-ui/react";
 import { useDispatch, useSelector } from "react-redux";

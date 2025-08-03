@@ -1,7 +1,7 @@
 "use client";
 
-import { avatars } from "@/constants/avatar";
-import { setSelectedFilterTabsAvatar } from "@/store/slices/userSlice";
+import { avatars } from "@/constants/avatar.contant";
+import { setSelectedFilterTabsAvatar } from "@/store/slices/user.slice";
 import { AppDispatch, RootState } from "@/store/store";
 import { Box } from "@chakra-ui/react";
 import { useDispatch, useSelector } from "react-redux";

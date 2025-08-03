@@ -1,6 +1,6 @@
 "use client";
 
-import { appConfig } from "@/configs/appConfig";
+import { appConfig } from "@/configs/app.config";
 import {
   Button,
   CloseButton,
@@ -13,8 +13,8 @@ import {
 import { useEffect, useState } from "react";
 import useNotification from "@/hooks/useNotification";
 import { useForm } from "react-hook-form";
-import { categories, countries } from "@/constants/movie";
-import { createEvent, updateEvent } from "@/lib/actions/eventAction";
+import { categories, countries } from "@/constants/movie.contant";
+import { createEvent, updateEvent } from "@/lib/actions/event.action";
 import { useRouter } from "next/navigation";
 import { validateDate } from "@/lib/utils";
 import { useSession } from "next-auth/react";

@@ -1,6 +1,6 @@
 "use client";
 
-import { setWidth } from "@/store/slices/systemSlice";
+import { setWidth } from "@/store/slices/system.slice";
 import { AppDispatch } from "@/store/store";
 import { debounce } from "lodash";
 import { useEffect } from "react";

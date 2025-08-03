@@ -1,12 +1,12 @@
 import Loading from "@/app/loading";
 import { auth } from "@/auth";
-import { getListRooms } from "@/lib/actions/watchingTogetherServer";
+import { getListRooms } from "@/lib/actions/watching-together-server.action";
 import { Box } from "@chakra-ui/react";
 import { Metadata } from "next";
 import { Suspense } from "react";
 import ListRooms from "@/components/watch-together/ListRooms";
 import PaginationCustom from "@/components/shared/PaginationCustom";
-import { NEXT_PUBLIC_SITE_URL } from "@/lib/env";
+import { NEXT_PUBLIC_SITE_URL } from "@/constants/env.contant";
 import RootLayout from "@/components/layout/RootLayout";
 import { PageProps } from "@/app/page";
 
@@ -43,7 +43,6 @@ export function generateMetadata(): Metadata {
   };
 }
 
-
 const CommunityRoom = async ({ searchParams }: PageProps) => {
   const sesstion = await auth();
   const params = await searchParams;
@@ -62,7 +61,7 @@ const CommunityRoom = async ({ searchParams }: PageProps) => {
     <Suspense fallback={<Loading type="text" />}>
       <RootLayout>
         <Box className="lg:pt-28 pt-24">
-          <h3 className="inline-block xl:text-3xl lg:text-2xl text-xl title-text font-bold">
+          <h3 className="inline-block xl:text-3xl lg:text-2xl text-xl text-gradient-primary font-bold">
             Phòng xem chung
           </h3>
 

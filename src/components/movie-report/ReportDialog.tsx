@@ -7,12 +7,15 @@ import ErrorReportSelect from "./ErrorReportSelect";
 import { useState, useTransition } from "react";
 import ErrorDescriptionInput from "./ErrorDescriptionInput";
 import { useSession } from "next-auth/react";
-import { createReportMovie } from "@/lib/actions/reportAction";
-import { setReportDescription, setReportError } from "@/store/slices/userSlice";
+import { createReportMovie } from "@/lib/actions/report.action";
+import {
+  setReportDescription,
+  setReportError,
+} from "@/store/slices/user.slice";
 import { handleShowToaster } from "@/lib/utils";
 import ReportFilmButton from "@/components/movie-report/ReportFilmButton";
-import { showDialogSinInWhenNotLogin } from "@/store/slices/systemSlice";
-import { appConfig } from "@/configs/appConfig";
+import { showDialogSinInWhenNotLogin } from "@/store/slices/system.slice";
+import { appConfig } from "@/configs/app.config";
 
 const { dialog } = appConfig.charka;
 const motionPresetDefault = dialog.motionPresetDefault;

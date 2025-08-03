@@ -8,7 +8,7 @@ const SkeletonSearchPage = () => {
   return (
     <RootLayout>
       <Box className="lg:pt-28 pt-24">
-        <h3 className="blink inline-block xl:text-3xl lg:text-2xl text-xl title-text font-bold">
+        <h3 className="blink inline-block xl:text-3xl lg:text-2xl text-xl text-gradient-primary font-bold">
           Đang tìm kiếm phim phù hợp...
         </h3>
         <Box className="mt-12">

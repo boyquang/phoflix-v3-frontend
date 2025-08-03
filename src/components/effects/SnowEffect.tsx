@@ -4,18 +4,16 @@ import {
   chiristmasDay,
   chiristmasMonth,
   totalShowDays,
-} from "@/constants/event";
+} from "@/constants/event.contant";
 import { getTodayDate } from "@/lib/utils";
-import { checkEvent, setShowSnowEffect } from "@/store/slices/systemSlice";
+import { checkEvent, setShowSnowEffect } from "@/store/slices/system.slice";
 import { AppDispatch, RootState } from "@/store/store";
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import Snowfall from "react-snowfall";
 
 const SnowEffect = () => {
-  const { showSnowEffect } = useSelector(
-    (state: RootState) => state.system
-  );
+  const { showSnowEffect } = useSelector((state: RootState) => state.system);
   const dispatch: AppDispatch = useDispatch();
   const { day, month } = getTodayDate();
 

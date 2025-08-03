@@ -1,6 +1,6 @@
 import Loading from "@/app/loading";
 import UserProfile from "@/components/user/profile/UserProfile";
-import { NEXT_PUBLIC_SITE_URL } from "@/lib/env";
+import { NEXT_PUBLIC_SITE_URL } from "@/constants/env.contant";
 import { Suspense } from "react";
 
 export async function generateMetadata() {

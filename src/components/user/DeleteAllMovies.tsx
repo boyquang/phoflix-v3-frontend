@@ -1,7 +1,7 @@
 "use client";
 
 import AlertDialog from "@/components/shared/AlertDialog";
-import { deleteAllMovies } from "@/lib/actions/userMovieAction";
+import { deleteAllMovies } from "@/lib/actions/user-movie.action";
 import { handleShowToaster } from "@/lib/utils";
 import { RootState } from "@/store/store";
 import { Button } from "@chakra-ui/react";

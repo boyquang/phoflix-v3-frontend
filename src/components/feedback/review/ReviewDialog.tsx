@@ -7,14 +7,14 @@ import ReviewSummary from "./ReviewSummary";
 import ReviewEmo from "./ReviewEmo";
 import ReviewComment from "./ReviewComment";
 import { useEffect, useState, useTransition } from "react";
-import { addFeedback, getStatsByMovie } from "@/lib/actions/feedbackAction";
+import { addFeedback, getStatsByMovie } from "@/lib/actions/feedback.action";
 import { useSession } from "next-auth/react";
-import { setReviewContent } from "@/store/slices/userSlice";
-import { getFeedbacks } from "@/store/asyncThunks/feedbackAsyncThunk";
+import { setReviewContent } from "@/store/slices/user.slice";
+import { getFeedbacks } from "@/store/async-thunks/feedback.thunk";
 import { handleShowToaster } from "@/lib/utils";
 import { useParams } from "next/navigation";
 import useSendSocketFeedback from "@/hooks/useSendSocketFeedback";
-import { appConfig } from "@/configs/appConfig";
+import { appConfig } from "@/configs/app.config";
 
 const { dialog } = appConfig.charka;
 const motionPresetDefault = dialog.motionPresetDefault;

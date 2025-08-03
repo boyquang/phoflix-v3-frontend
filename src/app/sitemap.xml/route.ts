@@ -1,4 +1,4 @@
-import { categories, countries } from "@/constants/movie";
+import { categories, countries } from "@/constants/movie.contant";
 import { NextResponse } from "next/server";
 
 export async function GET() {

@@ -1,6 +1,6 @@
 "use client";
 
-import { setReviewContent } from "@/store/slices/userSlice";
+import { setReviewContent } from "@/store/slices/user.slice";
 import { AppDispatch, RootState } from "@/store/store";
 import { Box, Textarea } from "@chakra-ui/react";
 import { useDispatch, useSelector } from "react-redux";

@@ -1,6 +1,6 @@
 "use client";
 
-import { addFeedback, addReply } from "@/lib/actions/feedbackAction";
+import { addFeedback, addReply } from "@/lib/actions/feedback.action";
 import { AppDispatch, RootState } from "@/store/store";
 import { Box, Button, Spinner, Textarea } from "@chakra-ui/react";
 import { useSession } from "next-auth/react";
@@ -11,14 +11,14 @@ import { useDispatch, useSelector } from "react-redux";
 import {
   getFeedbacks,
   getReplyListFeedback,
-} from "@/store/asyncThunks/feedbackAsyncThunk";
+} from "@/store/async-thunks/feedback.thunk";
 import {
   setShowFeedbackId,
   setShowReplyId,
-} from "@/store/slices/feedbackSlice";
+} from "@/store/slices/feedback.slice";
 import { handleShowToaster } from "@/lib/utils";
 import SwitchCustom from "../shared/SwitchCustom";
-import { showDialogSinInWhenNotLogin } from "@/store/slices/systemSlice";
+import { showDialogSinInWhenNotLogin } from "@/store/slices/system.slice";
 import { useRootFeedback } from "@/hooks/useRootFeedback";
 import useSendSocketFeedback from "@/hooks/useSendSocketFeedback";
 import useNotification from "@/hooks/useNotification";

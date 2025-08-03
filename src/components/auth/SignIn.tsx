@@ -2,9 +2,9 @@
 
 import { PasswordInput } from "@/components/ui/password-input";
 import useNotification from "@/hooks/useNotification";
-import { authenticate } from "@/lib/actions/authActionServer";
+import { authenticate } from "@/lib/actions/auth-server.action";
 import { isValidEmail } from "@/lib/utils";
-import { setTypeAuth } from "@/store/slices/systemSlice";
+import { setTypeAuth } from "@/store/slices/system.slice";
 import { AppDispatch } from "@/store/store";
 import { Box, Button, Field, Input, Spinner } from "@chakra-ui/react";
 import { delay } from "lodash";

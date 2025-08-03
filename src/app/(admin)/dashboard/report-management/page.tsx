@@ -3,8 +3,8 @@ import { PageProps } from "@/app/page";
 import { auth } from "@/auth";
 import TableReports from "@/components/admin/dashboard/report-management/TableReports";
 import PaginationCustom from "@/components/shared/PaginationCustom";
-import { getReports } from "@/lib/actions/adminActionServer";
-import { NEXT_PUBLIC_SITE_URL } from "@/lib/env";
+import { getReports } from "@/lib/actions/admin-server.action";
+import { NEXT_PUBLIC_SITE_URL } from "@/constants/env.contant";
 import { Box } from "@chakra-ui/react";
 import { Suspense } from "react";
 
@@ -53,22 +53,33 @@ const Page = async ({ searchParams }: PageProps) => {
 
   const items = response?.result?.reports || [];
   const totalItems = response?.result?.totalItems || 0;
+  const errorType = response?.errorType;
+  const message = response?.message || "Lỗi hệ thống. Vui lòng thử lại sau!";
 
   return (
     <Suspense fallback={<Loading type="bars" />}>
       <Box className="text-gray-50">
         <h1 className="lg:text-3xl text-xl">Quản lý báo cáo</h1>
 
-        <TableReports items={items} offset={(page - 1) * limit} />
-
-        {totalItems >= limit && (
-          <PaginationCustom
-            currentPage={page}
-            totalItems={totalItems}
-            itemsPerPage={limit}
-            isScroll={true}
-            showToaster={false}
-          />
+        {errorType === "InvalidToken" || errorType === "ServerError" ? (
+          <p className="text-red-500 text-base mt-4">
+            {errorType === "InvalidToken"
+              ? "Phiên đăng nhập không hợp lệ. Vui lòng đăng nhập lại."
+              : message}
+          </p>
+        ) : (
+          <>
+            <TableReports items={items} offset={(page - 1) * limit} />
+            {totalItems >= limit && (
+              <PaginationCustom
+                currentPage={page}
+                totalItems={totalItems}
+                itemsPerPage={limit}
+                isScroll={true}
+                showToaster={false}
+              />
+            )}
+          </>
         )}
       </Box>
     </Suspense>

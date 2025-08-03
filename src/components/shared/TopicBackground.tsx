@@ -1,6 +1,6 @@
 "use client";
 
-import { topicBackGround } from "@/constants/color";
+import { topicBackGround } from "@/constants/color.contant";
 import { Box } from "@chakra-ui/react";
 
 interface TopicBackgroundProps {

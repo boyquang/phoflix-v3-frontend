@@ -2,9 +2,9 @@
 
 import AlertDialog from "@/components/shared/AlertDialog";
 import useSendSocketWatchingTogether from "@/hooks/useSendSocketWatchingTogether";
-import { leaveRoomWatchingTogether } from "@/lib/actions/watchingTogether";
+import { leaveRoomWatchingTogether } from "@/lib/actions/watching-together.action";
 import { handleShowToaster } from "@/lib/utils";
-import { setHasLeftRoom } from "@/store/slices/watchingTogetherSlice";
+import { setHasLeftRoom } from "@/store/slices/watching-together.slice";
 import { AppDispatch, RootState } from "@/store/store";
 import { Button } from "@chakra-ui/react";
 import { delay } from "lodash";

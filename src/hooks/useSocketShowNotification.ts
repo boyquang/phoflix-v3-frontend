@@ -1,11 +1,11 @@
 "use client";
 
-import { socket } from "@/configs/socketConfig";
+import { socket } from "@/configs/socket.config";
 import { useEffect } from "react";
 import useNotification from "./useNotification";
 import { AppDispatch } from "@/store/store";
 import { useDispatch } from "react-redux";
-import { setNewNotification } from "@/store/slices/notificationSlice";
+import { setNewNotification } from "@/store/slices/notification.slice";
 import { useSession } from "next-auth/react";
 import { useSpeechUtterance } from "./useSpeechUtterance";
 

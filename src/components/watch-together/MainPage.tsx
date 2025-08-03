@@ -6,7 +6,7 @@ import { useSession } from "next-auth/react";
 import { useParams } from "next/navigation";
 import { useDispatch, useSelector } from "react-redux";
 import ViewerList from "./ViewerList";
-import { setCurrentEpisode } from "@/store/slices/watchingTogetherSlice";
+import { setCurrentEpisode } from "@/store/slices/watching-together.slice";
 import Loading from "@/app/loading";
 import LeaveRoomButton from "./LeaveRoomButton";
 import useLeaveRoomOnRouteChange from "@/hooks/useLeaveRoomOnRouteChange";

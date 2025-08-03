@@ -5,7 +5,7 @@ import { AppDispatch, RootState } from "@/store/store";
 import { useDispatch, useSelector } from "react-redux";
 import Image from "../shared/Image";
 import { Button } from "@chakra-ui/react";
-import { setCurrentEpisode } from "@/store/slices/movieSlice";
+import { setCurrentEpisode } from "@/store/slices/movie.slice";
 import { useRouter } from "next/navigation";
 
 interface MovieVersionListProps {

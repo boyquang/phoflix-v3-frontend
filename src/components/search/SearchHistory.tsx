@@ -1,7 +1,7 @@
 "use client";
 
 import EmptyData from "@/components/shared/EmptyData";
-import { getUserSearchHistory } from "@/store/asyncThunks/userAsyncThunk";
+import { getUserSearchHistory } from "@/store/async-thunks/user.thunk";
 import { AppDispatch, RootState } from "@/store/store";
 import { Box, Button, IconButton } from "@chakra-ui/react";
 import { useSession } from "next-auth/react";

@@ -1,6 +1,6 @@
 "use client";
 
-import { socket } from "@/configs/socketConfig";
+import { socket } from "@/configs/socket.config";
 import { useSession } from "next-auth/react";
 import { useEffect } from "react";
 import useLoadedMetaDataVideo from "./useLoadedMeteDataVideo";

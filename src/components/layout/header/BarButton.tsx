@@ -1,6 +1,6 @@
 "use client";
 
-import { setIsOpenDrawer } from "@/store/slices/systemSlice";
+import { setIsOpenDrawer } from "@/store/slices/system.slice";
 import { AppDispatch } from "@/store/store";
 import { IconButton } from "@chakra-ui/react";
 import { HiMiniBars3 } from "react-icons/hi2";

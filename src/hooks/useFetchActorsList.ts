@@ -1,6 +1,6 @@
 "use client";
 
-import { fetchActorsListByMovie } from "@/store/asyncThunks/movieAsyncThunk";
+import { fetchActorsListByMovie } from "@/store/async-thunks/movie.thunk";
 import { AppDispatch, RootState } from "@/store/store";
 import { useParams } from "next/navigation";
 import { useEffect } from "react";
@@ -12,10 +12,14 @@ const useFetchActorsList = () => {
   const dispatch: AppDispatch = useDispatch();
 
   useEffect(() => {
-    if (movie && movie?.slug === params?.slug) {
+    if (!movie?.tmdb?.id || !movie?.tmdb?.type || !movie?.tmdb?.season) {
+      return;
+    }
+
+    if (movie?.slug === params?.slug) {
       dispatch(
         fetchActorsListByMovie({
-          type: movie?.tmdb?.type  as "movie" | "tv",
+          type: movie?.tmdb?.type as "movie" | "tv",
           season: movie?.tmdb?.season as number | string,
           id: movie?.tmdb?.id as string,
         })

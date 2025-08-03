@@ -4,7 +4,7 @@ import { Box } from "@chakra-ui/react";
 
 import "@/assets/css/animation.css";
 import MovieSwiper from "./MovieSwiper";
-import { colorGradientsToWhite } from "@/constants/color";
+import { colorGradientsToWhite } from "@/constants/color.contant";
 import Link from "next/link";
 import { RiArrowRightWideLine } from "react-icons/ri";
 

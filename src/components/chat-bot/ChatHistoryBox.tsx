@@ -1,9 +1,9 @@
 "use client";
 
 import Loading from "@/app/loading";
-import { fetchChatHistory } from "@/store/asyncThunks/chatBotAsyncThunk";
+import { fetchChatHistory } from "@/store/async-thunks/chat-bot.thunk";
 import { AppDispatch, RootState } from "@/store/store";
-import { Box, Spinner } from "@chakra-ui/react";
+import { Box } from "@chakra-ui/react";
 import { useSession } from "next-auth/react";
 import { useEffect, useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
@@ -41,6 +41,7 @@ const ChatHistoryBox = () => {
           userId: session?.user.id as string,
           limit: 10,
           before: lastChat?.createdAt || undefined,
+          accessToken: session?.user?.accessToken as string,
         })
       );
       setLoadMore(false);
@@ -53,8 +54,8 @@ const ChatHistoryBox = () => {
     onLoadMore: handleLoadMore,
     enabled: fetched && hasMore,
     options: {
-      restoreOffset: 120,
-      debounceTime: 300,
+      restoreOffset: 240,
+      debounceTime: 0,
       behavior: "instant",
     },
   });
@@ -66,6 +67,7 @@ const ChatHistoryBox = () => {
           userId: session.user.id as string,
           limit: 10,
           before: undefined,
+          accessToken: session?.user?.accessToken as string,
         })
       );
     }
@@ -88,7 +90,7 @@ const ChatHistoryBox = () => {
 
   if (groupedChatByDate?.length === 0 && fetched) {
     return (
-      <Box className="flex items-center justify-center h-full">
+      <Box className="flex items-center justify-center h-full p-4 text-center">
         <h4 className="text-base text-gray-400 font-semibold">
           Xin chào {session?.user.name || "bạn"}! Bạn muốn hỏi gì hôm nay?
         </h4>
@@ -99,9 +101,12 @@ const ChatHistoryBox = () => {
   return (
     <Box className="overflow-y-auto max-h-[calc(70vh-32px)]" ref={containerRef}>
       {loadMore && (
-        <Box className="flex text-xs text-primary font-semibold items-center justify-center my-4 gap-1">
-          <Spinner size="xs" />
-          <span>Đang tải thêm tin nhắn...</span>
+        <Box className="flex items-center justify-center my-4">
+          <Box className="flex space-x-1">
+            <span className="h-2 w-2 bg-white rounded-full animate-bounce [animation-delay:-0.3s]"></span>
+            <span className="h-2 w-2 bg-white rounded-full animate-bounce [animation-delay:-0.15s]"></span>
+            <span className="h-2 w-2 bg-white rounded-full animate-bounce"></span>
+          </Box>
         </Box>
       )}
 
@@ -120,7 +125,7 @@ const ChatHistoryBox = () => {
               >
                 {chat?.role === "bot" && <AvatarBot />}
                 <Box
-                  className={`p-2 shadow-sm text-black max-w-[75%] 
+                  className={`p-2 shadow-sm text-black min-w-12 max-w-[75%] 
                   ${
                     chat?.role === "user"
                       ? "bg-white liner-gradient rounded-tl-2xl rounded-tr-md rounded-bl-2xl rounded-br-2xl"

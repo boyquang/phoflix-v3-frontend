@@ -4,7 +4,7 @@ import { Box } from "@chakra-ui/react";
 import ReplyItem from "./ReplyItem";
 import { AppDispatch, RootState } from "@/store/store";
 import { useDispatch, useSelector } from "react-redux";
-import { getMoreReplyListFeedback } from "@/store/asyncThunks/feedbackAsyncThunk";
+import { getMoreReplyListFeedback } from "@/store/async-thunks/feedback.thunk";
 import SeeMoreFeedback from "../SeeMoreFeedback";
 import SkeletonFeedback from "@/components/skeletons/SkeletonFeedback";
 import { useState } from "react";

@@ -4,14 +4,10 @@ import { delay } from "lodash";
 import { signOut, useSession } from "next-auth/react";
 import { useEffect } from "react";
 import useNotification from "./useNotification";
-import { AppDispatch } from "@/store/store";
-import { useDispatch } from "react-redux";
-import { setReboot } from "@/store/slices/systemSlice";
 
 const useCheckSessionStatus = () => {
   const { data: session, status } = useSession();
   const { notificationAlert } = useNotification();
-  const dispatch: AppDispatch = useDispatch();
 
   useEffect(() => {
     // Chỉ chạy khi xác thực đã hoàn tất

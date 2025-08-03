@@ -1,6 +1,6 @@
 "use client";
 
-import { socket } from "@/configs/socketConfig";
+import { socket } from "@/configs/socket.config";
 import { RootState } from "@/store/store";
 import { useSession } from "next-auth/react";
 import { useParams } from "next/navigation";

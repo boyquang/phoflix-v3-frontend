@@ -7,7 +7,7 @@ import Loading from "@/app/loading";
 import Link from "next/link";
 import { AppDispatch } from "@/store/store";
 import { useDispatch } from "react-redux";
-import { setOpenNotification } from "@/store/slices/notificationSlice";
+import { setOpenNotification } from "@/store/slices/notification.slice";
 import Image from "../../shared/Image";
 import { formatDateUnix } from "@/lib/utils";
 

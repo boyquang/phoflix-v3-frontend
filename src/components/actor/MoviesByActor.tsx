@@ -4,7 +4,7 @@ import { AppDispatch, RootState } from "@/store/store";
 import { useDispatch, useSelector } from "react-redux";
 import ActorMovieAll from "./ActorMoviesAll";
 import ActorMoviesTime from "./ActorMoviesTime";
-import { setFilterActor } from "@/store/slices/movieSlice";
+import { setFilterActor } from "@/store/slices/movie.slice";
 
 interface MoviesByActorProps {
   data: MoviesByActor[];

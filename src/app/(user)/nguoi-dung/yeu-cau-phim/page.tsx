@@ -4,8 +4,8 @@ import { auth } from "@/auth";
 import MovieRequestDialog from "@/components/user/movie-request/MovieRequestDialog";
 import MovieRequests from "@/components/user/movie-request/MovieRequests";
 import MovieRequestTabs from "@/components/user/movie-request/MovieRequestTabs";
-import { getMovieRequests } from "@/lib/actions/movieRequestActionsServer";
-import { NEXT_PUBLIC_SITE_URL } from "@/lib/env";
+import { getMovieRequests } from "@/lib/actions/movie-request-server.action";
+import { NEXT_PUBLIC_SITE_URL } from "@/constants/env.contant";
 import { Suspense } from "react";
 
 export async function generateMetadata() {

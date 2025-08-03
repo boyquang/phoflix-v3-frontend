@@ -1,13 +1,15 @@
 "use client";
 
-import { appConfig } from "@/configs/appConfig";
+import { appConfig } from "@/configs/app.config";
 import { Box, CloseButton, Dialog, IconButton, Portal } from "@chakra-ui/react";
-import React, { useRef, useState } from "react";
+import React, { useEffect, useState } from "react";
 import ChatHistoryBox from "./ChatHistoryBox";
 import { useSession } from "next-auth/react";
 import { useSelector } from "react-redux";
 import { RootState } from "@/store/store";
 import ChatComposer from "./ChatComposer";
+import { botAvatar } from "@/constants/image.contant";
+import Image from "../shared/Image";
 
 const { dialog } = appConfig.charka;
 const motionPresetDefault = dialog.motionPresetDefault;
@@ -18,6 +20,15 @@ const ChatBotDialog = () => {
   const { groupedChatByDate } = useSelector(
     (state: RootState) => state.chatBot
   );
+  const [showText, setShowText] = useState(true);
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setShowText((prev) => !prev);
+    }, 5000);
+
+    return () => clearInterval(interval);
+  }, []);
 
   return (
     <Dialog.Root
@@ -29,18 +40,24 @@ const ChatBotDialog = () => {
       placement="center"
     >
       <Dialog.Trigger asChild>
-        <div>
+        <div className="relative">
           <IconButton
             onClick={() => setOpen(true)}
             size="sm"
-            className="bg-transparent overflow-hidden relative hover:shadow-[0_5px_10px_10px_rgba(255,255,255,.15)] transition-all duration-300 w-16 h-16 rounded-[25%] shadow-[0_0_10px_0_rgba(0,0,0,0.2)] flex flex-col justify-center items-center gap-1"
+            className="bg-transparent overflow-hidden relative hover:shadow-[0_5px_10px_10px_rgba(255,255,255,.15)] transition-all duration-300 lg:w-16 lg:h-16 w-14 h-14 rounded-[25%] shadow-[0_0_10px_0_rgba(0,0,0,0.2)] flex flex-col justify-center items-center gap-1"
           >
-            <img
-              src="/images/bot.jpg"
-              alt="Bot"
-              className="absolute inset-0 w-full h-full object-cover rounded-[25%]"
-            />
+            <Image src={botAvatar} alt="Bot Avatar" className="rounded-[25%]" />
           </IconButton>
+
+          <Box
+            className={`
+              lg:block hidden absolute right-full top-0 mr-1 bg-white text-black w-36 text-xs px-2 py-1 
+              transition-opacity duration-300 rounded-md shadow-lg ${
+                showText ? "opacity-100" : "opacity-0 pointer-events-none"
+              }`}
+          >
+            Bạn muốn trò chuyện với trợ lý ảo?
+          </Box>
         </div>
       </Dialog.Trigger>
       <Portal>
@@ -51,7 +68,7 @@ const ChatBotDialog = () => {
           }}
         >
           <Dialog.Content
-            className="relative min-h-[90vh] text-gray-50 
+            className="relative min-h-[90vh] text-black
               bg-[rgba(255,255,255,0.1)] 
               backdrop-blur-lg backdrop-saturate-150 
               rounded-2xl shadow-xl 
@@ -66,12 +83,10 @@ const ChatBotDialog = () => {
             </Dialog.CloseTrigger>
 
             <Dialog.Header p={0}>
-              <Box className="xs:p-4 p-2 flex md:flex-row flex-col md:gap-2 gap-0 md:items-center items-start">
-                <Dialog.Title className="xs:text-lg text-base">Trợ lý ảo</Dialog.Title>
-                <Dialog.Description className="flex gap-1 items-center text-green-500 text-xs">
-                  <Box className="w-2 h-2 bg-green-500 rounded-full animate-pulse" />
-                  Đang hoạt động
-                </Dialog.Description>
+              <Box className="xs:p-4 p-2">
+                <Dialog.Title className="xs:text-lg inline-block font-semibold text-base text-gradient-primary">
+                  Trợ lý ảo
+                </Dialog.Title>
               </Box>
             </Dialog.Header>
             <div className="w-full h-[1px] bg-[#ffffff10]"></div>
@@ -84,7 +99,7 @@ const ChatBotDialog = () => {
               }`}
             >
               {!session ? (
-                <h4 className="text-base text-gray-400 font-semibold">
+                <h4 className="text-base text-gray-400 font-semibold p-4 text-center">
                   Bạn cần đăng nhập để trò chuyện với Bot.
                 </h4>
               ) : (

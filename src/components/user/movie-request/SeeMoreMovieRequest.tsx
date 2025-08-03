@@ -1,13 +1,13 @@
 "use client";
 
-import { getNotifications } from "@/lib/actions/notificationActionClient";
+import { getNotifications } from "@/lib/actions/notification-client-action";
 import { Spinner } from "@chakra-ui/react";
 import { useSession } from "next-auth/react";
 import { useSearchParams } from "next/navigation";
 import { useEffect, useState, useTransition } from "react";
 import { FaAngleDown } from "react-icons/fa6";
 import { MovieRequest } from "./MovieRequests";
-import { getMovieRequests } from "@/lib/actions/movieRequestActionsServer";
+import { getMovieRequests } from "@/lib/actions/movie-request-server.action";
 
 interface SeeMoreMovieRequestProps {
   movieRequests: MovieRequest[];
@@ -43,7 +43,7 @@ const SeeMoreMovieRequest = ({
         userId: session?.user?.id as string,
         afterTime:
           Number(movieRequests[movieRequests?.length - 1]?.created_at) || null,
-      })  ;
+      });
 
       const newMovieRequest = response?.result?.items ?? [];
       const hasMore = response?.result?.has_more ?? false;

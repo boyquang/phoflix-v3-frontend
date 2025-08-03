@@ -4,9 +4,9 @@ import {
   createUserSearchHistory,
   deleteAllUserSearchHistory,
   deleteUserSearchHistory,
-} from "@/store/asyncThunks/userAsyncThunk";
-import { setIsShowModalSearch } from "@/store/slices/systemSlice";
-import { setKeyWord } from "@/store/slices/userSlice";
+} from "@/store/async-thunks/user.thunk";
+import { setIsShowModalSearch } from "@/store/slices/system.slice";
+import { setKeyWord } from "@/store/slices/user.slice";
 import { AppDispatch } from "@/store/store";
 import { useSession } from "next-auth/react";
 import { useDispatch } from "react-redux";

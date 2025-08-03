@@ -1,6 +1,6 @@
 "use client";
 
-import { fetchDataMoviePopular } from "@/store/asyncThunks/movieAsyncThunk";
+import { fetchDataMoviePopular } from "@/store/async-thunks/movie.thunk";
 import { AppDispatch } from "@/store/store";
 import { useEffect } from "react";
 import { useDispatch } from "react-redux";

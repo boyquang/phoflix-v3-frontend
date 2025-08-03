@@ -5,8 +5,8 @@ import TableNotifications from "@/components/admin/dashboard/notification-manage
 import AddNewButton from "@/components/shared/AddNewButton";
 import PaginationCustom from "@/components/shared/PaginationCustom";
 import NotificationDialog from "@/components/user/notification/NotificationDialog";
-import { getNotifications } from "@/lib/actions/adminActionServer";
-import { NEXT_PUBLIC_SITE_URL } from "@/lib/env";
+import { getNotifications } from "@/lib/actions/admin-server.action";
+import { NEXT_PUBLIC_SITE_URL } from "@/constants/env.contant";
 import { Box } from "@chakra-ui/react";
 import { Suspense } from "react";
 
@@ -56,6 +56,8 @@ const Page = async ({ searchParams }: PageProps) => {
 
   const items = response?.result?.notifications || [];
   const totalItems = response?.result?.totalItems || 0;
+  const errorType = response?.errorType;
+  const message = response?.message || "Lỗi hệ thống. Vui lòng thử lại sau!";
 
   return (
     <Suspense fallback={<Loading type="bars" />}>
@@ -64,23 +66,34 @@ const Page = async ({ searchParams }: PageProps) => {
           <h1 className="lg:text-3xl text-xl font-semibold">
             Quản lý thông báo
           </h1>
-          <NotificationDialog
-            trigger={
-              <AddNewButton size="sm" label="Tạo thông báo" rounded="full" />
-            }
-          />
+          {!errorType && (
+            <NotificationDialog
+              trigger={
+                <AddNewButton size="sm" label="Tạo thông báo" rounded="full" />
+              }
+            />
+          )}
         </div>
 
-        <TableNotifications offset={(page - 1) * limit} items={items} />
-
-        {totalItems >= limit && (
-          <PaginationCustom
-            currentPage={page}
-            totalItems={totalItems}
-            itemsPerPage={limit}
-            isScroll={true}
-            showToaster={false}
-          />
+        {errorType === "InvalidToken" || errorType === "ServerError" ? (
+          <p className="text-red-500 text-base mt-4">
+            {errorType === "InvalidToken"
+              ? "Phiên đăng nhập không hợp lệ. Vui lòng đăng nhập lại."
+              : message}
+          </p>
+        ) : (
+          <>
+            <TableNotifications offset={(page - 1) * limit} items={items} />
+            {totalItems >= limit && (
+              <PaginationCustom
+                currentPage={page}
+                totalItems={totalItems}
+                itemsPerPage={limit}
+                isScroll={true}
+                showToaster={false}
+              />
+            )}
+          </>
         )}
       </Box>
     </Suspense>

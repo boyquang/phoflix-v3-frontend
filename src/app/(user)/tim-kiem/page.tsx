@@ -4,8 +4,8 @@ import RootLayout from "@/components/layout/RootLayout";
 import EmptyData from "@/components/shared/EmptyData";
 import MovieGrid from "@/components/shared/MovieGrid";
 import PaginationCustom from "@/components/shared/PaginationCustom";
-import { fetchSearchMovies } from "@/lib/actions/movieActionServer";
-import { NEXT_PUBLIC_SITE_URL } from "@/lib/env";
+import { fetchSearchMovies } from "@/lib/actions/movie-server.action";
+import { NEXT_PUBLIC_SITE_URL } from "@/constants/env.contant";
 import { Metadata } from "next";
 import { Suspense } from "react";
 import { FaPhotoFilm } from "react-icons/fa6";
@@ -98,7 +98,7 @@ const Page = async ({ params, searchParams }: PageProps) => {
     <Suspense fallback={<Loading type="text" />}>
       <RootLayout>
         <div className="lg:pt-28 pt-24">
-          <h3 className="inline-block xl:text-3xl lg:text-2xl text-xl title-text font-bold">
+          <h3 className="inline-block xl:text-3xl lg:text-2xl text-xl text-gradient-primary font-bold">
             Tìm thấy {totalItems} kết quả cho từ khóa &quot;
             {keyword}
             &quot;

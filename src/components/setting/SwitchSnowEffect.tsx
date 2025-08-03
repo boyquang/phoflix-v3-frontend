@@ -1,7 +1,7 @@
 "use client";
 
 import dynamic from "next/dynamic";
-import { setShowSnowEffect } from "@/store/slices/systemSlice";
+import { setShowSnowEffect } from "@/store/slices/system.slice";
 import { AppDispatch, RootState } from "@/store/store";
 import { useDispatch, useSelector } from "react-redux";
 

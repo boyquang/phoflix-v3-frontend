@@ -12,13 +12,13 @@ import ProfileHeader from "@/components/shared/ProfileHeader";
 import { AppDispatch } from "@/store/store";
 import { useDispatch } from "react-redux";
 import { useSession } from "next-auth/react";
-import { setIsOpenDrawer } from "@/store/slices/systemSlice";
+import { setIsOpenDrawer } from "@/store/slices/system.slice";
 import { menu } from "../header/MenuBar";
 import Link from "next/link";
-import { FeatureStatus } from "@/configs/appConfig";
+import { FeatureStatus } from "@/configs/app.config";
 import StatusTag from "@/components/shared/StatusTag";
 import AccordionList from "./AccordionList";
-import { categories, countries, movieCatalog } from "@/constants/movie";
+import { categories, countries, movieCatalog } from "@/constants/movie.contant";
 
 interface DrawerCustomProps {
   isOpen: boolean;

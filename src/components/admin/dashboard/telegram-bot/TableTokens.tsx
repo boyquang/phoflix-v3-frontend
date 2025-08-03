@@ -4,7 +4,7 @@ import { formatDate } from "@/lib/utils";
 import Token from "./Token";
 import { useState } from "react";
 import { useSession } from "next-auth/react";
-import { showToken } from "@/lib/actions/telegramBotAction";
+import { showToken } from "@/lib/actions/telegram-bot.action";
 
 export type TokenType = {
   id: string;

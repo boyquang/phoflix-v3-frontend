@@ -2,8 +2,8 @@
 
 import { Button, Dialog, Portal } from "@chakra-ui/react";
 import { useEffect } from "react";
-import { appConfig } from "@/configs/appConfig";
-import { WARN_USER, TIME_SLEEP } from "@/constants/setting";
+import { appConfig } from "@/configs/app.config";
+import { WARN_USER, TIME_SLEEP } from "@/constants/setting.contant";
 import { usePathname, useRouter } from "next/navigation";
 import { AppDispatch, RootState } from "@/store/store";
 import { useDispatch, useSelector } from "react-redux";
@@ -12,7 +12,7 @@ import {
   setOpenAlertRepose,
   setShowAnimationReposeUser,
   setStatusRepose,
-} from "@/store/slices/systemSlice";
+} from "@/store/slices/system.slice";
 import { getFromStorage, setToStorage, splitTime } from "@/lib/utils";
 
 const { dialog } = appConfig.charka;

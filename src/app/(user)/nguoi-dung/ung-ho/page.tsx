@@ -1,5 +1,5 @@
 import Clipboard from "@/components/shared/Clipboard";
-import { NEXT_PUBLIC_SITE_URL } from "@/lib/env";
+import { NEXT_PUBLIC_SITE_URL } from "@/constants/env.contant";
 import { Box, Image } from "@chakra-ui/react";
 
 export async function generateMetadata() {

@@ -1,7 +1,7 @@
 "use client";
 
-import { socket } from "@/configs/socketConfig";
-import { getVoteListFeedback } from "@/store/asyncThunks/feedbackAsyncThunk";
+import { socket } from "@/configs/socket.config";
+import { getVoteListFeedback } from "@/store/async-thunks/feedback.thunk";
 import { AppDispatch, RootState } from "@/store/store";
 import { useSession } from "next-auth/react";
 import { useParams } from "next/navigation";

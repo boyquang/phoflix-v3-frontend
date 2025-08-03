@@ -1,7 +1,7 @@
 import RootLayout from "@/components/layout/RootLayout";
-import { colorGradients } from "@/constants/color";
-import { categories, countries } from "@/constants/movie";
-import { NEXT_PUBLIC_SITE_URL } from "@/lib/env";
+import { colorGradients } from "@/constants/color.contant";
+import { categories, countries } from "@/constants/movie.contant";
+import { NEXT_PUBLIC_SITE_URL } from "@/constants/env.contant";
 import { Metadata } from "next";
 import Link from "next/link";
 import { MdChevronRight } from "react-icons/md";
@@ -40,7 +40,7 @@ const Page = () => {
   return (
     <RootLayout>
       <div className="lg:pt-28 pt-24 relative z-10">
-        <h3 className="inline-block xl:text-3xl lg:text-2xl text-xl title-text font-bold">
+        <h3 className="inline-block xl:text-3xl lg:text-2xl text-xl text-gradient-primary font-bold">
           Khám phá thế giới phim
         </h3>
         <div className="mt-12 grid gap-4 3xl:grid-cols-8 xl:grid-cols-6 lg:grid-cols-5 md:grid-cols-4 sm:grid-cols-3 grid-cols-2">

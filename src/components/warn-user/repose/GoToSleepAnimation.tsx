@@ -3,7 +3,7 @@
 import {
   setOpenAlertRepose,
   setShowAnimationReposeUser,
-} from "@/store/slices/systemSlice";
+} from "@/store/slices/system.slice";
 import { AppDispatch, RootState } from "@/store/store";
 import { IconButton } from "@chakra-ui/react";
 import { motion, AnimatePresence } from "framer-motion";

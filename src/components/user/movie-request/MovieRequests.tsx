@@ -8,7 +8,10 @@ import { SiGoogleforms } from "react-icons/si";
 import SeeMoreMovieRequest from "./SeeMoreMovieRequest";
 import DeleteMovieRequest from "@/components/user/movie-request/DeleteMovieRequest";
 import { IoIosReturnRight } from "react-icons/io";
-import { status, statusShowAdminResponse } from "@/constants/movie-request";
+import {
+  status,
+  statusShowAdminResponse,
+} from "@/constants/movie-request.contant";
 
 export interface MovieRequest {
   id: string;

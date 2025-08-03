@@ -1,16 +1,16 @@
 "use client";
 
-import { deleteFeedback } from "@/lib/actions/feedbackAction";
+import { deleteFeedback } from "@/lib/actions/feedback.action";
 import {
   getFeedbacks,
   getReplyListFeedback,
-} from "@/store/asyncThunks/feedbackAsyncThunk";
+} from "@/store/async-thunks/feedback.thunk";
 import {
   setIdEditFeedback,
   setReplyId,
   setShowFeedbackId,
   setShowReplyId,
-} from "@/store/slices/feedbackSlice";
+} from "@/store/slices/feedback.slice";
 import { AppDispatch, RootState } from "@/store/store";
 import { Box } from "@chakra-ui/react";
 import { useSession } from "next-auth/react";

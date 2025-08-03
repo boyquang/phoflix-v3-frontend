@@ -1,4 +1,4 @@
-import { NEXT_PUBLIC_SITE_URL } from "@/lib/env";
+import { NEXT_PUBLIC_SITE_URL } from "@/constants/env.contant";
 
 const Page = async () => {
   return (

@@ -3,12 +3,12 @@
 import { Swiper, SwiperSlide } from "swiper/react";
 
 import "swiper/css";
-import { categories, countries } from "@/constants/movie";
+import { categories, countries } from "@/constants/movie.contant";
 import { Box } from "@chakra-ui/react";
 import Link from "next/link";
 import RootLayout from "../layout/RootLayout";
 import { MdChevronRight } from "react-icons/md";
-import { colorGradients } from "@/constants/color";
+import { colorGradients } from "@/constants/color.contant";
 
 const TopicCards = () => {
   const totalItems = [...categories, ...countries].length;
@@ -17,7 +17,7 @@ const TopicCards = () => {
   return (
     <RootLayout>
       <Box className="relative my-12 lg:px-0">
-        <h4 className="inline-block font-semibold title-text lg:text-2xl md:text-xl text-md mb-4">
+        <h4 className="inline-block font-semibold text-gradient-primary lg:text-2xl md:text-xl text-md mb-4">
           Bạn đang quan tâm gì?
         </h4>
         <Box className="relative topic-cards">
@@ -54,7 +54,7 @@ const TopicCards = () => {
                 <Box
                   className={`bg-gradient-to-r ${
                     colorGradients[index % colorGradients.length]
-                  }  rounded-xl overflow-hidden hover:-translate-y-2 transition-all duration-300 shadow-lg`}
+                  }  rounded-xl overflow-hidden hover:-translate-y-2 transition-all duration-300`}
                 >
                   <Link
                     className="flex flex-col justify-center gap-2 lg:min-h-32 min-h-28 p-4 text-gray-50"

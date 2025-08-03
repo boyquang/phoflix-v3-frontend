@@ -2,7 +2,7 @@
 
 import AlertDialog from "@/components/shared/AlertDialog";
 import useNotification from "@/hooks/useNotification";
-import { deleteMovieRequest } from "@/lib/actions/movieRequestActionsServer";
+import { deleteMovieRequest } from "@/lib/actions/movie-request-server.action";
 import { IconButton } from "@chakra-ui/react";
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";

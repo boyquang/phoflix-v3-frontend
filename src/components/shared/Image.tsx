@@ -2,8 +2,7 @@
 
 import { useEffect, useState } from "react";
 import NextImage from "next/image";
-import { generateUrlImage, getImageSrc } from "@/lib/utils";
-import { NEXT_PUBLIC_API_KKPHIM_IMAGE_URL as API_KKPHIM_IMAGE_URL } from "@/lib/env";
+import { getImageSrc } from "@/lib/utils";
 
 interface ImageProps {
   src: string;
@@ -20,13 +19,60 @@ const Image = ({
   quality = 80,
   className = "",
   ref = null,
-  unoptimized = false,
+  unoptimized = true,
 }: ImageProps) => {
   const [blurData, setBlurData] = useState<string | null>(null);
   const [error, setError] = useState<boolean>(false);
   const [status, setStatus] = useState<"loading" | "success" | "error">(
     "loading"
   );
+  const [currentSrc, setCurrentSrc] = useState<string>(src);
+
+  useEffect(() => {
+    setCurrentSrc(src);
+  }, [src]);
+
+  const handleOptimizedImage = (src: string) => {
+    fetch(`/api/blur?src=${encodeURIComponent(src)}`)
+      .then((res) => res.json())
+      .then((data) => {
+        setBlurData(data.blurDataURL);
+      })
+      .catch(() => {
+        setBlurData(null);
+      });
+  };
+
+  const handleUnoptimizedImage = (src: string) => {
+    const img = new window.Image();
+
+    img.onload = () => setStatus("success");
+    img.onerror = () => {
+      if (src.includes("?url=")) {
+        let fallbackSrc = src.split("?url=")[1];
+
+        // Cache-busting để tránh trình duyệt dùng lại ảnh lỗi
+        fallbackSrc +=
+          (fallbackSrc.includes("?") ? "&" : "?") + `fallback=${Date.now()}`;
+
+        const fallbackImg = new window.Image();
+
+        fallbackImg.onload = () => {
+          setStatus("success");
+          setCurrentSrc(fallbackSrc); // cập nhật state để trigger re-render
+        };
+
+        fallbackImg.onerror = () => {
+          setStatus("error");
+        };
+
+        fallbackImg.src = fallbackSrc;
+      } else {
+        setStatus("error");
+      }
+    };
+    img.src = src;
+  };
 
   useEffect(() => {
     if (!src) {
@@ -36,28 +82,15 @@ const Image = ({
     }
 
     if (unoptimized) {
-      fetch(`/api/blur?src=${encodeURIComponent(src)}`)
-        .then((res) => res.json())
-        .then((data) => {
-          setBlurData(data.blurDataURL);
-        })
-        .catch(() => {
-          setBlurData(null);
-        });
+      handleUnoptimizedImage(src);
     } else {
-      const img = new window.Image();
-      const newSrc = generateUrlImage(src);
-      const finalSrc = `${API_KKPHIM_IMAGE_URL}?url=${newSrc}`;
-
-      img.src = finalSrc;
-      img.onload = () => setStatus("success");
-      img.onerror = () => setStatus("error");
+      handleOptimizedImage(src);
     }
   }, [src]);
 
   return (
     <>
-      {unoptimized ? (
+      {!unoptimized ? (
         <NextImage
           ref={ref}
           src={error ? "/images/notfound.webp" : src}
@@ -74,11 +107,9 @@ const Image = ({
       ) : (
         <img
           ref={ref}
-          src={getImageSrc(src, status)}
+          src={getImageSrc(currentSrc, status)}
           alt={alt}
-          className={`block w-full h-full object-cover inset-0 absolute ${className} ${
-            status === "loading" ? "blink" : ""
-          }`}
+          className={`block w-full h-full object-cover inset-0 absolute ${className}`}
           loading="lazy"
         />
       )}

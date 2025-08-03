@@ -1,11 +1,11 @@
 import Loading from "@/app/loading";
 import { auth } from "@/auth";
-import { getListRoomsByUser } from "@/lib/actions/watchingTogetherServer";
+import { getListRoomsByUser } from "@/lib/actions/watching-together-server.action";
 import { Box } from "@chakra-ui/react";
 import { Metadata } from "next";
 import { Suspense } from "react";
 import ListRooms from "@/components/watch-together/ListRooms";
-import { NEXT_PUBLIC_SITE_URL } from "@/lib/env";
+import { NEXT_PUBLIC_SITE_URL } from "@/constants/env.contant";
 import PaginationCustom from "@/components/shared/PaginationCustom";
 import { PageProps } from "@/app/page";
 

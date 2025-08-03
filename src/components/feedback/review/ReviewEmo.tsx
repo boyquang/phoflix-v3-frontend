@@ -1,8 +1,8 @@
 "use client";
 
 import Image from "@/components/shared/Image";
-import { emojis } from "@/constants/review";
-import { setSelectedReview } from "@/store/slices/userSlice";
+import { emojis } from "@/constants/review.contant";
+import { setSelectedReview } from "@/store/slices/user.slice";
 import { AppDispatch, RootState } from "@/store/store";
 import { Box } from "@chakra-ui/react";
 import { useDispatch, useSelector } from "react-redux";

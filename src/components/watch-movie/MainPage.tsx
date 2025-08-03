@@ -1,17 +1,17 @@
 "use client";
 
-import { fetchDataMovieInfo } from "@/store/asyncThunks/movieAsyncThunk";
+import { fetchDataMovieInfo } from "@/store/async-thunks/movie.thunk";
 import { AppDispatch, RootState } from "@/store/store";
 import { Box } from "@chakra-ui/react";
 import { useParams } from "next/navigation";
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { setCurrentEpisode } from "@/store/slices/movieSlice";
+import { setCurrentEpisode } from "@/store/slices/movie.slice";
 import SectionInfo from "./SectionInfo";
 import EpisodesList from "@/components/episode/EpisodeList";
 import SkeletonWachingPage from "@/components/skeletons/SkeletonWatchingPage";
 import EmptyData from "@/components/shared/EmptyData";
-import { addNewMovie } from "@/lib/actions/userMovieAction";
+import { addNewMovie } from "@/lib/actions/user-movie.action";
 import { useSession } from "next-auth/react";
 import FavoriteButton from "@/components/shared/FavoriteButton";
 import ShareButton from "@/components/shared/ShareButton";
@@ -107,7 +107,7 @@ const MainPage = () => {
   return (
     <Box className="flex flex-col gap-12 max-w-[1620px] mx-auto 2xl:px-12 px-4">
       <Box className="lg:mt-32 mt-24">
-        <h3 className="xl:text-4xl lg:text-3xl md:text-2xl text-xl title-text font-bold mb-6 sm:inline-block hidden">
+        <h3 className="xl:text-4xl lg:text-3xl md:text-2xl text-xl text-gradient-primary font-bold mb-6 sm:inline-block hidden">
           {movie?.name} - {currentEpisode?.name}
         </h3>
 
@@ -150,6 +150,7 @@ const MainPage = () => {
                     redirect={false}
                     episodes={groups[selectedLanguage]?.items || []}
                     language={selectedLanguage}
+                    showToaster={false}
                   />
                 )}
               </>

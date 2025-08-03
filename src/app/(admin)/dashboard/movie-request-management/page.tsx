@@ -4,8 +4,8 @@ import { auth } from "@/auth";
 import StatusSelectorFilter from "@/components/admin/dashboard/movie-request-management/StatusSelecterFilter";
 import TableMovieRequest from "@/components/admin/dashboard/movie-request-management/TableMovieRequest";
 import PaginationCustom from "@/components/shared/PaginationCustom";
-import { getMovieRequests } from "@/lib/actions/adminActionServer";
-import { NEXT_PUBLIC_SITE_URL } from "@/lib/env";
+import { getMovieRequests } from "@/lib/actions/admin-server.action";
+import { NEXT_PUBLIC_SITE_URL } from "@/constants/env.contant";
 import { Box, Status } from "@chakra-ui/react";
 import { Suspense } from "react";
 
@@ -59,23 +59,36 @@ const Page = async ({ searchParams }: PageProps) => {
 
   const items = response?.result?.items || [];
   const totalItems = response?.result?.item_count || 0;
+  const errorType = response?.errorType;
+  const message = response?.message || "Lỗi hệ thống. Vui lòng thử lại sau!";
 
   return (
     <Suspense fallback={<Loading type="bars" />}>
       <Box className="text-gray-50">
         <div className="flex items-center justify-between">
           <h1 className="lg:text-3xl text-xl">Quản lý yêu cầu phim</h1>
-          <StatusSelectorFilter status={status || "all"} />
+          {!errorType && <StatusSelectorFilter status={status || "all"} />}
         </div>
-        <TableMovieRequest items={items} offset={(page - 1) * limit} />
-        {totalItems >= limit && (
-          <PaginationCustom
-            currentPage={page}
-            totalItems={totalItems}
-            itemsPerPage={limit}
-            isScroll={true}
-            showToaster={false}
-          />
+
+        {errorType === "InvalidToken" || errorType === "ServerError" ? (
+          <p className="text-red-500 text-base mt-4">
+            {errorType === "InvalidToken"
+              ? "Phiên đăng nhập không hợp lệ. Vui lòng đăng nhập lại."
+              : message}
+          </p>
+        ) : (
+          <>
+            <TableMovieRequest items={items} offset={(page - 1) * limit} />
+            {totalItems >= limit && (
+              <PaginationCustom
+                currentPage={page}
+                totalItems={totalItems}
+                itemsPerPage={limit}
+                isScroll={true}
+                showToaster={false}
+              />
+            )}
+          </>
         )}
       </Box>
     </Suspense>

@@ -1,6 +1,6 @@
 "use client";
 
-import { addNewMovie, deleteMovie } from "@/lib/actions/userMovieAction";
+import { addNewMovie, deleteMovie } from "@/lib/actions/user-movie.action";
 import { AppDispatch, RootState } from "@/store/store";
 import { Box, Button, Popover, Portal } from "@chakra-ui/react";
 import { useSession } from "next-auth/react";
@@ -13,8 +13,8 @@ import PlaylistButton from "@/components/shared/PlaylistButton";
 import {
   getPlaylists,
   getPlaylistsContainingMovie,
-} from "@/store/asyncThunks/userAsyncThunk";
-import { showDialogSinInWhenNotLogin } from "@/store/slices/systemSlice";
+} from "@/store/async-thunks/user.thunk";
+import { showDialogSinInWhenNotLogin } from "@/store/slices/system.slice";
 import CheckboxPlaylist from "./CheckBoxPlaylist";
 import ActionsPlaylist from "./ActionsPlaylist";
 
@@ -89,7 +89,7 @@ const PopoverPlaylist = ({
       handleShowToaster("Thông báo", "Phim không tồn tại.", "error");
       return;
     }
-   
+
     const response = await deleteMovie({
       userId: session?.user?.id as string,
       movieSlug: movie?.slug,

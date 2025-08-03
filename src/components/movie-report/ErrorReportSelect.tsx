@@ -1,7 +1,7 @@
 "use client";
 
 import { useDispatch, useSelector } from "react-redux";
-import { setReportError } from "@/store/slices/userSlice";
+import { setReportError } from "@/store/slices/user.slice";
 import { useEffect } from "react";
 import { RootState } from "@/store/store";
 

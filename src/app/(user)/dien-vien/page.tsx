@@ -2,10 +2,10 @@ import Loading from "@/app/loading";
 import RootLayout from "@/components/layout/RootLayout";
 import PaginationCustom from "@/components/shared/PaginationCustom";
 import ActorsList from "@/components/actor/ActorsList";
-import { NEXT_PUBLIC_SITE_URL } from "@/lib/env";
+import { NEXT_PUBLIC_SITE_URL } from "@/constants/env.contant";
 import { Metadata } from "next";
 import { Suspense } from "react";
-import { fetchActors } from "@/lib/actions/movieActionServer";
+import { fetchActors } from "@/lib/actions/movie-server.action";
 import { PageProps } from "@/app/page";
 
 export async function generateMetadata(): Promise<Metadata> {
@@ -55,7 +55,7 @@ const Page = async ({ searchParams }: PageProps) => {
     <Suspense fallback={<Loading type="text" />}>
       <RootLayout>
         <div className="lg:pt-28 pt-24">
-          <h3 className="inline-block xl:text-3xl lg:text-2xl text-xl title-text font-bold mb-12">
+          <h3 className="inline-block xl:text-3xl lg:text-2xl text-xl text-gradient-primary font-bold mb-12">
             Diễn viên nổi bật
           </h3>
 

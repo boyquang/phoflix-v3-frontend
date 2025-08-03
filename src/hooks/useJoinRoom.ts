@@ -1,6 +1,6 @@
 "use client";
 
-import { joinRoomWatchingTogether } from "@/lib/actions/watchingTogether";
+import { joinRoomWatchingTogether } from "@/lib/actions/watching-together.action";
 import { handleShowToaster } from "@/lib/utils";
 import { delay } from "lodash";
 import { useSession } from "next-auth/react";

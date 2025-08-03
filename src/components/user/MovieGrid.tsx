@@ -1,7 +1,7 @@
 "use client";
 
 import EmptyData from "@/components/shared/EmptyData";
-import { deleteMovie } from "@/lib/actions/userMovieAction";
+import { deleteMovie } from "@/lib/actions/user-movie.action";
 import { RootState } from "@/store/store";
 import { SimpleGrid } from "@chakra-ui/react";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";

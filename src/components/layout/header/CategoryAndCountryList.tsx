@@ -17,7 +17,7 @@ const CategoryAndCountryList = ({
   return (
     <Box
       className={`absolute left-1/2 top-[calc(100%-8px)] mt-2 min-w-3xl overflow-hidden 
-        bg-[#0f111af2] text-gray-50 border border-[#ffffff10] shadow-lg rounded-2xl
+        bg-[#0f111af2] text-gray-50 border border-[#ffffff10] shadow-lg rounded-md
         transition-all duration-300 ease-in-out z-50
         ${
           isOpen
@@ -30,7 +30,7 @@ const CategoryAndCountryList = ({
         {data.map((item) => (
           <li key={item._id}>
             <Link
-              className="rounded-sm text-sm block hover:text-[#ffd875] px-4 py-2 transition"
+              className="rounded-sm hover:border-dashed border border-transparent hover:border-[#ffd875] text-sm block hover:text-[#ffd875] px-4 py-2 transition"
               href={`/chi-tiet/${type}/${item.slug}`}
             >
               {item.name}

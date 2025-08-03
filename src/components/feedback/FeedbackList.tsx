@@ -4,7 +4,7 @@ import {
   getFeedbacks,
   getMoreFeedbacks,
   getVoteListFeedback,
-} from "@/store/asyncThunks/feedbackAsyncThunk";
+} from "@/store/async-thunks/feedback.thunk";
 import { AppDispatch, RootState } from "@/store/store";
 import { Box } from "@chakra-ui/react";
 import { useParams } from "next/navigation";

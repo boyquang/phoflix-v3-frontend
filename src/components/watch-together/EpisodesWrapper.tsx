@@ -3,7 +3,7 @@
 import EpisodesList from "@/components/episode/EpisodeList";
 import useSendSocketWatchingTogether from "@/hooks/useSendSocketWatchingTogether";
 import { formatTypeMovie } from "@/lib/utils";
-import { setCurrentEpisode } from "@/store/slices/watchingTogetherSlice";
+import { setCurrentEpisode } from "@/store/slices/watching-together.slice";
 import { AppDispatch, RootState } from "@/store/store";
 import { Box } from "@chakra-ui/react";
 import { debounce } from "lodash";

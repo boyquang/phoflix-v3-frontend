@@ -3,7 +3,7 @@
 import { useEffect, useRef } from "react";
 import { usePathname } from "next/navigation";
 import { useSession } from "next-auth/react";
-import { leaveRoomWatchingTogether } from "@/lib/actions/watchingTogether";
+import { leaveRoomWatchingTogether } from "@/lib/actions/watching-together.action";
 import { handleShowToaster } from "@/lib/utils";
 import { useSelector } from "react-redux";
 import { RootState } from "@/store/store";

@@ -1,6 +1,6 @@
 "use client";
 
-import { appConfig } from "@/configs/appConfig";
+import { appConfig } from "@/configs/app.config";
 import { Button, CloseButton, Dialog, Portal } from "@chakra-ui/react";
 import React from "react";
 

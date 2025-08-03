@@ -5,7 +5,7 @@ import { useEffect, useState, useTransition } from "react";
 import NotificationTabs from "./NotificationTabs";
 import NotificationList from "@/components/user/notification/NotificationList";
 import SeeMoreNotifications from "./SeeMoreNotifications";
-import { getNotifications } from "@/lib/actions/notificationActionClient";
+import { getNotifications } from "@/lib/actions/notification-client-action";
 import { useSession } from "next-auth/react";
 import { useSearchParams } from "next/navigation";
 

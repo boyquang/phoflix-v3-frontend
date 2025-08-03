@@ -2,7 +2,7 @@
 
 import { Button, CloseButton, Dialog, Portal, Spinner } from "@chakra-ui/react";
 import React, { useState } from "react";
-import { appConfig } from "@/configs/appConfig";
+import { appConfig } from "@/configs/app.config";
 
 const { dialog } = appConfig.charka;
 const motionPresetDefault = dialog.motionPresetDefault;

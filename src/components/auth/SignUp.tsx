@@ -1,15 +1,15 @@
 "use client";
 
 import { PasswordInput } from "@/components/ui/password-input";
-import { register } from "@/lib/actions/authActionServer";
+import { register } from "@/lib/actions/auth-server.action";
 import { isValidEmail } from "@/lib/utils";
-import { setIsShowAuthDialog, setTypeAuth } from "@/store/slices/systemSlice";
+import { setIsShowAuthDialog, setTypeAuth } from "@/store/slices/system.slice";
 import { AppDispatch } from "@/store/store";
 import { Box, Button, Field, Input, Spinner } from "@chakra-ui/react";
 import { useState } from "react";
 import { useDispatch } from "react-redux";
 import { useForm } from "react-hook-form";
-import { avatarDefault } from "@/constants/avatar";
+import { avatarDefault } from "@/constants/avatar.contant";
 import useNotification from "@/hooks/useNotification";
 
 interface FormValues {
@@ -149,6 +149,7 @@ const SignUp = () => {
         <Button
           type="submit"
           size="sm"
+          disabled={loading}
           className="shadow-primary bg-primary linear-gradient text-gray-900"
         >
           {loading && <Spinner size="xs" />}

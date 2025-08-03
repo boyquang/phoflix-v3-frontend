@@ -1,6 +1,6 @@
 "use client";
 
-import { fetchDataMovieInfo } from "@/store/asyncThunks/movieAsyncThunk";
+import { fetchDataMovieInfo } from "@/store/async-thunks/movie.thunk";
 import { AppDispatch, RootState } from "@/store/store";
 import { Box, GridItem, SimpleGrid } from "@chakra-ui/react";
 import { useParams } from "next/navigation";

@@ -25,7 +25,7 @@ const PopoverSetting = () => {
         <Box className="cursor-pointer relative">
           <IconButton
             onClick={() => setOpen(!open)}
-            aria-label="Cài đặt"
+            title="Cài đặt"
             size="sm"
             variant="outline"
             className="bg-transparent text-gray-50 lg:border-[#ffffff86] lg:border border-0"
@@ -38,7 +38,7 @@ const PopoverSetting = () => {
       <Portal>
         <Popover.Positioner>
           <Popover.Content
-            rounded="xl"
+            rounded="md"
             p={0}
             className="bg-[#0f111af2] text-gray-50 border border-[#ffffff10]"
           >

@@ -2,7 +2,7 @@
 
 import SearchIcon from "@/components/icons/SearchIcon";
 import { InputGroup } from "@/components/ui/input-group";
-import { fetchDataMoviePreview } from "@/store/asyncThunks/movieAsyncThunk";
+import { fetchDataMoviePreview } from "@/store/async-thunks/movie.thunk";
 import { AppDispatch, RootState } from "@/store/store";
 import { Box, Button, Dialog, Input, Portal } from "@chakra-ui/react";
 import React, { useCallback } from "react";
@@ -10,13 +10,13 @@ import { useDispatch, useSelector } from "react-redux";
 import { useRouter } from "next/navigation";
 import SearchHistory from "./SearchHistory";
 import { IoSearch } from "react-icons/io5";
-import { setIsShowModalSearch } from "@/store/slices/systemSlice";
+import { setIsShowModalSearch } from "@/store/slices/system.slice";
 import { handleShowToaster } from "@/lib/utils";
 import VoiceButton from "../shared/VoiceButton";
 import { debounce, delay } from "lodash";
-import { setKeyWord } from "@/store/slices/userSlice";
+import { setKeyWord } from "@/store/slices/user.slice";
 import useSearch from "@/hooks/useSearch";
-import { appConfig } from "@/configs/appConfig";
+import { appConfig } from "@/configs/app.config";
 import TopSearchTrending from "./TopSearchTrending";
 import SearchPreview from "./SearchPreview";
 
@@ -91,7 +91,7 @@ const SearchDialog = () => {
           className="2xl:min-w-60 lg:min-w-48 text-gray-50 lg:bg-[#ffffff2f] bg-transparent rounded-md"
           size="sm"
         >
-          <IoSearch />
+          <IoSearch title="Tìm kiếm" />
           <span className="flex-1 text-left ml-1 lg:block hidden">
             Tìm kiếm phim ...
           </span>
@@ -102,7 +102,7 @@ const SearchDialog = () => {
         <Dialog.Positioner>
           <Dialog.Content
             padding={0}
-            className="bg-[#0f111af2] text-gray-50 border border-[#ffffff10] rounded-xl backdrop-blur mx-4 lg:max-w-[560px] md:max-w-[520px] sm:max-w-[420px] max-w-[calc(100%-32px)]"
+            className="bg-[#0f111af2] text-gray-50 border border-[#ffffff10] rounded-md backdrop-blur mx-4 lg:max-w-2xl md:max-w-xl sm:max-w-lg max-w-[calc(100%-32px)]"
           >
             <Dialog.Header p={4}>
               <Dialog.Title>
@@ -128,7 +128,7 @@ const SearchDialog = () => {
                         outline: "none",
                       },
                     }}
-                    className="font-normal text-gray-50 rounded-lg truncate bg-transparent border border-[#ffffff10] focus:border-gray-500"
+                    className="font-normal text-gray-50 rounded-md truncate bg-transparent border border-[#ffffff10] focus:border-gray-500"
                     placeholder="Nhập tên phim cần tìm..."
                   />
                 </InputGroup>

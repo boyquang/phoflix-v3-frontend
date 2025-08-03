@@ -13,7 +13,7 @@ import PopoverUser from "./PopoverUser";
 import PopoverNotification from "./PopoverNotification";
 import SearchDialog from "@/components/search/SearchDialog";
 import { usePathname } from "next/navigation";
-import { appConfig } from "@/configs/appConfig";
+import { appConfig } from "@/configs/app.config";
 import PopoverSetting from "./PopoverSetting";
 
 const { appName } = appConfig;

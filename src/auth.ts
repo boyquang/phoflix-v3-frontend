@@ -7,8 +7,8 @@ import NextAuth, {
 } from "next-auth";
 import Credentials from "next-auth/providers/credentials";
 import GoogleProvider from "next-auth/providers/google";
-import { login, registerGoogleAccount } from "./lib/actions/authActionServer";
-import { getUserProfile } from "./lib/actions/userActionServer";
+import { login, registerGoogleAccount } from "./lib/actions/auth-server.action";
+import { getUserProfile } from "./lib/actions/user-server.action";
 import { JWT } from "next-auth/jwt";
 
 export class InvalidLoginError extends AuthError {

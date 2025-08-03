@@ -5,12 +5,12 @@ import AvatarUser from "./AvatarUser";
 import { signOut, useSession } from "next-auth/react";
 import Link from "next/link";
 import { FaHeart, FaPlus, FaUser } from "react-icons/fa6";
-import {  FaHistory } from "react-icons/fa";
+import { FaHistory } from "react-icons/fa";
 import { FiLogOut } from "react-icons/fi";
 import ProfileHeader from "@/components/shared/ProfileHeader";
 import { useState } from "react";
 import { BsFillGridFill } from "react-icons/bs";
-import { appConfig, FeatureStatus } from "@/configs/appConfig";
+import { appConfig, FeatureStatus } from "@/configs/app.config";
 import StatusTag from "@/components/shared/StatusTag";
 import { SiGoogleforms } from "react-icons/si";
 
@@ -105,7 +105,7 @@ const PopoverUser = () => {
       <Portal>
         <Popover.Positioner>
           <Popover.Content
-            rounded="xl"
+            rounded="md"
             p={0}
             className="bg-[#0f111af2] text-gray-50 border border-[#ffffff10]"
           >
@@ -137,16 +137,16 @@ const PopoverUser = () => {
 
                 <Box className="w-full h-[0.5px] bg-[#ffffff10]" />
 
-                <li
-                  onClick={() => signOut({ callbackUrl: window.location.href })}
-                >
-                  <Link
-                    href="#"
-                    className="px-4 py-2 transition-all hover:bg-[#ffffff05] flex gap-2 items-center truncate"
+                <li>
+                  <Box
+                    onClick={() =>
+                      signOut({ callbackUrl: window.location.href })
+                    }
+                    className="px-4 cursor-pointer py-2 transition-all hover:bg-[#ffffff05] flex gap-2 items-center truncate"
                   >
                     <FiLogOut />
                     Đăng xuất
-                  </Link>
+                  </Box>
                 </li>
               </ul>
             </Popover.Body>

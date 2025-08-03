@@ -9,7 +9,7 @@ import TableRow from "./TableRow";
 import {
   deleteNotification,
   updateNotification,
-} from "@/lib/actions/adminActionClient";
+} from "@/lib/actions/admin-client.action";
 import { handleShowToaster } from "@/lib/utils";
 
 interface TableNotificationsProps {

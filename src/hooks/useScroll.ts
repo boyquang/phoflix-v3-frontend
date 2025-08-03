@@ -1,6 +1,6 @@
 "use client";
 
-import { setIsVisiable, setLastScrollY } from "@/store/slices/systemSlice";
+import { setIsVisiable, setLastScrollY } from "@/store/slices/system.slice";
 import { AppDispatch, RootState } from "@/store/store";
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";

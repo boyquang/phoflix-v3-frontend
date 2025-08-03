@@ -1,12 +1,12 @@
 import { configureStore } from "@reduxjs/toolkit";
-import systemReducer from "./slices/systemSlice";
-import movieReducer from "./slices/movieSlice";
-import userReducer from "./slices/userSlice";
-import feedbackReducer from "./slices/feedbackSlice";
-import notificationReducer from "./slices/notificationSlice";
-import watchingTogetherReducer from "./slices/watchingTogetherSlice";
-import roomUsersReducer from "./slices/roomUsersSlice";
-import chatBotReducer from "./slices/chatBotSlice";
+import systemReducer from "./slices/system.slice";
+import movieReducer from "./slices/movie.slice";
+import userReducer from "./slices/user.slice";
+import feedbackReducer from "./slices/feedback.slice";
+import notificationReducer from "./slices/notification.slice";
+import watchingTogetherReducer from "./slices/watching-together.slice";
+import roomUsersReducer from "./slices/room-users.slice";
+import chatBotReducer from "./slices/chat-bot.slice";
 
 export const store = configureStore({
   reducer: {

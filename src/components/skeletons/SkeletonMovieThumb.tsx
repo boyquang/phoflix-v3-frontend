@@ -1,9 +1,8 @@
 "use client";
 
-import { Skeleton, SkeletonText } from "@/components/ui/skeleton";
 import { Swiper, SwiperSlide } from "swiper/react";
-import "swiper/css";
 import { Box } from "@chakra-ui/react";
+import "swiper/css";
 
 interface SkeletonMovieThumbProps {
   orientation: "horizontal" | "vertical";

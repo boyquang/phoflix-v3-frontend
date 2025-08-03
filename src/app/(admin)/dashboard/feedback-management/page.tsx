@@ -4,8 +4,8 @@ import { auth } from "@/auth";
 import SlugSelectorFilter from "@/components/admin/dashboard/feedback-management/SlugSelectorFilter";
 import TableFeedbacks from "@/components/admin/dashboard/feedback-management/TableFeedbacks";
 import PaginationCustom from "@/components/shared/PaginationCustom";
-import { getFeedbacks } from "@/lib/actions/adminActionServer";
-import { NEXT_PUBLIC_SITE_URL } from "@/lib/env";
+import { getFeedbacks } from "@/lib/actions/admin-server.action";
+import { NEXT_PUBLIC_SITE_URL } from "@/constants/env.contant";
 import { Box } from "@chakra-ui/react";
 import { Suspense } from "react";
 
@@ -57,23 +57,36 @@ const Page = async ({ searchParams }: PageProps) => {
   const items = response?.result?.feedbacks || [];
   const totalItems = response?.result?.totalItems || 0;
   const slugs = response?.result?.slugs || [];
+  const errorType = response?.errorType;
+  const message = response?.message || "Lỗi hệ thống. Vui lòng thử lại sau!";
 
   return (
     <Suspense fallback={<Loading type="bars" />}>
       <Box className="text-gray-50">
         <div className="flex items-center justify-between">
           <h1 className="lg:text-3xl text-xl">Quản lý phản hồi</h1>
-          <SlugSelectorFilter slugs={slugs} />
+          {!errorType && <SlugSelectorFilter slugs={slugs} />}
         </div>
-        <TableFeedbacks items={items} offset={(page - 1) * limit} />
-        {totalItems >= limit && (
-          <PaginationCustom
-            currentPage={page}
-            totalItems={totalItems}
-            itemsPerPage={limit}
-            isScroll={true}
-            showToaster={false}
-          />
+
+        {errorType === "InvalidToken" || errorType === "ServerError" ? (
+          <p className="text-red-500 text-base mt-4">
+            {errorType === "InvalidToken"
+              ? "Phiên đăng nhập không hợp lệ. Vui lòng đăng nhập lại."
+              : message}
+          </p>
+        ) : (
+          <>
+            <TableFeedbacks items={items} offset={(page - 1) * limit} />
+            {totalItems >= limit && (
+              <PaginationCustom
+                currentPage={page}
+                totalItems={totalItems}
+                itemsPerPage={limit}
+                isScroll={true}
+                showToaster={false}
+              />
+            )}
+          </>
         )}
       </Box>
     </Suspense>

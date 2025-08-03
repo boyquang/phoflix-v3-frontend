@@ -5,7 +5,7 @@ import {
   createNewPlaylist,
   deletePlaylist,
   updatePlaylist,
-} from "@/lib/actions/playlistAction";
+} from "@/lib/actions/playlist.action";
 import { handleShowToaster } from "@/lib/utils";
 import {
   Button,

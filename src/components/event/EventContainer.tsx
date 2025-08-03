@@ -6,14 +6,14 @@ import RootLayout from "../layout/RootLayout";
 import { useEffect, useState } from "react";
 import { AppDispatch, RootState } from "@/store/store";
 import { useDispatch, useSelector } from "react-redux";
-import { fetchDataMovieEvent } from "@/store/asyncThunks/movieAsyncThunk";
+import { fetchDataMovieEvent } from "@/store/async-thunks/movie.thunk";
 import ShowMoreText from "../shared/ShowMoreText";
 import { PiCalendarStarFill } from "react-icons/pi";
 import { MdCelebration } from "react-icons/md";
 import MovieSwiper from "@/components/shared/MovieSwiper";
-import { getEventList } from "@/lib/actions/eventAction";
-import { eventConfig } from "@/configs/eventConfig";
-import { setFetchedMovieEvent } from "@/store/slices/movieSlice";
+import { getEventList } from "@/lib/actions/event.action";
+import { eventConfig } from "@/configs/event.config";
+import { setFetchedMovieEvent } from "@/store/slices/movie.slice";
 
 const EventContainer = () => {
   const [event, setEvent] = useState<EventData | null>(null);

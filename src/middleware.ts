@@ -1,8 +1,12 @@
 import { NextRequest, NextResponse } from "next/server";
 import { getToken } from "next-auth/jwt";
-import { appConfig, FeatureStatus } from "./configs/appConfig";
-import { ENV } from "./lib/env";
-import { adminPaths, protectedPaths, userPaths } from "./constants/middleware";
+import { appConfig, FeatureStatus } from "./configs/app.config";
+import { ENV } from "./constants/env.contant";
+import {
+  adminPaths,
+  protectedPaths,
+  userPaths,
+} from "./constants/middleware.contant";
 
 export async function middleware(request: NextRequest) {
   const url = request.url;

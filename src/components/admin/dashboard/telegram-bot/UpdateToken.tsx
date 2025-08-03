@@ -1,7 +1,7 @@
 "use client";
 
 import useNotification from "@/hooks/useNotification";
-import { updateToken } from "@/lib/actions/telegramBotAction";
+import { updateToken } from "@/lib/actions/telegram-bot.action";
 import { Button, Input, Spinner } from "@chakra-ui/react";
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";

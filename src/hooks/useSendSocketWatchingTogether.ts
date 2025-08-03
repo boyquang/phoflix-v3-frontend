@@ -1,7 +1,7 @@
 "use client";
 
-import { socket } from "@/configs/socketConfig";
-import { RoomUser } from "@/store/slices/roomUsersSlice";
+import { socket } from "@/configs/socket.config";
+import { RoomUser } from "@/store/slices/room-users.slice";
 import { RootState } from "@/store/store";
 import { useSession } from "next-auth/react";
 import { useParams } from "next/navigation";

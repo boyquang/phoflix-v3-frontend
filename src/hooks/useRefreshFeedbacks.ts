@@ -1,10 +1,10 @@
 "use client";
 
-import { socket } from "@/configs/socketConfig";
+import { socket } from "@/configs/socket.config";
 import {
   getFeedbacks,
   getReplyListFeedback,
-} from "@/store/asyncThunks/feedbackAsyncThunk";
+} from "@/store/async-thunks/feedback.thunk";
 import { AppDispatch, RootState } from "@/store/store";
 import { useParams } from "next/navigation";
 import { useEffect } from "react";

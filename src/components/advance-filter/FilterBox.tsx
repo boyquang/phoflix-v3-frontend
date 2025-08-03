@@ -6,7 +6,7 @@ import { useRouter, useSearchParams } from "next/navigation";
 import { useRef, useState, useTransition } from "react";
 import FilterItem from "./FilterItem";
 import { isEqual } from "lodash";
-import { filterOptions } from "@/constants/filter-movie";
+import { filterOptions } from "@/constants/filter-movie.contant";
 import Refreshicon from "../icons/RefresIcon";
 import useScrollIntoView from "@/hooks/useScrollIntoView";
 

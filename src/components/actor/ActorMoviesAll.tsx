@@ -2,7 +2,7 @@
 
 import HoverOutlineWrapper from "@/components/shared/HoverOutlineWrapper";
 import Image from "@/components/shared/Image";
-import { THEMOVIEDB_IMAGE_URL } from "@/lib/env";
+import { THEMOVIEDB_IMAGE_URL } from "@/constants/env.contant";
 import { formatString } from "@/lib/utils";
 import Link from "next/link";
 
@@ -11,13 +11,14 @@ interface ActorMovieAllProps {
 }
 
 const ActorMovieAll = ({ data }: ActorMovieAllProps) => {
-
   return (
     <div className="grid xl:grid-cols-5 lg:grid-cols-4 md:grid-cols-5 grid-cols-3 lg:lg:gap-x-4 gap-y-6 gap-x-2">
       {data?.map((item, index: number) => (
         <Link
           key={index}
-          href={`/thong-tin-phim/${formatString(item?.name || item?.title || "")}`}
+          href={`/thong-tin-phim/${formatString(
+            item?.name || item?.title || ""
+          )}`}
         >
           <div className="relative group transition-all hover:-translate-y-2">
             <HoverOutlineWrapper rounded="lg" ringSize="2">

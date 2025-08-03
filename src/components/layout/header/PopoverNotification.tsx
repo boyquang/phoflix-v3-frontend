@@ -5,7 +5,7 @@ import { useEffect, useState, useTransition } from "react";
 import { IoNotifications } from "react-icons/io5";
 import Link from "next/link";
 import NotificationList from "@/components/user/notification/NotificationList";
-import { getNotifications } from "@/lib/actions/notificationActionClient";
+import { getNotifications } from "@/lib/actions/notification-client-action";
 import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "@/store/store";
 import { useSession } from "next-auth/react";
@@ -13,7 +13,7 @@ import {
   setActiveTab,
   setNewNotification,
   setOpenNotification,
-} from "@/store/slices/notificationSlice";
+} from "@/store/slices/notification.slice";
 
 const tabs = [
   { id: "community", title: "Cộng đồng" },
@@ -63,7 +63,7 @@ const PopoverNotification = () => {
         <Box className="cursor-pointer relative">
           <IconButton
             onClick={handleClickNotification}
-            aria-label="Thông báo"
+            title="Thông báo"
             size="sm"
             variant="outline"
             className="bg-transparent text-gray-50 lg:border-[#ffffff86] lg:border border-0"
@@ -81,29 +81,32 @@ const PopoverNotification = () => {
       <Portal>
         <Popover.Positioner>
           <Popover.Content
-            rounded="xl"
+            rounded="md"
             p={0}
             className="bg-[#0f111af2] text-gray-50 border border-[#ffffff10] max-w-[320px]"
           >
             <Popover.Arrow />
             <Popover.Header p={0}>
-            <Box className="flex items-center gap-4 p-4 border-b-[0.5px] border-[#ffffff10]">
-                 {filteredTabs.map((tab) => (
-                   <Box
-                     key={tab.id}
-                     className={`text-sm transition-all cursor-pointer ${
-                       activeTab === tab.id
-                         ? "text-primary"
-                         : "text-gray-200 hover:text-gray-100"
-                     }`}
-                     onClick={() => dispatch(setActiveTab(tab.id))}
-                   >
-                     {tab.title}
-                   </Box>
-                 ))}
-               </Box>
+              <Box className="flex items-center gap-4 p-4 border-b-[0.5px] border-[#ffffff10]">
+                {filteredTabs.map((tab) => (
+                  <Box
+                    key={tab.id}
+                    className={`text-sm transition-all cursor-pointer ${
+                      activeTab === tab.id
+                        ? "text-primary"
+                        : "text-gray-200 hover:text-gray-100"
+                    }`}
+                    onClick={() => dispatch(setActiveTab(tab.id))}
+                  >
+                    {tab.title}
+                  </Box>
+                ))}
+              </Box>
             </Popover.Header>
-            <Popover.Body p={0} className="max-h-[50vh] overflow-y-auto overscroll-contain">
+            <Popover.Body
+              p={0}
+              className="max-h-[50vh] overflow-y-auto overscroll-contain"
+            >
               <NotificationList
                 notifications={notifications}
                 loading={pending}

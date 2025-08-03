@@ -3,9 +3,9 @@
 import {
   completeRegistration,
   verifyToken,
-} from "@/lib/actions/authActionServer";
+} from "@/lib/actions/auth-server.action";
 import { handleShowToaster } from "@/lib/utils";
-import { setIsShowAuthDialog, setTypeAuth } from "@/store/slices/systemSlice";
+import { setIsShowAuthDialog, setTypeAuth } from "@/store/slices/system.slice";
 import { AppDispatch } from "@/store/store";
 import { Box } from "@chakra-ui/react";
 import { useRouter, useSearchParams } from "next/navigation";

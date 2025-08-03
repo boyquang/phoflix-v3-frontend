@@ -1,9 +1,9 @@
 "use client";
 
-import { socket } from "@/configs/socketConfig";
+import { socket } from "@/configs/socket.config";
 import { handleShowToaster } from "@/lib/utils";
-import { getRoomDataWatchingTogether } from "@/store/asyncThunks/watchingTogetherAsyncThunk";
-import { setRoomUsers } from "@/store/slices/roomUsersSlice";
+import { getRoomDataWatchingTogether } from "@/store/async-thunks/watching-together.thunk";
+import { setRoomUsers } from "@/store/slices/room-users.slice";
 import { AppDispatch, RootState } from "@/store/store";
 import { delay } from "lodash";
 import { useSession } from "next-auth/react";
@@ -12,7 +12,7 @@ import { useDispatch, useSelector } from "react-redux";
 import {
   setCurrentEpisode,
   shareDataFromOwnerRoom,
-} from "@/store/slices/watchingTogetherSlice";
+} from "@/store/slices/watching-together.slice";
 
 interface UseSocketRoomUserEventsProps {
   roomId: string;

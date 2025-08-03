@@ -1,6 +1,6 @@
 "use client";
 
-import { tabs } from "@/constants/movie-request";
+import { tabs } from "@/constants/movie-request.contant";
 import { Button, Spinner } from "@chakra-ui/react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { useState, useTransition } from "react";

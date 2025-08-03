@@ -1,13 +1,13 @@
 "use client";
 
 import { PasswordInput } from "@/components/ui/password-input";
-import { resetPassword } from "@/lib/actions/userActionClient";
+import { resetPassword } from "@/lib/actions/user-client.action";
 import { handleShowToaster } from "@/lib/utils";
 import { Button, Dialog, Portal, Field, CloseButton } from "@chakra-ui/react";
 import { useSession } from "next-auth/react";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
-import { appConfig } from "@/configs/appConfig";
+import { appConfig } from "@/configs/app.config";
 
 const { dialog } = appConfig.charka;
 const motionPresetDefault = dialog.motionPresetDefault;

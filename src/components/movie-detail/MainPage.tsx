@@ -4,7 +4,7 @@ import RootLayout from "@/components/layout/RootLayout";
 import {
   Describe,
   fetchDataMovieDetail,
-} from "@/store/asyncThunks/movieAsyncThunk";
+} from "@/store/async-thunks/movie.thunk";
 import { AppDispatch, RootState } from "@/store/store";
 import { Box } from "@chakra-ui/react";
 import { useParams, useSearchParams } from "next/navigation";
@@ -60,7 +60,7 @@ const MainPage = () => {
       <TopicBackground slug={params["slug"] as string} />
       <RootLayout>
         <Box className="lg:pt-28 pt-24 relative z-10">
-          <h3 className="inline-block xl:text-3xl lg:text-2xl text-xl title-text font-bold">
+          <h3 className="inline-block xl:text-3xl lg:text-2xl text-xl text-gradient-primary font-bold">
             {`${titlePage} - ${totalItems} bộ phim`}
           </h3>
           <Box className="mt-12">

@@ -2,7 +2,7 @@
 
 import useNotification from "@/hooks/useNotification";
 import { getFromStorage, setToStorage } from "@/lib/utils";
-import { setStatusRepose } from "@/store/slices/systemSlice";
+import { setStatusRepose } from "@/store/slices/system.slice";
 import { AppDispatch, RootState } from "@/store/store";
 import dynamic from "next/dynamic";
 import { useEffect } from "react";

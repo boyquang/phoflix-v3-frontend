@@ -9,8 +9,8 @@ import Playlists from "@/components/user/playlist/Playlists";
 import {
   getUserMoviesFromPlaylist,
   getUserPlaylists,
-} from "@/lib/actions/userActionServer";
-import { NEXT_PUBLIC_SITE_URL } from "@/lib/env";
+} from "@/lib/actions/user-server.action";
+import { NEXT_PUBLIC_SITE_URL } from "@/constants/env.contant";
 import { Box, Button } from "@chakra-ui/react";
 import { Suspense } from "react";
 import { FaPlus } from "react-icons/fa6";

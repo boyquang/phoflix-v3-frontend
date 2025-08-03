@@ -1,9 +1,9 @@
 "use client";
 
 import useNotification from "@/hooks/useNotification";
-import { forgotPassword } from "@/lib/actions/authActionServer";
+import { forgotPassword } from "@/lib/actions/auth-server.action";
 import { isValidEmail } from "@/lib/utils";
-import { setIsShowAuthDialog, setTypeAuth } from "@/store/slices/systemSlice";
+import { setIsShowAuthDialog, setTypeAuth } from "@/store/slices/system.slice";
 import { AppDispatch } from "@/store/store";
 import { Box, Button, Field, Input, Spinner } from "@chakra-ui/react";
 import { useState } from "react";
@@ -78,6 +78,7 @@ const ForgotPassword = () => {
         <Button
           type="submit"
           size="sm"
+          disabled={loading}
           className="shadow-primary bg-primary linear-gradient text-gray-900"
         >
           {loading && <Spinner size="xs" />}

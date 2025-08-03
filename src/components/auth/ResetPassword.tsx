@@ -2,8 +2,8 @@
 
 import { PasswordInput } from "@/components/ui/password-input";
 import useNotification from "@/hooks/useNotification";
-import { resetPassword } from "@/lib/actions/authActionServer";
-import { setTypeAuth } from "@/store/slices/systemSlice";
+import { resetPassword } from "@/lib/actions/auth-server.action";
+import { setTypeAuth } from "@/store/slices/system.slice";
 import { AppDispatch } from "@/store/store";
 import { Box, Button, Field, Spinner } from "@chakra-ui/react";
 import { useSearchParams } from "next/navigation";
@@ -99,6 +99,7 @@ const ResetPassword = () => {
         <Button
           type="submit"
           size="sm"
+          disabled={loading}
           className="shadow-primary bg-primary linear-gradient text-gray-900"
         >
           {loading && <Spinner size="xs" />}

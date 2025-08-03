@@ -5,7 +5,7 @@ import { CloseButton, Dialog, Portal } from "@chakra-ui/react";
 import Link from "next/link";
 import { useSelector } from "react-redux";
 import Clipboard from "./Clipboard";
-import { appConfig } from "@/configs/appConfig";
+import { appConfig } from "@/configs/app.config";
 
 const { dialog } = appConfig.charka;
 const motionPresetDefault = dialog.motionPresetDefault;

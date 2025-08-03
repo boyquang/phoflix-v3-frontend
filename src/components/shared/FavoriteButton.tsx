@@ -4,9 +4,9 @@ import {
   addNewMovie,
   checkMovieExists,
   deleteMovie,
-} from "@/lib/actions/userMovieAction";
+} from "@/lib/actions/user-movie.action";
 import { handleShowToaster } from "@/lib/utils";
-import { showDialogSinInWhenNotLogin } from "@/store/slices/systemSlice";
+import { showDialogSinInWhenNotLogin } from "@/store/slices/system.slice";
 import { AppDispatch, RootState } from "@/store/store";
 import { Box, Spinner } from "@chakra-ui/react";
 import { useSession } from "next-auth/react";

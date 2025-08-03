@@ -1,6 +1,6 @@
 "use client";
 
-import { getPlaylistsContainingMovie } from "@/store/asyncThunks/userAsyncThunk";
+import { getPlaylistsContainingMovie } from "@/store/async-thunks/user.thunk";
 import { AppDispatch } from "@/store/store";
 import { useSession } from "next-auth/react";
 import { useParams } from "next/navigation";

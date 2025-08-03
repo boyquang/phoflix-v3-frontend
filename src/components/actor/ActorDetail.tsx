@@ -1,6 +1,6 @@
 "use client";
 
-import { THEMOVIEDB_IMAGE_URL } from "@/lib/env";
+import { THEMOVIEDB_IMAGE_URL } from "@/constants/env.contant";
 import { formatDateVn } from "@/lib/utils";
 import Image from "@/components/shared/Image";
 import ShowMoreText from "@/components/shared/ShowMoreText";

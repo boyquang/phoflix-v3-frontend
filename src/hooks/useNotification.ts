@@ -1,8 +1,8 @@
 "use client";
 
 import { toaster } from "@/components/ui/toaster";
-import { createNotification } from "@/lib/actions/notificationActionClient";
-import { playAudioNotification } from "@/store/slices/systemSlice";
+import { createNotification } from "@/lib/actions/notification-client-action";
+import { playAudioNotification } from "@/store/slices/system.slice";
 import { AppDispatch } from "@/store/store";
 import { useSession } from "next-auth/react";
 import { useParams, usePathname } from "next/navigation";

@@ -3,7 +3,7 @@
 import Loading from "@/app/loading";
 import useSearch from "@/hooks/useSearch";
 import { decodeHtmlEntities, formatString } from "@/lib/utils";
-import { getTopSearchTrending } from "@/store/asyncThunks/systemAsyncThunk";
+import { getTopSearchTrending } from "@/store/async-thunks/system.thunk";
 import { AppDispatch, RootState } from "@/store/store";
 import { Box } from "@chakra-ui/react";
 import Link from "next/link";

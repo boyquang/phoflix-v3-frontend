@@ -5,7 +5,7 @@ import { Box, Button } from "@chakra-ui/react";
 import Link from "next/link";
 import { useDispatch, useSelector } from "react-redux";
 import EmptyData from "../shared/EmptyData";
-import { setIsShowModalSearch } from "@/store/slices/systemSlice";
+import { setIsShowModalSearch } from "@/store/slices/system.slice";
 import SearchPreviewItem from "./SearchPreviewItem";
 import { LuSearchX } from "react-icons/lu";
 import Loading from "@/app/loading";

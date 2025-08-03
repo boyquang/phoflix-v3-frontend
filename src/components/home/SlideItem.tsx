@@ -45,7 +45,7 @@ const SlideItem = ({ item }: SlideItemProps) => {
         }}
         className="absolute bottom-4 left-0 right-0 2xl:px-12 xl:pb-20 p-4 z-6 lg:w-[50%] overflow-hidden"
       >
-        <h4 className="title-text lg:text-4xl md:text-2xl font-semibold lg:inline-block truncate-lines-2 block text-xl lg:text-left text-center mb-1">
+        <h4 className="text-gradient-primary lg:text-4xl md:text-2xl font-semibold lg:inline-block truncate-lines-2 block text-xl lg:text-left text-center mb-1">
           {item?.name || "Không xác định"}
         </h4>
         <h6 className="text-primary lg:text-left text-center text-sm truncate">

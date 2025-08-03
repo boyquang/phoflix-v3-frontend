@@ -8,7 +8,7 @@ import {
   setIsOpenDrawer,
   setIsShowAuthDialog,
   setWidth,
-} from "@/store/slices/systemSlice";
+} from "@/store/slices/system.slice";
 import { useEffect } from "react";
 import DrawerCustom from "./layout/drawer/DrawerCustom";
 import { Toaster } from "./ui/toaster";
@@ -16,7 +16,7 @@ import Footer from "./layout/Footer";
 import AuthDialog from "./auth/AuthDialog";
 import ScrollToTopButton from "./shared/ScrollToTopButton";
 import { usePathname } from "next/navigation";
-import { setHasLeftRoom } from "@/store/slices/watchingTogetherSlice";
+import { setHasLeftRoom } from "@/store/slices/watching-together.slice";
 import useCheckSessionStatus from "@/hooks/useCheckSessionStatus";
 import useResize from "@/hooks/useReszie";
 import useScroll from "@/hooks/useScroll";
@@ -43,13 +43,13 @@ const App = ({ children }: { children: React.ReactNode }) => {
   const dispatch: AppDispatch = useDispatch();
   const pathname = usePathname();
 
-  useEffect(() => {
-    if (reboot.status) {
-      signOut({
-        callbackUrl: window.location.href,
-      });
-    }
-  }, [reboot.status]);
+  // useEffect(() => {
+  //   if (reboot.status) {
+  //     signOut({
+  //       callbackUrl: window.location.href,
+  //     });
+  //   }
+  // }, [reboot.status]);
 
   // Kiểm tra trạng thái phiên đăng nhập
   useCheckSessionStatus();
@@ -108,11 +108,12 @@ const App = ({ children }: { children: React.ReactNode }) => {
 
       <Box className="focus-backdrop" />
 
+      <div className="fixed left-1/2 bottom-4 -translate-x-1/2 z-[99]">
+        <ScrollToTopButton />
+      </div>
+
       <div className="fixed z-[99] right-4 bottom-4">
-        <div className="flex flex-col gap-2">
-          <ScrollToTopButton />
-          <ChatBotDialog />
-        </div>
+        <ChatBotDialog />
       </div>
     </Box>
   );

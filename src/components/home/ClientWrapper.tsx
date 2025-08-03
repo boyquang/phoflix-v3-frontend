@@ -4,16 +4,17 @@ import { AppDispatch, RootState } from "@/store/store";
 import { useDispatch, useSelector } from "react-redux";
 import { Box } from "@chakra-ui/react";
 import { useEffect, useRef, useState } from "react";
+import { fetchDataMovie } from "@/store/async-thunks/movie.thunk";
 import {
-  fetchDataMovie,
-} from "@/store/asyncThunks/movieAsyncThunk";
-import { initialMovieConfig, quantitySectionMovie } from "@/constants/movie";
+  initialMovieConfig,
+  quantitySectionMovie,
+} from "@/constants/movie.contant";
 import TopicCards from "@/components/home/TopicCards";
 import EventContainer from "@/components/event/EventContainer";
 import RootLayout from "@/components/layout/RootLayout";
 import Loading from "@/app/loading";
 import MovieSection from "@/components/shared/MovieSection";
-import { setFetchedMovieDataHomePage } from "@/store/slices/movieSlice";
+import { setFetchedMovieDataHomePage } from "@/store/slices/movie.slice";
 
 const ClientWrapper = () => {
   const dispatch: AppDispatch = useDispatch();

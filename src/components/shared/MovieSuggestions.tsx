@@ -1,11 +1,11 @@
 "use client";
 
-import { categories, countries } from "@/constants/movie";
+import { categories, countries } from "@/constants/movie.contant";
 import { getRandomItem } from "@/lib/utils";
 import {
   Describe,
   fetchDataMovieDetail,
-} from "@/store/asyncThunks/movieAsyncThunk";
+} from "@/store/async-thunks/movie.thunk";
 import { AppDispatch, RootState } from "@/store/store";
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
@@ -13,7 +13,7 @@ import SkeletonMovieList from "../skeletons/SkeletonMovieGrid";
 import MovieGrid from "./MovieGrid";
 import { Box } from "@chakra-ui/react";
 import { useParams } from "next/navigation";
-import { setFetchedMovieSuggestion } from "@/store/slices/movieSlice";
+import { setFetchedMovieSuggestion } from "@/store/slices/movie.slice";
 
 const data = [...categories, ...countries];
 

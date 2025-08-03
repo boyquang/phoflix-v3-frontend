@@ -15,7 +15,7 @@ import Link from "next/link";
 import { useRef, useState } from "react";
 import { MdDelete } from "react-icons/md";
 import { useDispatch, useSelector } from "react-redux";
-import { setSelectedMovieIds } from "@/store/slices/userSlice";
+import { setSelectedMovieIds } from "@/store/slices/user.slice";
 import CheckboxCustom from "@/components/shared/CheckboxCustom";
 import HoverOutlineWrapper from "@/components/shared/HoverOutlineWrapper";
 import MovieTooltip from "@/components/shared/MovieTooltip";
@@ -119,7 +119,7 @@ const MovieItem = ({ item, isLoading, callback }: MovieItemProps) => {
           ) : (
             <IconButton
               size="xs"
-              loading={isLoading} 
+              loading={isLoading}
               onClick={() => callback(item?.movie_slug, item?.id)}
               aria-label="Xóa"
               className="bg-transparent border border-[#ffffffb0] hover:bg-[#ffffff10] rounded-full"

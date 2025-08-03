@@ -2,8 +2,8 @@
 
 import AlertDialog from "@/components/shared/AlertDialog";
 import useNotification from "@/hooks/useNotification";
-import { deleteSelectedMovies } from "@/lib/actions/userMovieAction";
-import { setSelectedDeleteMode } from "@/store/slices/userSlice";
+import { deleteSelectedMovies } from "@/lib/actions/user-movie.action";
+import { setSelectedDeleteMode } from "@/store/slices/user.slice";
 import { AppDispatch, RootState } from "@/store/store";
 import { Box, Button } from "@chakra-ui/react";
 import { useSession } from "next-auth/react";

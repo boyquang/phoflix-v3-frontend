@@ -1,7 +1,7 @@
 "use client";
 
 import EpisodesList from "@/components/episode/EpisodeList";
-import { setCurrentEpisode } from "@/store/slices/movieSlice";
+import { setCurrentEpisode } from "@/store/slices/movie.slice";
 import { AppDispatch, RootState } from "@/store/store";
 import { useDispatch, useSelector } from "react-redux";
 import EpisodeTabs from "../episode/EpisodeTabs";

@@ -21,7 +21,7 @@ const BackgroundMovie = ({ url }: BackgroundMovieProps) => {
     <Box className="h-0 relative lg:pt-[32%] md:pt-[46%] sm:pt-[50%] pt-[60%] before:absolute before:inset-0 before:bg-[url('/images/dotted.png')] before:bg-repeat before:opacity-20 before:z-[1]">
       <Box
         style={{
-          backgroundImage: `url(${loaded ? url : "/images/placeholder.jpg"})`,
+          backgroundImage: `url(${loaded ? url : "/images/placeholder.webp"})`,
         }}
         className="absolute inset-0 w-full h-full bg-cover bg-center opacity-50"
       />

@@ -1,6 +1,6 @@
 "use client";
 
-import { updateUserProfile } from "@/lib/actions/userActionClient";
+import { updateUserProfile } from "@/lib/actions/user-client.action";
 import { handleShowToaster } from "@/lib/utils";
 import { Box, Button, CloseButton, Dialog, Portal } from "@chakra-ui/react";
 import { useSession } from "next-auth/react";
@@ -9,9 +9,9 @@ import AvatarItem from "./AvatarItem";
 import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "@/store/store";
 import FilterTab from "./FilterTabs";
-import { setSelectedFilterTabsAvatar } from "@/store/slices/userSlice";
-import { appConfig } from "@/configs/appConfig";
-import { avatars } from "@/constants/avatar";
+import { setSelectedFilterTabsAvatar } from "@/store/slices/user.slice";
+import { appConfig } from "@/configs/app.config";
+import { avatars } from "@/constants/avatar.contant";
 import UploadFile from "@/components/upload-file/UploadFile";
 
 const { dialog } = appConfig.charka;

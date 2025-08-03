@@ -6,7 +6,7 @@ import ForgotPassword from "./ForgotPassword";
 import SignUp from "./SignUp";
 import SignIn from "./SignIn";
 import ResetPassword from "./ResetPassword";
-import { appConfig } from "@/configs/appConfig";
+import { appConfig } from "@/configs/app.config";
 
 const { dialog } = appConfig.charka;
 const motionPresetDefault = dialog.motionPresetDefault;
@@ -31,7 +31,7 @@ const AuthDialog = ({ isOpen, type, onClose }: AuthDialogProps) => {
           <Box className="flex">
             <Box className="lg:w-80 md:w-60 w-0">
               <Box className="relative h-full">
-                <Box className="absolute flex items-center justify-center w-full h-full inset-0 bg-[url('/images/background-auth.jpg')] bg-cover bg-[0_100%] rounded-l-2xl" />
+                <Box className="absolute flex items-center justify-center w-full h-full inset-0 bg-[url('/images/background-auth.webp')] bg-cover bg-[0_100%] rounded-l-2xl" />
               </Box>
             </Box>
 

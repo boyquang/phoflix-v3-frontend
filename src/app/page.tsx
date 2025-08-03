@@ -2,8 +2,8 @@ import ClientWrapper from "@/components/home/ClientWrapper";
 import { Suspense } from "react";
 import Loading from "./loading";
 import { Metadata } from "next";
-import { NEXT_PUBLIC_SITE_URL } from "@/lib/env";
-import { fetchNewlyUpdatedMovies } from "@/lib/actions/movieActionServer";
+import { NEXT_PUBLIC_SITE_URL } from "@/constants/env.contant";
+import { fetchNewlyUpdatedMovies } from "@/lib/actions/movie-server.action";
 import SlideShow from "@/components/home/SlideShow";
 
 export interface PageProps {

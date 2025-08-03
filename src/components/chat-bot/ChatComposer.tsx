@@ -1,11 +1,11 @@
 "use client";
 
-import { completions } from "@/lib/actions/chatBotAction";
+import { completions } from "@/lib/actions/chat-bot.action";
 import { formatTimestamp } from "@/lib/utils";
 import {
   setGroupedChatByDate,
   setLoadingSendQuestion,
-} from "@/store/slices/chatBotSlice";
+} from "@/store/slices/chat-bot.slice";
 import { AppDispatch, RootState } from "@/store/store";
 import { Box, IconButton, Textarea } from "@chakra-ui/react";
 import { useSession } from "next-auth/react";

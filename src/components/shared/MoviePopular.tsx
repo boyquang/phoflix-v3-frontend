@@ -1,7 +1,7 @@
 "use client";
 
 import Image from "@/components/shared/Image";
-import { THEMOVIEDB_IMAGE_URL } from "@/lib/env";
+import { THEMOVIEDB_IMAGE_URL } from "@/constants/env.contant";
 import { formatString } from "@/lib/utils";
 import { RootState } from "@/store/store";
 import Link from "next/link";

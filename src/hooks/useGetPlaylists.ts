@@ -1,6 +1,6 @@
 "use client";
 
-import { getPlaylists } from "@/store/asyncThunks/userAsyncThunk";
+import { getPlaylists } from "@/store/async-thunks/user.thunk";
 import { AppDispatch } from "@/store/store";
 import { useSession } from "next-auth/react";
 import { useEffect } from "react";

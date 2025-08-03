@@ -6,7 +6,7 @@ import LanguageIcon from "./LanguageIcon";
 import {
   setCurrentEpisode,
   setSelectedLanguage,
-} from "@/store/slices/movieSlice";
+} from "@/store/slices/movie.slice";
 import { useParams, useSearchParams } from "next/navigation";
 import { useEffect } from "react";
 

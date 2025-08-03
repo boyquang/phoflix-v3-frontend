@@ -2,7 +2,7 @@
 
 import HoverOutlineWrapper from "@/components/shared/HoverOutlineWrapper";
 import Image from "@/components/shared/Image";
-import { THEMOVIEDB_IMAGE_URL } from "@/lib/env";
+import { THEMOVIEDB_IMAGE_URL } from "@/constants/env.contant";
 import { formatString } from "@/lib/utils";
 import Link from "next/link";
 

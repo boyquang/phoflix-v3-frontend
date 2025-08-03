@@ -11,7 +11,7 @@ import {
 import { useSession } from "next-auth/react";
 import { useEffect, useState, useTransition } from "react";
 import UserAvatar from "./UserAvatar";
-import { updateUserProfile } from "@/lib/actions/userActionClient";
+import { updateUserProfile } from "@/lib/actions/user-client.action";
 import ResetPassword from "./ResetPassword";
 import { handleShowToaster } from "@/lib/utils";
 

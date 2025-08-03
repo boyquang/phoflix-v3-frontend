@@ -4,13 +4,13 @@ import { useRef, useState } from "react";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Navigation } from "swiper/modules";
 import MovieCard from "./MovieCard";
-import SkeletonMovieThumb from "@/components/skeletons/SkeletonMovieThumb";
 import Error from "../shared/Error";
 import { Box } from "@chakra-ui/react";
 import { FaChevronLeft, FaChevronRight } from "react-icons/fa6";
 
 import "swiper/css";
 import "swiper/css/navigation";
+import Loading from "@/app/loading";
 
 interface MovieThumbProps {
   items: Movie[];
@@ -39,8 +39,8 @@ const MovieSwiper = ({
     setIsEnd(swiper.isEnd);
   };
 
-  if (loading) return <SkeletonMovieThumb orientation={orientation} />;
-  if (error) return <Error />;
+  if (loading) return <Loading height="h-36" />;
+  if (error || !items || items?.length === 0) return <Error />;
 
   return (
     <Box className="relative movie-slider">

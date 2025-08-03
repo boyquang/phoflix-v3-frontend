@@ -14,12 +14,13 @@ const ScrollToTopButton = () => {
 
   return (
     <Button
+      size="xs"
       onClick={handleScrollToTop}
-      className={`animate-bounce hover:shadow-[0_5px_10px_10px_rgba(255,255,255,.15)] transition-all duration-300 w-16 h-16 rounded-[25%] bg-white shadow-[0_0_10px_0_rgba(0,0,0,0.2)] text-black flex flex-col justify-center items-center gap-1
+      className={`animate-bounce hover:shadow-[0_5px_10px_10px_rgba(255,255,255,.15)] transition-all duration-300 rounded-md bg-white shadow-[0_0_10px_0_rgba(0,0,0,0.2)] text-black flex justify-center items-center gap-1
         ${lastScrollY > 520 ? "opacity-100" : "opacity-0 pointer-events-none"}`}
     >
       <BsArrowUpShort />
-      <span className="lg:text-xs text-[10px]">Đầu trang</span>
+      <span className="text-xs">Đầu trang</span>
     </Button>
   );
 };

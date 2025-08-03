@@ -1,15 +1,15 @@
 import Loading from "@/app/loading";
-import { getActorDetails } from "@/lib/actions/actorActionServer";
+import { getActorDetails } from "@/lib/actions/actor-server.action";
 import { Metadata } from "next";
 import { Suspense } from "react";
 import { orderBy } from "lodash";
-import { NEXT_PUBLIC_SITE_URL } from "@/lib/env";
+import { NEXT_PUBLIC_SITE_URL } from "@/constants/env.contant";
 import ActorDetail from "@/components/actor/ActorDetail";
 import MoviesByActor from "@/components/actor/MoviesByActor";
 import {
   fetchActorDetail,
   fetchMoviesByActor,
-} from "@/lib/actions/movieActionServer";
+} from "@/lib/actions/movie-server.action";
 import { PageProps } from "@/app/page";
 
 export async function generateMetadata({

@@ -3,8 +3,8 @@
 import useNotification from "@/hooks/useNotification";
 import useSendSocketFeedback from "@/hooks/useSendSocketFeedback";
 import { handleShowToaster } from "@/lib/utils";
-import { addVote } from "@/store/asyncThunks/feedbackAsyncThunk";
-import { showDialogSinInWhenNotLogin } from "@/store/slices/systemSlice";
+import { addVote } from "@/store/async-thunks/feedback.thunk";
+import { showDialogSinInWhenNotLogin } from "@/store/slices/system.slice";
 import { AppDispatch, RootState } from "@/store/store";
 import { Box, Spinner } from "@chakra-ui/react";
 import { useSession } from "next-auth/react";

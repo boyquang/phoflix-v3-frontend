@@ -1,6 +1,6 @@
 "use client";
 
-import { getReplyListFeedback } from "@/store/asyncThunks/feedbackAsyncThunk";
+import { getReplyListFeedback } from "@/store/async-thunks/feedback.thunk";
 import { AppDispatch, RootState } from "@/store/store";
 import { Box } from "@chakra-ui/react";
 import { useState, useTransition } from "react";
@@ -8,7 +8,7 @@ import { IoIosArrowDown, IoIosArrowUp } from "react-icons/io";
 import { useDispatch, useSelector } from "react-redux";
 import ReplyList from "./ReplyList";
 import { useRootFeedback } from "@/hooks/useRootFeedback";
-import { setParentId } from "@/store/slices/feedbackSlice";
+import { setParentId } from "@/store/slices/feedback.slice";
 
 const ReplySection = ({ totalChildren }: ReplySectionProps) => {
   const dispatch: AppDispatch = useDispatch();

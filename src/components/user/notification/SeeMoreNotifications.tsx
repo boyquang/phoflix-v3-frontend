@@ -1,6 +1,6 @@
 "use client";
 
-import { getNotifications } from "@/lib/actions/notificationActionClient";
+import { getNotifications } from "@/lib/actions/notification-client-action";
 import { Span, Spinner } from "@chakra-ui/react";
 import { useSession } from "next-auth/react";
 import { useSearchParams } from "next/navigation";

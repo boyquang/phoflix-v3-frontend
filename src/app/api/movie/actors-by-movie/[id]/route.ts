@@ -1,4 +1,4 @@
-import { NEXTAUTH_SECRET } from "@/lib/env";
+import { NEXTAUTH_SECRET } from "@/constants/env.contant";
 import { fetcher, REVALIDATE_TIME } from "@/lib/fetcher";
 import { NextRequest, NextResponse } from "next/server";
 

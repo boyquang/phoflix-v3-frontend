@@ -3,7 +3,7 @@
 import AlertDialog from "@/components/shared/AlertDialog";
 import EventDialog from "./EventDialog";
 import { useState } from "react";
-import { deleteEvent } from "@/lib/actions/eventAction";
+import { deleteEvent } from "@/lib/actions/event.action";
 import { useRouter } from "next/navigation";
 import useNotification from "@/hooks/useNotification";
 import IconButtonAction from "@/components/shared/IconButtonAction";

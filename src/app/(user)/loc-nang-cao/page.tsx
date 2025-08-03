@@ -5,8 +5,8 @@ import RootLayout from "@/components/layout/RootLayout";
 import EmptyData from "@/components/shared/EmptyData";
 import MovieGrid from "@/components/shared/MovieGrid";
 import PaginationCustom from "@/components/shared/PaginationCustom";
-import { fetchAdvanceFilterMovies } from "@/lib/actions/movieActionServer";
-import { NEXT_PUBLIC_SITE_URL } from "@/lib/env";
+import { fetchAdvanceFilterMovies } from "@/lib/actions/movie-server.action";
+import { NEXT_PUBLIC_SITE_URL } from "@/constants/env.contant";
 import { Metadata } from "next";
 import { Suspense } from "react";
 import { IoSearch } from "react-icons/io5";
@@ -74,7 +74,7 @@ const Page = async ({ params, searchParams }: PageProps) => {
     <Suspense fallback={<Loading type="text" />}>
       <RootLayout>
         <div className="lg:pt-28 pt-24">
-          <h3 className="inline-block title-text font-bold xl:text-3xl lg:text-2xl text-xl">
+          <h3 className="inline-block text-gradient-primary font-bold xl:text-3xl lg:text-2xl text-xl">
             Lọc nâng cao
           </h3>
 

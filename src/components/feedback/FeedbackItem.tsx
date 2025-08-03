@@ -14,6 +14,7 @@ import StatusTag from "../shared/StatusTag";
 import "@/assets/css/animation.css";
 import EditFeedback from "./EditFeedback";
 import useScrollToFeedbackCid from "@/hooks/useScrollToFeedbackCid";
+import { anonymousAvatar } from "@/constants/image.contant";
 
 const FeedbackItem = ({ feedback }: FeedbackItemProps) => {
   const { cid } = useScrollToFeedbackCid({ id: feedback?._id });
@@ -26,10 +27,10 @@ const FeedbackItem = ({ feedback }: FeedbackItemProps) => {
 
   // Kiểm tra người dùng có phải là ẩn danh hay không
   const isAnonymous = Number(feedback?.is_anonymous) === 1;
-  const name = isAnonymous ? "Người đăng ẩn danh" : feedback?.author?.name;
-  const avatar = isAnonymous
-    ? "/images/anonymous.jpg"
-    : feedback?.author?.avatar;
+  const name = isAnonymous ? "Ẩn danh" : feedback?.author?.name;
+  const avatar = isAnonymous ? anonymousAvatar : feedback?.author?.avatar;
+
+  const showAdminInfo = feedback?.author?.role === "admin" && !isAnonymous;
 
   return (
     <Box
@@ -51,8 +52,15 @@ const FeedbackItem = ({ feedback }: FeedbackItemProps) => {
           )}
 
           <Box className="text-xs flex gap-2 items-center">
-            {feedback?.author?.role === "admin" && <StatusTag text="ADMIN" />}
-            <span className="text-gray-50 break-all">{name}</span>
+            {showAdminInfo && <StatusTag text="ADMIN" />}
+
+            <span
+              className={`${
+                showAdminInfo ? "text-gradient-primary font-bold" : "text-white"
+              } break-words`}
+            >
+              {name}
+            </span>
             <GenderIcon gender={feedback?.author?.gender} />
           </Box>
 

@@ -1,5 +1,5 @@
-import { categories, countries } from "@/constants/movie";
-import { NEXT_PUBLIC_SITE_URL } from "@/lib/env";
+import { categories, countries } from "@/constants/movie.contant";
+import { NEXT_PUBLIC_SITE_URL } from "@/constants/env.contant";
 import { NextResponse } from "next/server";
 
 export async function GET() {
