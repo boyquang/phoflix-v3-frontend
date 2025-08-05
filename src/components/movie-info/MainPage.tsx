@@ -79,7 +79,6 @@ const MainPage = () => {
               <MovieDetail data={movie} />
             </GridItem>
             <GridItem
-              className="movie-main"
               colSpan={{ base: 12, md: 12, lg: 12, xl: 8 }}
             >
               <MovieMain />

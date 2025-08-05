@@ -27,7 +27,7 @@ const ActorsList = ({
   if (!items || items?.length === 0) {
     return (
       <EmptyData
-        className={`mx-auto max-w-2xl h-48 bg-[#0003] rounded-2xl ${classNameEmpty}`}
+        className={`h-48 bg-[#0003] rounded-2xl ${classNameEmpty}`}
         icon={<FaUsers />}
         title="Đang cập nhật"
         description="Hiện chưa có dữ liệu về diễn viên. Vui lòng quay lại sau nhé!"
@@ -42,12 +42,7 @@ const ActorsList = ({
       )}
       <div className={`${classNameGrids}`}>
         {items?.map((item, index: number) => (
-          <Link
-            key={index}
-            href={`/dien-vien/${item?.id}?name=${decodeHtmlEntities(
-              item?.name
-            )}`}
-          >
+          <Link key={index} href={`/dien-vien/${item?.id}`}>
             <div className="relative group transition-all hover:-translate-y-2">
               <HoverOutlineWrapper rounded="lg" ringSize="2">
                 <div className="h-0 relative pt-[150%]">

@@ -1,5 +1,4 @@
 import Loading from "@/app/loading";
-import { getActorDetails } from "@/lib/actions/actor-server.action";
 import { Metadata } from "next";
 import { Suspense } from "react";
 import { orderBy } from "lodash";

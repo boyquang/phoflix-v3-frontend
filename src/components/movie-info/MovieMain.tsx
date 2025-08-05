@@ -39,7 +39,7 @@ const MovieMain = () => {
               </Button>
             </Link>
           )}
-          <Box className="flex justify-between gap-6 flex-1 items-center xs:w-auto w-full">
+          <Box className="flex justify-between sm:gap-6 gap-4 flex-1 items-center xs:w-auto w-full">
             <Box className="flex xs:gap-3 gap-2">
               <FavoriteButton placement="vertical" />
               <PopoverPlaylist placement="vertical" />

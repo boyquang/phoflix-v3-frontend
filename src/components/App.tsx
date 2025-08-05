@@ -108,11 +108,8 @@ const App = ({ children }: { children: React.ReactNode }) => {
 
       <Box className="focus-backdrop" />
 
-      <div className="fixed left-1/2 bottom-4 -translate-x-1/2 z-[99]">
+      <div className="fixed z-[99] flex flex-col gap-4 right-4 bottom-4">
         <ScrollToTopButton />
-      </div>
-
-      <div className="fixed z-[99] right-4 bottom-4">
         <ChatBotDialog />
       </div>
     </Box>

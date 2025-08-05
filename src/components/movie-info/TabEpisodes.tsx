@@ -34,8 +34,7 @@ const TabEpisodes = () => {
           }}
           redirect
           showToaster={false}
-          isScroll
-          elementScrollName="movie-main"
+          isScroll={false}
         />
       )}
     </>

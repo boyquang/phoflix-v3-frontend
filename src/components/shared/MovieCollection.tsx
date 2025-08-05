@@ -7,6 +7,7 @@ import MovieSwiper from "./MovieSwiper";
 import { colorGradientsToWhite } from "@/constants/color.contant";
 import Link from "next/link";
 import { RiArrowRightWideLine } from "react-icons/ri";
+import Loading from "@/app/loading";
 
 interface MovieCollectionProps {
   title: string;

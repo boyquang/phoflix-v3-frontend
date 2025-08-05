@@ -27,6 +27,7 @@ const initialState: MovieSlice = {
   movieData: {
     data: {},
     fetched: false,
+    quantityFetched: 0,
   },
   searchMoviePreview: {
     items: [],
@@ -106,6 +107,9 @@ const movieSlice = createSlice({
     },
     setFetchedMovieDetail: (state, action) => {
       state.movieDetail.fetched = action.payload;
+    },
+    setQuantityFetched: (state, action) => {
+      state.movieData.quantityFetched = action.payload;
     },
     setFilterActor: (state, action) => {
       state.actorDetail.filter = action.payload;
@@ -399,6 +403,7 @@ export const {
   setFetchedMovieDataHomePage,
   setFetchedMovieDetail,
   setFilterActor,
+  setQuantityFetched,
   setFetchedMovieEvent,
   setDataMovieInfo,
 } = movieSlice.actions;

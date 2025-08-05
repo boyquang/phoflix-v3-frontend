@@ -125,6 +125,7 @@ type MovieSlice = {
   movieData: {
     data: Record<string, Movies>;
     fetched: boolean;
+    quantityFetched: number;
   };
   actorsListByMovie: {
     items: Actor[];

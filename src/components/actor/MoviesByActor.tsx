@@ -5,6 +5,8 @@ import { useDispatch, useSelector } from "react-redux";
 import ActorMovieAll from "./ActorMoviesAll";
 import ActorMoviesTime from "./ActorMoviesTime";
 import { setFilterActor } from "@/store/slices/movie.slice";
+import EmptyData from "../shared/EmptyData";
+import { RiMovieFill } from "react-icons/ri";
 
 interface MoviesByActorProps {
   data: MoviesByActor[];
@@ -48,10 +50,21 @@ const MoviesByActor = ({ data }: MoviesByActorProps) => {
         </div>
       </div>
 
-      {filter === "all" ? (
-        <ActorMovieAll data={data} />
+      {!data || data?.length === 0 ? (
+        <EmptyData
+          className="h-48 bg-[#0003] rounded-2xl"
+          icon={<RiMovieFill />}
+          title="Đang cập nhật"
+          description="Danh sách phim hiện tại chưa có dữ liệu."
+        />
       ) : (
-        <ActorMoviesTime data={data} />
+        <>
+          {filter === "all" ? (
+            <ActorMovieAll data={data} />
+          ) : (
+            <ActorMoviesTime data={data} />
+          )}
+        </>
       )}
     </div>
   );

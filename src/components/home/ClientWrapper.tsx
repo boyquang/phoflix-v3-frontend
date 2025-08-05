@@ -14,20 +14,29 @@ import EventContainer from "@/components/event/EventContainer";
 import RootLayout from "@/components/layout/RootLayout";
 import Loading from "@/app/loading";
 import MovieSection from "@/components/shared/MovieSection";
-import { setFetchedMovieDataHomePage } from "@/store/slices/movie.slice";
+import {
+  setFetchedMovieDataHomePage,
+  setQuantityFetched,
+} from "@/store/slices/movie.slice";
 
 const ClientWrapper = () => {
   const dispatch: AppDispatch = useDispatch();
-  const { data, fetched } = useSelector(
+  const { data, fetched, quantityFetched } = useSelector(
     (state: RootState) => state.movie.movieData
   );
   const scrollableDivRef = useRef<HTMLDivElement | null>(null);
   const hasFetchedMoreData = useRef(false);
   const quantityFetchedData = useRef(quantitySectionMovie);
   const [loadingMoreData, setLoadingMoreData] = useState(false);
+  const [loadingInitData, setLoadingInitData] = useState(true);
 
   useEffect(() => {
     const handleScroll = () => {
+      if (quantityFetched === initialMovieConfig.length) {
+        window.removeEventListener("scroll", handleScroll);
+        return;
+      }
+
       // kiểm tra đã fetch dữ liệu chưa
       if (scrollableDivRef.current && !hasFetchedMoreData.current) {
         const rect = scrollableDivRef.current.getBoundingClientRect();
@@ -39,6 +48,7 @@ const ClientWrapper = () => {
             fetchMoreData();
             hasFetchedMoreData.current = true;
           } else {
+            dispatch(setQuantityFetched(quantityFetchedData.current));
             dispatch(setFetchedMovieDataHomePage(true));
 
             // nếu đã fetch hết dữ liệu thì xóa sự kiện scroll
@@ -53,9 +63,41 @@ const ClientWrapper = () => {
   }, []);
 
   useEffect(() => {
-    const fetchInitialData = async () => {
+    try {
+      const fetchInitialData = async () => {
+        const fetchPromises = initialMovieConfig
+          .slice(0, quantitySectionMovie)
+          .map((configItem) =>
+            dispatch(
+              fetchDataMovie({
+                type: configItem.type,
+                describe: configItem.describe,
+              })
+            )
+          );
+
+        setLoadingInitData(true);
+        await Promise.all([...fetchPromises]);
+
+        dispatch(setFetchedMovieDataHomePage(true));
+      };
+
+      if (!fetched) {
+        fetchInitialData();
+      }
+    } catch (error) {
+    } finally {
+      setLoadingInitData(false);
+    }
+  }, [dispatch]);
+
+  const fetchMoreData = async () => {
+    try {
+      const start = quantityFetchedData.current;
+      const end = start + quantitySectionMovie;
+
       const fetchPromises = initialMovieConfig
-        .slice(0, quantitySectionMovie)
+        .slice(start, end)
         .map((configItem) =>
           dispatch(
             fetchDataMovie({
@@ -65,42 +107,23 @@ const ClientWrapper = () => {
           )
         );
 
-      await Promise.all([...fetchPromises]);
+      setLoadingMoreData(true);
+      await Promise.all(fetchPromises);
 
-      dispatch(setFetchedMovieDataHomePage(true));
-    };
-
-    if (!fetched) {
-      fetchInitialData();
+      quantityFetchedData.current = end;
+      hasFetchedMoreData.current = false;
+    } catch (error) {
+    } finally {
+      setLoadingMoreData(false);
     }
-  }, [dispatch]);
-
-  const fetchMoreData = async () => {
-    const start = quantityFetchedData.current;
-    const end = start + quantitySectionMovie;
-
-    const fetchPromises = initialMovieConfig
-      .slice(start, end)
-      .map((configItem) =>
-        dispatch(
-          fetchDataMovie({
-            type: configItem.type,
-            describe: configItem.describe,
-          })
-        )
-      );
-
-    setLoadingMoreData(true);
-    await Promise.all(fetchPromises);
-    setLoadingMoreData(false);
-
-    quantityFetchedData.current = end;
-    hasFetchedMoreData.current = false;
   };
 
   // Lọc và hiển thị dữ liệu đã hoàn thành
   const finalData = initialMovieConfig
-    .filter((configItem) => data[configItem.type])
+    // Lấy ra những data đã tải xong
+    .filter(
+      (configItem) => data[configItem.type] && !data[configItem.type].loading
+    )
     .map((configItem) => ({
       title: configItem.title,
       link: `/chi-tiet/${configItem.describe}/${configItem.type}`,
@@ -120,15 +143,21 @@ const ClientWrapper = () => {
         <Box className="2xl:mx-0 -mx-4">
           <Box className="flex flex-col gap-12 overflow-hidden">
             <Box className="rounded-2xl bg-gradient-to-b from-[#282b3a] via-20% via-transparent">
-              <MovieSection finalData={finalData} />
+              {!loadingInitData ? (
+                <MovieSection finalData={finalData} />
+              ) : (
+                <Box className="min-h-screen flex items-center justify-center">
+                  <Loading type="bars" height="h-1/4" />
+                </Box>
+              )}
             </Box>
           </Box>
-          <Box className="h-1 mt-10" ref={scrollableDivRef} />
           {loadingMoreData && (
             <Box className="h-64 flex items-center justify-center">
               <Loading type="bars" height="h-1/2" />
             </Box>
           )}
+          <Box className="h-1 mt-10" ref={scrollableDivRef} />
         </Box>
       </RootLayout>
     </Box>
