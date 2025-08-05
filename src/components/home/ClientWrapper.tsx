@@ -125,11 +125,13 @@ const ClientWrapper = () => {
       (configItem) => data[configItem.type] && !data[configItem.type].loading
     )
     .map((configItem) => ({
+      index: configItem.index,
       title: configItem.title,
       link: `/chi-tiet/${configItem.describe}/${configItem.type}`,
       data: data[configItem.type],
       orientation: configItem.orientation,
-    }));
+    }))
+    .sort((a, b) => a.index - b.index);
 
   if (finalData?.length === 0) return <Box className="min-h-screen" />;
 

@@ -9,6 +9,7 @@ export const quantitySectionMovie = 3;
 export const initShowMovieSSR = 3;
 
 export interface MovieConfigItem {
+  index: number;
   title: string;
   link: string;
   type:
@@ -27,6 +28,7 @@ export interface MovieConfigItem {
 
 const CountriesConfig: MovieConfigItem[] = [
   {
+    index: 0,
     title: "Phim Việt Nam",
     link: "/chi-tiet/quoc-gia/viet-nam",
     type: "viet-nam",
@@ -34,6 +36,7 @@ const CountriesConfig: MovieConfigItem[] = [
     orientation: "horizontal",
   },
   {
+    index: 1,
     title: "Phim Trung Quốc",
     link: "/chi-tiet/quoc-gia/trung-quoc",
     type: "trung-quoc",
@@ -41,6 +44,7 @@ const CountriesConfig: MovieConfigItem[] = [
     orientation: "horizontal",
   },
   {
+    index: 2,
     title: "Phim Hàn Quốc",
     link: "/chi-tiet/quoc-gia/han-quoc",
     type: "han-quoc",
@@ -48,6 +52,7 @@ const CountriesConfig: MovieConfigItem[] = [
     orientation: "horizontal",
   },
   // {
+  //   index: 3,
   //   title: "Siêu phẩm Thái Lan",
   //   link: "/chi-tiet/quoc-gia/thai-lan",
   //   type: "thai-lan",
@@ -55,6 +60,7 @@ const CountriesConfig: MovieConfigItem[] = [
   //   orientation: "horizontal",
   // },
   // {
+  //   index: 4,
   //   title: "Huyền thoại Hồng Kông",
   //   link: "/chi-tiet/quoc-gia/hong-kong",
   //   type: "hong-kong",
@@ -62,6 +68,7 @@ const CountriesConfig: MovieConfigItem[] = [
   //   orientation: "horizontal",
   // },
   // {
+  //   index: 5,
   //   title: "Tuyệt tác điện ảnh Pháp",
   //   link: "/chi-tiet/quoc-gia/phap",
   //   type: "phap",
@@ -69,6 +76,7 @@ const CountriesConfig: MovieConfigItem[] = [
   //   orientation: "horizontal",
   // },
   // {
+  //   index: 6,
   //   title: "Điện ảnh Đức đỉnh cao",
   //   link: "/chi-tiet/quoc-gia/duc",
   //   type: "duc",
@@ -76,6 +84,7 @@ const CountriesConfig: MovieConfigItem[] = [
   //   orientation: "horizontal",
   // },
   // {
+  //   index: 7,
   //   title: "Phim Hà Lan đầy sáng tạo",
   //   link: "/chi-tiet/quoc-gia/ha-lan",
   //   type: "ha-lan",
@@ -83,6 +92,7 @@ const CountriesConfig: MovieConfigItem[] = [
   //   orientation: "horizontal",
   // },
   // {
+  //   index: 8,
   //   title: "Tinh hoa Mexico",
   //   link: "/chi-tiet/quoc-gia/mexico",
   //   type: "mexico",
@@ -90,6 +100,7 @@ const CountriesConfig: MovieConfigItem[] = [
   //   orientation: "horizontal",
   // },
   // {
+  //   index: 9,
   //   title: "Phim Thụy Điển độc đáo",
   //   link: "/chi-tiet/quoc-gia/thuy-dien",
   //   type: "thuy-dien",
@@ -97,6 +108,7 @@ const CountriesConfig: MovieConfigItem[] = [
   //   orientation: "horizontal",
   // },
   // {
+  //   index: 10,
   //   title: "Điện ảnh Philippines mãn nhãn",
   //   link: "/chi-tiet/quoc-gia/philippines",
   //   type: "philippines",
@@ -104,6 +116,7 @@ const CountriesConfig: MovieConfigItem[] = [
   //   orientation: "horizontal",
   // },
   // {
+  //   index: 11,
   //   title: "Siêu phẩm Đan Mạch",
   //   link: "/chi-tiet/quoc-gia/dan-mach",
   //   type: "dan-mach",
@@ -111,6 +124,7 @@ const CountriesConfig: MovieConfigItem[] = [
   //   orientation: "horizontal",
   // },
   // {
+  //   index: 12,
   //   title: "Tuyệt tác Thụy Sĩ",
   //   link: "/chi-tiet/quoc-gia/thuy-si",
   //   type: "thuy-si",
@@ -118,6 +132,7 @@ const CountriesConfig: MovieConfigItem[] = [
   //   orientation: "horizontal",
   // },
   // {
+  //   index: 13,
   //   title: "Điện ảnh Ukraina bùng nổ",
   //   link: "/chi-tiet/quoc-gia/ukraina",
   //   type: "ukraina",
@@ -125,6 +140,7 @@ const CountriesConfig: MovieConfigItem[] = [
   //   orientation: "horizontal",
   // },
   // {
+  //   index: 14,
   //   title: "Tuyệt tác Âu - Mỹ",
   //   link: "/chi-tiet/quoc-gia/au-my",
   //   type: "au-my",
@@ -132,6 +148,7 @@ const CountriesConfig: MovieConfigItem[] = [
   //   orientation: "horizontal",
   // },
   // {
+  //   index: 15,
   //   title: "Điện ảnh Ấn Độ hoành tráng",
   //   link: "/chi-tiet/quoc-gia/an-do",
   //   type: "an-do",
@@ -139,6 +156,7 @@ const CountriesConfig: MovieConfigItem[] = [
   //   orientation: "horizontal",
   // },
   // {
+  //   index: 16,
   //   title: "Phim Canada ấn tượng",
   //   link: "/chi-tiet/quoc-gia/canada",
   //   type: "canada",
@@ -146,6 +164,7 @@ const CountriesConfig: MovieConfigItem[] = [
   //   orientation: "horizontal",
   // },
   // {
+  //   index: 17,
   //   title: "Điện ảnh Tây Ban Nha",
   //   link: "/chi-tiet/quoc-gia/tay-ban-nha",
   //   type: "tay-ban-nha",
@@ -153,6 +172,7 @@ const CountriesConfig: MovieConfigItem[] = [
   //   orientation: "horizontal",
   // },
   // {
+  //   index: 18,
   //   title: "Siêu phẩm Indonesia",
   //   link: "/chi-tiet/quoc-gia/indonesia",
   //   type: "indonesia",
@@ -160,6 +180,7 @@ const CountriesConfig: MovieConfigItem[] = [
   //   orientation: "horizontal",
   // },
   // {
+  //   index: 19,
   //   title: "Điện ảnh Ba Lan",
   //   link: "/chi-tiet/quoc-gia/ba-lan",
   //   type: "ba-lan",
@@ -167,6 +188,7 @@ const CountriesConfig: MovieConfigItem[] = [
   //   orientation: "horizontal",
   // },
   // {
+  //   index: 20,
   //   title: "Phim Malaysia đặc sắc",
   //   link: "/chi-tiet/quoc-gia/malaysia",
   //   type: "malaysia",
@@ -174,6 +196,7 @@ const CountriesConfig: MovieConfigItem[] = [
   //   orientation: "horizontal",
   // },
   // {
+  //   index: 21,
   //   title: "Huyền thoại Bồ Đào Nha",
   //   link: "/chi-tiet/quoc-gia/bo-dao-nha",
   //   type: "bo-dao-nha",
@@ -181,6 +204,7 @@ const CountriesConfig: MovieConfigItem[] = [
   //   orientation: "horizontal",
   // },
   // {
+  //   index: 22,
   //   title: "Điện ảnh UAE",
   //   link: "/chi-tiet/quoc-gia/uae",
   //   type: "uae",
@@ -188,6 +212,7 @@ const CountriesConfig: MovieConfigItem[] = [
   //   orientation: "horizontal",
   // },
   // {
+  //   index: 23,
   //   title: "Phim châu Phi độc đáo",
   //   link: "/chi-tiet/quoc-gia/chau-phi",
   //   type: "chau-phi",
@@ -195,6 +220,7 @@ const CountriesConfig: MovieConfigItem[] = [
   //   orientation: "horizontal",
   // },
   // {
+  //   index: 24,
   //   title: "Siêu phẩm Ả Rập Xê Út",
   //   link: "/chi-tiet/quoc-gia/a-rap-xe-ut",
   //   type: "a-rap-xe-ut",
@@ -202,6 +228,7 @@ const CountriesConfig: MovieConfigItem[] = [
   //   orientation: "horizontal",
   // },
   // {
+  //   index: 25,
   //   title: "Điện ảnh Nhật Bản",
   //   link: "/chi-tiet/quoc-gia/nhat-ban",
   //   type: "nhat-ban",
@@ -209,6 +236,7 @@ const CountriesConfig: MovieConfigItem[] = [
   //   orientation: "horizontal",
   // },
   // {
+  //   index: 26,
   //   title: "Phim Đài Loan hấp dẫn",
   //   link: "/chi-tiet/quoc-gia/dai-loan",
   //   type: "dai-loan",
@@ -216,6 +244,7 @@ const CountriesConfig: MovieConfigItem[] = [
   //   orientation: "horizontal",
   // },
   // {
+  //   index: 27,
   //   title: "Điện ảnh Anh quốc",
   //   link: "/chi-tiet/quoc-gia/anh",
   //   type: "anh",
@@ -223,6 +252,7 @@ const CountriesConfig: MovieConfigItem[] = [
   //   orientation: "horizontal",
   // },
   // {
+  //   index: 28,
   //   title: "Siêu phẩm từ nhiều quốc gia",
   //   link: "/chi-tiet/quoc-gia/quoc-gia-khac",
   //   type: "quoc-gia-khac",
@@ -230,6 +260,7 @@ const CountriesConfig: MovieConfigItem[] = [
   //   orientation: "horizontal",
   // },
   // {
+  //   index: 29,
   //   title: "Phim Thổ Nhĩ Kỳ đặc sắc",
   //   link: "/chi-tiet/quoc-gia/tho-nhi-ky",
   //   type: "tho-nhi-ky",
@@ -237,6 +268,7 @@ const CountriesConfig: MovieConfigItem[] = [
   //   orientation: "horizontal",
   // },
   // {
+  //   index: 30,
   //   title: "Điện ảnh Nga",
   //   link: "/chi-tiet/quoc-gia/nga",
   //   type: "nga",
@@ -244,6 +276,7 @@ const CountriesConfig: MovieConfigItem[] = [
   //   orientation: "horizontal",
   // },
   // {
+  //   index: 31,
   //   title: "Phim Úc cực hay",
   //   link: "/chi-tiet/quoc-gia/uc",
   //   type: "uc",
@@ -251,6 +284,7 @@ const CountriesConfig: MovieConfigItem[] = [
   //   orientation: "horizontal",
   // },
   // {
+  //   index: 32,
   //   title: "Điện ảnh Brazil",
   //   link: "/chi-tiet/quoc-gia/brazil",
   //   type: "brazil",
@@ -258,6 +292,7 @@ const CountriesConfig: MovieConfigItem[] = [
   //   orientation: "horizontal",
   // },
   // {
+  //   index: 33,
   //   title: "Huyền thoại điện ảnh Ý",
   //   link: "/chi-tiet/quoc-gia/y",
   //   type: "y",
@@ -265,6 +300,7 @@ const CountriesConfig: MovieConfigItem[] = [
   //   orientation: "horizontal",
   // },
   // {
+  //   index: 34,
   //   title: "Phim Na Uy đầy cảm xúc",
   //   link: "/chi-tiet/quoc-gia/na-uy",
   //   type: "na-uy",
@@ -275,6 +311,7 @@ const CountriesConfig: MovieConfigItem[] = [
 
 const CategoriesConfig: MovieConfigItem[] = [
   {
+    index: 35,
     title: "Hành động đỉnh cao",
     link: "/chi-tiet/the-loai/hanh-dong",
     type: "hanh-dong",
@@ -282,6 +319,7 @@ const CategoriesConfig: MovieConfigItem[] = [
     orientation: "vertical",
   },
   {
+    index: 36,
     title: "Rùng rợn đến tột cùng",
     link: "/chi-tiet/the-loai/kinh-di",
     type: "kinh-di",
@@ -289,6 +327,7 @@ const CategoriesConfig: MovieConfigItem[] = [
     orientation: "horizontal",
   },
   {
+    index: 37,
     title: "Cảm xúc dâng trào",
     link: "/chi-tiet/the-loai/tinh-cam",
     type: "tinh-cam",
@@ -296,6 +335,7 @@ const CategoriesConfig: MovieConfigItem[] = [
     orientation: "vertical",
   },
   {
+    index: 38,
     title: "Khoảnh khắc gia đình",
     link: "/chi-tiet/the-loai/gia-dinh",
     type: "gia-dinh",
@@ -303,6 +343,7 @@ const CategoriesConfig: MovieConfigItem[] = [
     orientation: "horizontal",
   },
   {
+    index: 39,
     title: "Cổ trang kinh điển",
     link: "/chi-tiet/the-loai/co-trang",
     type: "co-trang",
@@ -310,6 +351,7 @@ const CategoriesConfig: MovieConfigItem[] = [
     orientation: "vertical",
   },
   {
+    index: 40,
     title: "Khoa học viễn tưởng",
     link: "/chi-tiet/the-loai/vien-tuong",
     type: "vien-tuong",
@@ -317,6 +359,7 @@ const CategoriesConfig: MovieConfigItem[] = [
     orientation: "horizontal",
   },
   {
+    index: 41,
     title: "Phiêu lưu kỳ thú",
     link: "/chi-tiet/the-loai/phieu-luu",
     type: "phieu-luu",
@@ -324,6 +367,7 @@ const CategoriesConfig: MovieConfigItem[] = [
     orientation: "vertical",
   },
   {
+    index: 42,
     title: "Cười không nhặt được mồm",
     link: "/chi-tiet/the-loai/hai-huoc",
     type: "hai-huoc",
@@ -331,97 +375,111 @@ const CategoriesConfig: MovieConfigItem[] = [
     orientation: "horizontal",
   },
   {
+    index: 43,
     title: "Nhạc là chân ái",
     link: "/chi-tiet/the-loai/am-nhac",
     type: "am-nhac",
     describe: "the-loai",
-    orientation: "horizontal",
+    orientation: "vertical",
   },
   {
+    index: 44,
     title: "Bí ẩn đầy kịch tính",
     link: "/chi-tiet/the-loai/bi-an",
     type: "bi-an",
     describe: "the-loai",
-    orientation: "vertical",
+    orientation: "horizontal",
   },
   {
+    index: 45,
     title: "Chiến tranh khốc liệt",
     link: "/chi-tiet/the-loai/chien-tranh",
     type: "chien-tranh",
     describe: "the-loai",
-    orientation: "horizontal",
+    orientation: "vertical",
   },
   {
+    index: 46,
     title: "Drama học đường",
     link: "/chi-tiet/the-loai/hoc-duong",
     type: "hoc-duong",
     describe: "the-loai",
-    orientation: "vertical",
+    orientation: "horizontal",
   },
   {
+    index: 47,
     title: "Thần thoại huyền bí",
     link: "/chi-tiet/the-loai/than-thoai",
     type: "than-thoai",
     describe: "the-loai",
-    orientation: "horizontal",
+    orientation: "vertical",
   },
   {
+    index: 48,
     title: "Hình sự gay cấn",
     link: "/chi-tiet/the-loai/hinh-su",
     type: "hinh-su",
     describe: "the-loai",
-    orientation: "vertical",
+    orientation: "horizontal",
   },
   {
+    index: 49,
     title: "Khoa học kỳ thú",
     link: "/chi-tiet/the-loai/khoa-hoc",
     type: "khoa-hoc",
     describe: "the-loai",
-    orientation: "horizontal",
+    orientation: "vertical",
   },
   {
+    index: 50,
     title: "Chính kịch cuốn hút",
     link: "/chi-tiet/the-loai/chinh-kich",
     type: "chinh-kich",
     describe: "the-loai",
-    orientation: "vertical",
+    orientation: "horizontal",
   },
   {
+    index: 51,
     title: "Tài liệu khám phá",
     link: "/chi-tiet/the-loai/tai-lieu",
     type: "tai-lieu",
     describe: "the-loai",
-    orientation: "horizontal",
+    orientation: "vertical",
   },
   {
+    index: 52,
     title: "Võ thuật mãn nhãn",
     link: "/chi-tiet/the-loai/vo-thuat",
     type: "vo-thuat",
     describe: "the-loai",
-    orientation: "vertical",
+    orientation: "horizontal",
   },
   {
+    index: 53,
     title: "Tâm lý sâu sắc",
     link: "/chi-tiet/the-loai/tam-ly",
     type: "tam-ly",
     describe: "the-loai",
-    orientation: "horizontal",
+    orientation: "vertical",
   },
   {
+    index: 54,
     title: "Lịch sử hào hùng",
     link: "/chi-tiet/the-loai/lich-su",
     type: "lich-su",
     describe: "the-loai",
-    orientation: "vertical",
+    orientation: "horizontal",
   },
   {
+    index: 55,
     title: "Kinh điển bất hủ",
     link: "/chi-tiet/the-loai/kinh-dien",
     type: "kinh-dien",
     describe: "the-loai",
-    orientation: "horizontal",
+    orientation: "vertical",
   },
   // {
+  //   index: 56,
   //   title: "Giải trí người lớn 18+",
   //   link: "/chi-tiet/the-loai/phim-18",
   //   type: "phim-18",

@@ -2,7 +2,7 @@
 
 import { useRef, useState } from "react";
 import { Swiper, SwiperSlide } from "swiper/react";
-import { Navigation } from "swiper/modules";
+import { Autoplay, Navigation } from "swiper/modules";
 import MovieCard from "./MovieCard";
 import Error from "../shared/Error";
 import { Box } from "@chakra-ui/react";
@@ -71,11 +71,15 @@ const MovieSwiper = ({
       <Swiper
         onSwiper={handleSlideChange}
         onSlideChange={handleSlideChange}
-        modules={[Navigation]}
+        modules={[Navigation, Autoplay]}
         navigation={{
           prevEl: prevRef.current,
           nextEl: nextRef.current,
         }}
+        grabCursor={true}
+        speed={500}
+        touchRatio={1.5}
+        lazyPreloadPrevNext={1}
         onBeforeInit={(swiper) => {
           const navigation = swiper.params.navigation as {
             prevEl?: HTMLElement | null;
@@ -85,29 +89,41 @@ const MovieSwiper = ({
           navigation.prevEl = prevRef.current;
           navigation.nextEl = nextRef.current;
         }}
+        key={orientation}
+        autoplay={{
+          delay: 5000,
+          disableOnInteraction: false,
+          pauseOnMouseEnter: true,
+        }}
         breakpoints={{
           320: {
+            // slidesPerView: 2,
             slidesPerView: orientation === "horizontal" ? 2 : 3,
             spaceBetween: 8,
           },
           768: {
+            // slidesPerView: 3,
             slidesPerView: orientation === "horizontal" ? 3 : 4,
             spaceBetween: 8,
           },
           1024: {
+            // slidesPerView: 4,
             slidesPerView: orientation === "horizontal" ? 3 : 4,
             spaceBetween: 8,
           },
           1280: {
+            // slidesPerView: 6,
             slidesPerView: orientation === "horizontal" ? 4 : 5,
             spaceBetween: 12,
           },
           1440: {
+            // slidesPerView: 6,
             slidesPerView: orientation === "horizontal" ? 5 : 6,
             spaceBetween: 16,
           },
           1920: {
-            slidesPerView: orientation === "horizontal" ? 6 : 8,
+            slidesPerView: orientation === "horizontal" ? 6 : 7,
+            // slidesPerView: 8,
             spaceBetween: 18,
           },
         }}

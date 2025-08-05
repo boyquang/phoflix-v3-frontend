@@ -22,6 +22,9 @@ const TopicCards = () => {
         </h4>
         <Box className="relative topic-cards">
           <Swiper
+            grabCursor={true}
+            speed={500}
+            touchRatio={1.5}
             breakpoints={{
               320: {
                 slidesPerView: 2,

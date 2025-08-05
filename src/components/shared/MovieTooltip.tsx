@@ -29,13 +29,13 @@ const MovieTooltip = ({ data, position }: MovieTooltipProps) => {
         width: position.width,
         minHeight: position.height,
       }}
-      className="bg-[#2f3346] rounded-xl shadow-lg text-white absolute overflow-hidden tooltip-animation z-50"
+      className="bg-[#2f3346] rounded-lg shadow-lg text-white absolute overflow-hidden tooltip-animation z-50"
     >
       <div className="relative h-52">
         <Image
           src={generateUrlImage(data?.thumb_url)}
           alt={data?.name}
-          className="rounded-xl"
+          className="rounded-lg"
         />
         <div className="bg-gradient-to-t h-1/2 absolute bottom-0 from-[#2f3346] inset-x-0 to-transparent"></div>
       </div>
