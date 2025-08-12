@@ -83,6 +83,9 @@ const TableUsers = ({ items, offset }: TableUsersProps) => {
       status,
       accessToken: sesstion?.user?.accessToken as string,
     });
+
+    console.log("Response change status user", response);
+
     setUserId(null);
 
     if (response?.status) {

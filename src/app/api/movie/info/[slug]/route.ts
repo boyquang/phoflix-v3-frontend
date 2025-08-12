@@ -12,6 +12,8 @@ export async function GET(
   { params }: { params: Promise<MovieInfoParams> }
 ) {
   try {
+    console.log("API_URL:", API_URL);
+
     const { slug } = await params;
     const response = await fetcher(`${API_URL}/phim/${slug}`, {
       next: {
