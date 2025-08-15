@@ -96,6 +96,13 @@ body.repose-user {
   -webkit-text-fill-color: transparent;
 }
 
+.text-gradient {
+    -webkit-background-clip: text!important;
+    background-clip: text!important;
+    -webkit-text-fill-color: transparent!important;
+    text-fill-color: transparent!important;
+}
+
 .border-gradient-primary {
   background: linear-gradient(white, white) padding-box,
     radial-gradient(

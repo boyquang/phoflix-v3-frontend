@@ -18,6 +18,7 @@ import {
   setFetchedMovieDataHomePage,
   setQuantityFetched,
 } from "@/store/slices/movie.slice";
+import MovieTopicList from "./MovieTopicList";
 
 const ClientWrapper = () => {
   const dispatch: AppDispatch = useDispatch();
@@ -135,6 +136,7 @@ const ClientWrapper = () => {
 
   if (finalData?.length === 0) return <Box className="min-h-screen" />;
 
+
   return (
     <Box>
       <Box className="overflow-hidden">
@@ -144,9 +146,20 @@ const ClientWrapper = () => {
       <RootLayout>
         <Box className="2xl:mx-0 -mx-4">
           <Box className="flex flex-col gap-12 overflow-hidden">
-            <Box className="rounded-2xl bg-gradient-to-b from-[#282b3a] via-20% via-transparent">
+            <Box className="">
               {!loadingInitData ? (
-                <MovieSection finalData={finalData} />
+                <>
+                  <MovieTopicList
+                    data={finalData?.slice(0, 3)?.map((item) => ({
+                      title: item.title,
+                      link: item.link,
+                      items: item.data.items,
+                    }))}
+                  />
+                  <Box className="xl:mt-4">
+                    <MovieSection finalData={finalData.slice(3)} />
+                  </Box>
+                </>
               ) : (
                 <Box className="min-h-screen flex items-center justify-center">
                   <Loading type="bars" height="h-1/4" />

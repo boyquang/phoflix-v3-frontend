@@ -4,7 +4,7 @@ import { Box } from "@chakra-ui/react";
 
 import "@/assets/css/animation.css";
 import MovieSwiper from "./MovieSwiper";
-import { colorGradientsToWhite } from "@/constants/color.contant";
+import { colorGradientsToWhite, textBackgrounds } from "@/constants/color.contant";
 import Link from "next/link";
 import { RiArrowRightWideLine } from "react-icons/ri";
 import Loading from "@/app/loading";
@@ -32,7 +32,10 @@ const MovieCollection = ({
     <Box className="effect-fade-in">
       <Box className="flex justify-between gap-2 items-center mb-2">
         <h3
-          className="lg:text-2xl md:text-xl text-md text-white font-bold lg:mb-0 mb-2"
+        style={{
+          background: textBackgrounds[index % textBackgrounds.length],
+        }}
+          className="lg:text-2xl md:text-xl text-md text-gradient font-bold lg:mb-0 mb-2"
         >
           {title}
         </h3>

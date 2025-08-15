@@ -17,6 +17,12 @@ interface MovieThumbProps {
   loading: boolean;
   error: boolean;
   orientation: "horizontal" | "vertical";
+  breakpoints?: {
+    [key: number]: {
+      slidesPerView: number;
+      spaceBetween: number;
+    };
+  };
 }
 interface HandleSlideChangeParams {
   isBeginning: boolean;
@@ -28,6 +34,7 @@ const MovieSwiper = ({
   loading,
   error,
   orientation,
+  breakpoints,
 }: MovieThumbProps) => {
   const prevRef = useRef<HTMLDivElement>(null);
   const nextRef = useRef<HTMLDivElement>(null);
@@ -49,8 +56,7 @@ const MovieSwiper = ({
         className={`absolute -left-5 top-1/2 z-10 -translate-y-1/2 cursor-pointer 
         bg-gray-50 bg-opacity-40 hover:bg-opacity-70 text-gray-900 rounded-full 
           w-10 h-10 lg:flex hidden items-center justify-center 
-          transition-opacity duration-200 ${
-            isBeginning ? "opacity-0 pointer-events-none" : "opacity-100"
+          transition-opacity duration-200 ${isBeginning ? "opacity-0 pointer-events-none" : "opacity-100"
           }`}
       >
         <FaChevronLeft />
@@ -61,9 +67,8 @@ const MovieSwiper = ({
         className={`absolute -right-5 top-1/2 z-10 -translate-y-1/2 cursor-pointer 
         bg-gray-50 bg-opacity-40 hover:bg-opacity-70 text-gray-900 rounded-full 
         w-10 h-10 lg:flex hidden items-center justify-center 
-        transition-opacity duration-200 ${
-          isEnd ? "opacity-0 pointer-events-none" : "opacity-100"
-        }`}
+        transition-opacity duration-200 ${isEnd ? "opacity-0 pointer-events-none" : "opacity-100"
+          }`}
       >
         <FaChevronRight />
       </Box>
@@ -95,35 +100,29 @@ const MovieSwiper = ({
           disableOnInteraction: false,
           pauseOnMouseEnter: true,
         }}
-        breakpoints={{
+        breakpoints={breakpoints || {
           320: {
-            // slidesPerView: 2,
             slidesPerView: orientation === "horizontal" ? 2 : 3,
             spaceBetween: 8,
           },
           768: {
-            // slidesPerView: 3,
             slidesPerView: orientation === "horizontal" ? 3 : 4,
             spaceBetween: 8,
           },
           1024: {
-            // slidesPerView: 4,
             slidesPerView: orientation === "horizontal" ? 3 : 4,
             spaceBetween: 8,
           },
           1280: {
-            // slidesPerView: 6,
             slidesPerView: orientation === "horizontal" ? 4 : 5,
             spaceBetween: 12,
           },
           1440: {
-            // slidesPerView: 6,
             slidesPerView: orientation === "horizontal" ? 5 : 6,
             spaceBetween: 16,
           },
           1920: {
             slidesPerView: orientation === "horizontal" ? 6 : 7,
-            // slidesPerView: 8,
             spaceBetween: 18,
           },
         }}

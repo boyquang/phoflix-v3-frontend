@@ -138,7 +138,6 @@ export const colorGradients3 = [
   "from-green-700 via-emerald-600 to-lime-500",
 ];
 
-
 export const colorGradientsToWhite = [
   "from-rose-200 to-white",
   "from-pink-200 to-white",
@@ -187,3 +186,27 @@ export const topicBackGround = {
   "chinh-kich": "bg-stone-800",
   "kinh-dien": "bg-zinc-800",
 };
+
+export const textBackgrounds = [
+  "linear-gradient(235deg, rgb(255, 255, 255) 30%, rgb(103, 65, 150) 130%)",
+  "linear-gradient(235deg, rgb(255, 255, 255) 30%, rgb(247, 161, 11) 130%)",
+  "linear-gradient(235deg, rgb(255, 255, 255) 30%, rgb(255, 0, 153) 130%)",
+  "linear-gradient(235deg, rgb(255, 255, 255) 30%, rgb(0, 123, 255) 130%)",
+  "linear-gradient(235deg, rgb(255, 255, 255) 30%, rgb(0, 200, 83) 130%)",
+  "linear-gradient(235deg, rgb(255, 255, 255) 30%, rgb(255, 87, 34) 130%)",
+  "linear-gradient(235deg, rgb(255, 255, 255) 30%, rgb(156, 39, 176) 130%)",
+  "linear-gradient(235deg, rgb(255, 255, 255) 30%, rgb(63, 81, 181) 130%)",
+  "linear-gradient(235deg, rgb(255, 255, 255) 30%, rgb(0, 188, 212) 130%)",
+  "linear-gradient(235deg, rgb(255, 255, 255) 30%, rgb(139, 195, 74) 130%)",
+  "linear-gradient(235deg, rgb(255, 255, 255) 30%, rgb(255, 193, 7) 130%)",
+  "linear-gradient(235deg, rgb(255, 255, 255) 30%, rgb(233, 30, 99) 130%)",
+  "linear-gradient(235deg, rgb(255, 255, 255) 30%, rgb(121, 85, 72) 130%)",
+  "linear-gradient(235deg, rgb(255, 255, 255) 30%, rgb(96, 125, 139) 130%)",
+  "linear-gradient(235deg, rgb(255, 255, 255) 30%, rgb(0, 150, 136) 130%)",
+  "linear-gradient(235deg, rgb(255, 255, 255) 30%, rgb(205, 220, 57) 130%)",
+  "linear-gradient(235deg, rgb(255, 255, 255) 30%, rgb(244, 67, 54) 130%)",
+  "linear-gradient(235deg, rgb(255, 255, 255) 30%, rgb(33, 150, 243) 130%)",
+  "linear-gradient(235deg, rgb(255, 255, 255) 30%, rgb(124, 77, 255) 130%)",
+  "linear-gradient(235deg, rgb(255, 255, 255) 30%, rgb(255, 111, 0) 130%)",
+  "linear-gradient(235deg, rgb(255, 255, 255) 30%, rgb(3, 169, 244) 130%)",
+];
