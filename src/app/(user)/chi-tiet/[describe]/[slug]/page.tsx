@@ -5,7 +5,7 @@ import EmptyData from "@/components/shared/EmptyData";
 import MovieGrid from "@/components/shared/MovieGrid";
 import PaginationCustom from "@/components/shared/PaginationCustom";
 import TopicBackground from "@/components/shared/TopicBackground";
-import { fetchMovieDetail } from "@/lib/actions/movie-server.action";
+import { fetchMovieDetail } from "@/lib/actions/movie.action";
 import { NEXT_PUBLIC_SITE_URL } from "@/constants/env.contant";
 import { Metadata } from "next";
 import { Suspense } from "react";
@@ -48,9 +48,8 @@ export async function generateMetadata({
       openGraph: {
         title: `${titleHead} - ${totalItems} bộ phim | PHOFLIX-V3`,
         description: `Xem ngay danh sách phim "${titleHead}" gồm ${totalItems} phim nổi bật, cập nhật liên tục tại PHOFLIX-V3.`,
-        url: `${NEXT_PUBLIC_SITE_URL}/chi-tiet/${
-          og_url || `${describe}/${slug}`
-        }`,
+        url: `${NEXT_PUBLIC_SITE_URL}/chi-tiet/${og_url || `${describe}/${slug}`
+          }`,
         siteName: "PHOFLIX-V3",
         locale: "vi_VN",
         type: og_type,

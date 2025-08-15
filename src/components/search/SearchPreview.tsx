@@ -1,16 +1,13 @@
 "use client";
 
 import { AppDispatch, RootState } from "@/store/store";
-import { Box, Button } from "@chakra-ui/react";
-import Link from "next/link";
+import { Box } from "@chakra-ui/react";
 import { useDispatch, useSelector } from "react-redux";
 import EmptyData from "../shared/EmptyData";
-import { setIsShowModalSearch } from "@/store/slices/system.slice";
 import SearchPreviewItem from "./SearchPreviewItem";
 import { LuSearchX } from "react-icons/lu";
 import Loading from "@/app/loading";
 import useSearch from "@/hooks/useSearch";
-import { limitSearchPreview } from "./SearchDialog";
 
 const SearchPreview = () => {
   const { items, loading } = useSelector(
@@ -49,21 +46,6 @@ const SearchPreview = () => {
           />
         ))}
       </ul>
-
-      {items?.length >= limitSearchPreview && (
-        <Link
-          href={`/tim-kiem?keyword=${encodeURIComponent(keyword)}`}
-          className="w-full flex items-center gap-2 mt-3"
-        >
-          <Button
-            onClick={() => dispatch(setIsShowModalSearch(false))}
-            size="xl"
-            className="xs:text-sm text-xs w-full bg-[#ffffff10] text-white hover:text-[#ffd875] rounded-b-xl rounded-t-none"
-          >
-            Toàn bộ kết quả
-          </Button>
-        </Link>
-      )}
     </Box>
   );
 };

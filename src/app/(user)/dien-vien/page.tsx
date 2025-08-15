@@ -5,7 +5,7 @@ import ActorsList from "@/components/actor/ActorsList";
 import { NEXT_PUBLIC_SITE_URL } from "@/constants/env.contant";
 import { Metadata } from "next";
 import { Suspense } from "react";
-import { fetchActors } from "@/lib/actions/movie-server.action";
+import { fetchActors } from "@/lib/actions/movie.action";
 import { PageProps } from "@/app/page";
 
 export async function generateMetadata(): Promise<Metadata> {

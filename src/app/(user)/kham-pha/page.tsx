@@ -1,5 +1,5 @@
 import RootLayout from "@/components/layout/RootLayout";
-import { colorGradients } from "@/constants/color.contant";
+import { colorGradients, colorGradients3 } from "@/constants/color.contant";
 import { categories, countries } from "@/constants/movie.contant";
 import { NEXT_PUBLIC_SITE_URL } from "@/constants/env.contant";
 import { Metadata } from "next";
@@ -48,15 +48,15 @@ const Page = () => {
             <div
               key={index}
               className={`bg-gradient-to-r ${
-                colorGradients[index % colorGradients.length]
-              }  rounded-xl overflow-hidden hover:-translate-y-2 transition-all duration-300 shadow-lg`}
+                colorGradients3[index % colorGradients3.length]
+              }  rounded-lg overflow-hidden hover:-translate-y-2 transition-all duration-300 shadow-lg`}
             >
               <Link
                 className="flex flex-col justify-center gap-2 lg:min-h-32 min-h-28 p-4 text-gray-50"
                 href={`/chi-tiet/${item.describe}/${item.slug}`}
               >
-                <h4 className="text-lg">{item.name}</h4>
-                <div className="flex items-center gap-1">
+                <h4 className="text-lg font-bold">{item.name}</h4>
+                <div className="flex items-center">
                   <span className="text-sm">Xem chi tiết</span>
                   <MdChevronRight />
                 </div>

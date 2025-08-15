@@ -8,7 +8,7 @@ import MoviesByActor from "@/components/actor/MoviesByActor";
 import {
   fetchActorDetail,
   fetchMoviesByActor,
-} from "@/lib/actions/movie-server.action";
+} from "@/lib/actions/movie.action";
 import { PageProps } from "@/app/page";
 
 export async function generateMetadata({

@@ -4,7 +4,7 @@ import RootLayout from "@/components/layout/RootLayout";
 import EmptyData from "@/components/shared/EmptyData";
 import MovieGrid from "@/components/shared/MovieGrid";
 import PaginationCustom from "@/components/shared/PaginationCustom";
-import { fetchSearchMovies } from "@/lib/actions/movie-server.action";
+import { fetchSearchMovies } from "@/lib/actions/movie.action";
 import { NEXT_PUBLIC_SITE_URL } from "@/constants/env.contant";
 import { Metadata } from "next";
 import { Suspense } from "react";

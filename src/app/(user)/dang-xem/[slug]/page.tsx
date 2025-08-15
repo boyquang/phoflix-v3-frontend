@@ -2,7 +2,7 @@ import Loading from "@/app/loading";
 import { PageProps } from "@/app/page";
 import EmptyData from "@/components/shared/EmptyData";
 import ClientWrapper from "@/components/watch-movie/ClientWrapper";
-import { fetchMovieInfo } from "@/lib/actions/movie-server.action";
+import { fetchMovieInfo } from "@/lib/actions/movie.action";
 import { NEXT_PUBLIC_SITE_URL } from "@/constants/env.contant";
 import { Metadata } from "next";
 import { Suspense } from "react";

@@ -6,7 +6,7 @@ import {
   fetchMoviePopular,
   fetchNewlyUpdatedMovies,
   fetchSearchMovies,
-} from "@/lib/actions/movie-server.action";
+} from "@/lib/actions/movie.action";
 import { createAsyncThunk } from "@reduxjs/toolkit";
 
 const ENVIRONMENT = process.env.ENV;

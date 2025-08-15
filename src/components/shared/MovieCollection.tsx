@@ -32,9 +32,7 @@ const MovieCollection = ({
     <Box className="effect-fade-in">
       <Box className="flex justify-between gap-2 items-center mb-2">
         <h3
-          className={`lg:text-2xl md:text-xl text-md inline-block bg-clip-text text-transparent bg-gradient-to-r ${
-            colorGradientsToWhite[index % colorGradientsToWhite.length]
-          } font-bold lg:mb-0 mb-2`}
+          className="lg:text-2xl md:text-xl text-md text-white font-bold lg:mb-0 mb-2"
         >
           {title}
         </h3>

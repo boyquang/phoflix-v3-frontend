@@ -8,7 +8,7 @@ import { Box } from "@chakra-ui/react";
 import Link from "next/link";
 import RootLayout from "../layout/RootLayout";
 import { MdChevronRight } from "react-icons/md";
-import { colorGradients } from "@/constants/color.contant";
+import { colorGradients, colorGradients3 } from "@/constants/color.contant";
 
 const TopicCards = () => {
   const totalItems = [...categories, ...countries].length;
@@ -55,16 +55,15 @@ const TopicCards = () => {
             {categories.slice(0, totalShow).map((category, index) => (
               <SwiperSlide key={index} className="relative">
                 <Box
-                  className={`bg-gradient-to-r ${
-                    colorGradients[index % colorGradients.length]
-                  }  rounded-xl overflow-hidden hover:-translate-y-2 transition-all duration-300`}
+                  className={`relative bg-gradient-to-r  ${colorGradients3[index % colorGradients3.length]
+                    }  rounded-lg overflow-hidden hover:-translate-y-2 hover:opacity-90 transition-all duration-300`}
                 >
                   <Link
                     className="flex flex-col justify-center gap-2 lg:min-h-32 min-h-28 p-4 text-gray-50"
                     href={`/chi-tiet/the-loai/${category.slug}`}
                   >
-                    <h4 className="text-lg">{category.name}</h4>
-                    <Box className="flex items-center gap-1">
+                    <h4 className="text-lg font-bold">{category.name}</h4>
+                    <Box className="flex items-center">
                       <span className="text-sm">Xem chi tiết</span>
                       <MdChevronRight />
                     </Box>
@@ -73,13 +72,13 @@ const TopicCards = () => {
               </SwiperSlide>
             ))}
             <SwiperSlide>
-              <Box className="bg-[#ffffff0d] border border-[#ffffff10] rounded-xl overflow-hidden hover:-translate-y-2 transition-all duration-300 shadow-lg">
+              <Box className="bg-[#ffffff0d] border border-[#ffffff10] rounded-lg overflow-hidden hover:-translate-y-2 transition-all duration-300 shadow-lg">
                 <Link
                   className="flex flex-col justify-center gap-2 lg:min-h-32 min-h-28 p-4 text-white"
                   href="/kham-pha"
                 >
-                  <h4 className="text-lg">Khám phá</h4>
-                  <Box className="flex items-center gap-1">
+                  <h4 className="text-lg font-bold">Khám phá</h4>
+                  <Box className="flex items-center">
                     <span className="text-sm">Xem tất cả</span>
                     <MdChevronRight />
                   </Box>

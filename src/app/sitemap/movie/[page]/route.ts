@@ -1,5 +1,5 @@
 import { categories, countries } from "@/constants/movie.contant";
-import { fetchMovieDetail } from "@/lib/actions/movie-server.action";
+import { fetchMovieDetail } from "@/lib/actions/movie.action";
 import { NextResponse } from "next/server";
 
 const MOVIES_PER_GROUP = 64;

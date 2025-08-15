@@ -19,6 +19,7 @@ import useSearch from "@/hooks/useSearch";
 import { appConfig } from "@/configs/app.config";
 import TopSearchTrending from "./TopSearchTrending";
 import SearchPreview from "./SearchPreview";
+import Link from "next/link";
 
 const { dialog } = appConfig.charka;
 const motionPresetDefault = dialog.motionPresetDefault;
@@ -28,6 +29,9 @@ export const limitSearchPreview = 5;
 const SearchDialog = () => {
   const dispatch: AppDispatch = useDispatch();
   const router = useRouter();
+  const { items } = useSelector(
+    (state: RootState) => state.movie.searchMoviePreview
+  );
   const { isShowModalSearch } = useSelector((state: RootState) => state.system);
   const keyword = useSelector(
     (state: RootState) => state.user.searchHistory.keyword
@@ -135,12 +139,28 @@ const SearchDialog = () => {
               </Dialog.Title>
             </Dialog.Header>
             <Dialog.Body p={0}>
-              <Box className="mt-4">
+              <Box className="mt-4 overflow-hidden">
                 <TopSearchTrending />
                 <SearchHistory />
                 <SearchPreview />
               </Box>
             </Dialog.Body>
+            <Dialog.Footer p={0}>
+              {items?.length >= limitSearchPreview && keyword.trim() !== "" && (
+                <Link
+                  href={`/tim-kiem?keyword=${encodeURIComponent(keyword)}`}
+                  className="w-full flex items-center gap-2 mt-3"
+                >
+                  <Button
+                    onClick={() => dispatch(setIsShowModalSearch(false))}
+                    size="xl"
+                    className="xs:text-sm text-xs w-full bg-[#ffffff10] text-white hover:text-[#ffd875] rounded-t-none"
+                  >
+                    Xem tất cả
+                  </Button>
+                </Link>
+              )}
+            </Dialog.Footer>
           </Dialog.Content>
         </Dialog.Positioner>
       </Portal>
