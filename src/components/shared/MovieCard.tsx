@@ -1,6 +1,7 @@
 "use client";
 
 import {
+  decodeHtmlEntities,
   generateUrlImage,
   onMouseEnterShowTooltip,
   onMouseLeaveHideTooltip,
@@ -70,10 +71,7 @@ const MovieCard = ({ data, orientation }: MovieItemProps) => {
       onMouseEnter={handleMouseEnter}
       onMouseLeave={handleMouseLeave}
     >
-      <Link
-        href={`/thong-tin-phim/${data?.slug}`}
-        className="flex flex-col gap-2 group"
-      >
+      <Link href={`/thong-tin-phim/${data?.slug}`} className="group">
         <HoverOutlineWrapper rounded="lg" ringSize="2">
           <Box
             className={`h-0 relative ${
@@ -117,17 +115,22 @@ const MovieCard = ({ data, orientation }: MovieItemProps) => {
             </Box>
           </Box>
         </HoverOutlineWrapper>
-        <span
-          style={{
-            WebkitLineClamp: 2,
-            display: "-webkit-box",
-            WebkitBoxOrient: "vertical",
-            overflow: "hidden",
-          }}
-          className="text-gray-50 text-xs group-hover:text-[#ffd875] lg:text-sm transition-all"
-        >
-          {data?.name}
-        </span>
+        <Box className="mt-2">
+          <span
+            style={{
+              WebkitLineClamp: 2,
+              display: "-webkit-box",
+              WebkitBoxOrient: "vertical",
+              overflow: "hidden",
+            }}
+            className="text-gray-50 font-semibold text-xs group-hover:text-[#ffd875] lg:text-sm transition-all"
+          >
+            {decodeHtmlEntities(data?.name)}
+          </span>
+          <span className="text-xs text-gray-300 truncate block mt-1">
+            {decodeHtmlEntities(data?.origin_name)}
+          </span>
+        </Box>
       </Link>
 
       {tooltip?.visible && <MovieTooltip data={data} position={tooltip} />}

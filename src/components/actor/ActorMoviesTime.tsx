@@ -49,7 +49,7 @@ const ActorMoviesTime = ({ data }: ActorMoviesTime) => {
               {year}
             </span>
           </div>
-          <div className="flex-grow-1 w-full grid xl:grid-cols-5 lg:grid-cols-4 md:grid-cols-5 grid-cols-3 lg:gap-x-4 gap-y-4 gap-x-2">
+          <div className="flex-grow-1 w-full grid xl:grid-cols-5 lg:grid-cols-4 md:grid-cols-5 grid-cols-2 lg:gap-x-4 gap-y-4 gap-x-2">
             {moviesByYear[year]?.map((movie, index: number) => (
               <Link
                 key={index}
@@ -71,12 +71,12 @@ const ActorMoviesTime = ({ data }: ActorMoviesTime) => {
                     </div>
                   </HoverOutlineWrapper>
                   <div className="mt-2 text-center">
-                    <h4 className="sm:text-sm text-xs text-gray-50 truncate">
+                    <h4 className="sm:text-sm text-xs text-gray-50 truncate font-semibold">
                       {movie?.name || movie?.title}
                     </h4>
-                    <p className="text-xs text-gray-400 truncate">
+                    <span className="text-xs text-gray-400 truncate">
                       {movie?.original_name || movie?.original_title}
-                    </p>
+                    </span>
                   </div>
                 </div>
               </Link>

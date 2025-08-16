@@ -4,6 +4,7 @@ import Link from "next/link";
 import type { Components } from "react-markdown";
 
 export const markdownComponents: Components = {
+  img: ({ src, alt }) => (src ? <img src={src} alt={alt || "image"} /> : null),
   a: ({ href, children }: any) => {
     if (href?.startsWith("/")) {
       return (

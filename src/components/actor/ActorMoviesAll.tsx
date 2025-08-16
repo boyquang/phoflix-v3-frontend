@@ -12,7 +12,7 @@ interface ActorMovieAllProps {
 
 const ActorMovieAll = ({ data }: ActorMovieAllProps) => {
   return (
-    <div className="grid xl:grid-cols-5 lg:grid-cols-4 md:grid-cols-5 grid-cols-3 lg:lg:gap-x-4 gap-y-6 gap-x-2">
+    <div className="grid xl:grid-cols-5 lg:grid-cols-4 md:grid-cols-5 grid-cols-2 lg:lg:gap-x-4 gap-y-6 gap-x-2">
       {data?.map((item, index: number) => (
         <Link
           key={index}
@@ -31,12 +31,12 @@ const ActorMovieAll = ({ data }: ActorMovieAllProps) => {
               </div>
             </HoverOutlineWrapper>
             <div className="mt-2 text-center">
-              <h4 className=" sm:text-sm text-gray-50 truncate text-xs">
+              <h4 className=" sm:text-sm text-gray-50 truncate text-xs font-semibold">
                 {item?.name || item?.title}
               </h4>
-              <p className="text-gray-400 truncate text-xs">
+              <span className="text-gray-400 truncate text-xs">
                 {item?.original_name || item?.original_title}
-              </p>
+              </span>
             </div>
           </div>
         </Link>

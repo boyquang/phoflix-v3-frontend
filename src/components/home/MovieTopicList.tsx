@@ -18,9 +18,8 @@ interface MovieTopicListProps {
 
 
 const MovieTopicList = ({ data }: MovieTopicListProps) => {
-
     return (
-        <Box className="rounded-2xl bg-gradient-to-b from-[#282b3a] via-20% via-transparent xl:p-8 p-4">
+        <Box className="rounded-2xl bg-gradient-to-b from-[#282b3a] via-80% via-transparent xl:p-8 p-4">
             <Box className="flex flex-col gap-12">
                 {data?.map((item, index) => (
                     <Box key={index} className="flex xl:flex-row flex-col xl:items-center items-start gap-4">

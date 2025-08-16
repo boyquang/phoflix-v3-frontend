@@ -4,7 +4,6 @@ import { Skeleton } from "@chakra-ui/react";
 import { FaUsers } from "react-icons/fa6";
 import Link from "next/link";
 import { THEMOVIEDB_IMAGE_URL } from "@/constants/env.contant";
-import { decodeHtmlEntities } from "@/lib/utils";
 import Image from "@/components/shared/Image";
 import EmptyData from "@/components/shared/EmptyData";
 import HoverOutlineWrapper from "@/components/shared/HoverOutlineWrapper";

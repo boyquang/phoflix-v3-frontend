@@ -3,6 +3,7 @@
 import Image from "@/components/shared/Image";
 import StatusTag from "@/components/shared/StatusTag";
 import {
+  decodeHtmlEntities,
   formatDate,
   formatStringForURL,
   generateUrlImage,
@@ -130,19 +131,16 @@ const MovieItem = ({ item, isLoading, callback }: MovieItemProps) => {
         </Box>
       </Box>
       <Link
-        href={`/thong-tin-phim/${item?.movie_slug}?name=${formatStringForURL(
-          movieData?.name ?? "Không xác định",
-          "-"
-        )}`}
+        href={`/thong-tin-phim/${item?.movie_slug}`}
         style={{
           WebkitLineClamp: 2,
           display: "-webkit-box",
           WebkitBoxOrient: "vertical",
           overflow: "hidden",
         }}
-        className="text-gray-50 text-xs group-hover:text-[#ffd875] lg:text-sm transition-all mt-2"
+        className="text-gray-50 text-xs font-semibold group-hover:text-[#ffd875] lg:text-sm transition-all mt-2"
       >
-        {movieData?.name}
+        {decodeHtmlEntities(movieData?.name)}
       </Link>
     </Box>
   );

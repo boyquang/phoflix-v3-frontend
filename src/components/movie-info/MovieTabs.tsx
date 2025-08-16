@@ -104,7 +104,7 @@ const MovieTabs = () => {
       >
         <Box className="mt-6">
           <ActorsList
-            classNameGrids="grid grid-cols-3 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-5 2xl:grid-cols-5 lg:gap-x-4 gap-x-2 gap-y-6"
+            classNameGrids="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-5 2xl:grid-cols-5 lg:gap-x-4 gap-x-2 gap-y-6"
             items={items}
             loading={loading}
           />
@@ -120,7 +120,7 @@ const MovieTabs = () => {
           <MovieSuggesstions
             limit={15}
             title="Có thể bạn sẽ thích"
-            classNameGrids="grid grid-cols-3 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-5 2xl:grid-cols-5 lg:gap-x-4 gap-x-2 gap-y-6"
+            classNameGrids="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-5 2xl:grid-cols-5 lg:gap-x-4 gap-x-2 gap-y-6"
           />
         </Box>
       </Tabs.Content>

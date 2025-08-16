@@ -1,5 +1,6 @@
 @tailwind utilities;
 @import "tailwindcss";
+@plugin "@tailwindcss/typography";
 
 @theme {
   --font-sans: var(--font-geist-sans);
