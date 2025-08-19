@@ -33,7 +33,7 @@ const MovieRatingList = ({ type }: MovieRatingListProps) => {
       if (fetched?.current) return;
 
       startTransition(async () => {
-        const data = await getMovieRakingList(type);
+        const data = await getMovieRakingList(type, 5);
         const items = data?.result?.items || [];
         setItems(items);
       });
