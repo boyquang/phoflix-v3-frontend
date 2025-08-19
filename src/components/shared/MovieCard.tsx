@@ -1,7 +1,6 @@
 "use client";
 
 import {
-  decodeHtmlEntities,
   generateUrlImage,
   onMouseEnterShowTooltip,
   onMouseLeaveHideTooltip,
@@ -15,6 +14,7 @@ import { useSelector } from "react-redux";
 import MovieTooltip from "./MovieTooltip";
 import Image from "../shared/Image";
 import HoverOutlineWrapper from "../shared/HoverOutlineWrapper";
+import DecodeText from "./DecodeText";
 
 interface MovieItemProps {
   data: Movie;
@@ -125,10 +125,10 @@ const MovieCard = ({ data, orientation }: MovieItemProps) => {
             }}
             className="text-gray-50 font-semibold text-xs group-hover:text-[#ffd875] lg:text-sm transition-all"
           >
-            {decodeHtmlEntities(data?.name)}
+            <DecodeText text={data?.name} />
           </span>
           <span className="text-xs text-gray-300 truncate block mt-1">
-            {decodeHtmlEntities(data?.origin_name)}
+            <DecodeText text={data?.origin_name} />
           </span>
         </Box>
       </Link>

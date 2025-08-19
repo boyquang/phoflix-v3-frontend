@@ -47,6 +47,13 @@ const FeedbackInput = ({
   const [resetSwitch, setResetSwitch] = useState(false);
   const maxLength = 500;
 
+  const movieDataDefault = {
+    slug: params.slug as string,
+    poster: movie?.poster_url as string,
+    thumb: movie?.thumb_url as string,
+    name: movie?.name as string,
+  };
+
   const handleChangeInput = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
     const { value } = e.target;
     setValue(value);
@@ -87,7 +94,7 @@ const FeedbackInput = ({
 
   const addNewComment = async () => {
     const response = await addFeedback({
-      movieSlug: params.slug as string,
+      movieData: movieDataDefault,
       userId: session?.user?.id as string,
       content: value,
       type: "comment",
@@ -104,7 +111,7 @@ const FeedbackInput = ({
       userId: session?.user?.id as string,
       content: value,
       type: feedbackType,
-      movieSlug: params.slug as string,
+      movieData: movieDataDefault,
       is_anonymous: isAnonymous,
       accessToken: session?.user?.accessToken as string,
     });

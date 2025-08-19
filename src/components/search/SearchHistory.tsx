@@ -9,12 +9,13 @@ import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import AlertDialog from "../shared/AlertDialog";
 import Link from "next/link";
-import { decodeHtmlEntities, formatString } from "@/lib/utils";
+import { formatString } from "@/lib/utils";
 import { BiSearchAlt } from "react-icons/bi";
 import { BsXLg } from "react-icons/bs";
 import { FaClockRotateLeft } from "react-icons/fa6";
 import Loading from "@/app/loading";
 import useSearch from "@/hooks/useSearch";
+import DecodeText from "../shared/DecodeText";
 
 const SearchHistory = () => {
   const { items, loading, fetched } = useSelector(
@@ -102,9 +103,7 @@ const SearchHistory = () => {
             >
               <Box className="flex flex-1 gap-2 items-center max-w-[90%]">
                 <FaClockRotateLeft />
-                <span className="w-full truncate">
-                  {decodeHtmlEntities(item?.keyword)}
-                </span>
+                <DecodeText className="w-full truncate" text={item?.keyword} />
               </Box>
             </Link>
             <IconButton

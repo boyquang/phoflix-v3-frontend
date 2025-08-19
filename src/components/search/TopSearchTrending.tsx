@@ -2,7 +2,7 @@
 
 import Loading from "@/app/loading";
 import useSearch from "@/hooks/useSearch";
-import { decodeHtmlEntities, formatString } from "@/lib/utils";
+import { formatString } from "@/lib/utils";
 import { getTopSearchTrending } from "@/store/async-thunks/system.thunk";
 import { AppDispatch, RootState } from "@/store/store";
 import { Box } from "@chakra-ui/react";
@@ -10,6 +10,7 @@ import Link from "next/link";
 import { useEffect } from "react";
 import { IoTrendingUp } from "react-icons/io5";
 import { useDispatch, useSelector } from "react-redux";
+import DecodeText from "../shared/DecodeText";
 
 type TopSearchTrending = {
   soundex_code: string;
@@ -50,7 +51,7 @@ const TopSearchTrending = () => {
               key={index}
             >
               <li className="flex justify-between px-2 py-1 rounded-md text-gray-100 text-xs bg-[#ffffff10] hover:text-[#ffd875] items-center">
-                <span>{decodeHtmlEntities(item?.keyword)}</span>
+                <DecodeText text={item?.keyword} />
               </li>
             </Link>
           ))}

@@ -19,6 +19,7 @@ import {
   setQuantityFetched,
 } from "@/store/slices/movie.slice";
 import MovieTopicList from "./MovieTopicList";
+import CommunityHighlights from "../community-hightlights/CommunityHighlights";
 
 const ClientWrapper = () => {
   const dispatch: AppDispatch = useDispatch();
@@ -136,7 +137,6 @@ const ClientWrapper = () => {
 
   if (finalData?.length === 0) return <Box className="min-h-screen" />;
 
-
   return (
     <Box>
       <Box className="overflow-hidden">
@@ -156,6 +156,9 @@ const ClientWrapper = () => {
                       items: item.data.items,
                     }))}
                   />
+                  <Box className="my-12">
+                    <CommunityHighlights />
+                  </Box>
                   <Box className="xl:mt-4">
                     <MovieSection finalData={finalData.slice(3)} />
                   </Box>

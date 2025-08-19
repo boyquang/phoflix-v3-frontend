@@ -1,11 +1,11 @@
 "use client";
 
-import { decodeHtmlEntities } from "@/lib/utils";
 import { RootState } from "@/store/store";
 import { CSSProperties, useEffect, useRef, useState } from "react";
 import { FaAngleDown, FaAngleUp } from "react-icons/fa6";
 import { useSelector } from "react-redux";
 import striptags from "striptags";
+import DecodeText from "./DecodeText";
 
 interface ShowMoreTextProps {
   text: string;
@@ -66,7 +66,7 @@ const ShowMoreText = ({ text, className = "", row = 3 }: ShowMoreTextProps) => {
         }`}
         ref={pRef}
       >
-        {decodeHtmlEntities(striptags(text))}
+        <DecodeText text={striptags(text)} />
       </p>
 
       {isTruncated && (

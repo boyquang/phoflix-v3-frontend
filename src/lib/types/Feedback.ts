@@ -126,7 +126,12 @@ type GetFeedbacks = {
 };
 
 type AddFeedback = {
-  movieSlug: string;
+  movieData: {
+    slug: string;
+    thumb: string;
+    poster: string;
+    name: string;
+  };
   userId: string;
   type: "review" | "comment";
   accessToken: string;
@@ -151,7 +156,11 @@ type UpdateContentFeedback = {
 };
 
 type AddReplyFeedback = {
-  movieSlug: string;
+  movieData: {
+    slug: string;
+    thumb: string;
+    poster: string;
+  };
   userId: string;
   content: string;
   type: "review" | "comment";

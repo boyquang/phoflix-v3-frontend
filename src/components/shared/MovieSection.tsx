@@ -18,7 +18,7 @@ interface MovieSectionProps {
 
 const MovieSection = ({ finalData }: MovieSectionProps) => {
   return (
-    <Box className="flex flex-col gap-12 2xl:p-8 p-4">
+    <Box className="flex flex-col gap-12 2xl:p-0 p-4">
       {finalData?.map(({ title, link, data, orientation }, index: number) => (
         <Box key={index}>
           <MovieCollection

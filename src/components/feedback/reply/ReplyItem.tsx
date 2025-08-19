@@ -11,6 +11,7 @@ import GenderIcon from "../GenderIcon";
 import StatusTag from "@/components/shared/StatusTag";
 import EditFeedback from "../EditFeedback";
 import useScrollToFeedbackCid from "@/hooks/useScrollToFeedbackCid";
+import CommentUserBadge from "@/components/shared/CommentUserBadge";
 
 const ReplyItem = ({ reply }: ReplyItemProps) => {
   const { cid } = useScrollToFeedbackCid({ id: reply?._id });
@@ -28,6 +29,7 @@ const ReplyItem = ({ reply }: ReplyItemProps) => {
     ? "Người đăng ẩn danh"
     : reply?.mention_user?.name;
   const avatar = isAnonymous ? "/images/anonymous.jpg" : reply?.author?.avatar;
+  const showAdminInfo = reply?.author?.role === "admin" && !isAnonymous;
 
   return (
     <Box
@@ -44,11 +46,15 @@ const ReplyItem = ({ reply }: ReplyItemProps) => {
       />
       <Box className="flex-1">
         <Box className="flex gap-2 items-center mb-1.5 flex-wrap">
-          <Box className="text-xs flex gap-2 items-center">
-            {reply?.author?.role === "admin" && <StatusTag text="ADMIN" />}
-            <span className="text-gray-50 break-all">{name}</span>
-            <GenderIcon gender={reply?.author?.gender} />
-          </Box>
+          <CommentUserBadge
+            isAnonymous={isAnonymous}
+            author={{
+              gender: reply?.author?.gender,
+              name: name,
+              role: reply?.author?.role,
+            }}
+          />
+
           <span className="text-[10px] text-gray-500 ml-1">
             {formatDateUnix(reply?.created_at)}
           </span>

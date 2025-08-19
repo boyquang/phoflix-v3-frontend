@@ -44,7 +44,15 @@ const ActorsList = ({
           <Link key={index} href={`/dien-vien/${item?.id}`}>
             <div className="relative group transition-all hover:-translate-y-2">
               <HoverOutlineWrapper rounded="lg" ringSize="2">
-                <div className="h-0 relative pt-[150%]">
+                <div
+                  style={{
+                    WebkitMaskImage:
+                      "linear-gradient(180deg, black 0, transparent 80%)",
+                    maskImage:
+                      "linear-gradient(180deg, black 0, transparent 80%)",
+                  }}
+                  className="h-0 relative pt-[150%]"
+                >
                   {loading ? (
                     <Skeleton className="absolute inset-0 rounded-xl" />
                   ) : (
@@ -57,7 +65,6 @@ const ActorsList = ({
                   )}
                 </div>
               </HoverOutlineWrapper>
-              <div className="bg-gradient-to-t rounded-lg h-1/2 absolute z-[1] bottom-0 from-[#191b24] inset-x-0 to-transparent pointer-events-none css-0"></div>
               <div className="absolute bottom-0 left-0 right-0 z-[2] p-2 text-center rounded-xl">
                 <h6 className="text-primary text-sm truncate">{item?.name}</h6>
                 <p className="text-gray-200 text-xs truncate">

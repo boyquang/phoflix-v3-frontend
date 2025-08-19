@@ -73,7 +73,12 @@ const ReviewDialog = ({ trigger }: ReviewDialogProps) => {
 
     startTransition(async () => {
       const response = await addFeedback({
-        movieSlug: movie?.slug,
+        movieData: {
+          slug: movie?.slug,
+          poster: movie?.poster_url,
+          thumb: movie?.thumb_url,
+          name: movie?.name,
+        },
         userId: session?.user?.id as string,
         point: Number(selectedReview?.value),
         content: reviewContent as string,

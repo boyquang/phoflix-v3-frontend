@@ -3,9 +3,7 @@
 import Image from "@/components/shared/Image";
 import StatusTag from "@/components/shared/StatusTag";
 import {
-  decodeHtmlEntities,
   formatDate,
-  formatStringForURL,
   generateUrlImage,
   onMouseEnterShowTooltip,
   onMouseLeaveHideTooltip,
@@ -20,6 +18,7 @@ import { setSelectedMovieIds } from "@/store/slices/user.slice";
 import CheckboxCustom from "@/components/shared/CheckboxCustom";
 import HoverOutlineWrapper from "@/components/shared/HoverOutlineWrapper";
 import MovieTooltip from "@/components/shared/MovieTooltip";
+import DecodeText from "../shared/DecodeText";
 
 interface MovieItemProps {
   item: MovieDB;
@@ -140,7 +139,7 @@ const MovieItem = ({ item, isLoading, callback }: MovieItemProps) => {
         }}
         className="text-gray-50 text-xs font-semibold group-hover:text-[#ffd875] lg:text-sm transition-all mt-2"
       >
-        {decodeHtmlEntities(movieData?.name)}
+        <DecodeText text={movieData?.name} />
       </Link>
     </Box>
   );

@@ -37,6 +37,7 @@ const MovieTopicList = ({ data }: MovieTopicListProps) => {
                         <Box className="relative xl:w-[calc(100%-200px)] w-full">
                             <Box className="relative">
                                 <MovieSwiper
+                                    showNavigation={true}
                                     items={item.items}
                                     loading={false}
                                     error={false}

@@ -1,13 +1,14 @@
 "use client";
 
 import Image from "@/components/shared/Image";
-import { decodeHtmlEntities, generateUrlImage } from "@/lib/utils";
+import { generateUrlImage } from "@/lib/utils";
 import { Box } from "@chakra-ui/react";
 import Link from "next/link";
 import ShowMoreText from "@/components/shared/ShowMoreText";
 import TextToSpeech from "@/components/shared/TextToSpeech";
 import { TagClassic } from "@/components/shared/TagClassic";
 import MoviePopular from "@/components/shared/MoviePopular";
+import DecodeText from "../shared/DecodeText";
 
 interface MovieDetailProps {
   data: Movie;
@@ -81,7 +82,7 @@ const MovieDetail = ({ data }: MovieDetailProps) => {
           <ul className="flex flex-wrap gap-2">
             {data?.director?.map((director, index: number) => (
               <li key={index} className="text-gray-400">
-                {decodeHtmlEntities(director)}
+                <DecodeText text={director} />
                 {index < data?.director?.length - 1 && <span>,</span>}
               </li>
             ))}
@@ -98,7 +99,7 @@ const MovieDetail = ({ data }: MovieDetailProps) => {
                 className="text-gray-400 hover:text-[#ffd875] transition-all"
               >
                 <Link href={`/chi-tiet/quoc-gia/${country?.slug}`}>
-                  {decodeHtmlEntities(country?.name)}
+                  <DecodeText text={country?.name} />
                   {index < data?.country?.length - 1 && <span>,</span>}
                 </Link>
               </li>
@@ -112,7 +113,7 @@ const MovieDetail = ({ data }: MovieDetailProps) => {
           <ul className="flex flex-wrap gap-2">
             {data?.actor?.map((actor, index: number) => (
               <li key={index} className="text-gray-400">
-                {decodeHtmlEntities(actor)}
+                <DecodeText text={actor} />
                 {index < data?.actor?.length - 1 && <span>,</span>}
               </li>
             ))}

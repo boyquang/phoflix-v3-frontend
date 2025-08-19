@@ -59,6 +59,70 @@ export const getFeedbacks = async ({
   }
 };
 
+export const getMostRakingFeedbacks = async (
+  limit: number = 20
+): Promise<any> => {
+  try {
+    const response = await fetch(`${BASE_URL}/mostFeedbackRaking?limit=${limit}`);
+
+    const data = await response.json();
+
+    if (!response.ok) {
+      const { status, message, result } = data || {};
+
+      return {
+        status: status || false,
+        message: message || "Lỗi server! Vui lòng thử lại sau.",
+        result: result || null,
+      };
+    }
+
+    return data;
+  } catch (error) {
+    if (ENV === "development") {
+      console.log("Error fetching feedbacks:", error);
+    }
+    return {
+      status: false,
+      message: "Lỗi server! Vui lòng thử lại sau.",
+      result: {
+        items: [],
+      },
+    };
+  }
+};
+
+export const getLatestFeedbacks = async (limit: number = 20): Promise<any> => {
+  try {
+    const response = await fetch(`${BASE_URL}/latestFeedbacks?limit=${limit}`);
+
+    const data = await response.json();
+
+    if (!response.ok) {
+      const { status, message, result } = data || {};
+
+      return {
+        status: status || false,
+        message: message || "Lỗi server! Vui lòng thử lại sau.",
+        result: result || null,
+      };
+    }
+
+    return data;
+  } catch (error) {
+    if (ENV === "development") {
+      console.log("Error fetching feedbacks:", error);
+    }
+    return {
+      status: false,
+      message: "Lỗi server! Vui lòng thử lại sau.",
+      result: {
+        items: [],
+      },
+    };
+  }
+};
+
 /**
  *
  * @param movieSlug: string - slug of the movie
@@ -72,7 +136,7 @@ export const getFeedbacks = async ({
  */
 
 export const addFeedback = async ({
-  movieSlug,
+  movieData,
   point,
   userId,
   content,
@@ -90,7 +154,7 @@ export const addFeedback = async ({
         Authorization: `Bearer ${accessToken}`,
       },
       body: JSON.stringify({
-        movieSlug,
+        movieData,
         point,
         userId,
         content,
@@ -247,7 +311,7 @@ export const updateContentFeedback = async ({
  */
 
 export const addReply = async ({
-  movieSlug,
+  movieData,
   userId,
   content,
   type,
@@ -265,7 +329,7 @@ export const addReply = async ({
         Authorization: `Bearer ${accessToken}`,
       },
       body: JSON.stringify({
-        movieSlug,
+        movieData,
         userId,
         content,
         type,

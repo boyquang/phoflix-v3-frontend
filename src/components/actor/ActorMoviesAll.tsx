@@ -34,7 +34,7 @@ const ActorMovieAll = ({ data }: ActorMovieAllProps) => {
               <h4 className=" sm:text-sm text-gray-50 truncate text-xs font-semibold">
                 {item?.name || item?.title}
               </h4>
-              <span className="text-gray-400 truncate text-xs">
+              <span className="text-gray-400 truncate text-xs block">
                 {item?.original_name || item?.original_title}
               </span>
             </div>

@@ -74,7 +74,7 @@ const ActorMoviesTime = ({ data }: ActorMoviesTime) => {
                     <h4 className="sm:text-sm text-xs text-gray-50 truncate font-semibold">
                       {movie?.name || movie?.title}
                     </h4>
-                    <span className="text-xs text-gray-400 truncate">
+                    <span className="text-xs text-gray-400 truncate block">
                       {movie?.original_name || movie?.original_title}
                     </span>
                   </div>

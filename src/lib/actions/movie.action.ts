@@ -1,7 +1,12 @@
-import { NEXT_PUBLIC_SITE_URL } from "@/constants/env.contant";
+import {
+  NEXT_PUBLIC_SITE_URL,
+  NEXT_PUBLIC_API_VERSION,
+  NEXT_PUBLIC_BACKEND_URL,
+} from "@/constants/env.contant";
 import { fetcher, IS_SUCCESS, REVALIDATE_TIME } from "../fetcher";
 
 const BASE_URL = `${NEXT_PUBLIC_SITE_URL}/api/movie`;
+const BACKEND_URL = `${NEXT_PUBLIC_BACKEND_URL}/api/${NEXT_PUBLIC_API_VERSION}`;
 
 export async function fetchMovieInfo(slug: string) {
   try {
@@ -403,3 +408,98 @@ export async function fetchMoviesByActor(id: number, language: string = "vi") {
     };
   }
 }
+
+export const getMostFavoriteRanking = async (limit: number = 20) => {
+  try {
+    const response = await fetcher(
+      `${BACKEND_URL}/movie/mostFavoriteRanking?limit=${limit}`
+    );
+
+    const data = await response.json();
+
+    if (!response.ok) {
+      return {
+        status: false,
+        message: "Lỗi server! Vui lòng thử lại sau.",
+        result: null,
+      };
+    }
+
+    return {
+      status: true,
+      message: "Lấy danh sách phim yêu thích thành công.",
+      result: data,
+    };
+  } catch (error) {
+    return {
+      status: false,
+      message: "Lỗi server! Vui lòng thử lại sau.",
+      result: null,
+    };
+  }
+};
+
+export const getMostPopularRanking = async (limit: number = 20) => {
+  try {
+    const response = await fetcher(
+      `${BACKEND_URL}/movie/mostPopularRanking?limit=${limit}`
+    );
+
+    const data = await response.json();
+
+    if (!response.ok) {
+      return {
+        status: false,
+        message: "Lỗi server! Vui lòng thử lại sau.",
+        result: null,
+      };
+    }
+
+    return {
+      status: true,
+      message: "Lấy danh sách phim phổ biến thành công.",
+      result: data,
+    };
+  } catch (error) {
+    return {
+      status: false,
+      message: "Lỗi server! Vui lòng thử lại sau.",
+      result: null,
+    };
+  }
+};
+
+export const getMovieRakingList = async (
+  type: "mostPopular" | "mostFavorite",
+  limit: number = 20
+) => {
+  try {
+    let url = "";
+
+    if (type === "mostPopular") {
+      url = `${BACKEND_URL}/movie/mostPopularRanking?limit=${limit}`;
+    } else if (type === "mostFavorite") {
+      url = `${BACKEND_URL}/movie/mostFavoriteRanking?limit=${limit}`;
+    }
+
+    const response = await fetcher(url);
+
+    const data = await response.json();
+
+    if (!response.ok) {
+      return {
+        status: false,
+        message: "Lỗi server! Vui lòng thử lại sau.",
+        result: null,
+      };
+    }
+
+    return data;
+  } catch (error) {
+    return {
+      status: false,
+      message: "Lỗi server! Vui lòng thử lại sau.",
+      result: null,
+    };
+  }
+};
