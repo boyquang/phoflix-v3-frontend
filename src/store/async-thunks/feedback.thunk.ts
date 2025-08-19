@@ -341,7 +341,7 @@ export const updateContentFeedback = createAsyncThunk(
 export const addFeedback = createAsyncThunk(
   "feedback/addFeedback",
   async ({
-    movieSlug,
+    movieData,
     userId,
     content,
     type,
@@ -358,7 +358,7 @@ export const addFeedback = createAsyncThunk(
             Authorization: `Bearer ${accessToken}`,
           },
           body: JSON.stringify({
-            movieSlug,
+            movieData,
             userId,
             content,
             type,
