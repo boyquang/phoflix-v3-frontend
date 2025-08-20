@@ -2,12 +2,12 @@
 
 import { PasswordInput } from "@/components/ui/password-input";
 import { resetPassword } from "@/lib/actions/user-client.action";
-import { handleShowToaster } from "@/lib/utils";
 import { Button, Dialog, Portal, Field, CloseButton } from "@chakra-ui/react";
 import { useSession } from "next-auth/react";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { appConfig } from "@/configs/app.config";
+import { toast } from "sonner";
 
 const { dialog } = appConfig.charka;
 const motionPresetDefault = dialog.motionPresetDefault;
@@ -35,28 +35,29 @@ const ResetPassword = () => {
   const newPasswordValue = watch("newPassword");
 
   const onSubmit = async (data: FormValues) => {
-    const { oldPassword, newPassword } = data;
+    try {
+      const { oldPassword, newPassword } = data;
+      setLoading(true);
+      const response = await resetPassword({
+        email: session?.user?.email as string,
+        oldPassword,
+        newPassword,
+        typeAccount: session?.user?.typeAccount as "credentials",
+        accessToken: session?.user?.accessToken as string,
+      });
 
-    setLoading(true);
-    const response = await resetPassword({
-      email: session?.user?.email as string,
-      oldPassword,
-      newPassword,
-      typeAccount: session?.user?.typeAccount as "credentials",
-      accessToken: session?.user?.accessToken as string,
-    });
-    setLoading(false);
-
-    if (response?.status) {
-      setOpen(false);
-      reset(); // Làm mới lại form sau khi đổi mật khẩu thành công
+      if (response?.status) {
+        setOpen(false);
+        toast.success(response?.message);
+        reset(); // Làm mới lại form sau khi đổi mật khẩu thành công
+      } else {
+        toast.error(response?.message);
+      }
+    } catch (error) {
+      toast.error("Đã xảy ra lỗi. Vui lòng thử lại sau.");
+    } finally {
+      setLoading(false);
     }
-
-    handleShowToaster(
-      "Thông báo",
-      response?.message,
-      response?.status ? "success" : "error"
-    );
   };
 
   return (

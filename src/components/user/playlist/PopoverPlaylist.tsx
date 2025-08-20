@@ -8,7 +8,6 @@ import { useParams } from "next/navigation";
 import { useState } from "react";
 import { FaPlus } from "react-icons/fa6";
 import { useDispatch, useSelector } from "react-redux";
-import { handleShowToaster } from "@/lib/utils";
 import PlaylistButton from "@/components/shared/PlaylistButton";
 import {
   getPlaylists,
@@ -17,6 +16,7 @@ import {
 import { showDialogSinInWhenNotLogin } from "@/store/slices/system.slice";
 import CheckboxPlaylist from "./CheckBoxPlaylist";
 import ActionsPlaylist from "./ActionsPlaylist";
+import { toast } from "sonner";
 
 interface PlaylistPopoverProps {
   placement?: "vertical" | "horizontal";
@@ -56,10 +56,7 @@ const PopoverPlaylist = ({
   };
 
   const handleAddNewMovieFromPlaylist = async (playlistId: string) => {
-    if (!movie) {
-      handleShowToaster("Thông báo", "Phim không tồn tại.", "error");
-      return;
-    }
+    if (!movie) return;
 
     const response = await addNewMovie({
       userId: session?.user?.id as string,
@@ -85,10 +82,7 @@ const PopoverPlaylist = ({
   };
 
   const handleDeleteMovieFromPlaylist = async (playlistId: string) => {
-    if (!movie) {
-      handleShowToaster("Thông báo", "Phim không tồn tại.", "error");
-      return;
-    }
+    if (!movie) return;
 
     const response = await deleteMovie({
       userId: session?.user?.id as string,
@@ -102,27 +96,28 @@ const PopoverPlaylist = ({
   };
 
   const handleActionsPlaylist = async (value: string, checked: boolean) => {
-    let response = null;
+    try {
+      let response = null;
 
-    setIdCheckbox(value);
+      setIdCheckbox(value);
 
-    if (checked) {
-      response = await handleAddNewMovieFromPlaylist(value);
-    } else {
-      response = await handleDeleteMovieFromPlaylist(value);
+      if (checked) {
+        response = await handleAddNewMovieFromPlaylist(value);
+      } else {
+        response = await handleDeleteMovieFromPlaylist(value);
+      }
+
+      if (response?.status) {
+        toast.success(response?.message);
+        handleGetPlaylistContainingMovie();
+      } else {
+        toast.error(response?.message);
+      }
+    } catch (error) {
+      toast.error("Đã xảy ra lỗi. Vui lòng thử lại sau.");
+    } finally {
+      setIdCheckbox(null);
     }
-
-    setIdCheckbox(null);
-
-    if (response?.status) {
-      handleGetPlaylistContainingMovie();
-    }
-
-    handleShowToaster(
-      "Thông báo",
-      response?.message,
-      response?.status ? "success" : "error"
-    );
   };
 
   if (!session) {

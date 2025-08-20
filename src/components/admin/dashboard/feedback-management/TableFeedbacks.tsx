@@ -1,6 +1,6 @@
 "use client";
 
-import { formatDate, handleShowToaster } from "@/lib/utils";
+import { formatDate } from "@/lib/utils";
 import { Box } from "@chakra-ui/react";
 import MarkFeedbackAsSpam from "./MarkFeedbackAsSpam";
 import { useRouter } from "next/navigation";
@@ -10,6 +10,7 @@ import { markFeedbackAsSpam } from "@/lib/actions/admin-client.action";
 import EmptyData from "@/components/shared/EmptyData";
 import { FaCommentAlt } from "react-icons/fa";
 import Link from "next/link";
+import { toast } from "sonner";
 
 interface TableFeedbacksProps {
   items: FeedbackTable[];
@@ -18,43 +19,38 @@ interface TableFeedbacksProps {
 
 const TableFeedbacks = ({ items, offset }: TableFeedbacksProps) => {
   const router = useRouter();
-  const { data: sesstion } = useSession();
+  const { data: session } = useSession();
   const [markFeedbackAsSpamId, setMarkFeedbackAsSpamId] = useState<
     string | null
   >(null);
 
   const handleMarkAsSpam = async (feedbackId: string, checked: boolean) => {
-    if (!sesstion) {
-      handleShowToaster(
-        "Thông báo",
-        "Token không hợp lệ hoặc đã hết hạn",
-        "error"
-      );
+    if (!session) {
+      toast.info("Phiên đăng nhập hết hạn. Vui lòng đăng nhập lại");
       return;
     }
 
-    const spam = checked ? "1" : "0";
+    try {
+      setMarkFeedbackAsSpamId(feedbackId);
 
-    setMarkFeedbackAsSpamId(feedbackId);
+      const response = await markFeedbackAsSpam({
+        feedbackId,
+        spam: checked ? "1" : "0",
+        adminId: session?.user?.id as string,
+        accessToken: session?.user?.accessToken as string,
+      });
 
-    const response = await markFeedbackAsSpam({
-      feedbackId,
-      spam,
-      adminId: sesstion?.user?.id as string,
-      accessToken: sesstion?.user?.accessToken as string,
-    });
-
-    setMarkFeedbackAsSpamId(null);
-
-    if (response?.status) {
-      router.refresh();
+      if (response?.status) {
+        router.refresh();
+        toast.success(response?.message);
+      } else {
+        toast.error(response?.message);
+      }
+    } catch (error) {
+      toast.error("Đã xảy ra lỗi! Vui lòng thử lại sau.");
+    } finally {
+      setMarkFeedbackAsSpamId(null);
     }
-
-    handleShowToaster(
-      "Thông báo",
-      response?.message,
-      response?.status ? "success" : "error"
-    );
   };
 
   if (!items || items.length === 0) {

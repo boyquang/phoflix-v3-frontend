@@ -15,7 +15,7 @@ import { useDispatch, useSelector } from "react-redux";
 import ClearChat from "./ClearChat";
 import VoiceButton from "../shared/VoiceButton";
 import { delay } from "lodash";
-import useNotification from "@/hooks/useNotification";
+import { toast } from "sonner";
 
 const ChatComposer = () => {
   const { loadingSendQuestion, groupedChatByDate } = useSelector(
@@ -24,46 +24,47 @@ const ChatComposer = () => {
   const [prompt, setPrompt] = useState("");
   const { data: session } = useSession();
   const dispatch: AppDispatch = useDispatch();
-  const { notificationAlert } = useNotification();
 
   const handlSendQuestion = async (prompt: string) => {
     if (!prompt.trim()) return;
 
-    dispatch(
-      setGroupedChatByDate({
-        date: formatTimestamp(new Date().getTime(), "DD/MM/YYYY"),
-        message: {
-          role: "user",
-          content: prompt,
-          createdAt: new Date().getTime(),
-        },
-      })
-    );
-
-    dispatch(setLoadingSendQuestion(true));
-    setPrompt("");
-    const response = await completions({
-      userId: session?.user.id as string,
-      prompt: prompt.trim(),
-      accessToken: session?.user?.accessToken as string,
-    });
-    dispatch(setLoadingSendQuestion(false));
-
-    const { status, result } = response || {};
-
-    if (status) {
+    try {
       dispatch(
         setGroupedChatByDate({
-          date: formatTimestamp(result?.message?.createdAt, "DD/MM/YYYY"),
-          message: result?.message,
+          date: formatTimestamp(new Date().getTime(), "DD/MM/YYYY"),
+          message: {
+            role: "user",
+            content: prompt,
+            createdAt: new Date().getTime(),
+          },
         })
       );
-    } else {
-      notificationAlert({
-        title: "Lỗi",
-        description: response?.message || "Đã có lỗi xảy ra khi gửi câu hỏi",
-        type: "error",
+
+      dispatch(setLoadingSendQuestion(true));
+      setPrompt("");
+
+      const response = await completions({
+        userId: session?.user.id as string,
+        prompt: prompt.trim(),
+        accessToken: session?.user?.accessToken as string,
       });
+
+      const { status, result } = response || {};
+
+      if (status) {
+        dispatch(
+          setGroupedChatByDate({
+            date: formatTimestamp(result?.message?.createdAt, "DD/MM/YYYY"),
+            message: result?.message,
+          })
+        );
+      } else {
+        toast.error(response?.message || "Đã có lỗi xảy ra khi gửi câu hỏi");
+      }
+    } catch (error) {
+      toast.error("Đã có lỗi xảy ra khi gửi câu hỏi");
+    } finally {
+      dispatch(setLoadingSendQuestion(false));
     }
   };
 

@@ -1,9 +1,9 @@
 "use client";
 
-import useNotification from "@/hooks/useNotification";
 import { generatePagination } from "@/lib/utils";
 import { useRouter } from "next/navigation";
 import { useTransition } from "react";
+import { toast } from "sonner";
 
 interface PaginationCustomProps {
   currentPage: number;
@@ -26,7 +26,6 @@ const PaginationCustom = ({
   const totalPages = Math.ceil(totalItems / itemsPerPage);
   const paginationItems = generatePagination(currentPage, totalPages);
   const [pending, startTransition] = useTransition();
-  const { notificationAlert } = useNotification();
 
   const handleChangePage = (page: number | string) => {
     const params = new URLSearchParams(window.location.search);
@@ -39,17 +38,13 @@ const PaginationCustom = ({
         behavior: "smooth",
       });
     }
-    
+
     startTransition(() => {
       router.replace(`?${params.toString()}`, { scroll: false });
     });
 
-
     if (showToaster) {
-      notificationAlert({
-        title: "Thông báo",
-        description: `Bạn đã chuyển đến trang ${page}`,
-      });
+      toast.success(`Bạn đã chuyển đến trang ${page}`);
     }
 
     // Gọi callback nếu có

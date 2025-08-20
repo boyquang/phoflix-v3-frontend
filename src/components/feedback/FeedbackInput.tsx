@@ -16,12 +16,12 @@ import {
   setShowFeedbackId,
   setShowReplyId,
 } from "@/store/slices/feedback.slice";
-import { handleShowToaster } from "@/lib/utils";
 import SwitchCustom from "../shared/SwitchCustom";
 import { showDialogSinInWhenNotLogin } from "@/store/slices/system.slice";
 import { useRootFeedback } from "@/hooks/useRootFeedback";
 import useSendSocketFeedback from "@/hooks/useSendSocketFeedback";
 import useNotification from "@/hooks/useNotification";
+import { toast } from "sonner";
 
 const FeedbackInput = ({
   action,
@@ -36,7 +36,7 @@ const FeedbackInput = ({
   );
   const { sendSocketAddNewFeedback, sendSocketReplyFeedback } =
     useSendSocketFeedback();
-  const { createNotificationFunc, notificationAlert } = useNotification();
+  const { createNotificationFunc } = useNotification();
   const context = useRootFeedback();
   const rootFeedbackId = context?.rootFeedbackId as string;
   const { movie } = useSelector((state: RootState) => state.movie.movieInfo);
@@ -125,46 +125,49 @@ const FeedbackInput = ({
       return;
     }
 
-    if (value.trim() === "") {
-      handleShowToaster("Thông báo", "Nội dung không được để trống", "error");
+    if (!value.trim()) {
+      toast.info("Nội dung không được để trống");
       return;
     }
 
     startTransition(async () => {
-      let response = null;
+      try {
+        let response = null;
 
-      if (action === "comment") {
-        response = await addNewComment();
-        sendSocketAddNewFeedback();
-      } else if (action === "reply") {
-        response = await addNewReply();
-        sendSocketReplyFeedback(
-          feedback?.author?._id as string,
-          rootFeedbackId
-        );
-        handleCreateNotification();
-      }
-
-      if (response?.status) {
-        setValue("");
-        setLength(0);
-        setIsAnonymous(false); // Đặt lại trạng thái switch ẩn danh về false
-
-        if (isAnonymous) {
-          setResetSwitch(true);
-          setTimeout(() => setResetSwitch(false), 100); // Làm mới switch ẩn danh sau 100ms
+        if (action === "comment") {
+          response = await addNewComment();
+          sendSocketAddNewFeedback();
+        } else if (action === "reply") {
+          response = await addNewReply();
+          sendSocketReplyFeedback(
+            feedback?.author?._id as string,
+            rootFeedbackId
+          );
+          handleCreateNotification();
         }
 
-        dispatch(setShowFeedbackId(null)); // Đóng modal bình luận
-        dispatch(setShowReplyId(null)); // Đóng modal trả lời bình luận
-        handleRefreshFeedback(); // Làm mới danh sách bình luận và trả lời
-      } else {
-        notificationAlert({
-          title: response?.status ? "Thông báo" : "Lỗi",
-          description:
-            response?.message || "Đã có lỗi xảy ra, vui lòng thử lại sau.",
-          type: response?.status ? "success" : "error",
-        });
+        if (response?.status) {
+          // Reset input
+          setValue("");
+          setLength(0);
+          setIsAnonymous(false);
+
+          // Reset switch ẩn danh
+          if (isAnonymous) {
+            setResetSwitch(true);
+            setTimeout(() => setResetSwitch(false), 100);
+          }
+
+          toast.success(response.message);
+          // Đóng modal + refresh
+          dispatch(setShowFeedbackId(null));
+          dispatch(setShowReplyId(null));
+          handleRefreshFeedback();
+        } else {
+          toast.error(response?.message || "Thêm bình luận thất bại!");
+        }
+      } catch (error) {
+        toast.error("Đã xảy ra lỗi! Vui lòng thử lại sau.");
       }
     });
   };

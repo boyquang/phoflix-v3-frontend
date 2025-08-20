@@ -1,9 +1,9 @@
 "use client";
 
 import { useState, useRef, useEffect } from "react";
-import { handleShowToaster } from "@/lib/utils";
 import { IconButton } from "@chakra-ui/react";
 import { MdKeyboardVoice, MdStop } from "react-icons/md";
+import { toast } from "sonner";
 interface VoiceButtonProps {
   callback: (value: string) => void;
   size?: "xs" | "sm" | "md" | "lg" | "xl";
@@ -30,12 +30,12 @@ const VoiceButton = ({
     if (isListening && recognitionRef.current) {
       recognitionRef.current.stop();
       setIsListening(false);
-      handleShowToaster("Thông báo", "Đã dừng lắng nghe giọng nói.");
+      toast.info("Đã dừng lắng nghe giọng nói.");
       return;
     }
 
     if (!("webkitSpeechRecognition" in window)) {
-      handleShowToaster("Thông báo", "Trình duyệt không hỗ trợ tính năng này.");
+      toast.info("Trình duyệt của bạn không hỗ trợ tính năng này.");
       return;
     }
 
@@ -59,7 +59,7 @@ const VoiceButton = ({
 
     recognition.onstart = () => {
       setIsListening(true);
-      handleShowToaster("Thông báo", "Đang lắng nghe giọng nói...");
+      toast.info("Đang lắng nghe giọng nói...");
     };
 
     recognition.onend = () => {
@@ -73,10 +73,7 @@ const VoiceButton = ({
     };
 
     recognition.onerror = (event: SpeechRecognitionErrorEvent) => {
-      handleShowToaster(
-        "Thông báo",
-        "Có lỗi xảy ra trong quá trình nhận diện."
-      );
+      toast.error("Có lỗi xảy ra trong quá trình nhận diện.");
       setIsListening(false);
     };
 

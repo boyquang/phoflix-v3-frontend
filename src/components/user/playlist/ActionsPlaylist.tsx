@@ -6,7 +6,6 @@ import {
   deletePlaylist,
   updatePlaylist,
 } from "@/lib/actions/playlist.action";
-import { handleShowToaster } from "@/lib/utils";
 import {
   Button,
   CloseButton,
@@ -20,6 +19,7 @@ import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
 import { MdDelete } from "react-icons/md";
+import { toast } from "sonner";
 
 interface ActionsPlaylistProps {
   action: "update" | "create" | "delete";
@@ -96,53 +96,50 @@ const ActionsPlaylist = ({
   const handleActionPlaylist = async (
     action: "update" | "delete" | "create"
   ) => {
-    if (playlistName?.trim() === "") {
-      handleShowToaster(
-        "Thông báo",
-        "Tên danh sách không được để trống",
-        "error"
-      );
+    if (!playlistName?.trim()) {
+      toast.error("Tên danh sách không được để trống");
       return;
     }
 
-    let response = null;
+    try {
+      let response = null;
 
-    setLoading((prev) => ({ ...prev, [action]: true }));
+      setLoading((prev) => ({ ...prev, [action]: true }));
 
-    switch (action) {
-      case "create":
-        response = await handleCreateNewPlaylist();
-        break;
-      case "update":
-        response = await handleUpdatePlaylist();
-        break;
-      case "delete":
-        response = await handleDeletePlaylist();
-        break;
-      default:
-        break;
-    }
-
-    setLoading((prev) => ({ ...prev, [action]: false }));
-
-    if (response?.status) {
-      setPlaylistName("");
-      setIsOpen(false);
-
-      // Thực hiện hành động sau khi xóa thành công
-      if (callback) {
-        callback();
+      switch (action) {
+        case "create":
+          response = await handleCreateNewPlaylist();
+          break;
+        case "update":
+          response = await handleUpdatePlaylist();
+          break;
+        case "delete":
+          response = await handleDeletePlaylist();
+          break;
+        default:
+          break;
       }
 
-      // Cập nhật dữ liệu trên trang hiện tại
-      router.refresh();
-    }
+      if (response?.status) {
+        setPlaylistName("");
+        setIsOpen(false);
 
-    handleShowToaster(
-      "Thông báo",
-      response?.message,
-      response?.status ? "success" : "error"
-    );
+        // Thực hiện hành động sau khi xóa thành công
+        if (callback) {
+          callback();
+        }
+
+        // Cập nhật dữ liệu trên trang hiện tại
+        router.refresh();
+        toast.success(response?.message);
+      } else {
+        toast.error(response?.message);
+      }
+    } catch (error) {
+      toast.error("Đã xảy ra lỗi. Vui lòng thử lại sau.");
+    } finally {
+      setLoading((prev) => ({ ...prev, [action]: false }));
+    }
   };
 
   return (

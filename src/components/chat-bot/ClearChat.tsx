@@ -7,34 +7,37 @@ import { useSession } from "next-auth/react";
 import { useDispatch } from "react-redux";
 import { AppDispatch } from "@/store/store";
 import { resetChat } from "@/store/slices/chat-bot.slice";
-import useNotification from "@/hooks/useNotification";
 import { Button } from "@chakra-ui/react";
+import { toast } from "sonner";
 
 const ClearChat = () => {
   const [loading, setLoading] = useState(false);
   const { data: session } = useSession();
   const dispatch: AppDispatch = useDispatch();
-  const { notificationAlert } = useNotification();
 
   const handleClearChat = async () => {
-    setLoading(true);
-    const response = await clearHistory(
-      session?.user.id as string,
-      session?.user.accessToken as string
-    );
-    setLoading(false);
+    try {
+      setLoading(true);
+      const response = await clearHistory(
+        session?.user.id as string,
+        session?.user.accessToken as string
+      );
 
-    if (response?.status) {
-      dispatch(resetChat());
+      if (response?.status) {
+        dispatch(resetChat());
+        toast.success(
+          response?.message || "Lịch sử trò chuyện đã được xóa thành công"
+        );
+      } else {
+        toast.error(
+          response?.message || "Đã có lỗi xảy ra khi xóa lịch sử trò chuyện"
+        );
+      }
+    } catch (error) {
+      toast.error("Đã xảy ra lỗi. Vui lòng thử lại sau.");
+    } finally {
+      setLoading(false);
     }
-
-    notificationAlert({
-      title: response?.status ? "Thành công" : "Lỗi",
-      description:
-        response?.message || "Lịch sử trò chuyện đã được xóa thành công.",
-      type: response?.status ? "success" : "error",
-      duration: 3000,
-    });
   };
 
   return (

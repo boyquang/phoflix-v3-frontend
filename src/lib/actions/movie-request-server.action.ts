@@ -4,7 +4,7 @@ import {
   NEXT_PUBLIC_BACKEND_URL,
 } from "../../constants/env.contant";
 
-const BASE_URL = `${NEXT_PUBLIC_BACKEND_URL}/api/${NEXT_PUBLIC_API_VERSION}/user/movieRequests`;
+const BASE_URL = `${NEXT_PUBLIC_BACKEND_URL}/api/${NEXT_PUBLIC_API_VERSION}/user`;
 
 interface GetMovieRequest {
   limit: number;
@@ -30,7 +30,7 @@ export const getMovieRequests = async ({
       params.append("afterTime", afterTime.toString());
     }
 
-    const url = `${BASE_URL}?${params.toString()}`;
+    const url = `${BASE_URL}/movieRequests?${params.toString()}`;
 
     const response = await fetch(url);
 
@@ -76,7 +76,7 @@ export const createMovieRequest = async ({
   description,
 }: CreateMovieRequest): Promise<any> => {
   try {
-    const url = BASE_URL;
+    const url = `${BASE_URL}/movieRequest`;
 
     const response = await fetch(url, {
       method: "POST",
@@ -132,7 +132,7 @@ export const deleteMovieRequest = async ({
       requestId,
     });
 
-    const url = `${BASE_URL}?${params.toString()}`;
+    const url = `${BASE_URL}/movieRequest?${params.toString()}`;
 
     const response = await fetch(url, {
       method: "DELETE",

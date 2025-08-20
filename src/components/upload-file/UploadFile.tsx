@@ -1,11 +1,11 @@
 "use client";
 
 import { uploadFileToCloundinary } from "@/lib/cloudinary/upload";
-import { handleShowToaster } from "@/lib/utils";
 import { Box, FileUpload, Icon, Spinner } from "@chakra-ui/react";
 import { useState } from "react";
 import { LuUpload } from "react-icons/lu";
 import PreviewImage from "./PreviewImage";
+import { toast } from "sonner";
 
 interface UploadFileProps {
   callback: (image: string) => void;
@@ -27,20 +27,18 @@ const UploadFile = ({
     if (!file) return;
 
     if (type === "image" && !file.type.startsWith("image/")) {
-      handleShowToaster("Thông báo", "Vui lòng chọn file ảnh", "error");
+      toast.error("Vui lòng chọn file ảnh");
       return;
     }
 
     if (type === "video" && !file.type.startsWith("video/")) {
-      handleShowToaster("Thông báo", "Vui lòng chọn file video", "error");
+      toast.error("Vui lòng chọn file video");
       return;
     }
 
     if (file.size > maxFileSize * 1024 * 1024) {
-      handleShowToaster(
-        "Thông báo",
-        `Kích thước file quá lớn. Chỉ hỗ trợ file có kích thước từ ${maxFileSize}MB trở xuống`,
-        "error"
+      toast.error(
+        `Kích thước file quá lớn. Chỉ hỗ trợ file có kích thước từ ${maxFileSize}MB trở xuống`
       );
       return;
     }
@@ -50,13 +48,11 @@ const UploadFile = ({
     try {
       const url = await uploadFileToCloundinary(file, type);
 
-      handleShowToaster("Thông báo", "Tải file thành công", "success");
-
+      toast.success("Tải file thành công");
       callback(url);
-
       setImages([file]);
     } catch (err) {
-      handleShowToaster("Lỗi", "Tải file thất bại", "error");
+      toast.error("Tải file thất bại");
     } finally {
       setLoading(false);
     }
@@ -65,7 +61,7 @@ const UploadFile = ({
   const handleDeleteImage = (fileName: string) => {
     setImages((prev) => prev.filter((file) => file.name !== fileName));
     callback("");
-    handleShowToaster("Thông báo", "Xóa file thành công", "success");
+    toast.success("Xóa file thành công");
   };
   return (
     <FileUpload.Root

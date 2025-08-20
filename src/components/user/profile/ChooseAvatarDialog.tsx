@@ -1,7 +1,6 @@
 "use client";
 
 import { updateUserProfile } from "@/lib/actions/user-client.action";
-import { handleShowToaster } from "@/lib/utils";
 import { Box, Button, CloseButton, Dialog, Portal } from "@chakra-ui/react";
 import { useSession } from "next-auth/react";
 import { useState, useTransition } from "react";
@@ -13,12 +12,13 @@ import { setSelectedFilterTabsAvatar } from "@/store/slices/user.slice";
 import { appConfig } from "@/configs/app.config";
 import { avatars } from "@/constants/avatar.contant";
 import UploadFile from "@/components/upload-file/UploadFile";
+import { toast } from "sonner";
 
 const { dialog } = appConfig.charka;
 const motionPresetDefault = dialog.motionPresetDefault;
 
 const ChooseAvatarDialog = () => {
-  const { data: sesstion, update } = useSession();
+  const { data: session, update } = useSession();
   const { selectedFilterTabsAvatar } = useSelector(
     (state: RootState) => state.user.avatar
   );
@@ -31,33 +31,33 @@ const ChooseAvatarDialog = () => {
 
   const handleUpdateUserProfile = () => {
     if (!selectedAvatar) {
-      handleShowToaster("Thông báo", "Vui lòng chọn ảnh đại diện", "error");
+      toast.error("Vui lòng chọn ảnh đại diện");
       return;
     }
 
     startTransition(async () => {
-      const response = await updateUserProfile({
-        userId: sesstion?.user?.id as string,
-        username: sesstion?.user?.name as string,
-        gender: sesstion?.user?.gender as Gender,
-        avatar: selectedAvatar as string,
-        typeAccount: sesstion?.user?.typeAccount as TypeAcccount,
-        accessToken: sesstion?.user?.accessToken as string,
-      });
+      try {
+        const response = await updateUserProfile({
+          userId: session?.user?.id as string,
+          username: session?.user?.name as string,
+          gender: session?.user?.gender as Gender,
+          avatar: selectedAvatar as string,
+          typeAccount: session?.user?.typeAccount as TypeAcccount,
+          accessToken: session?.user?.accessToken as string,
+        });
 
-      if (response?.status) {
-        await update();
-
-        setIsOpen(false);
-        dispatch(setSelectedFilterTabsAvatar("hoat-hinh"));
-        setSelectedAvatar(avatars["hoat-hinh"].images[0]);
+        if (response?.status) {
+          await update();
+          setIsOpen(false);
+          toast.success(response?.message);
+          dispatch(setSelectedFilterTabsAvatar("hoat-hinh"));
+          setSelectedAvatar(avatars["hoat-hinh"].images[0]);
+        } else {
+          toast.error(response?.message);
+        }
+      } catch (error) {
+        toast.error("Đã xảy ra lỗi. Vui lòng thử lại sau.");
       }
-
-      handleShowToaster(
-        "Thông báo",
-        response?.message,
-        response?.status ? "success" : "error"
-      );
     });
   };
 

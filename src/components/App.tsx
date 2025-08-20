@@ -4,6 +4,7 @@ import { Box } from "@chakra-ui/react";
 import NavBar from "./layout/header/NavBar";
 import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "@/store/store";
+import { Toaster as NewToaster } from "sonner";
 import {
   setIsOpenDrawer,
   setIsShowAuthDialog,
@@ -28,6 +29,7 @@ import GoToSleepAnimation from "./warn-user/repose/GoToSleepAnimation";
 import ChatBotDialog from "./chat-bot/ChatBotDialog";
 import { auth } from "@/auth";
 import { signOut } from "next-auth/react";
+import { ToasterConfig } from "@/configs/toaster.config";
 
 const ReposeUserAlert = dynamic(
   () => import("./warn-user/repose/ReposeUserAlert"),
@@ -101,6 +103,8 @@ const App = ({ children }: { children: React.ReactNode }) => {
         type={typeAuth}
         onClose={() => dispatch(setIsShowAuthDialog(false))}
       />
+
+      <NewToaster {...ToasterConfig} />
 
       <Toaster />
 

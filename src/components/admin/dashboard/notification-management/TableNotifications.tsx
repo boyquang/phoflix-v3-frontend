@@ -10,7 +10,7 @@ import {
   deleteNotification,
   updateNotification,
 } from "@/lib/actions/admin-client.action";
-import { handleShowToaster } from "@/lib/utils";
+import { toast } from "sonner";
 
 interface TableNotificationsProps {
   items: NotificationTable[];
@@ -31,63 +31,61 @@ const TableNotifications = ({ items, offset }: TableNotificationsProps) => {
     keyEdit: string
   ) => {
     if (!session) {
-      handleShowToaster(
-        "Thông báo",
-        "Token không hợp lệ hoặc đã hết hạn",
-        "error"
-      );
+      toast.info("Phiên đăng nhập hết hạn. Vui lòng đăng nhập lại");
       return;
     }
 
-    setEditingField({ id: data.id, key: keyEdit });
+    try {
+      setEditingField({ id: data.id, key: keyEdit });
 
-    const response = await updateNotification({
-      notificationId: data.id,
-      userId: session.user.id as string,
-      content: data.content,
-      href: data.href,
-      image: data.image,
-      accessToken: session.user.accessToken as string,
-    });
+      const response = await updateNotification({
+        notificationId: data.id,
+        userId: session.user.id as string,
+        content: data.content,
+        href: data.href,
+        image: data.image,
+        accessToken: session.user.accessToken as string,
+      });
 
-    setEditingField(null);
-
-    if (response?.status) router.refresh();
-
-    handleShowToaster(
-      "Thông báo",
-      response?.message,
-      response?.status ? "success" : "error"
-    );
+      if (response?.status) {
+        router.refresh();
+        toast.success(response?.message);
+      } else {
+        toast.error(response?.message);
+      }
+    } catch (error) {
+      toast.error("Đã xảy ra lỗi! Vui lòng thử lại sau.");
+    } finally {
+      setEditingField(null);
+    }
   };
 
   const handleDeleteNotification = async (id: string) => {
     if (!session) {
-      handleShowToaster(
-        "Thông báo",
-        "Token không hợp lệ hoặc đã hết hạn",
-        "error"
-      );
+      toast.info("Phiên đăng nhập hết hạn. Vui lòng đăng nhập lại");
       return;
     }
 
-    setIdDelete(id);
+    try {
+      setIdDelete(id);
 
-    const response = await deleteNotification({
-      notificationId: id,
-      userId: session.user.id as string,
-      accessToken: session.user.accessToken as string,
-    });
+      const response = await deleteNotification({
+        notificationId: id,
+        userId: session.user.id as string,
+        accessToken: session.user.accessToken as string,
+      });
 
-    setIdDelete(null);
-
-    if (response?.status) router.refresh();
-
-    handleShowToaster(
-      "Thông báo",
-      response?.message,
-      response?.status ? "success" : "error"
-    );
+      if (response?.status) {
+        router.refresh();
+        toast.success(response?.message);
+      } else {
+        toast.error(response?.message);
+      }
+    } catch (error) {
+      toast.error("Đã xảy ra lỗi! Vui lòng thử lại sau.");
+    } finally {
+      setIdDelete(null);
+    }
   };
 
   if (!items || items.length === 0) {

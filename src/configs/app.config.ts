@@ -61,7 +61,7 @@ export const appConfig: AppConfig = {
   appName: "PHOFLIX-V3",
   feature: {
     watchingTogether: {
-      status: FeatureStatus.NEW,
+      status: FeatureStatus.ACTIVE,
     },
     advancedFilter: {
       status: FeatureStatus.ACTIVE,

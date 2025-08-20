@@ -1,7 +1,6 @@
 "use client";
 
 import { socket } from "@/configs/socket.config";
-import { handleShowToaster } from "@/lib/utils";
 import { getRoomDataWatchingTogether } from "@/store/async-thunks/watching-together.thunk";
 import { setRoomUsers } from "@/store/slices/room-users.slice";
 import { AppDispatch, RootState } from "@/store/store";
@@ -13,6 +12,7 @@ import {
   setCurrentEpisode,
   shareDataFromOwnerRoom,
 } from "@/store/slices/watching-together.slice";
+import { toast } from "sonner";
 
 interface UseSocketRoomUserEventsProps {
   roomId: string;
@@ -32,11 +32,7 @@ const useSocketRoomUserEvents = ({ roomId }: UseSocketRoomUserEventsProps) => {
     if (!user) return;
 
     if (user?.id !== session?.user?.id) {
-      handleShowToaster(
-        "Thông báo",
-        `Người dùng ${user?.username} đã rời phòng!`
-      );
-
+      toast.info(`Người xem ${user?.username} đã rời phòng!`);
       // Cập nhật danh sách người dùng trong phòng
       dispatch(setRoomUsers(users));
     } else {
@@ -53,12 +49,11 @@ const useSocketRoomUserEvents = ({ roomId }: UseSocketRoomUserEventsProps) => {
     if (!user) return;
 
     if (user?.id !== session?.user?.id) {
-      handleShowToaster("Thông báo", message?.viewer, "info");
-
+      toast.info(message?.viewer);
       // Cập nhật danh sách người dùng trong phòng
       dispatch(setRoomUsers(users));
     } else {
-      handleShowToaster("Thông báo", message?.user, "info");
+      toast.info(message?.user);
       delay(() => {
         window.location.href = "/";
       }, 1000);
@@ -73,7 +68,7 @@ const useSocketRoomUserEvents = ({ roomId }: UseSocketRoomUserEventsProps) => {
 
     // Thông báo cho người trong phòng trừ người tham gia và đúng phòng hiện tại
     if (user?.id !== session?.user?.id && roomId === roomIdRes) {
-      handleShowToaster("Thông báo", message, "info");
+      toast.info(message);
     }
 
     // Chỉ khi chủ phòng vào thì mới load data cho toàn bộ phòng
@@ -103,9 +98,9 @@ const useSocketRoomUserEvents = ({ roomId }: UseSocketRoomUserEventsProps) => {
     if (roomIdRes !== roomId) return;
 
     if (session?.user?.id === roomOwnerId) {
-      handleShowToaster("Thông báo", message?.owner, "info");
+      toast.info(message?.owner);
     } else {
-      handleShowToaster("Thông báo", message?.viewer, "info");
+      toast.info(message?.viewer);
     }
 
     delay(() => {
@@ -119,7 +114,7 @@ const useSocketRoomUserEvents = ({ roomId }: UseSocketRoomUserEventsProps) => {
 
     if (session?.user?.id !== roomOwnerId && roomIdRes === roomId) {
       dispatch(setCurrentEpisode(currentEpisode));
-      handleShowToaster("Thông báo", message, "info");
+      toast.info(message);
     }
   };
 
@@ -167,7 +162,7 @@ const useSocketRoomUserEvents = ({ roomId }: UseSocketRoomUserEventsProps) => {
         })
       );
 
-      handleShowToaster("Thông báo", message, "info");
+      toast.info(message);
     }
   };
 

@@ -4,13 +4,13 @@ import {
   completeRegistration,
   verifyToken,
 } from "@/lib/actions/auth-server.action";
-import { handleShowToaster } from "@/lib/utils";
 import { setIsShowAuthDialog, setTypeAuth } from "@/store/slices/system.slice";
 import { AppDispatch } from "@/store/store";
 import { Box } from "@chakra-ui/react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { useEffect } from "react";
 import { useDispatch } from "react-redux";
+import { toast } from "sonner";
 
 const MainPage = () => {
   const searchParams = useSearchParams();
@@ -24,44 +24,46 @@ const MainPage = () => {
   }, []);
 
   const handleVerifyToken = async () => {
-    const response = await verifyToken(token as string);
-
-    if (!response?.status) {
-      handleShowToaster("Thông báo", response?.message, "error");
-
-      router.push("/");
-      return;
-    }
-
-    if (action === "register") {
-      const response = await completeRegistration(token as string);
+    try {
+      const response = await verifyToken(token as string);
 
       if (!response?.status) {
-        handleShowToaster("Thông báo", response?.message, "error");
-
+        toast.error(response?.message);
         router.push("/");
         return;
       }
 
-      handleShowToaster("Thông báo", response?.message, "success");
+      if (action === "register") {
+        const response = await completeRegistration(token as string);
 
-      setTimeout(() => {
-        dispatch(setTypeAuth("signin"));
-        dispatch(setIsShowAuthDialog(true));
-      }, 500);
+        if (!response?.status) {
+          toast.error(response?.message);
+          router.push("/");
+          return;
+        }
 
-      router.push("/");
-    } else if (action === "reset-password") {
-      handleShowToaster("Thông báo", response?.message, "success");
+        toast.success(response?.message);
 
-      setTimeout(() => {
-        dispatch(setTypeAuth("reset-password"));
-        dispatch(setIsShowAuthDialog(true));
-      }, 500);
+        setTimeout(() => {
+          dispatch(setTypeAuth("signin"));
+          dispatch(setIsShowAuthDialog(true));
+        }, 500);
 
-      router.push(
-        `/?action=reset-password&email=${response?.result?.email}&token=${token}`
-      );
+        router.push("/");
+      } else if (action === "reset-password") {
+        toast.success(response?.message);
+
+        setTimeout(() => {
+          dispatch(setTypeAuth("reset-password"));
+          dispatch(setIsShowAuthDialog(true));
+        }, 500);
+
+        router.push(
+          `/?action=reset-password&email=${response?.result?.email}&token=${token}`
+        );
+      }
+    } catch (error) {
+      toast.error("Đã xảy ra lỗi. Vui lòng thử lại sau.");
     }
   };
 

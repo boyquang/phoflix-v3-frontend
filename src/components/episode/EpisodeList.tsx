@@ -8,13 +8,13 @@ import { RootState } from "@/store/store";
 import {
   changeQuery,
   getIdFromLinkEmbed,
-  handleShowToaster,
   scrollToElement,
   scrollToTop,
 } from "@/lib/utils";
 import EpisodeItem from "./EpisodeItem";
 import HoverOutlineWrapper from "@/components/shared/HoverOutlineWrapper";
 import EmptyData from "../shared/EmptyData";
+import { toast } from "sonner";
 
 interface EpisodesListProps {
   language: languageType;
@@ -110,10 +110,7 @@ const EpisodesList = ({
 
       // Hiển thị toaster nếu cần
       if (showToaster) {
-        handleShowToaster(
-          `Bạn đang xem ${item?.filename}`,
-          "Chúc bạn xem phim vui vẻ!"
-        );
+        toast.info(`Bạn đang xem ${item?.filename}`);
       }
     }
   };

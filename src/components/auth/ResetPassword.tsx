@@ -1,7 +1,6 @@
 "use client";
 
 import { PasswordInput } from "@/components/ui/password-input";
-import useNotification from "@/hooks/useNotification";
 import { resetPassword } from "@/lib/actions/auth-server.action";
 import { setTypeAuth } from "@/store/slices/system.slice";
 import { AppDispatch } from "@/store/store";
@@ -10,6 +9,7 @@ import { useSearchParams } from "next/navigation";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { useDispatch } from "react-redux";
+import { toast } from "sonner";
 
 interface FormValues {
   password: string;
@@ -21,7 +21,6 @@ const ResetPassword = () => {
   const searchParams = useSearchParams();
   const email = searchParams.get("email");
   const [loading, setLoading] = useState(false);
-  const { notificationAlert } = useNotification();
 
   const {
     register: rhfResetPassword,
@@ -34,24 +33,26 @@ const ResetPassword = () => {
   const passwordValue = watch("password");
 
   const onSubmit = async (data: FormValues) => {
-    const { password } = data;
+    try {
+      const { password } = data;
 
-    setLoading(true);
-    const response = await resetPassword({
-      email: email as string,
-      password,
-    });
-    setLoading(false);
+      setLoading(true);
+      const response = await resetPassword({
+        email: email as string,
+        password,
+      });
 
-    if (response?.status) {
-      dispatch(setTypeAuth("signin"));
+      if (response?.status) {
+        toast.success(response?.message);
+        dispatch(setTypeAuth("signin"));
+      } else {
+        toast.error(response?.message);
+      }
+    } catch (error) {
+      toast.error("Đã xảy ra lỗi. Vui lòng thử lại sau.");
+    } finally {
+      setLoading(false);
     }
-
-    notificationAlert({
-      title: response?.status ? "Thành công" : "Lỗi",
-      description: response?.message || "Đã xảy ra lỗi trong quá trình xử lý",
-      type: response?.status ? "success" : "error",
-    });
   };
 
   return (

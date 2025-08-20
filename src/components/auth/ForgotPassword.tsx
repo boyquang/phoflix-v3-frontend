@@ -1,6 +1,5 @@
 "use client";
 
-import useNotification from "@/hooks/useNotification";
 import { forgotPassword } from "@/lib/actions/auth-server.action";
 import { isValidEmail } from "@/lib/utils";
 import { setIsShowAuthDialog, setTypeAuth } from "@/store/slices/system.slice";
@@ -9,6 +8,7 @@ import { Box, Button, Field, Input, Spinner } from "@chakra-ui/react";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { useDispatch } from "react-redux";
+import { toast } from "sonner";
 
 interface FormValues {
   email: string;
@@ -17,7 +17,6 @@ interface FormValues {
 const ForgotPassword = () => {
   const dispatch: AppDispatch = useDispatch();
   const [loading, setLoading] = useState(false);
-  const { notificationAlert } = useNotification();
 
   const {
     register: rhfForgotPassword,
@@ -27,22 +26,24 @@ const ForgotPassword = () => {
   } = useForm<FormValues>({ mode: "onSubmit" });
 
   const onSubmit = async (data: FormValues) => {
-    const { email } = data;
+    try {
+      const { email } = data;
 
-    setLoading(true);
-    const response = await forgotPassword(email, "credentials");
-    setLoading(false);
+      setLoading(true);
+      const response = await forgotPassword(email, "credentials");
 
-    if (response?.status) {
-      dispatch(setIsShowAuthDialog(false));
-      reset();
+      if (response?.status) {
+        dispatch(setIsShowAuthDialog(false));
+        reset();
+        toast.success(response?.message);
+      } else {
+        toast.error(response?.message);
+      }
+    } catch (error) {
+      toast.error("Đã xảy ra lỗi. Vui lòng thử lại sau.");
+    } finally {
+      setLoading(false);
     }
-
-    notificationAlert({
-      title: response?.status ? "Thành công" : "Lỗi",
-      description: response?.message || "Đã xảy ra lỗi trong quá trình xử lý",
-      type: response?.status ? "success" : "error",
-    });
   };
 
   return (

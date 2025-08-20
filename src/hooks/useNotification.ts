@@ -7,6 +7,7 @@ import { AppDispatch } from "@/store/store";
 import { useSession } from "next-auth/react";
 import { useParams, usePathname } from "next/navigation";
 import { useDispatch } from "react-redux";
+import { toast } from "sonner";
 
 interface NotificationData {
   receiverId: string;
@@ -47,10 +48,7 @@ const useNotification = () => {
     const userId = session?.user?.id;
     if (userId === receiverId && senderId !== userId) {
       // Hiển thị thông báo khi có phản hồi mới
-      notificationAlert({
-        title: "Bạn vừa nhận được thông báo mới",
-        description: "Hãy kiểm tra ngay thông báo của bạn.",
-      });
+      toast.info("Bạn vừa nhận được thông báo mới");
       dispatch(playAudioNotification(true));
     }
   };

@@ -1,19 +1,17 @@
 "use client";
 
 import useAutoFocusToEnd from "@/hooks/useAutoFocusToEnd";
-import useNotification from "@/hooks/useNotification";
 import { useRootFeedback } from "@/hooks/useRootFeedback";
 import useSendSocketFeedback from "@/hooks/useSendSocketFeedback";
-import { handleShowToaster } from "@/lib/utils";
 import { updateContentFeedback } from "@/store/async-thunks/feedback.thunk";
 import { setIdEditFeedback } from "@/store/slices/feedback.slice";
 import { AppDispatch } from "@/store/store";
 import { Box, IconButton, Textarea } from "@chakra-ui/react";
 import { useSession } from "next-auth/react";
-
 import { useEffect, useRef, useState } from "react";
 import { LuCheck, LuX } from "react-icons/lu";
 import { useDispatch } from "react-redux";
+import { toast } from "sonner";
 
 interface EditFeedbackProps {
   defaultValue: string;
@@ -23,7 +21,6 @@ interface EditFeedbackProps {
 const EditFeedback = ({ defaultValue, feedbackId }: EditFeedbackProps) => {
   const dispatch: AppDispatch = useDispatch();
   const { sendSocketUpdateFeedback } = useSendSocketFeedback();
-  const { notificationAlert } = useNotification();
   const textAreaRef = useRef<HTMLTextAreaElement>(null);
   const [value, setValue] = useState(defaultValue || "");
   const [loading, setLoading] = useState(false);
@@ -50,37 +47,37 @@ const EditFeedback = ({ defaultValue, feedbackId }: EditFeedbackProps) => {
 
   const handleUpdateFeedback = async () => {
     if (value?.trim() === "") {
-      handleShowToaster(
-        "Thông báo",
-        "Nội dung phản hồi không được để trống",
-        "error"
-      );
+      toast.info("Nội dung phản hồi không được để trống");
       return;
     }
 
-    setLoading(true);
-    const response = await dispatch(
-      updateContentFeedback({
-        feedbackId,
-        content: value,
-        userId: session?.user?.id as string,
-        accessToken: session?.user?.accessToken as string,
-        rootFeedbackId,
-      })
-    );
-    setLoading(false);
+    try {
+      setLoading(true);
+      const response = await dispatch(
+        updateContentFeedback({
+          feedbackId,
+          content: value,
+          userId: session?.user?.id as string,
+          accessToken: session?.user?.accessToken as string,
+          rootFeedbackId,
+        })
+      );
 
-    if (response?.payload?.status) {
-      dispatch(setIdEditFeedback(null));
-      sendSocketUpdateFeedback(rootFeedbackId);
-      setValue("");
+      if (response?.payload?.status) {
+        dispatch(setIdEditFeedback(null));
+        sendSocketUpdateFeedback(rootFeedbackId);
+        setValue("");
+        toast.success(response?.payload?.message);
+      } else {
+        toast.error(response?.payload?.message);
+      }
+
+      
+    } catch (error) {
+      toast.error("Đã xảy ra lỗi! Vui lòng thử lại sau.");
+    } finally {
+      setLoading(false);
     }
-
-    notificationAlert({
-      title: response?.payload?.status ? "Thông báo" : "Lỗi",
-      description: response?.payload?.message,
-      type: response?.payload?.status ? "success" : "error",
-    });
   };
 
   return (

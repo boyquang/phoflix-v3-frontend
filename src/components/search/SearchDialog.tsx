@@ -11,7 +11,6 @@ import { useRouter } from "next/navigation";
 import SearchHistory from "./SearchHistory";
 import { IoSearch } from "react-icons/io5";
 import { setIsShowModalSearch } from "@/store/slices/system.slice";
-import { handleShowToaster } from "@/lib/utils";
 import VoiceButton from "../shared/VoiceButton";
 import { debounce, delay } from "lodash";
 import { setKeyWord } from "@/store/slices/user.slice";
@@ -20,6 +19,7 @@ import { appConfig } from "@/configs/app.config";
 import TopSearchTrending from "./TopSearchTrending";
 import SearchPreview from "./SearchPreview";
 import Link from "next/link";
+import { toast } from "sonner";
 
 const { dialog } = appConfig.charka;
 const motionPresetDefault = dialog.motionPresetDefault;
@@ -58,8 +58,8 @@ const SearchDialog = () => {
   };
 
   const performSearch = async (keyword: string) => {
-    if (keyword.trim() === "") {
-      handleShowToaster("Thông báo", "Bạn muốn tìm gì thế?");
+    if (!keyword.trim()) {
+      toast.info("Bạn muốn tìm gì thế?");
       return;
     }
 

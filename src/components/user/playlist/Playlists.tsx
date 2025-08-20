@@ -41,6 +41,9 @@ const Playlists = ({ playlists }: PlaylistsProps) => {
   }, [playlists]);
 
   const handleChangePlaylist = (playlist: Playlist) => {
+
+    if (playlist?.id === selectedPlaylist?.id) return;
+
     const params = new URLSearchParams(window.location.search);
 
     params.set("playlistId", playlist?.id.toString());
@@ -76,7 +79,7 @@ const Playlists = ({ playlists }: PlaylistsProps) => {
                 }
                 ${
                   selectedPlaylist?.id === playlist?.id
-                    ? "border-[#ffd875] pointer-events-none"
+                    ? "border-[#ffd875]"
                     : "border-[#ffffff10] hover:bg-[#25272f]"
                 }
               `}

@@ -11,7 +11,6 @@ import {
   Portal,
 } from "@chakra-ui/react";
 import { useEffect, useState } from "react";
-import useNotification from "@/hooks/useNotification";
 import { useForm, Controller } from "react-hook-form";
 import { categories, countries } from "@/constants/movie.contant";
 import { createEvent, updateEvent } from "@/lib/actions/event.action";
@@ -24,6 +23,7 @@ const MdEditor = dynamic(() => import("react-markdown-editor-lite"), {
 import "react-markdown-editor-lite/lib/index.css";
 import dynamic from "next/dynamic";
 import MarkdownViewer from "@/components/shared/MarkdownViewer";
+import { toast } from "sonner";
 
 const { dialog } = appConfig.charka;
 const motionPresetDefault = dialog.motionPresetDefault;
@@ -38,7 +38,6 @@ const EventDialog = ({ action, data, trigger }: EventDialogProps) => {
   const [open, setOpen] = useState(false);
   const [loading, setLoading] = useState(false);
   const [fullscreen, setFullScreen] = useState(false);
-  const { notificationAlert } = useNotification();
   const router = useRouter();
   const { data: session } = useSession();
 
@@ -59,39 +58,40 @@ const EventDialog = ({ action, data, trigger }: EventDialogProps) => {
   }, [data, open, action]);
 
   const onSubmit = async (formData: EventData) => {
-    setLoading(true);
+    try {
+      setLoading(true);
 
-    let response = null;
+      let response = null;
 
-    switch (action) {
-      case "create":
-        response = await createEvent(
-          formData,
-          session?.user.accessToken as string
-        );
-        break;
-      case "update":
-        response = await updateEvent(
-          data?.id as string,
-          formData,
-          session?.user.accessToken as string
-        );
-        break;
+      switch (action) {
+        case "create":
+          response = await createEvent(
+            formData,
+            session?.user.accessToken as string
+          );
+          break;
+        case "update":
+          response = await updateEvent(
+            data?.id as string,
+            formData,
+            session?.user.accessToken as string
+          );
+          break;
+      }
+
+      if (response?.status) {
+        router.refresh();
+        setOpen(false);
+        reset();
+        toast.success(response?.message);
+      } else {
+        toast.error(response?.message);
+      }
+    } catch (error) {
+      toast.error("Đã xảy ra lỗi. Vui lòng thử lại sau.");
+    } finally {
+      setLoading(false);
     }
-
-    setLoading(false);
-
-    if (response?.status) {
-      router.refresh();
-      setOpen(false);
-      reset();
-    }
-
-    notificationAlert({
-      title: response?.status ? "Thành công" : "Lỗi",
-      description: response?.message || "Đã xảy ra lỗi, vui lòng thử lại.",
-      type: response?.status ? "success" : "error",
-    });
   };
 
   return (

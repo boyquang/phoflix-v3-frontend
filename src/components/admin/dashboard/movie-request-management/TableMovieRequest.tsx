@@ -11,6 +11,7 @@ import PopoverMovieRequest from "./PopoverMovieRequest";
 import { useState } from "react";
 import { movieRequestProcess } from "@/lib/actions/admin-client.action";
 import useNotification from "@/hooks/useNotification";
+import { toast } from "sonner";
 
 interface TableMovieRequestProps {
   items: MovieRequest[];
@@ -27,7 +28,6 @@ const TableMovieRequest = ({ items, offset }: TableMovieRequestProps) => {
   const router = useRouter();
   const { data: session } = useSession();
   const [movieRequestId, setMovieRequestId] = useState<string | null>(null);
-  const { notificationAlert } = useNotification();
 
   const handleMovieRequestProcess = async ({
     movieRequestId,
@@ -35,35 +35,35 @@ const TableMovieRequest = ({ items, offset }: TableMovieRequestProps) => {
     adminResponse = "",
   }: MovieRequestProcess) => {
     if (!status) {
-      notificationAlert({
-        title: "Lỗi",
-        description: "Vui lòng chọn trạng thái yêu cầu",
-        type: "error",
-      });
+      toast.error("Vui lòng chọn trạng thái yêu cầu");
       return false;
     }
 
-    setMovieRequestId(movieRequestId);
-    const response = await movieRequestProcess({
-      requestId: movieRequestId,
-      status,
-      adminResponse,
-      adminId: session?.user?.id as string,
-      accessToken: session?.user?.accessToken as string,
-    });
-    setMovieRequestId(null);
+    try {
+      setMovieRequestId(movieRequestId);
+      const response = await movieRequestProcess({
+        requestId: movieRequestId,
+        status,
+        adminResponse,
+        adminId: session?.user?.id as string,
+        accessToken: session?.user?.accessToken as string,
+      });
 
-    const isSuccess = !!response?.status;
+      const isSuccess = !!response?.status;
 
-    notificationAlert({
-      title: isSuccess ? "Thành công" : "Thất bại",
-      description: response?.message || "Không có phản hồi từ server",
-      type: isSuccess ? "success" : "error",
-    });
+      if (isSuccess) {
+        router.refresh();
+        toast.success(response?.message);
+      } else {
+        toast.error(response?.message);
+      }
 
-    if (isSuccess) router.refresh();
-
-    return isSuccess;
+      return isSuccess;
+    } catch (error) {
+      return false;
+    } finally {
+      setMovieRequestId(null);
+    }
   };
 
   if (!items || items.length === 0) {

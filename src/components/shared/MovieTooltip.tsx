@@ -42,7 +42,11 @@ const MovieTooltip = ({ data, position }: MovieTooltipProps) => {
       </div>
 
       <Box className="bg-[#2f3346] h-full p-4">
-        <h4 className="text-lg">{data?.name || "Không xác định"}</h4>
+        <DecodeText
+          as="h4"
+          text={data?.name || "Không xác định"}
+          className="text-base font-semibold"
+        />
         <DecodeText
           as="p"
           text={data?.origin_name || "Không xác định"}

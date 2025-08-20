@@ -2,7 +2,6 @@
 
 import CreateMovieRequest from "@/components/user/movie-request/CreateMovieRequest";
 import { categories, countries } from "@/constants/movie.contant";
-import useNotification from "@/hooks/useNotification";
 import { createMovieRequest } from "@/lib/actions/movie-request-server.action";
 import {
   Box,
@@ -19,6 +18,7 @@ import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { appConfig } from "@/configs/app.config";
+import { toast } from "sonner";
 
 const { dialog } = appConfig.charka;
 const motionPresetDefault = dialog.motionPresetDefault;
@@ -36,7 +36,6 @@ const MovieRequestDialog = () => {
   const [loading, setLoading] = useState(false);
   const router = useRouter();
   const { data: session } = useSession();
-  const { notificationAlert } = useNotification();
 
   const {
     register: rhfMovieRequest,
@@ -50,38 +49,37 @@ const MovieRequestDialog = () => {
   const onSubmit = async (data: FormValues) => {
     const { movieName, description, releaseYear, country, genre } = data;
 
-    if (movieName.trim() === "") {
-      notificationAlert({
-        title: "Lỗi",
-        description: "Tên phim là bắt buộc",
-        type: "error",
-      });
+    if (!movieName.trim()) {
+      toast.error("Tên phim là bắt buộc");
       return;
     }
 
-    setLoading(true);
-    const response = await createMovieRequest({
-      userId: session?.user?.id as string,
-      movieName,
-      description: description || null,
-      releaseYear: releaseYear ? Number(releaseYear) : null,
-      country: country || null,
-      genre: genre || null,
-    });
-    setLoading(false);
+    try {
+      setLoading(true);
+      const response = await createMovieRequest({
+        userId: session?.user?.id as string,
+        movieName,
+        description: description || null,
+        releaseYear: releaseYear ? Number(releaseYear) : null,
+        country: country || null,
+        genre: genre || null,
+      });
 
-    if (response?.status) {
-      setOpen(false);
-      reset();
-      router.refresh();
+      if (response?.status) {
+        setOpen(false);
+        reset();
+        router.refresh();
+        toast.success(response?.message);
+      } else {
+        toast.error(
+          response?.message || "Đã xảy ra lỗi trong quá trình gửi yêu cầu"
+        );
+      }
+    } catch (error) {
+      toast.error("Đã xảy ra lỗi. Vui lòng thử lại sau.");
+    } finally {
+      setLoading(false);
     }
-
-    notificationAlert({
-      title: response?.status ? "Thành công" : "Lỗi",
-      description:
-        response?.message || "Đã xảy ra lỗi trong quá trình gửi yêu cầu",
-      type: response?.status ? "success" : "error",
-    });
   };
 
   return (

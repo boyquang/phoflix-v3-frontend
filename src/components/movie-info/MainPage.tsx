@@ -75,11 +75,11 @@ const MainPage = () => {
       <Box className="max-w-[1620px] mx-auto 2xl:px-12 lg:px-4">
         <Box className="mt-[-100px]">
           <SimpleGrid columns={12} gap={0}>
-            <GridItem colSpan={{ base: 12, md: 12, lg: 12, xl: 4 }}>
+            <GridItem colSpan={{ base: 12, md: 12, lg: 12, xl: 3 }}>
               <MovieDetail data={movie} />
             </GridItem>
             <GridItem
-              colSpan={{ base: 12, md: 12, lg: 12, xl: 8 }}
+              colSpan={{ base: 12, md: 12, lg: 12, xl: 9 }}
             >
               <MovieMain />
             </GridItem>

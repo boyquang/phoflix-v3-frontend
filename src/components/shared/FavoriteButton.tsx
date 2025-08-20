@@ -5,7 +5,6 @@ import {
   checkMovieExists,
   deleteMovie,
 } from "@/lib/actions/user-movie.action";
-import { handleShowToaster } from "@/lib/utils";
 import { showDialogSinInWhenNotLogin } from "@/store/slices/system.slice";
 import { AppDispatch, RootState } from "@/store/store";
 import { Box, Spinner } from "@chakra-ui/react";
@@ -14,6 +13,7 @@ import { useParams } from "next/navigation";
 import { useEffect, useState } from "react";
 import { IoMdHeart, IoMdHeartDislike } from "react-icons/io";
 import { useDispatch, useSelector } from "react-redux";
+import { toast } from "sonner";
 
 interface FavoriteButtonProps {
   placement?: "vertical" | "horizontal";
@@ -51,10 +51,7 @@ const FavoriteButton = ({
   };
 
   const handleAddNewMovie = async () => {
-    if (!movie) {
-      handleShowToaster("Thông báo", "Phim không tồn tại.", "error");
-      return;
-    }
+    if (!movie) return;
 
     const response = await addNewMovie({
       userId: session?.user?.id as string,
@@ -79,10 +76,7 @@ const FavoriteButton = ({
   };
 
   const handleDeleteMovie = async () => {
-    if (!movie) {
-      handleShowToaster("Thông báo", "Phim không tồn tại.", "error");
-      return;
-    }
+    if (!movie) return;
 
     const response = await deleteMovie({
       userId: session?.user?.id as string,
@@ -100,27 +94,33 @@ const FavoriteButton = ({
       return;
     }
 
-    let response = null;
+    try {
+      let response = null;
 
-    setLoading(true);
+      setLoading(true);
 
-    if (!favorite) {
-      response = await handleAddNewMovie();
-    } else {
-      response = await handleDeleteMovie();
+      if (!favorite) {
+        response = await handleAddNewMovie();
+      } else {
+        response = await handleDeleteMovie();
+      }
+
+      setLoading(false);
+
+      if (response?.status) {
+        handleCheckMovieExists();
+      }
+
+      if (response?.status) {
+        toast.success(response.message);
+      } else {
+        toast.error("Đã xảy ra lỗi khi thực hiện thao tác yêu thích.");
+      }
+    } catch (error) {
+      toast.error("Đã xảy ra lỗi! Vui lòng thử lại sau.");
+    } finally {
+      setLoading(false);
     }
-
-    setLoading(false);
-
-    if (response?.status) {
-      handleCheckMovieExists();
-    }
-
-    handleShowToaster(
-      "Thông báo",
-      response?.message,
-      response?.status ? "success" : "error"
-    );
   };
 
   return (

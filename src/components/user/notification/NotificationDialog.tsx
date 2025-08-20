@@ -1,7 +1,6 @@
 "use client";
 
 import { createNotification } from "@/lib/actions/admin-client.action";
-import { handleShowToaster } from "@/lib/utils";
 import {
   Box,
   Button,
@@ -18,6 +17,7 @@ import { useState } from "react";
 import { useForm } from "react-hook-form";
 import UploadFile from "../../upload-file/UploadFile";
 import { appConfig } from "@/configs/app.config";
+import { toast } from "sonner";
 
 const { dialog } = appConfig.charka;
 const motionPresetDefault = dialog.motionPresetDefault;
@@ -35,37 +35,35 @@ const NotificationDialog = ({ trigger }: NotificationDialogProps) => {
   const { register, handleSubmit, reset } = useForm();
 
   const handleCreateNotification = async (data: any) => {
-    if (data.content.trim() === "") {
-      handleShowToaster(
-        "Thông báo",
-        "Nội dung thông báo không được để trống",
-        "error"
-      );
+    if (!data?.content.trim()) {
+      toast.error("Nội dung thông báo không được để trống");
       return;
     }
 
-    setLoading(true);
-    const response = await createNotification({
-      senderId: session?.user?.id as string,
-      content: data.content,
-      type: "community",
-      href: data.href,
-      image: image,
-      accessToken: session?.user?.accessToken as string,
-    });
-    setLoading(false);
+    try {
+      setLoading(true);
+      const response = await createNotification({
+        senderId: session?.user?.id as string,
+        content: data.content,
+        type: "community",
+        href: data.href,
+        image: image,
+        accessToken: session?.user?.accessToken as string,
+      });
 
-    if (response?.status) {
-      setOpen(false);
-      reset();
-      router.refresh();
+      if (response?.status) {
+        setOpen(false);
+        reset();
+        router.refresh();
+        toast.success("Tạo thông báo thành công");
+      } else {
+        toast.error(response?.message);
+      }
+    } catch (error) {
+      toast.error("Đã xảy ra lỗi. Vui lòng thử lại sau.");
+    } finally {
+      setLoading(false);
     }
-
-    handleShowToaster(
-      "Thông báo",
-      response?.message,
-      response?.status ? "success" : "error"
-    );
   };
 
   return (

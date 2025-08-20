@@ -44,7 +44,7 @@ const ChatBotDialog = () => {
           <IconButton
             onClick={() => setOpen(true)}
             size="sm"
-            className="bg-transparent overflow-hidden relative hover:shadow-[0_5px_10px_10px_rgba(255,255,255,.15)] transition-all duration-300 lg:w-16 lg:h-16 w-14 h-14 rounded-[25%] shadow-[0_0_10px_0_rgba(0,0,0,0.2)] flex flex-col justify-center items-center gap-1"
+            className="bg-transparent overflow-hidden relative hover:shadow-[0_5px_10px_10px_rgba(255,255,255,.15)] transition-all duration-300 w-12 h-12 rounded-[25%] shadow-[0_0_10px_0_rgba(0,0,0,0.2)] flex flex-col justify-center items-center gap-1"
           >
             <Image src={botAvatar} alt="Bot Avatar" className="rounded-[25%]" />
           </IconButton>

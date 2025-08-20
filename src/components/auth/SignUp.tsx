@@ -10,7 +10,7 @@ import { useState } from "react";
 import { useDispatch } from "react-redux";
 import { useForm } from "react-hook-form";
 import { avatarDefault } from "@/constants/avatar.contant";
-import useNotification from "@/hooks/useNotification";
+import { toast } from "sonner";
 
 interface FormValues {
   nameDisplay: string;
@@ -22,7 +22,6 @@ interface FormValues {
 const SignUp = () => {
   const dispatch: AppDispatch = useDispatch();
   const [loading, setLoading] = useState(false);
-  const { notificationAlert } = useNotification();
 
   const {
     register: rhfRegister,
@@ -36,27 +35,31 @@ const SignUp = () => {
   const passwordValue = watch("password");
 
   const onSubmit = async (data: FormValues) => {
-    const { nameDisplay, email, password } = data;
+    try {
+      const { nameDisplay, email, password } = data;
 
-    setLoading(true);
-    const response = await register({
-      email,
-      password,
-      name: nameDisplay,
-      typeAccount: "credentials",
-      avatar: avatarDefault,
-    });
-    setLoading(false);
+      setLoading(true);
+      const response = await register({
+        email,
+        password,
+        name: nameDisplay,
+        typeAccount: "credentials",
+        avatar: avatarDefault,
+      });
 
-    notificationAlert({
-      title: response?.status ? "Thành công" : "Lỗi",
-      description: response?.message || "Đã xảy ra lỗi trong quá trình đăng ký",
-      type: response?.status ? "success" : "error",
-    });
-
-    if (response?.status) {
-      dispatch(setIsShowAuthDialog(false));
-      reset(); // Làm mới lại form sau khi đăng ký thành công
+      if (response?.status) {
+        dispatch(setIsShowAuthDialog(false));
+        toast.success(response?.message);
+        reset(); // Làm mới lại form sau khi đăng ký thành công
+      } else {
+        toast.error(
+          response?.message || "Đã xảy ra lỗi trong quá trình đăng ký"
+        );
+      }
+    } catch (error) {
+      toast.error("Đã xảy ra lỗi. Vui lòng thử lại sau.");
+    } finally {
+      setLoading(false);
     }
   };
 

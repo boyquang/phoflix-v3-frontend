@@ -13,7 +13,7 @@ import { useEffect, useState, useTransition } from "react";
 import UserAvatar from "./UserAvatar";
 import { updateUserProfile } from "@/lib/actions/user-client.action";
 import ResetPassword from "./ResetPassword";
-import { handleShowToaster } from "@/lib/utils";
+import { toast } from "sonner";
 
 type Values = {
   name: string | undefined;
@@ -41,13 +41,8 @@ const UserProfile = () => {
   }, [session]);
 
   const handleUpdateUserProfile = () => {
-    if (values?.name?.trim() === "") {
-      handleShowToaster(
-        "Thông báo",
-        "Tên hiển thị không được để trống!",
-        "error"
-      );
-
+    if (!values?.name?.trim()) {
+      toast.error("Tên hiển thị không được để trống!");
       return;
     }
 
@@ -57,24 +52,25 @@ const UserProfile = () => {
     if (name === values?.name && gender === values?.gender) return;
 
     startTransition(async () => {
-      const response = await updateUserProfile({
-        userId: session?.user?.id as string,
-        username: values?.name as string,
-        gender: values?.gender as Gender,
-        avatar: session?.user?.image as string,
-        typeAccount: session?.user?.typeAccount as TypeAcccount,
-        accessToken: session?.user?.accessToken as string,
-      });
+      try {
+        const response = await updateUserProfile({
+          userId: session?.user?.id as string,
+          username: values?.name as string,
+          gender: values?.gender as Gender,
+          avatar: session?.user?.image as string,
+          typeAccount: session?.user?.typeAccount as TypeAcccount,
+          accessToken: session?.user?.accessToken as string,
+        });
 
-      if (response?.status) {
-        await update();
+        if (response?.status) {
+          toast.success(response?.message);
+          await update();
+        } else {
+          toast.error(response?.message);
+        }
+      } catch (error) {
+        toast.error("Đã xảy ra lỗi. Vui lòng thử lại sau.");
       }
-
-      handleShowToaster(
-        "Thông báo",
-        response?.message,
-        response?.status ? "success" : "error"
-      );
     });
   };
 

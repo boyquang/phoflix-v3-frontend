@@ -5,9 +5,9 @@ import EventDialog from "./EventDialog";
 import { useState } from "react";
 import { deleteEvent } from "@/lib/actions/event.action";
 import { useRouter } from "next/navigation";
-import useNotification from "@/hooks/useNotification";
 import IconButtonAction from "@/components/shared/IconButtonAction";
 import { useSession } from "next-auth/react";
+import { toast } from "sonner";
 
 interface EventActionsProps {
   item: EventData;
@@ -16,26 +16,29 @@ interface EventActionsProps {
 const EventActions = ({ item }: EventActionsProps) => {
   const [loadingDelete, setLoadingDelete] = useState(false);
   const router = useRouter();
-  const { notificationAlert } = useNotification();
   const { data: session } = useSession();
 
   const handleDelete = async () => {
     if (!item.id) return;
 
-    setLoadingDelete(true);
-    const response = await deleteEvent(
-      item.id,
-      session?.user?.accessToken as string
-    );
-    setLoadingDelete(false);
+    try {
+      setLoadingDelete(true);
+      const response = await deleteEvent(
+        item.id,
+        session?.user?.accessToken as string
+      );
 
-    if (response?.status) router.refresh();
-
-    notificationAlert({
-      title: response?.status ? "Thành công" : "Lỗi",
-      description: response?.message || "Đã xảy ra lỗi, vui lòng thử lại.",
-      type: response?.status ? "success" : "error",
-    });
+      if (response?.status) {
+        router.refresh();
+        toast.success(response?.message);
+      } else {
+        toast.error(response?.message);
+      }
+    } catch (error) {
+      toast.error("Đã xảy ra lỗi. Vui lòng thử lại sau.");
+    } finally {
+      setLoadingDelete(false);
+    }
   };
 
   return (

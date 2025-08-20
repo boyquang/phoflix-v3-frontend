@@ -1,7 +1,6 @@
 "use client";
 
 import { PasswordInput } from "@/components/ui/password-input";
-import useNotification from "@/hooks/useNotification";
 import { authenticate } from "@/lib/actions/auth-server.action";
 import { isValidEmail } from "@/lib/utils";
 import { setTypeAuth } from "@/store/slices/system.slice";
@@ -9,10 +8,11 @@ import { AppDispatch } from "@/store/store";
 import { Box, Button, Field, Input, Spinner } from "@chakra-ui/react";
 import { delay } from "lodash";
 import { signIn } from "next-auth/react";
-import { useState, useTransition } from "react";
+import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { FaGoogle } from "react-icons/fa6";
 import { useDispatch } from "react-redux";
+import { toast } from "sonner";
 
 interface FormValues {
   email: string;
@@ -25,7 +25,6 @@ const SignIn = () => {
     credentials: false,
     google: false,
   });
-  const { notificationAlert } = useNotification();
 
   const {
     register: rhfLogin,
@@ -35,30 +34,30 @@ const SignIn = () => {
   } = useForm<FormValues>({ mode: "onSubmit" });
 
   const onSubmit = async (data: FormValues) => {
-    const { email, password } = data;
+    try {
+      const { email, password } = data;
 
-    setLoading({
-      credentials: true,
-      google: false,
-    });
-    const response = await authenticate(email, password);
-    setLoading({
-      credentials: false,
-      google: false,
-    });
-
-    if (!response?.status) {
-      notificationAlert({
-        title: "Lỗi",
-        description:
-          response?.message || "Đã xảy ra lỗi trong quá trình đăng nhập",
-        type: "error",
+      setLoading({
+        credentials: true,
+        google: false,
       });
-    } else {
-      delay(() => {
-        window.location.reload();
-        reset(); // Làm mới lại form sau khi đăng nhập thành công
-      }, 500);
+      const response = await authenticate(email, password);
+
+      if (!response?.status) {
+        toast.error(response?.message || "Đăng nhập không thành công");
+      } else {
+        delay(() => {
+          window.location.reload();
+          reset(); // Làm mới lại form sau khi đăng nhập thành công
+        }, 500);
+      }
+    } catch (error) {
+      toast.error("Đã xảy ra lỗi. Vui lòng thử lại sau.");
+    } finally {
+      setLoading({
+        credentials: false,
+        google: false,
+      });
     }
   };
 

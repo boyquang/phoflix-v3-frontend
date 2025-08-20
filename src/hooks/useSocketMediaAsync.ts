@@ -4,7 +4,7 @@ import { socket } from "@/configs/socket.config";
 import { useSession } from "next-auth/react";
 import { useEffect } from "react";
 import useLoadedMetaDataVideo from "./useLoadedMeteDataVideo";
-import { handleShowToaster } from "@/lib/utils";
+import { toast } from "sonner";
 
 interface UseSocketMediaAsyncProps {
   roomId: string;
@@ -59,8 +59,7 @@ const useSocketMediaAsync = ({
 
       // Cập nhật thời gian video
       playerRef.current.currentTime(currentTime);
-
-      handleShowToaster("Thông báo", message, "info");
+      toast.info(message);
     };
 
     socket.on("videoPlay", handleVideoPlay);

@@ -45,7 +45,7 @@ const MovieRatingList = ({ type }: MovieRatingListProps) => {
   }, []);
 
   return (
-    <Box className="border-r 2xl:border-solid border-dashed border-[#fff2] min-w-80 3xl:w-[540px] 2xl:w-[460px] w-[400px] xl:p-6 p-4 xl:flex-none flex-1">
+    <Box className="border-r 2xl:last:border-[#fff2] last:border-transparent border-[#fff2] min-w-80 3xl:w-[540px] 2xl:w-[460px] w-[400px] xl:p-6 p-4 xl:flex-none flex-1">
       <Box className="flex items-center gap-2 mb-4">
         <Box className="text-primary">
           {type === "mostPopular" ? <FaFireAlt /> : <MdFavorite />}
@@ -65,7 +65,7 @@ const MovieRatingList = ({ type }: MovieRatingListProps) => {
             <Box className="flex flex-col gap-1">
               {items?.map((item, index) => (
                 <Box key={index} className="flex items-center h-14 gap-2">
-                  <Box className="flex-shrink-0 lg:w-6 w-4 lg:text-xl text-sm font-bold opacity-30 text-[#aaa]">
+                  <Box className="whitespace-nowrap flex-shrink-0 lg:w-6 w-4 lg:text-xl text-sm font-bold opacity-30 text-[#aaa]">
                     {index + 1}.
                   </Box>
                   <Box className="w-[25px] flex-shrink-0">

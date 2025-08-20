@@ -10,12 +10,11 @@ import { setKeyWord } from "@/store/slices/user.slice";
 import { AppDispatch } from "@/store/store";
 import { useSession } from "next-auth/react";
 import { useDispatch } from "react-redux";
-import useNotification from "./useNotification";
+import { toast } from "sonner";
 
 const useSearch = () => {
   const dispatch: AppDispatch = useDispatch();
   const { data: session } = useSession();
-  const { notificationAlert } = useNotification();
 
   const handleCreateSearchHistory = async (keyword: string) => {
     dispatch(setKeyWord(""));
@@ -52,7 +51,9 @@ const useSearch = () => {
   const handleDeleteAllSearchHistory = async (
     setLoading: (loading: boolean) => void
   ) => {
-    if (session) {
+    if (!session) return;
+
+    try {
       setLoading(true);
       const response = await dispatch(
         deleteAllUserSearchHistory({
@@ -60,15 +61,18 @@ const useSearch = () => {
           accessToken: session.user?.accessToken as string,
         })
       );
-      setLoading(false);
 
       const { status, message } = response.payload;
 
-      notificationAlert({
-        title: status ? "Thành công" : "Thất bại",
-        description: message,
-        type: status ? "success" : "error",
-      });
+      if (status) {
+        toast.success(message);
+      } else {
+        toast.error(message);
+      }
+    } catch (error) {
+      toast.error("Đã xảy ra lỗi. Vui lòng thử lại sau.");
+    } finally {
+      setLoading(false);
     }
   };
 

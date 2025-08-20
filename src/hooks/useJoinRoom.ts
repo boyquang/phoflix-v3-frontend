@@ -1,11 +1,11 @@
 "use client";
 
 import { joinRoomWatchingTogether } from "@/lib/actions/watching-together.action";
-import { handleShowToaster } from "@/lib/utils";
 import { delay } from "lodash";
 import { useSession } from "next-auth/react";
 import { useEffect } from "react";
 import useSendSocketWatchingTogether from "./useSendSocketWatchingTogether";
+import { toast } from "sonner";
 interface UseJoinRoomProps {
   roomId: string;
 }
@@ -29,7 +29,7 @@ const useJoinRoom = ({ roomId }: UseJoinRoomProps) => {
     if (response?.status) {
       sendSocketJoinRoom(response?.result?.roomOwnerId);
     } else {
-      handleShowToaster("Thông báo", response?.message, "error");
+      toast.error(response?.message);
 
       delay(() => {
         window.location.href = "/";

@@ -20,11 +20,11 @@ import { FaReply } from "react-icons/fa6";
 import { MdDelete } from "react-icons/md";
 import { useDispatch, useSelector } from "react-redux";
 import AlertDialog from "../shared/AlertDialog";
-import { handleShowToaster } from "@/lib/utils";
 import { useRootFeedback } from "@/hooks/useRootFeedback";
 import { BiEdit } from "react-icons/bi";
 import useSendSocketFeedback from "@/hooks/useSendSocketFeedback";
 import VoteActions from "./VoteActions";
+import { toast } from "sonner";
 
 const FeedbackActions = ({ action, data }: FeedbackActionsProps) => {
   const { data: session } = useSession();
@@ -90,24 +90,26 @@ const FeedbackActions = ({ action, data }: FeedbackActionsProps) => {
   };
 
   const handleDeleteFeedback = async () => {
-    setLoadingDelete(true);
-    const response = await deleteFeedback({
-      feedbackId,
-      userId: session?.user?.id as string,
-      accessToken: session?.user?.accessToken as string,
-    });
-    setLoadingDelete(false);
+    try {
+      setLoadingDelete(true);
+      const response = await deleteFeedback({
+        feedbackId,
+        userId: session?.user?.id as string,
+        accessToken: session?.user?.accessToken as string,
+      });
 
-    if (response?.status) {
-      handleRefreshFeedback();
-      sendSocketDeleteFeedback(feedbackId);
+      if (response?.status) {
+        handleRefreshFeedback();
+        sendSocketDeleteFeedback(feedbackId);
+        toast.success(response?.message);
+      } else {
+        toast.error(response?.message);
+      }
+    } catch (error) {
+      toast.error("Đã xảy ra lỗi! Vui lòng thử lại sau.");
+    } finally {
+      setLoadingDelete(false);
     }
-
-    handleShowToaster(
-      "Thông báo",
-      response?.message,
-      response?.status ? "success" : "error"
-    );
   };
 
   return (

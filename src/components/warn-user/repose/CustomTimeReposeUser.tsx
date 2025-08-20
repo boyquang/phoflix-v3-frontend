@@ -1,7 +1,6 @@
 "use client";
 
 import { appConfig } from "@/configs/app.config";
-import useNotification from "@/hooks/useNotification";
 import { getFromStorage, setToStorage, splitTime } from "@/lib/utils";
 import { setCustomReposeUser } from "@/store/slices/system.slice";
 import { AppDispatch, RootState } from "@/store/store";
@@ -16,6 +15,7 @@ import {
 } from "@chakra-ui/react";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import { toast } from "sonner";
 
 const { dialog } = appConfig.charka;
 const motionPresetDefault = dialog.motionPresetDefault;
@@ -31,7 +31,6 @@ const CustomTimeReposeUser = () => {
   const [endTime, setEndTime] = useState(end_);
   const [customPrompt, setCustomPrompt] = useState(message["sleep-time"]);
   const dispatch: AppDispatch = useDispatch();
-  const { notificationAlert } = useNotification();
 
   // Lấy dữ liệu từ localStorage
   useEffect(() => {
@@ -46,11 +45,7 @@ const CustomTimeReposeUser = () => {
 
     // Kiểm tra xem thời gian bắt đầu và kết thúc có hợp lệ không
     if (startHours === endhours && startMinutes === endMinutes) {
-      notificationAlert({
-        title: "Lỗi thời gian",
-        description: "Thời gian bắt đầu và kết thúc không thể giống nhau.",
-        type: "error",
-      });
+      toast.error("Thời gian bắt đầu và kết thúc không thể giống nhau.");
       return;
     }
 
@@ -60,12 +55,7 @@ const CustomTimeReposeUser = () => {
 
     // Kiểm tra khoảng thời gian giữa bắt đầu và kết thúc
     if (diff < 30 && startHours === endhours) {
-      notificationAlert({
-        title: "Khoảng thời gian không hợp lệ",
-        description:
-          "Khoảng thời gian giữa bắt đầu và kết thúc phải lớn hơn 30 phút.",
-        type: "error",
-      });
+      toast.error("Khoảng thời gian giữa bắt đầu và kết thúc phải lớn hơn 30 phút.");
       return;
     }
 

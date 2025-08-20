@@ -4,14 +4,13 @@ import { AppDispatch, RootState } from "@/store/store";
 import { useEffect, useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { playAudioNotification } from "@/store/slices/system.slice";
-import useNotification from "@/hooks/useNotification";
+import { toast } from "sonner";
 
 const NotificationSound = () => {
   const audioRef = useRef(null);
   const dispatch: AppDispatch = useDispatch();
   const { playAudioNotification: isPlayAudio, srcAudioNotification } =
     useSelector((state: RootState) => state.system.audio);
-  const { notificationAlert } = useNotification();
 
   useEffect(() => {
     if (isPlayAudio && audioRef.current) {
@@ -23,11 +22,7 @@ const NotificationSound = () => {
       audioElement
         .play()
         .catch((error) => {
-          notificationAlert({
-            title: "Lỗi",
-            description: "Không thể phát âm thanh thông báo.",
-            type: "error",
-          });
+          toast.error("Không thể phát âm thanh thông báo.");
         })
         .finally(() => {
           dispatch(playAudioNotification(false));

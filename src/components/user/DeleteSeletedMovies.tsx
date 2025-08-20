@@ -1,7 +1,6 @@
 "use client";
 
 import AlertDialog from "@/components/shared/AlertDialog";
-import useNotification from "@/hooks/useNotification";
 import { deleteSelectedMovies } from "@/lib/actions/user-movie.action";
 import { setSelectedDeleteMode } from "@/store/slices/user.slice";
 import { AppDispatch, RootState } from "@/store/store";
@@ -12,6 +11,7 @@ import { useState } from "react";
 import { FaSquareCheck } from "react-icons/fa6";
 import { MdDelete } from "react-icons/md";
 import { useDispatch, useSelector } from "react-redux";
+import { toast } from "sonner";
 
 interface DeleteSelectedMoviesProps {
   type: "favorite" | "history" | "playlist";
@@ -25,33 +25,34 @@ const DeleteSelectedMovies = ({
   const dispatch: AppDispatch = useDispatch();
   const router = useRouter();
   const { data: session } = useSession();
-  const { notificationAlert } = useNotification();
   const { seletectedDeleteMode, selectedMovieIds } = useSelector(
     (state: RootState) => state.user.userMovies
   );
   const [loading, setLoading] = useState(false);
 
   const handleDeleteSeletedMovies = async () => {
-    setLoading(true);
-    const response = await deleteSelectedMovies({
-      userId: session?.user?.id as string,
-      movieIds: selectedMovieIds || [],
-      type,
-      playlistId: playlistId || null,
-      accessToken: session?.user?.accessToken as string,
-    });
-    setLoading(false);
+    try {
+      setLoading(true);
+      const response = await deleteSelectedMovies({
+        userId: session?.user?.id as string,
+        movieIds: selectedMovieIds || [],
+        type,
+        playlistId: playlistId || null,
+        accessToken: session?.user?.accessToken as string,
+      });
 
-    if (response?.status) {
-      dispatch(setSelectedDeleteMode(false));
-      router.refresh();
+      if (response?.status) {
+        dispatch(setSelectedDeleteMode(false));
+        router.refresh();
+        toast.success(response?.message);
+      } else {
+        toast.error(response?.message);
+      }
+    } catch (error) {
+      toast.error("Đã xảy ra lỗi. Vui lòng thử lại sau.");
+    } finally {
+      setLoading(false);
     }
-
-    notificationAlert({
-      title: response?.status ? "Xóa thành công" : "Xóa thất bại",
-      description: response?.message || "Không có thông báo",
-      type: response?.status ? "success" : "error",
-    });
   };
 
   return (

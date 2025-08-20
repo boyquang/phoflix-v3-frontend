@@ -4,10 +4,10 @@ import { useEffect, useRef } from "react";
 import { usePathname } from "next/navigation";
 import { useSession } from "next-auth/react";
 import { leaveRoomWatchingTogether } from "@/lib/actions/watching-together.action";
-import { handleShowToaster } from "@/lib/utils";
 import { useSelector } from "react-redux";
 import { RootState } from "@/store/store";
 import useSendSocketWatchingTogether from "./useSendSocketWatchingTogether";
+import { toast } from "sonner";
 
 interface UseLeaveRoomOnRouteChangeProps {
   roomId: string;
@@ -58,25 +58,27 @@ const useLeaveRoomOnRouteChange = ({
 
       if (!roomId || !userId || !roomOwnerId) return;
 
-      const response = await leaveRoomWatchingTogether({
-        userId: session?.user?.id as string,
-        roomId,
-        accessToken: session?.user?.accessToken as string,
-      });
+      try {
+        const response = await leaveRoomWatchingTogether({
+          userId: session?.user?.id as string,
+          roomId,
+          accessToken: session?.user?.accessToken as string,
+        });
 
-      if (response?.status) {
-        if (session?.user?.id === roomOwnerId) {
-          sendSocketCloseRoom();
+        if (response?.status) {
+          if (session?.user?.id === roomOwnerId) {
+            sendSocketCloseRoom();
+          } else {
+            sendSocketLeaveRoom();
+          }
+
+          toast.success(response?.message);
         } else {
-          sendSocketLeaveRoom();
+          toast.error(response?.message);
         }
+      } catch (error) {
+        toast.error("Đã xảy ra lỗi khi rời phòng!");
       }
-
-      handleShowToaster(
-        "Thông báo",
-        response?.message,
-        response?.status ? "success" : "error"
-      );
     };
 
     // Chạy khi componet unmount tức rời khỏi trang

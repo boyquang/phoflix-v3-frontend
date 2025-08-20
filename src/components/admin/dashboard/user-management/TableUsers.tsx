@@ -1,7 +1,7 @@
 "use client";
 
-import { formatDate, handleShowToaster } from "@/lib/utils";
-import { Avatar, Box, Table } from "@chakra-ui/react";
+import { formatDate } from "@/lib/utils";
+import { Avatar, Box } from "@chakra-ui/react";
 import ChangeRole from "./ChangeRole";
 import { useSession } from "next-auth/react";
 import {
@@ -13,6 +13,7 @@ import ChangeStatus from "./ChangeStatus";
 import { useState } from "react";
 import EmptyData from "@/components/shared/EmptyData";
 import { FaUser } from "react-icons/fa6";
+import { toast } from "sonner";
 
 interface Users {
   id: string;
@@ -38,65 +39,56 @@ const TableUsers = ({ items, offset }: TableUsersProps) => {
 
   const handleChangeRole = async (id: string, role: "member" | "admin") => {
     if (id === sesstion?.user?.id) {
-      handleShowToaster(
-        "Thông báo",
-        "Bạn không thể thay đổi vai trò của chính mình.",
-        "error"
-      );
+      toast.info("Bạn không thể thay đổi vai trò của chính mình.");
       return;
     }
 
-    const response = await changeRoleUser({
-      userId: id,
-      adminId: sesstion?.user?.id as string,
-      role,
-      accessToken: sesstion?.user?.accessToken as string,
-    });
+    try {
+      const response = await changeRoleUser({
+        userId: id,
+        adminId: sesstion?.user?.id as string,
+        role,
+        accessToken: sesstion?.user?.accessToken as string,
+      });
 
-    if (response?.status) {
-      router.refresh();
+      if (response?.status) {
+        router.refresh();
+        toast.success(response?.message);
+      } else {
+        toast.error(response?.message);
+      }
+    } catch (error) {
+      toast.error("Đã xảy ra lỗi! Vui lòng thử lại sau.");
+    } finally {
     }
-
-    handleShowToaster(
-      "Thông báo",
-      response?.message,
-      response?.status ? "success" : "error"
-    );
   };
 
   const handleChangeStatus = async (id: string, checked: boolean) => {
     if (id === sesstion?.user?.id) {
-      handleShowToaster(
-        "Thông báo",
-        "Bạn không thể thay đổi trạng thái của chính mình.",
-        "error"
-      );
+      toast.info("Bạn không thể thay đổi trạng thái của chính mình.");
       return;
     }
 
-    const status = checked ? "banned" : "active";
+    try {
+      setUserId(id);
+      const response = await changeStatusUser({
+        userId: id,
+        adminId: sesstion?.user?.id as string,
+        status: checked ? "banned" : "active",
+        accessToken: sesstion?.user?.accessToken as string,
+      });
 
-    setUserId(id);
-    const response = await changeStatusUser({
-      userId: id,
-      adminId: sesstion?.user?.id as string,
-      status,
-      accessToken: sesstion?.user?.accessToken as string,
-    });
-
-    console.log("Response change status user", response);
-
-    setUserId(null);
-
-    if (response?.status) {
-      router.refresh();
+      if (response?.status) {
+        router.refresh();
+        toast.success(response?.message);
+      } else {
+        toast.error(response?.message);
+      }
+    } catch (error) {
+      toast.error("Đã xảy ra lỗi! Vui lòng thử lại sau.");
+    } finally {
+      setUserId(null);
     }
-
-    handleShowToaster(
-      "Thông báo",
-      response?.message,
-      response?.status ? "success" : "error"
-    );
   };
 
   if (!items || items.length === 0) {

@@ -12,10 +12,10 @@ import {
   setReportDescription,
   setReportError,
 } from "@/store/slices/user.slice";
-import { handleShowToaster } from "@/lib/utils";
 import ReportFilmButton from "@/components/movie-report/ReportFilmButton";
 import { showDialogSinInWhenNotLogin } from "@/store/slices/system.slice";
 import { appConfig } from "@/configs/app.config";
+import { toast } from "sonner";
 
 const { dialog } = appConfig.charka;
 const motionPresetDefault = dialog.motionPresetDefault;
@@ -31,35 +31,36 @@ const ReportDialog = () => {
 
   const handleCreateReport = () => {
     if (!reportError) {
-      handleShowToaster("Thông báo", "Vui lòng chọn lỗi cần báo cáo.", "error");
+      toast.info("Vui lòng chọn lỗi cần báo cáo.");
       return;
     }
 
     if (reportDescription.trim() === "") {
-      handleShowToaster("Thông báo", "Vui lòng nhập mô tả lỗi.", "error");
+      toast.error("Vui lòng nhập mô tả lỗi.");
       return;
     }
 
     startTransition(async () => {
-      const response = await createReportMovie({
-        userId: sesstion?.user?.id as string,
-        movieSlug: movie?.slug as string,
-        title: reportError,
-        description: reportDescription,
-        movieName: movie?.name as string,
-        accessToken: sesstion?.user?.accessToken as string,
-      });
+      try {
+        const response = await createReportMovie({
+          userId: sesstion?.user?.id as string,
+          movieSlug: movie?.slug as string,
+          title: reportError,
+          description: reportDescription,
+          movieName: movie?.name as string,
+          accessToken: sesstion?.user?.accessToken as string,
+        });
 
-      handleShowToaster(
-        "Thông báo",
-        response?.message,
-        response?.status ? "success" : "error"
-      );
-
-      if (response?.status) {
-        dispatch(setReportError(""));
-        dispatch(setReportDescription(""));
-        setOpen(false);
+        if (response?.status) {
+          dispatch(setReportError(""));
+          dispatch(setReportDescription(""));
+          setOpen(false);
+          toast.success(response?.message);
+        } else {
+          toast.error(response?.message);
+        }
+      } catch (error) {
+        toast.error("Đã xảy ra lỗi! Vui lòng thử lại sau.");
       }
     });
   };

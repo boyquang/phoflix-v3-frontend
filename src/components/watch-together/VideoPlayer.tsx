@@ -1,7 +1,6 @@
 import useDisposeVideoJs from "@/hooks/useDisposeVideoJs";
 import useSendSocketWatchingTogether from "@/hooks/useSendSocketWatchingTogether";
 import useSocketMediaAsync from "@/hooks/useSocketMediaAsync";
-import { handleShowToaster } from "@/lib/utils";
 import { RootState } from "@/store/store";
 import { debounce } from "lodash";
 import React, { useEffect, useRef } from "react";
@@ -13,6 +12,7 @@ import "videojs-http-source-selector";
 import "video.js/dist/video-js.css";
 import "videojs-http-source-selector/dist/videojs-http-source-selector.css";
 import "@/assets/css/videojs.css";
+import { toast } from "sonner";
 
 interface VideoJSProps {
   options: any;
@@ -55,11 +55,7 @@ export const VideoPlayer = ({ options, onReady }: VideoJSProps) => {
       }));
 
       player.on("error", (event: any) => {
-        handleShowToaster(
-          "Thông báo",
-          "Tập phim hiện tại đang lỗi vui lòng chọn tập khác",
-          "error"
-        );
+        toast.error("Tập phim hiện tại đang lỗi vui lòng chọn tập khác");
         return;
       });
 

@@ -1,7 +1,6 @@
 "use client";
 
 import { SiAirplayaudio } from "react-icons/si";
-import { handleShowToaster } from "@/lib/utils";
 import { Box, Spinner } from "@chakra-ui/react";
 import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "@/store/store";
@@ -11,6 +10,7 @@ import { showDialogSinInWhenNotLogin } from "@/store/slices/system.slice";
 import { createRoomWatchingTogether } from "@/store/async-thunks/watching-together.thunk";
 import { appConfig, FeatureStatus } from "@/configs/app.config";
 import StatusTag from "@/components/shared/StatusTag";
+import { toast } from "sonner";
 
 interface WatchingTogetherButtonProps {
   placement?: "vertical" | "horizontal";
@@ -53,15 +53,13 @@ const WatchingTogetherButton = ({
     }
 
     if (status === FeatureStatus.MAINTENANCE) {
-      handleShowToaster(
-        "Thông báo",
-        "Tính năng đang bảo trì, vui lòng quay lại sau!",
-        "warning"
-      );
+      toast.info("Tính năng đang bảo trì, vui lòng quay lại sau!");
       return;
     }
 
-    if (movie && currentEpisode && episodes) {
+    if (!movie || !currentEpisode || !episodes) return;
+
+    try {
       const response = await dispatch(
         createRoomWatchingTogether({
           userId: sesstion?.user?.id as string,
@@ -70,17 +68,16 @@ const WatchingTogetherButton = ({
         })
       );
 
-      const { result, message, status } = response.payload ?? {};
+      const { result, message, status: roomStatus } = response.payload ?? {};
 
-      if (status) {
+      if (roomStatus) {
+        toast.success(message);
         router.push(`/phong-xem-chung/${result?.roomId}`);
+      } else {
+        toast.error(message);
       }
-
-      handleShowToaster(
-        "Thông báo",
-        message ?? "Tạo phòng thất bại!",
-        status ? "success" : "error"
-      );
+    } catch (error) {
+      toast.error("Đã xảy ra lỗi khi tạo phòng!");
     }
   };
 

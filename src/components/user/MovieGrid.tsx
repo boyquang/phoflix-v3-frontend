@@ -9,8 +9,8 @@ import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import MovieItem from "./MovieItem";
 import { useSession } from "next-auth/react";
-import { handleShowToaster } from "@/lib/utils";
 import { RiMovieFill } from "react-icons/ri";
+import { toast } from "sonner";
 
 interface MovieGridProps {
   items: MovieDB[];
@@ -49,27 +49,29 @@ const MovieGrid = ({ items, colums, userId, type }: MovieGridProps) => {
   }, [items, searchParams]);
 
   const handleDeleteMovie = async (slug: string, id: string) => {
-    setIdDelete(id);
-    const response = await deleteMovie({
-      userId,
-      movieSlug: slug,
-      type,
-      playlistId:
-        pathname === "/nguoi-dung/danh-sach-phat" ? selectedPlaylistId : null,
-      movieId: type === "history" ? id : null,
-      accessToken: session?.user?.accessToken as string,
-    });
-    setIdDelete(null);
+    try {
+      setIdDelete(id);
+      const response = await deleteMovie({
+        userId,
+        movieSlug: slug,
+        type,
+        playlistId:
+          pathname === "/nguoi-dung/danh-sach-phat" ? selectedPlaylistId : null,
+        movieId: type === "history" ? id : null,
+        accessToken: session?.user?.accessToken as string,
+      });
 
-    if (response?.status) {
-      router.refresh();
+      if (response?.status) {
+        router.refresh();
+        toast.success(response?.message);
+      } else {
+        toast.error(response?.message);
+      }
+    } catch (error) {
+      toast.error("Đã xảy ra lỗi. Vui lòng thử lại sau.");
+    } finally {
+      setIdDelete(null);
     }
-
-    handleShowToaster(
-      "Thông báo",
-      response?.message,
-      response?.status ? "success" : "error"
-    );
   };
 
   if (!items || items?.length === 0) {

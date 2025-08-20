@@ -4,7 +4,7 @@ import {
   NEXT_PUBLIC_BACKEND_URL,
 } from "../../constants/env.contant";
 
-const BASE_URL = `${NEXT_PUBLIC_BACKEND_URL}/api/${NEXT_PUBLIC_API_VERSION}/user/playlists`;
+const BASE_URL = `${NEXT_PUBLIC_BACKEND_URL}/api/${NEXT_PUBLIC_API_VERSION}/user`;
 
 /**
  *
@@ -22,7 +22,7 @@ export const getPlaylists = async ({
       userId,
     });
 
-    const url = `${BASE_URL}?${params.toString()}`;
+    const url = `${BASE_URL}/playlists?${params.toString()}`;
 
     const response = await fetch(url, {
       method: "GET",
@@ -72,7 +72,7 @@ export const createNewPlaylist = async ({
   accessToken,
 }: CreateNewPlaylist): Promise<any> => {
   try {
-    const url = BASE_URL;
+    const url = `${BASE_URL}/playlist`;
 
     const response = await fetch(url, {
       method: "POST",
@@ -127,7 +127,7 @@ export const updatePlaylist = async ({
   accessToken,
 }: UpdatePlaylist): Promise<any> => {
   try {
-    const url = BASE_URL;
+    const url = `${BASE_URL}/playlist`;
 
     const response = await fetch(url, {
       method: "PUT",
@@ -181,7 +181,7 @@ export const deletePlaylist = async ({
   accessToken,
 }: DeletePlaylist): Promise<any> => {
   try {
-    const url = BASE_URL;
+    const url = `${BASE_URL}/playlist`;
 
     const response = await fetch(url, {
       method: "DELETE",
@@ -239,7 +239,7 @@ export const getPlaylistsContainingMovie = async ({
       movieSlug,
     });
 
-    const url = `${BASE_URL}/listByMovie?${params.toString()}`;
+    const url = `${BASE_URL}/playlists/listByMovie?${params.toString()}`;
 
     const response = await fetch(url, {
       headers: {

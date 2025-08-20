@@ -2,7 +2,6 @@
 
 import AlertDialog from "@/components/shared/AlertDialog";
 import { deleteAllMovies } from "@/lib/actions/user-movie.action";
-import { handleShowToaster } from "@/lib/utils";
 import { RootState } from "@/store/store";
 import { Button } from "@chakra-ui/react";
 import { useSession } from "next-auth/react";
@@ -10,6 +9,7 @@ import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import { MdDelete } from "react-icons/md";
 import { useSelector } from "react-redux";
+import { toast } from "sonner";
 
 interface DeleteAllMoviesProps {
   type: "favorite" | "history" | "playlist";
@@ -46,24 +46,26 @@ const DeleteAllMovies = ({ type, playlistId }: DeleteAllMoviesProps) => {
   }, [type]);
 
   const handleDeleteAllMovies = async () => {
-    setLoading(true);
-    const response = await deleteAllMovies({
-      userId: session?.user?.id as string,
-      type,
-      playlistId: playlistId || null,
-      accessToken: session?.user?.accessToken as string,
-    });
-    setLoading(false);
+    try {
+      setLoading(true);
+      const response = await deleteAllMovies({
+        userId: session?.user?.id as string,
+        type,
+        playlistId: playlistId || null,
+        accessToken: session?.user?.accessToken as string,
+      });
 
-    if (response?.status) {
-      router.refresh();
+      if (response?.status) {
+        toast.success(response?.message);
+        router.refresh();
+      } else {
+        toast.error(response?.message);
+      }
+    } catch (error) {
+      toast.error("Có lỗi xảy ra trong quá trình xóa.");
+    } finally {
+      setLoading(false);
     }
-
-    handleShowToaster(
-      "Thông báo",
-      response?.message,
-      response?.status ? "success" : "error"
-    );
   };
 
   // Chỉ hiện nút xóa nếu không ở chế độ xóa đã chọn

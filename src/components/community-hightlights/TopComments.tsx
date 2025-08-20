@@ -56,7 +56,7 @@ const TopComments = () => {
   }, []);
 
   return (
-    <Box className="border-b 2xl:border-solid border-dashed border-[#fff2]">
+    <Box className="border-b border-[#fff2]">
       <Box className="xl:p-6 p-4">
         <Box className="">
           <Box className="flex items-center gap-2">

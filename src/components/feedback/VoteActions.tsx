@@ -2,7 +2,6 @@
 
 import useNotification from "@/hooks/useNotification";
 import useSendSocketFeedback from "@/hooks/useSendSocketFeedback";
-import { handleShowToaster } from "@/lib/utils";
 import { addVote } from "@/store/async-thunks/feedback.thunk";
 import { showDialogSinInWhenNotLogin } from "@/store/slices/system.slice";
 import { AppDispatch, RootState } from "@/store/store";
@@ -12,6 +11,7 @@ import { useParams } from "next/navigation";
 import { useState } from "react";
 import { AiFillDislike, AiFillLike } from "react-icons/ai";
 import { useDispatch, useSelector } from "react-redux";
+import { toast } from "sonner";
 
 interface FeedbackActionsProps {
   data: Feedback;
@@ -62,29 +62,34 @@ const VoteActions = ({ data }: FeedbackActionsProps) => {
       return;
     }
 
-    setTypeVote(voteType);
-    const response = await dispatch(
-      addVote({
-        userId: userId as string,
-        feedbackId,
-        movieSlug: params.slug as string,
-        voteType,
-        accessToken: accessToken as string,
-      })
-    );
-    setTypeVote(null);
+    try {
+      setTypeVote(voteType);
+      const response = await dispatch(
+        addVote({
+          userId: userId as string,
+          feedbackId,
+          movieSlug: params.slug as string,
+          voteType,
+          accessToken: accessToken as string,
+        })
+      );
 
-    if (response.payload?.status) {
-      const voteType = response.payload.result.voteType;
+      if (response.payload?.status) {
+        const voteType = response.payload.result.voteType;
 
-      sendSocketAddNewVote(receiverId, voteType);
+        sendSocketAddNewVote(receiverId, voteType);
 
-      // Tạo thông báo nếu chưa thích phản hồi
-      if (voteType === "like") {
-        handleCreateNotification();
+        // Tạo thông báo nếu chưa thích phản hồi
+        if (voteType === "like") {
+          handleCreateNotification();
+        }
+      } else {
+        toast.error(response.payload?.message);
       }
-    } else {
-      handleShowToaster("Thông báo", response?.payload?.message, "error");
+    } catch (error) {
+      toast.error("Đã xảy ra lỗi! Vui lòng thử lại sau.");
+    } finally {
+      setTypeVote(null);
     }
   };
 

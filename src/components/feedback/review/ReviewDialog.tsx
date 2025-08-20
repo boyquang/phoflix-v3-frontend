@@ -11,10 +11,10 @@ import { addFeedback, getStatsByMovie } from "@/lib/actions/feedback.action";
 import { useSession } from "next-auth/react";
 import { setReviewContent } from "@/store/slices/user.slice";
 import { getFeedbacks } from "@/store/async-thunks/feedback.thunk";
-import { handleShowToaster } from "@/lib/utils";
 import { useParams } from "next/navigation";
 import useSendSocketFeedback from "@/hooks/useSendSocketFeedback";
 import { appConfig } from "@/configs/app.config";
+import { toast } from "sonner";
 
 const { dialog } = appConfig.charka;
 const motionPresetDefault = dialog.motionPresetDefault;
@@ -62,57 +62,50 @@ const ReviewDialog = ({ trigger }: ReviewDialogProps) => {
   const handleAddNewReview = () => {
     if (!movie) return;
 
-    if (reviewContent?.trim() === "") {
-      handleShowToaster(
-        "Thông báo",
-        "Nội dung đánh giá không được để trống",
-        "error"
-      );
+    if (!reviewContent?.trim()) {
+      toast.error("Nội dung đánh giá không được để trống");
       return;
     }
 
     startTransition(async () => {
-      const response = await addFeedback({
-        movieData: {
-          slug: movie?.slug,
-          poster: movie?.poster_url,
-          thumb: movie?.thumb_url,
-          name: movie?.name,
-        },
-        userId: session?.user?.id as string,
-        point: Number(selectedReview?.value),
-        content: reviewContent as string,
-        type: "review",
-        accessToken: session?.user?.accessToken as string,
-      });
+      try {
+        const response = await addFeedback({
+          movieData: {
+            slug: movie?.slug,
+            poster: movie?.poster_url,
+            thumb: movie?.thumb_url,
+            name: movie?.name,
+          },
+          userId: session?.user?.id as string,
+          point: Number(selectedReview?.value),
+          content: reviewContent as string,
+          type: "review",
+          accessToken: session?.user?.accessToken as string,
+        });
 
-      if (response?.status) {
-        handleShowToaster("Thông báo", response?.message, "success");
+        if (response?.status) {
+          toast.success(response?.message);
 
-        // làm mới feedback khi feedbackType là review
-        if (feedbackType === "review") {
-          await dispatch(
-            getFeedbacks({
-              movieSlug: movie.slug,
-              type: "review",
-              limit: 10,
-            })
-          );
+          // làm mới feedback khi feedbackType là review
+          if (feedbackType === "review") {
+            await dispatch(
+              getFeedbacks({
+                movieSlug: movie.slug,
+                type: "review",
+                limit: 10,
+              })
+            );
+          }
+
+          handleGetStatsByMovie();
+          sendSocketAddNewReview();
+          setOpen(false);
+          dispatch(setReviewContent(""));
+        } else {
+          toast.error(response?.message);
         }
-
-        // Refresh reviews
-        handleGetStatsByMovie();
-
-        // Send socket event to notify new review
-        sendSocketAddNewReview();
-
-        // Close dialog
-        setOpen(false);
-
-        // Reset review content
-        dispatch(setReviewContent(""));
-      } else {
-        handleShowToaster("Thông báo", response?.message, "error");
+      } catch (error) {
+        toast.error("Đã xảy ra lỗi! Vui lòng thử lại sau.");
       }
     });
   };

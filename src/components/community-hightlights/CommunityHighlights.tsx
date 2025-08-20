@@ -7,7 +7,7 @@ import LatestComments from "./LatestComments";
 
 const CommunityHighlights = () => {
   return (
-    <Box className="border 2xl:border-solid border-dashed 2xl:rounded-2xl rounded-none border-[#fff2] flex flex-col">
+    <Box className="2xl:border border-y  2xl:rounded-2xl rounded-none border-[#fff2] flex flex-col">
       <TopComments />
       <Box className="flex items-stretch xl:overflow-hidden overflow-auto" style={{
         scrollbarWidth: "none",
