@@ -22,7 +22,7 @@ const DeleteAllMovies = ({ type, playlistId }: DeleteAllMoviesProps) => {
   const [title, setTitle] = useState("");
   const [content, setContent] = useState("");
   const router = useRouter();
-  const { seletectedDeleteMode } = useSelector(
+  const { selectedDeleteMode } = useSelector(
     (state: RootState) => state.user.userMovies
   );
 
@@ -69,7 +69,7 @@ const DeleteAllMovies = ({ type, playlistId }: DeleteAllMoviesProps) => {
   };
 
   // Chỉ hiện nút xóa nếu không ở chế độ xóa đã chọn
-  if (seletectedDeleteMode) {
+  if (selectedDeleteMode) {
     return null;
   }
 

@@ -32,7 +32,7 @@ const AlertDialog = ({
   return (
     <Dialog.Root
       size="xs"
-      placement="center"
+      placement="bottom"
       open={isOpen}
       onOpenChange={({ open }) => setIsOpen(open)}
       scrollBehavior="outside"
@@ -44,6 +44,10 @@ const AlertDialog = ({
         <Dialog.Positioner
           css={{
             zIndex: "9999 !important",
+            alignItems: "center", 
+            "@media (max-width: 768px)": {
+              alignItems: "flex-end",
+            },
           }}
         >
           <Dialog.Content className="relative text-gray-50 bg-[#2a314e] rounded-2xl backdrop-blur max-w-[420px] mx-4">

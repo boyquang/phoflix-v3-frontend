@@ -93,8 +93,15 @@ const FeedbackInput = ({
   };
 
   const addNewComment = async () => {
+    if (!movie) return;
+
     const response = await addFeedback({
-      movieData: movieDataDefault,
+      movieData: {
+        slug: params.slug as string,
+        poster: movie?.poster_url as string,
+        thumb: movie?.thumb_url as string,
+        name: movie?.name as string,
+      },
       userId: session?.user?.id as string,
       content: value,
       type: "comment",
@@ -106,12 +113,19 @@ const FeedbackInput = ({
   };
 
   const addNewReply = async () => {
+    if (!movie) return;
+
     const response = await addReply({
       parentId: replyId as string,
       userId: session?.user?.id as string,
       content: value,
       type: feedbackType,
-      movieData: movieDataDefault,
+      movieData: {
+        slug: params.slug as string,
+        poster: movie?.poster_url as string,
+        thumb: movie?.thumb_url as string,
+        name: movie?.name as string,
+      },
       is_anonymous: isAnonymous,
       accessToken: session?.user?.accessToken as string,
     });
@@ -126,7 +140,7 @@ const FeedbackInput = ({
     }
 
     if (!value.trim()) {
-      toast.info("Nội dung không được để trống");
+      toast.error("Nội dung không được để trống");
       return;
     }
 

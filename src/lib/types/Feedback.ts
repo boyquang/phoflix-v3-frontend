@@ -160,6 +160,7 @@ type AddReplyFeedback = {
     slug: string;
     thumb: string;
     poster: string;
+    name: string;
   };
   userId: string;
   content: string;

@@ -12,7 +12,7 @@ const MovieCatalog = ({ isOpen }: MovieCatalogProps) => {
   return (
     <Box
       className={`absolute left-1/2 top-[calc(100%-8px)] mt-2 min-w-lg overflow-hidden 
-        bg-[#0f111af2] text-gray-50 border border-[#ffffff10] shadow-lg rounded-md
+        bg-[#0f111af2] text-gray-50 shadow-lg rounded-md
         transition-all duration-300 ease-in-out z-50
         ${
           isOpen
@@ -25,7 +25,7 @@ const MovieCatalog = ({ isOpen }: MovieCatalogProps) => {
         {movieCatalog.map((item, index: number) => (
           <li key={index}>
             <Link
-              className="rounded-sm hover:border-dashed border border-transparent hover:border-[#ffd875] text-sm block hover:text-[#ffd875] px-4 py-2 transition"
+              className="rounded-sm hover:bg-[#ffffff05] text-sm block hover:text-[#ffd875] px-4 py-2 transition"
               href={`/chi-tiet/${item.type}/${item.slug}`}
             >
               {item.name}

@@ -80,7 +80,7 @@ const LatestComments = () => {
                 {comments?.map((comment, index) => (
                   <SwiperSlide key={index}>
                     <Link
-                      href={`/thong-tin-phim/${comment?.slug}`}
+                      href={`/thong-tin-phim/${comment?.slug}?cid=${comment?._id}`}
                       className="flex items-start gap-4 bg-[#0005] overflow-hidden p-2 rounded-md border border-transparent hover:border-[#fff2]"
                     >
                       <Box className="relative flex-shrink-0 w-10 h-10">

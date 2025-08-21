@@ -41,12 +41,12 @@ const MovieItem = ({ item, isLoading, callback }: MovieItemProps) => {
   const tooltipTimeout = useRef<NodeJS.Timeout | null>(null);
   const { windowWidth } = useSelector((state: RootState) => state.system);
   const movieData = item?.movie_data;
-  const { seletectedDeleteMode, selectedMovieIds } = useSelector(
+  const { selectedDeleteMode, selectedMovieIds } = useSelector(
     (state: RootState) => state.user.userMovies
   );
 
   const handleMouseEnter = () => {
-    if (windowWidth <= 1280 || seletectedDeleteMode) return;
+    if (windowWidth <= 1280 || selectedDeleteMode) return;
 
     onMouseEnterShowTooltip(tooltipTimeout, currentElementRef, setTooltip);
   };
@@ -55,11 +55,13 @@ const MovieItem = ({ item, isLoading, callback }: MovieItemProps) => {
     onMouseLeaveHideTooltip(tooltipTimeout, setTooltip);
   };
 
+  const Tag = selectedDeleteMode ? "div" : Link;
+
   return (
     <Box
       id={item?.id}
       className={`group select-none ${
-        seletectedDeleteMode
+        selectedDeleteMode
           ? ""
           : "hover:-translate-y-2 transition-all duration-300"
       }`}
@@ -70,15 +72,15 @@ const MovieItem = ({ item, isLoading, callback }: MovieItemProps) => {
           onMouseEnter={handleMouseEnter}
           onMouseLeave={handleMouseLeave}
           onClick={() => {
-            if (seletectedDeleteMode) {
+            if (selectedDeleteMode) {
               dispatch(setSelectedMovieIds(item?.id));
             }
           }}
         >
           <HoverOutlineWrapper rounded="lg" ringSize="2">
-            <Link
+            <Tag
               href={
-                !seletectedDeleteMode
+                !selectedDeleteMode
                   ? `/thong-tin-phim/${item?.movie_slug}`
                   : "#"
               }
@@ -92,7 +94,7 @@ const MovieItem = ({ item, isLoading, callback }: MovieItemProps) => {
                   className="rounded-lg group-hover:brightness-75 transition-all"
                 />
               </Box>
-            </Link>
+            </Tag>
             <Box className="absolute xs:left-1/2 xs:transform xs:-translate-x-1/2 left-0 right-0 bottom-0">
               <StatusTag
                 uppercase={false}
@@ -109,7 +111,7 @@ const MovieItem = ({ item, isLoading, callback }: MovieItemProps) => {
         </Box>
 
         <Box className="absolute right-2 top-2">
-          {seletectedDeleteMode ? (
+          {selectedDeleteMode ? (
             <CheckboxCustom
               color="primary"
               size="medium"

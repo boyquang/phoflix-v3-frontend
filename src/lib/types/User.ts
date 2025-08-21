@@ -49,7 +49,7 @@ type UserSlice = {
     reviewContent: string | null;
   };
   userMovies: {
-    seletectedDeleteMode: boolean;
+    selectedDeleteMode: boolean;
     selectedMovieIds: string[];
   };
   comments: {

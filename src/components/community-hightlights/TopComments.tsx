@@ -15,6 +15,7 @@ import Loading from "@/app/loading";
 import NotDataAvailable from "./NotDataAvailable";
 
 type TTopComment = {
+  _id: string;
   parent_id: string | null;
   author: {
     _id: string;
@@ -132,7 +133,7 @@ const TopComments = () => {
                               </Box>
 
                               <Link
-                                href={`/thong-tin-phim/${comment?.movie_slug}?cid=${comment?.parent_id}`}
+                                href={`/thong-tin-phim/${comment?.movie_slug}?cid=${comment?._id}`}
                               >
                                 <Box className="w-[50px] flex-shrink-0">
                                   <Box className="relative z-[5] pb-[150%]">

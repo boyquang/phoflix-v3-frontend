@@ -46,7 +46,7 @@ const initialState: UserSlice = {
     playlistIds: [],
   },
   userMovies: {
-    seletectedDeleteMode: false,
+    selectedDeleteMode: false,
     selectedMovieIds: [],
   },
 };
@@ -82,7 +82,7 @@ const userSlice = createSlice({
     setSelectedDeleteMode: (state, action) => {
       const checked = action.payload;
 
-      state.userMovies.seletectedDeleteMode = checked;
+      state.userMovies.selectedDeleteMode = checked;
 
       if (!checked) {
         state.userMovies.selectedMovieIds = [];

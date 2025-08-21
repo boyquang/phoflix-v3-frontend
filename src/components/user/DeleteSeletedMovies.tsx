@@ -25,7 +25,7 @@ const DeleteSelectedMovies = ({
   const dispatch: AppDispatch = useDispatch();
   const router = useRouter();
   const { data: session } = useSession();
-  const { seletectedDeleteMode, selectedMovieIds } = useSelector(
+  const { selectedDeleteMode, selectedMovieIds } = useSelector(
     (state: RootState) => state.user.userMovies
   );
   const [loading, setLoading] = useState(false);
@@ -58,14 +58,14 @@ const DeleteSelectedMovies = ({
   return (
     <Box className="flex items-center border border-gray-400 rounded-full">
       <Button
-        onClick={() => dispatch(setSelectedDeleteMode(!seletectedDeleteMode))}
+        onClick={() => dispatch(setSelectedDeleteMode(!selectedDeleteMode))}
         size="xs"
         className={`text-xs text-gray-200 bg-transparent xs:text-xs text-[10px] hover:bg-[#25272f]
            ${selectedMovieIds?.length > 0 ? "rounded-l-full" : "rounded-full"} 
           `}
       >
         <FaSquareCheck />
-        <span>{seletectedDeleteMode ? "Hủy chọn" : "Chọn để xóa"}</span>
+        <span>{selectedDeleteMode ? "Hủy chọn" : "Chọn để xóa"}</span>
       </Button>
       {selectedMovieIds?.length > 0 && (
         <AlertDialog
