@@ -2,21 +2,19 @@
 
 import { BsEmojiDizzy } from "react-icons/bs";
 import { MdKeyboardAlt, MdKeyboardVoice } from "react-icons/md";
-import { RiUserVoiceFill } from "react-icons/ri";
+import { RiUserVoiceFill, RiVoiceprintFill } from "react-icons/ri";
 
 interface LanguageIconProps {
   language: "vietsub" | "thuyet-minh" | "long-tieng" | "undetermined" | string;
 }
 
 const LanguageIcon = ({ language }: LanguageIconProps) => {
-  return (
-    <>
-      {language === "vietsub" && <MdKeyboardAlt />}
-      {language === "thuyet-minh" && <RiUserVoiceFill />}
-      {language === "long-tieng" && <MdKeyboardVoice />}
-      {language === "undetermined" && <BsEmojiDizzy />}
-    </>
-  );
+  if (language.includes("vietsub")) return <MdKeyboardAlt />;
+  if (language.includes("thuyet-minh")) return <RiUserVoiceFill />;
+  if (language.includes("long-tieng")) return <MdKeyboardVoice />;
+  if (language.includes("undetermined")) return <BsEmojiDizzy />;
+
+  return <RiVoiceprintFill />;
 };
 
 export default LanguageIcon;

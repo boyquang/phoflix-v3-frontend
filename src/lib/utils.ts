@@ -378,23 +378,21 @@ export const removeHtmlEntities = (str: string) => {
  * @returns - Chuỗi đã được định dạng
  */
 
-export const formatTypeMovie = (type: string) => {
-  const serverName = type.toLowerCase();
+export const formatTypeMovie = (str: string) => {
+  const match = str.match(/^#?(.+?)\s*\((.+)\)$/);
 
-  if (serverName.includes("vietsub")) {
+  if (match) {
+    const languageFormat = match[2]
+      .toLowerCase()
+      .normalize("NFD") // tách dấu
+      .replace(/[\u0300-\u036f]/g, "") // xóa dấu
+      .replace(/[^a-z0-9\s-]/g, "") // bỏ ký tự đặc biệt
+      .trim()
+      .replace(/\s+/g, "-"); // thay space bằng -
+
     return {
-      title: "Phụ đề",
-      language: "vietsub",
-    };
-  } else if (serverName.includes("thuyết minh")) {
-    return {
-      title: "Thuyết minh",
-      language: "thuyet-minh",
-    };
-  } else if (serverName.includes("lồng tiếng")) {
-    return {
-      title: "Lồng tiếng",
-      language: "long-tieng",
+      title: match[2],
+      language: languageFormat,
     };
   } else {
     return {

@@ -19,22 +19,30 @@ const EpisodeTabs = () => {
   const dispatch: AppDispatch = useDispatch();
   const params = useParams();
 
-  // Reset ngôn ngữ đã chọn khi slug của movie thay đổi
+  // Làm mới khi chuyển sang phim khác
   useEffect(() => {
-    if (!selectedLanguage || movie?.slug !== params.slug) {
-      const tabs = Object.keys(groups);
-      dispatch(setSelectedLanguage(tabs.length > 0 ? tabs[0] : null));
-      dispatch(setCurrentEpisode(null));
+    if (params.slug !== movie?.slug) {
+      dispatch(setSelectedLanguage(null));
     }
-  }, [groups, params.slug, movie?.slug, selectedLanguage]);
+  }, [params.slug, movie?.slug]);
 
-  // Cập nhật ngôn ngữ đã chọn từ searchParams nếu có
+  // Set lại selectedLanguage
   useEffect(() => {
     const language = searchParams.get("language");
+
+    // Trường hợp có language trên url
     if (language && language !== selectedLanguage) {
       dispatch(setSelectedLanguage(language));
+      return;
     }
-  }, [searchParams]);
+
+    // Trường hợp chuyển sang phim khác
+    if (!selectedLanguage) {
+      const tabs = Object.keys(groups);
+      dispatch(setSelectedLanguage(tabs?.length > 0 ? tabs[0] : null));
+      return;
+    }
+  }, [groups, searchParams]);
 
   const handleChangeTab = (key: string) => {
     if (selectedLanguage !== key) {
