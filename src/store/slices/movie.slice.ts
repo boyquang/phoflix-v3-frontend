@@ -151,10 +151,10 @@ const movieSlice = createSlice({
         // Thêm tập phim theo ngôn ngữ
         episodes?.forEach((episode: Episode) => {
           const data = formatTypeMovie(episode.server_name);
-          const language = data.language as languageType;
+          const language = data.language as LanguageType;
 
-          if (!state.episode.groups[language as languageType]) {
-            state.episode.groups[language as languageType] = {
+          if (!state.episode.groups[language as LanguageType]) {
+            state.episode.groups[language as LanguageType] = {
               items: episode.server_data,
               label: data.title,
             };
@@ -329,10 +329,10 @@ const movieSlice = createSlice({
       // Thêm tập phim theo ngôn ngữ
       episodes?.forEach((episode: Episode) => {
         const data = formatTypeMovie(episode.server_name);
-        const language = data.language as languageType;
+        const language = data.language as LanguageType;
 
-        if (!state.episode.groups[language as languageType]) {
-          state.episode.groups[language as languageType] = {
+        if (!state.episode.groups[language as LanguageType]) {
+          state.episode.groups[language as LanguageType] = {
             items: episode.server_data,
             label: data.title,
           };

@@ -30,11 +30,11 @@ const EpisodeWrapper = () => {
             <Box className="rounded-md text-xs h-6 px-2 inline-flex gap-1 items-center justify-center bg-[#ffffff10]">
               <LanguageIcon
                 language={
-                  formatTypeMovie(episode?.server_name as languageType).language
+                  formatTypeMovie(episode?.server_name as LanguageType).language
                 }
               />
               <span className="capitalize font-semibold">
-                {formatTypeMovie(episode?.server_name as languageType).title}
+                {formatTypeMovie(episode?.server_name as LanguageType).title}
               </span>
             </Box>
             <EpisodesList
@@ -50,7 +50,7 @@ const EpisodeWrapper = () => {
                 xl: 6,
               }}
               language={
-                formatTypeMovie(episode?.server_name).language as languageType
+                formatTypeMovie(episode?.server_name).language as LanguageType
               }
               episodes={episode?.server_data}
             />

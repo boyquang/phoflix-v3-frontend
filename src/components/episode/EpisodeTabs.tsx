@@ -52,7 +52,7 @@ const EpisodeTabs = () => {
 
   return (
     <div className="flex items-center gap-2 mb-6">
-      {(Object.keys(groups) as languageType[])?.map((key) => (
+      {(Object.keys(groups) as LanguageType[])?.map((key) => (
         <div
           id={key}
           key={key}

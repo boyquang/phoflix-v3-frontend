@@ -17,7 +17,7 @@ import EmptyData from "../shared/EmptyData";
 import { toast } from "sonner";
 
 interface EpisodesListProps {
-  language: languageType;
+  language: LanguageType;
   episodes: EpisodeMerged[];
   currentEpisode: EpisodeMerged | null;
   setCurrentEpisode: (item: EpisodeMerged) => void;

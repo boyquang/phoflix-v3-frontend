@@ -7,6 +7,7 @@ import Image from "../shared/Image";
 import { Button } from "@chakra-ui/react";
 import { setCurrentEpisode } from "@/store/slices/movie.slice";
 import { useRouter } from "next/navigation";
+import { notFoundImage } from "@/constants/image.contant";
 
 interface MovieVersionListProps {
   redirect?: boolean;
@@ -38,7 +39,7 @@ const MovieVersionList = ({
 
   const handleChangeVerion = (
     version: EpisodeMerged,
-    language: "vietsub" | "thuyet-minh" | "long-tieng"
+    language: LanguageType
   ) => {
     if (!redirect) {
       const id = getIdFromLinkEmbed(version.link_embed, 8);
@@ -56,6 +57,24 @@ const MovieVersionList = ({
     }
   };
 
+  const getBackgroundColor = (language: LanguageType) => {
+    if (backgroundColor[language]) {
+      return backgroundColor[language];
+    }
+
+    const key  = Object.keys(backgroundColor).find(bg => language.startsWith(bg));
+    return key ? backgroundColor[key as LanguageType] : "bg-[#0003]";
+  };
+
+  const getIcon = (language: LanguageType) => {
+    if (icon[language]) {
+      return icon[language];
+    }
+
+    const key  = Object.keys(icon).find(bg => language.startsWith(bg));
+    return key ? icon[key as LanguageType] : notFoundImage;
+  };
+
   return (
     <div className="flex flex-col gap-4">
       <h4 className="lg:text-2xl text-lg text-gray-50">Các bản chiếu</h4>
@@ -66,8 +85,9 @@ const MovieVersionList = ({
             : "lg:grid-cols-3 md:grid-cols-3 xs:grid-cols-2 grid-cols-1"
         } `}
       >
-        {(Object.keys(groups) as languageType[])?.map((language) => {
+        {(Object.keys(groups) as LanguageType[])?.map((language) => {
           const version = groups[language]?.items?.[0] || null;
+          
           if (!version) return null;
 
           const label = groups[language]?.label;
@@ -76,6 +96,8 @@ const MovieVersionList = ({
           const queryParams = `id=${id}&language=${language}`;
           const href = `/dang-xem/${movie?.slug}?${queryParams}`;
           const isCurrent = currentEpisode?.link_embed === version?.link_embed;
+          const icon = getIcon(language);
+          const background = getBackgroundColor(language);
 
           return (
             <div
@@ -83,14 +105,11 @@ const MovieVersionList = ({
                 if (redirect) {
                   router.push(href);
                 }
-                handleChangeVerion(
-                  version,
-                  language as "vietsub" | "thuyet-minh" | "long-tieng"
-                );
+                handleChangeVerion(version, language as LanguageType);
               }}
               key={language}
-              className={`relative border-2 rounded-xl overflow-hidden hover:-translate-y-2 transition-transform duration-300 
-                ${backgroundColor[language]}  
+              className={`relative border-2 rounded-xl overflow-hidden hover:-translate-y-2 transition-transform duration-300
+                ${background}  
                 ${
                   isCurrent && !redirect
                     ? "border-primary cursor-default"
@@ -109,10 +128,7 @@ const MovieVersionList = ({
                 <div className="flex items-center gap-1 text-sm text-gray-50">
                   <div className="flex items-center gap-1">
                     <div className="w-5 h-5 relative">
-                      <Image
-                        src={icon[language as languageType]}
-                        alt={language}
-                      />
+                      <Image src={icon} alt={language} />
                     </div>
                     <span>{label}</span>
                   </div>

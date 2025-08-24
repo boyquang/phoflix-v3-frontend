@@ -94,14 +94,14 @@ const ClientWrapper = ({ movie, episodes }: ClientWrapperProps) => {
 
   return (
     <div className="flex flex-col gap-12 max-w-[1620px] mx-auto 2xl:px-12 px-4">
-      <div className="lg:mt-32 mt-24">
+      <div className="lg:mt-32 md:mt-24 mt-14">
         <h3 className="xl:text-4xl lg:text-3xl md:text-2xl text-xl text-gradient-primary font-bold mb-6 sm:inline-block hidden">
-          {movie?.name} - {currentEpisode?.name || "Trailer"}
+          {currentEpisode ? movie?.name : "Trailer"}
         </h3>
 
-        <div className="flex flex-col relative watch-player xs:-mx-0 -mx-4">
+        <div className="flex flex-col relative watch-player md:-mx-0 -mx-4">
           <SectionVideo />
-          <div className="lg:p-4 p-2 bg-[#08080a] border-l border-r border-b border-[#ffffff10] xs:rounded-b-2xl rounded-b-none flex gap-2 justify-between flex-wrap items-center">
+          <div className="lg:p-4 p-2 bg-[#08080a] md:rounded-b-xl rounded-b-none flex gap-2 justify-between flex-wrap items-center">
             <div className="flex lg:gap-x-4 gap-x-2 gap-y-2 items-center flex-wrap">
               <FavoriteButton placement="horizontal" responsiveText />
               <PopoverPlaylist placement="horizontal" responsiveText />

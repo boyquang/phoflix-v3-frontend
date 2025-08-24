@@ -69,7 +69,7 @@ const ChatBotDialog = () => {
         >
           <Dialog.Content
             className="relative min-h-[90vh] text-black
-              bg-[rgba(255,255,255,0.1)] 
+              bg-[#ffffff1a] 
               backdrop-blur-lg backdrop-saturate-150 
               rounded-2xl shadow-xl 
               ring-1 ring-white/30 

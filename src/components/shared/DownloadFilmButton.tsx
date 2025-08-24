@@ -17,7 +17,7 @@ const DownloadFilmButton = ({
     <DownloadFilmDialog
       trigger={
         <Box
-          className={`p-2 select-none xs:flex hidden sm:min-w-16 cursor-pointer rounded-lg justify-center items-center gap-2 text-gray-50 transition-all hover:bg-[#ffffff05] ${
+          className={`p-2 select-none lg:flex hidden sm:min-w-16 cursor-pointer rounded-lg justify-center items-center gap-2 text-gray-50 transition-all hover:bg-[#ffffff05] ${
             placement === "vertical" ? "flex-col" : "flex-row"
           }`}
         >

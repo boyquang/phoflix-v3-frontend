@@ -114,7 +114,7 @@ type Actor = {
   known_for?: KnownFor[];
 };
 
-type languageType = "vietsub" | "thuyet-minh" | "long-tieng";
+type LanguageType = "vietsub" | "thuyet-minh" | "long-tieng";
 
 type MovieSlice = {
   slideShows: {
@@ -193,9 +193,9 @@ type MovieSlice = {
   };
   episode: {
     displayMode: "list" | "tab";
-    selectedLanguage: languageType | null;
+    selectedLanguage: LanguageType | null;
     groups: Partial<
-      Record<languageType, { items: EpisodeMerged[]; label: string }>
+      Record<LanguageType, { items: EpisodeMerged[]; label: string }>
     >;
   };
 };
@@ -263,7 +263,7 @@ type Countries =
   | "na-uy";
 
 type Episode = {
-  server_name: string | languageType;
+  server_name: string | LanguageType;
   server_data: EpisodeMerged[];
 };
 
