@@ -1,4 +1,4 @@
-export const placeholderImage = "/images/placeholder.webp"; 
+export const placeholderImage = "/images/placeholder.webp";
 export const notFoundImage = "/images/notfound.webp";
 export const rate1Image = "/images/reviews/rate1.webp";
 export const rate2Image = "/images/reviews/rate2.webp";
@@ -7,3 +7,5 @@ export const rate4Image = "/images/reviews/rate4.webp";
 export const rate5Image = "/images/reviews/rate5.webp";
 export const anonymousAvatar = "/images/anonymous.webp";
 export const botAvatar = "/images/bot.webp";
+export const deniedBg = "/images/denied-bg.webp";
+export const deniedGif = "/images/denied.gif";

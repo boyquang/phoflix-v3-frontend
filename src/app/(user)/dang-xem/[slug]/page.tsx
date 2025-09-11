@@ -81,7 +81,7 @@ const Page = async ({ params, searchParams }: PageProps) => {
 
   if (!status || Object.keys(movie).length === 0) {
     return (
-      <div className="min-h-screen flex items-center justify-center max-w-2xl mx-auto px-4">
+      <div className="min-h-screen flex items-center justify-center px-4 max-w-2xl mx-auto">
         <EmptyData
           className="bg-[#0003] rounded-2xl"
           icon={<FaPhotoFilm />}

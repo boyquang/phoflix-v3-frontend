@@ -59,6 +59,8 @@ export async function fetchSearchMovies(
 
     const dataJson = await response.json();
 
+    console.log("fetch search movies data: ", dataJson);
+
     return {
       movies: dataJson.data?.items || [],
       pagination: dataJson.data?.params?.pagination || {},
@@ -125,7 +127,6 @@ export async function fetchMovieDetail(
 }
 
 interface AdvanceFilterParams {
-  keyword: string;
   page?: number;
   limit?: number;
   country?: string;
@@ -136,7 +137,6 @@ interface AdvanceFilterParams {
 }
 
 export async function fetchAdvanceFilterMovies({
-  keyword = "a",
   page = 1,
   limit = 24,
   country = "",
@@ -147,7 +147,6 @@ export async function fetchAdvanceFilterMovies({
 }: AdvanceFilterParams) {
   try {
     const params = new URLSearchParams({
-      keyword,
       page: page.toString(),
       limit: limit.toString(),
       sort_type,
@@ -215,8 +214,8 @@ export async function fetchNewlyUpdatedMovies(
     const dataJson = await response.json();
 
     return {
-      items: dataJson?.items || [],
-      pagination: dataJson?.pagination || {},
+      items: dataJson?.data.items || [],
+      pagination: dataJson?.params?.pagination || {},
       status: dataJson?.status === true || dataJson?.status === IS_SUCCESS,
     };
   } catch (error) {

@@ -1,7 +1,12 @@
+import {
+  NEXT_PUBLIC_API_VERSION,
+  NEXT_PUBLIC_CRAWL_MOVIES_URL,
+} from "@/constants/env.contant";
 import { fetcher, REVALIDATE_TIME } from "@/lib/fetcher";
 import { NextRequest, NextResponse } from "next/server";
 
 const API_URL = process.env.NEXT_PUBLIC_API_URL;
+const CRAWL_MOVIES_URL = `${NEXT_PUBLIC_CRAWL_MOVIES_URL}/api/${NEXT_PUBLIC_API_VERSION}`;
 
 interface MovieSearchParams {
   keyword: string;
@@ -19,7 +24,8 @@ export async function GET(
     const limit = search.get("limit") || "24";
     const keyword = search.get("keyword") || "";
 
-    const baseUrl = `${API_URL}/v1/api/tim-kiem`;
+    // const baseUrl = `${API_URL}/v1/api/tim-kiem`;
+    const baseUrl = `${CRAWL_MOVIES_URL}/movies/search`;
     const url = new URL(baseUrl);
 
     url.searchParams.append("keyword", keyword);

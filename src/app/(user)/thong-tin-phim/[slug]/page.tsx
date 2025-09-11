@@ -7,6 +7,7 @@ import { NEXT_PUBLIC_SITE_URL } from "@/constants/env.contant";
 import { Metadata } from "next";
 import { Suspense } from "react";
 import { FaPhotoFilm } from "react-icons/fa6";
+import NotFound from "@/app/not-found";
 
 export async function generateMetadata({
   params,
@@ -79,18 +80,7 @@ const Page = async ({ searchParams, params }: PageProps) => {
 
   const { movie, episodes, status } = await fetchMovieInfo(slug as string);
 
-  if (!status || Object.keys(movie).length === 0) {
-    return (
-      <div className="min-h-screen flex items-center justify-center max-w-2xl mx-auto px-4">
-        <EmptyData
-          className="bg-[#0003] rounded-2xl"
-          icon={<FaPhotoFilm />}
-          title="Không tìm thấy dữ liệu"
-          description="Bộ phim này không tồn tại hoặc có thể đã bị xóa."
-        />
-      </div>
-    );
-  }
+  if (!status || Object.keys(movie).length === 0) return <NotFound />;
 
   return (
     <Suspense fallback={<Loading type="text" />}>

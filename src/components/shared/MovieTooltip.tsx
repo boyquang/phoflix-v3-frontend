@@ -83,7 +83,7 @@ const MovieTooltip = ({ data, position }: MovieTooltipProps) => {
           <TagClassic text={data?.episode_current || "Không xác định"} />
         </Box>
         <Box className="flex flex-wrap gap-2 items-center mt-3">
-          {data?.category?.map((category, index: number) => (
+          {data?.categories?.map((category, index: number) => (
             <TagClassic
               key={index}
               text={category?.name || "Không xác định"}

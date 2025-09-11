@@ -10,6 +10,7 @@ import { NEXT_PUBLIC_SITE_URL } from "@/constants/env.contant";
 import { Metadata } from "next";
 import { Suspense } from "react";
 import { RiMovieFill } from "react-icons/ri";
+import NotFound from "@/app/not-found";
 
 export async function generateMetadata({
   params,
@@ -48,8 +49,9 @@ export async function generateMetadata({
       openGraph: {
         title: `${titleHead} - ${totalItems} bộ phim | PHOFLIX-V3`,
         description: `Xem ngay danh sách phim "${titleHead}" gồm ${totalItems} phim nổi bật, cập nhật liên tục tại PHOFLIX-V3.`,
-        url: `${NEXT_PUBLIC_SITE_URL}/chi-tiet/${og_url || `${describe}/${slug}`
-          }`,
+        url: `${NEXT_PUBLIC_SITE_URL}/chi-tiet/${
+          og_url || `${describe}/${slug}`
+        }`,
         siteName: "PHOFLIX-V3",
         locale: "vi_VN",
         type: og_type,
@@ -87,18 +89,7 @@ const Page = async ({ params, searchParams }: PageProps) => {
     limit
   );
 
-  if (!items || items?.length === 0) {
-    return (
-      <div className="min-h-screen flex items-center justify-center max-w-2xl mx-auto px-4">
-        <EmptyData
-          className="bg-[#0003] rounded-2xl"
-          icon={<RiMovieFill />}
-          title="Không có dữ liệu"
-          description="Danh sách hiện tại chưa chứa bộ phim nào."
-        />
-      </div>
-    );
-  }
+  if (!items || items?.length === 0) return <NotFound />;
 
   return (
     <Suspense fallback={<Loading type="text" />}>

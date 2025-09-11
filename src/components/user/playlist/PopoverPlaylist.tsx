@@ -72,7 +72,7 @@ const PopoverPlaylist = ({
         originName: movie?.origin_name,
         posterUrl: movie?.poster_url,
         thumbUrl: movie?.thumb_url,
-        category: movie?.category,
+        category: movie?.categories,
       },
       playlistId,
       accessToken: session?.user?.accessToken as string,

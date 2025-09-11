@@ -1,7 +1,12 @@
+import {
+  NEXT_PUBLIC_API_VERSION,
+  NEXT_PUBLIC_CRAWL_MOVIES_URL,
+} from "@/constants/env.contant";
 import { fetcher, REVALIDATE_TIME } from "@/lib/fetcher";
 import { NextRequest, NextResponse } from "next/server";
 
 const API_URL = process.env.NEXT_PUBLIC_API_URL;
+const CRAWL_MOVIES_URL = `${NEXT_PUBLIC_CRAWL_MOVIES_URL}/api/${NEXT_PUBLIC_API_VERSION}`;
 
 interface MovieDetailParams {
   describe: "quoc-gia" | "the-loai" | "danh-sach";
@@ -22,7 +27,10 @@ export async function GET(
     const page = search.get("page") || "1";
     const limit = search.get("limit") || "24";
 
-    const baseUrl = `${API_URL}/v1/api/${describe}/${slug}`;
+    // const baseUrl = `${API_URL}/v1/api/${describe}/${slug}`;
+
+    const baseUrl = `${CRAWL_MOVIES_URL}/movies/${slug}`;
+
     const url = new URL(baseUrl);
 
     url.searchParams.append("page", page);

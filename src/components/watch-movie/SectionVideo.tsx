@@ -4,6 +4,8 @@ import { RootState } from "@/store/store";
 import { Box } from "@chakra-ui/react";
 import { useEffect, useRef, useState } from "react";
 import { useSelector } from "react-redux";
+import Image from "../shared/Image";
+import { deniedGif } from "@/constants/image.contant";
 
 const SectionVideo = () => {
   const { currentEpisode, isValidEpisodes, movie } = useSelector(
@@ -33,15 +35,16 @@ const SectionVideo = () => {
       <Box className="relative h-0 pt-[56.25%]">
         {source ? (
           <>
-            <div
+            <Box
               className={`absolute bg-[#08080a] w-full h-full inset-0 md:rounded-t-2xl rounded-t-none items-center justify-center ${
                 loading ? "flex" : "hidden"
               }`}
             >
-              <div className="text-white p-4 xl:text-3xl lg:text-2xl text-lg">
-                Đang tải phim đợi tí nhé!
-              </div>
-            </div>
+              <Image
+                src={movie?.thumb_url as string}
+                alt={movie?.name || "Poster phim"}
+              />
+            </Box>
 
             <iframe
               src={source}
@@ -59,9 +62,17 @@ const SectionVideo = () => {
           </>
         ) : (
           <Box className="absolute w-full h-full inset-0 flex items-center justify-center bg-[#08080a]">
-            <h1 className="text-white md:text-2xl text-sm p-4 text-center">
-              Phim đang lỗi, vui lòng thử lại sau!
-            </h1>
+            <Box className="absolute inset-0 bg-[url('https://goatembed.com/images/denied-bg.webp')] bg-center bg-cover opacity-20"></Box>
+            <Box className="flex gap-6 items-center">
+              <Box className="relative rounded-[15%] overflow-hidden lg:h-[220px] h-[100px] w-[100px] lg:w-[220px]">
+                <Image src={deniedGif} alt="movie not found" />
+              </Box>
+              <Box className="lg:text-lg text-sm text-white font-semibold">
+                <span className="uppercase">Phim bị lỗi :((</span>
+                <br />
+                Vui lòng thử lại sau!
+              </Box>
+            </Box>
           </Box>
         )}
       </Box>

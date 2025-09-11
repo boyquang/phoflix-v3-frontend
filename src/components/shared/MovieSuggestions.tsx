@@ -58,13 +58,15 @@ const MovieSuggesstions = ({
     dispatch(setFetchedMovieSuggestion(true));
   }, []);
 
+  if (!items || items.length === 0) return null;
+
   return (
     <Box className="flex flex-col gap-4">
       <Box className="flex items-center gap-2 lg:text-2xl text-lg text-gray-50">
         <h4>{title}</h4>
       </Box>
       {loading ? (
-        <Loading height="h-64"/>
+        <Loading height="h-64" />
       ) : (
         <MovieGrid items={items} classNameGrids={classNameGrids} />
       )}

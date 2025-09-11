@@ -49,7 +49,7 @@ const MovieDetail = ({ data }: MovieDetailProps) => {
         </Box>
 
         <Box className="flex flex-wrap gap-2 items-center mt-1">
-          {data?.category?.map((category, index: number) => (
+          {data?.categories?.map((category, index: number) => (
             <TagClassic
               key={index}
               text={category?.name || "Không xác định"}
@@ -80,10 +80,10 @@ const MovieDetail = ({ data }: MovieDetailProps) => {
             Đạo diễn:
           </span>
           <ul className="flex flex-wrap gap-2">
-            {data?.director?.map((director, index: number) => (
+            {data?.directors?.map((director, index: number) => (
               <li key={index} className="text-gray-400">
                 <DecodeText text={director} />
-                {index < data?.director?.length - 1 && <span>,</span>}
+                {index < data?.directors?.length - 1 && <span>,</span>}
               </li>
             ))}
           </ul>
@@ -93,14 +93,14 @@ const MovieDetail = ({ data }: MovieDetailProps) => {
             Quốc gia:
           </span>
           <ul className="flex gap-2">
-            {data?.country?.map((country, index: number) => (
+            {data?.countries?.map((country, index: number) => (
               <li
                 key={index}
                 className="text-gray-400 hover:text-[#ffd875] transition-all"
               >
                 <Link href={`/chi-tiet/quoc-gia/${country?.slug}`}>
                   <DecodeText text={country?.name} />
-                  {index < data?.country?.length - 1 && <span>,</span>}
+                  {index < data?.countries?.length - 1 && <span>,</span>}
                 </Link>
               </li>
             ))}
@@ -111,10 +111,10 @@ const MovieDetail = ({ data }: MovieDetailProps) => {
             Diễn viên:
           </span>
           <ul className="flex flex-wrap gap-2">
-            {data?.actor?.map((actor, index: number) => (
+            {data?.actors?.map((actor, index: number) => (
               <li key={index} className="text-gray-400">
                 <DecodeText text={actor} />
-                {index < data?.actor?.length - 1 && <span>,</span>}
+                {index < data?.actors?.length - 1 && <span>,</span>}
               </li>
             ))}
           </ul>

@@ -12,7 +12,7 @@ import { useRouter } from "next/navigation";
 import DecodeText from "../shared/DecodeText";
 
 interface SlideItemProps {
-  item: SlideItem;
+  item: Movie;
 }
 
 const SlideItem = ({ item }: SlideItemProps) => {
@@ -49,14 +49,14 @@ const SlideItem = ({ item }: SlideItemProps) => {
         <DecodeText
           as="h4"
           text={item?.name}
-          className="text-gradient-primary lg:text-4xl md:text-2xl font-semibold lg:inline-block truncate-lines-2 block text-xl lg:text-left text-center mb-1"
+          className="text-gradient-primary lg:text-4xl md:text-2xl font-semibold lg:inline-block truncate-lines-2 block text-xl lg:text-left text-center mb-2"
         />
         <DecodeText
           as="h6"
           text={item?.origin_name}
-          className="text-primary lg:text-left text-center text-sm truncate"
+          className="text-primary italic lg:text-left text-center text-sm truncate"
         />
-        <Box className="flex gap-2 items-center flex-wrap lg:justify-start justify-center mt-3">
+        <Box className="flex gap-2 items-center flex-wrap lg:justify-start justify-center mt-4">
           <TagClassic text={item?.quality || "Không xác định"} />
           <TagClassic text={item?.year || "Không xác định"} />
           <TagClassic text={item?.lang || "Không xác định"} />
@@ -65,7 +65,7 @@ const SlideItem = ({ item }: SlideItemProps) => {
         </Box>
 
         <Box className="lg:flex hidden flex-wrap gap-2 mt-2">
-          {item?.category?.map((caterogy, index: number) => (
+          {item?.categories?.map((caterogy, index: number) => (
             <TagClassic
               key={index}
               text={caterogy?.name || "Không xác định"}
@@ -74,6 +74,13 @@ const SlideItem = ({ item }: SlideItemProps) => {
             />
           ))}
         </Box>
+
+        <DecodeText
+          as="p"
+          text={item?.content || "Không có mô tả cho phim này."}
+          className="text-sm hidden text-white leading-6 lg:text-left text-center mt-6 my-4 lg:line-clamp-3"
+        />
+
         <Box className="lg:flex hidden gap-4 items-center mt-6">
           <Link href={`/dang-xem/${item?.slug}`}>
             <Button

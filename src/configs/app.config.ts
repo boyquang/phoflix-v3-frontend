@@ -130,6 +130,9 @@ export const appConfig: AppConfig = {
     "/dashboard/event-management": {
       status: FeatureStatus.ACTIVE,
     },
+    "/dashboard/movie-management": {
+      status: FeatureStatus.ACTIVE,
+    },
     "/dashboard/telegram-bot": {
       status: FeatureStatus.ACTIVE,
     },

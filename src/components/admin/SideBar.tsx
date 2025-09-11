@@ -13,13 +13,20 @@ import { FaRobot } from "react-icons/fa6";
 import { MdCelebration } from "react-icons/md";
 import { FiLogOut } from "react-icons/fi";
 import { signOut } from "next-auth/react";
+import { RiMovieFill } from "react-icons/ri";
 
 const links = [
   { label: "Trang chủ", icon: <TiHome />, path: "/" },
+
   {
     label: "Quản lý người dùng",
     icon: <FaUser />,
     path: "/dashboard/user-management",
+  },
+  {
+    label: "Quản lý phim",
+    icon: <RiMovieFill />,
+    path: "/dashboard/movie-management",
   },
   {
     label: "Quản lý phản hồi",

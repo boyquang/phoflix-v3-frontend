@@ -46,7 +46,6 @@ export async function generateMetadata(): Promise<Metadata> {
 
 const Page = async ({ params, searchParams }: PageProps) => {
   const searchParamsObj = await searchParams;
-  const keyword = searchParamsObj.keyword || "a";
   const country = searchParamsObj.country || "";
   const category = searchParamsObj.category || "";
   const sort_lang = searchParamsObj.sort_lang || "";
@@ -60,7 +59,6 @@ const Page = async ({ params, searchParams }: PageProps) => {
     pagination: { totalItems },
     status,
   } = await fetchAdvanceFilterMovies({
-    keyword: keyword as string,
     page: currentPage,
     limit,
     country: country as string,
@@ -96,14 +94,12 @@ const Page = async ({ params, searchParams }: PageProps) => {
                   orientation="vertical"
                 />
               ) : (
-                <div className="h-96 max-w-2xl mx-auto flex items-center justify-center">
-                  <EmptyData
-                    className="bg-[#0003] rounded-2xl"
-                    icon={<RiMovieFill />}
-                    title="Không tìm thấy dữ liệu"
-                    description="Không có bộ phim nào trong danh sách này"
-                  />
-                </div>
+                <EmptyData
+                  className="bg-[#0003] rounded-2xl"
+                  icon={<RiMovieFill />}
+                  title="Không tìm thấy dữ liệu"
+                  description="Không có bộ phim nào trong danh sách này"
+                />
               )}
             </>
           </div>

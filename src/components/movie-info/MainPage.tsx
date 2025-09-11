@@ -55,7 +55,7 @@ const MainPage = () => {
   if (loading) return <SkeletonInfoPage />;
   if (error) {
     return (
-      <Box className="min-h-screen flex items-center justify-center max-w-2xl mx-auto px-4">
+      <Box className="min-h-screen flex items-center justify-center px-4">
         <EmptyData
           className="bg-[#0003] rounded-2xl"
           icon={<FaPhotoFilm />}

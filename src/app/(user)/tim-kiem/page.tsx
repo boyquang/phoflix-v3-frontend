@@ -8,7 +8,7 @@ import { fetchSearchMovies } from "@/lib/actions/movie.action";
 import { NEXT_PUBLIC_SITE_URL } from "@/constants/env.contant";
 import { Metadata } from "next";
 import { Suspense } from "react";
-import { FaPhotoFilm } from "react-icons/fa6";
+import { BsEmojiTearFill } from "react-icons/bs";
 
 export async function generateMetadata({
   params,
@@ -86,9 +86,9 @@ const Page = async ({ params, searchParams }: PageProps) => {
       <div className="min-h-screen flex items-center justify-center max-w-2xl mx-auto px-4">
         <EmptyData
           className="bg-[#0003] rounded-2xl"
-          icon={<FaPhotoFilm />}
-          title="Không tìm thấy dữ liệu"
-          description="Không có kết quả nào phù hợp với từ khóa tìm kiếm của bạn."
+          icon={<BsEmojiTearFill />}
+          title="Không tìm thấy phim"
+          description="Hãy thử tìm với từ khóa khác nhé."
         />
       </div>
     );

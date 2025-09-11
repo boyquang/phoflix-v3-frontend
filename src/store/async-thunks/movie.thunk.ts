@@ -196,7 +196,6 @@ export const fetchDataMovieSearch = createAsyncThunk(
   ) => {
     try {
       const response = await fetchAdvanceFilterMovies({
-        keyword,
         page,
         limit,
         country,
@@ -265,7 +264,6 @@ export const fetchDataMovieEvent = createAsyncThunk(
   ) => {
     try {
       const response = await fetchAdvanceFilterMovies({
-        keyword: "a",
         page: 1,
         limit,
         country,

@@ -58,10 +58,10 @@ type CategoryMovie = {
 };
 
 type Movie = {
-  category: CategoryMovie[];
-  country: CountryMovie[];
-  director: string[];
-  actor: string[];
+  categories: CategoryMovie[];
+  countries: CountryMovie[];
+  directors: string[];
+  actors: string[];
   episode_current: string;
   imdb: {
     id: string | null;

@@ -1,7 +1,12 @@
+import {
+  NEXT_PUBLIC_API_VERSION,
+  NEXT_PUBLIC_CRAWL_MOVIES_URL,
+} from "@/constants/env.contant";
 import { fetcher, REVALIDATE_TIME } from "@/lib/fetcher";
 import { NextRequest, NextResponse } from "next/server";
 
 const API_URL = process.env.NEXT_PUBLIC_API_URL;
+const CRAWL_MOVIES_URL = `${NEXT_PUBLIC_CRAWL_MOVIES_URL}/api/${NEXT_PUBLIC_API_VERSION}`;
 
 interface NewlyUpdatedMoviesParams {
   version?: "v1" | "v2" | "v3";
@@ -21,7 +26,9 @@ export async function GET(
     const page = search.get("page") || "1";
     const versionPath = version !== "v1" ? `-${version}` : "";
 
-    const baseUrl = `${API_URL}/danh-sach/phim-moi-cap-nhat${versionPath}`;
+    // const baseUrl = `${API_URL}/danh-sach/phim-moi-cap-nhat${versionPath}`;
+
+    const baseUrl = `${CRAWL_MOVIES_URL}/movies/latest`;
     const url = new URL(baseUrl);
 
     url.searchParams.append("page", page);

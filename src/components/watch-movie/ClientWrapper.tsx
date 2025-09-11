@@ -68,7 +68,7 @@ const ClientWrapper = ({ movie, episodes }: ClientWrapperProps) => {
           originName: movie.origin_name,
           posterUrl: movie.poster_url,
           thumbUrl: movie.thumb_url,
-          category: movie.category,
+          category: movie.categories,
         },
         type: "history",
         accessToken: session?.user?.accessToken as string,

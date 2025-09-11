@@ -83,7 +83,7 @@ const MainPage = () => {
                   orientation="vertical"
                 />
               ) : (
-                <Box className="h-96 max-w-2xl mx-auto flex items-center justify-center">
+                <Box className="h-96 flex items-center justify-center">
                   <EmptyData
                     className="bg-[#0003] rounded-2xl"
                     icon={<RiMovieFill />}

@@ -52,11 +52,6 @@ const recentYears = Array.from({ length: numberOfYear }, (_, i) => {
 
 export const filterOptions = [
   {
-    data: charactors,
-    id: "charactor",
-    title: "Kí tự",
-  },
-  {
     data: [{ _id: "", name: "Tất cả", slug: "" }, ...countries],
     id: "country",
     title: "Quốc gia",
@@ -74,7 +69,7 @@ export const filterOptions = [
   {
     data: [
       { _id: "", name: "Tất cả", slug: "" },
-      { _id: "vietsub", name: "Việt Sub", slug: "vietsub" },
+      { _id: "vietsub", name: "Phụ đề", slug: "vietsub" },
       { _id: "thuyetminh", name: "Thuyết Minh", slug: "thuyet-minh" },
       { _id: "longtieng", name: "Lồng Tiếng", slug: "long-tieng" },
     ],
