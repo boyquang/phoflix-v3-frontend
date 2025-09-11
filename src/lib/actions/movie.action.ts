@@ -213,9 +213,11 @@ export async function fetchNewlyUpdatedMovies(
 
     const dataJson = await response.json();
 
+    console.log("fetch newly updated movies data: ", dataJson);
+
     return {
-      items: dataJson?.data.items || [],
-      pagination: dataJson?.params?.pagination || {},
+      items: dataJson?.data?.items || [],
+      pagination: dataJson?.data?.params?.pagination || {},
       status: dataJson?.status === true || dataJson?.status === IS_SUCCESS,
     };
   } catch (error) {

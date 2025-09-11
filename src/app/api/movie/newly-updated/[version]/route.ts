@@ -38,6 +38,9 @@ export async function GET(
       next: { revalidate: REVALIDATE_TIME },
     });
 
+    console.log("Fetched newly updated movies from:", url.toString());
+    console.log("Response status:", response.status);
+
     if (!response.ok) {
       return NextResponse.json(
         { error: "Failed to fetch newly updated movies" },
