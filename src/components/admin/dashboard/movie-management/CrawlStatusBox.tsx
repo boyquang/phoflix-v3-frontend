@@ -142,7 +142,7 @@ const CrawlStatusBox = () => {
               </p>
             </div>
           </div>
-          <div className="flex items-center gap-2 justify-end mt-4">
+          <div className="flex items-center gap-2 justify-end mt-4 flex-wrap">
             <RunCrawlMovies action="create" />
             <RunCrawlMovies action="update" />
             <ResetCrawlStatus />

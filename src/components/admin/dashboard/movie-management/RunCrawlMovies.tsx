@@ -24,8 +24,8 @@ interface RunCrawlMoviesProps {
 
 const themes = {
   create: {
-    textDefault: "Bắt đầu cào",
-    textIsCrawling: "Ngừng cào",
+    textDefault: "Bắt đầu",
+    textIsCrawling: "Ngừng lại",
     styleDefault:
       "bg-primary linear-gradient text-black border-none disabled:opacity-70",
     styleIsCrawling: "bg-red-500 text-white border-none",
@@ -33,7 +33,7 @@ const themes = {
   },
   update: {
     textDefault: "Cập nhật",
-    textIsCrawling: "Ngừng cập nhật",
+    textIsCrawling: "Ngừng lại",
     styleDefault: "bg-sky-500 text-white disabled:opacity-70",
     styleIsCrawling: "bg-red-500 text-white border-none",
     icon: RxUpdate,

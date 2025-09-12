@@ -3,6 +3,7 @@ import {
   NEXT_PUBLIC_CRAWL_MOVIES_URL,
 } from "@/constants/env.contant";
 import { fetcher, REVALIDATE_TIME } from "@/lib/fetcher";
+import { fetchWithFallback } from "@/lib/fetchWithFallback";
 import { NextRequest, NextResponse } from "next/server";
 
 const API_URL = process.env.NEXT_PUBLIC_API_URL;
@@ -19,31 +20,16 @@ export async function GET(
   try {
     const { slug } = await params;
 
-    // const response = await fetcher(`${API_URL}/phim/${slug}`, {
-    //   next: {
-    //     revalidate: REVALIDATE_TIME,
-    //   },
-    // });
+    const primaryUrl = `${CRAWL_MOVIES_URL}/movies/info/${slug}`;
+    const fallbackUrl = `${API_URL}/phim/${slug}`;
 
-    const response = await fetcher(`${CRAWL_MOVIES_URL}/movies/info/${slug}`, {
-      headers: {
-        // Add any required headers here
-        "Content-Type": "application/json",
-      },
-      // If you want to revalidate the cache every REVALIDATE_TIME seconds
+    const response = await fetchWithFallback(primaryUrl, fallbackUrl, {
       next: { revalidate: REVALIDATE_TIME },
     });
-
-    if (!response.ok) {
-      return NextResponse.json(
-        { error: "Failed to fetch movie info" },
-        { status: 500 }
-      );
-    }
-
     const data = await response.json();
 
     return NextResponse.json(data, { status: 200 });
+
   } catch (error) {
     console.error("Error fetching movie info:", error);
     return NextResponse.json(

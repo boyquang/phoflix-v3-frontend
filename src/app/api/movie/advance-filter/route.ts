@@ -5,6 +5,8 @@ import {
   NEXT_PUBLIC_API_VERSION,
   NEXT_PUBLIC_CRAWL_MOVIES_URL,
 } from "@/constants/env.contant";
+import { fetchWithFallback } from "@/lib/fetchWithFallback";
+import { appendParams } from "@/lib/appendParams";
 
 const API_URL = process.env.NEXT_PUBLIC_API_URL;
 const CRAWL_MOVIES_URL = `${NEXT_PUBLIC_CRAWL_MOVIES_URL}/api/${NEXT_PUBLIC_API_VERSION}`;
@@ -25,39 +27,28 @@ export async function GET(
 ) {
   try {
     const search = req.nextUrl.searchParams;
-    const page = search.get("page") || "1";
-    const limit = search.get("limit") || "24";
-    const sortLanguage = search.get("sort_lang");
-    const category = search.get("category");
-    const country = search.get("country");
-    const year = search.get("year");
-    const sortType = search.get("sort_type");
 
-    // const baseUrl = `${API_URL}/v1/api/tim-kiem`;
-    const baseUrl = `${CRAWL_MOVIES_URL}/movies/search`;
-    const url = new URL(baseUrl);
+    const query = {
+      page: search.get("page") || "1",
+      limit: search.get("limit") || "24",
+      sortType: search.get("sort_type") || "asc",
+      sortLanguage: search.get("sort_lang") || undefined,
+      category: search.get("category") || undefined,
+      country: search.get("country") || undefined,
+      year: search.get("year") || undefined,
+    };
 
-    url.searchParams.append("page", page);
-    url.searchParams.append("limit", limit);
-    url.searchParams.append("sort_type", sortType || "desc");
+    const primaryUrlObj = new URL(`${CRAWL_MOVIES_URL}/movies/search`);
+    const fallbackUrlObj = new URL(`${API_URL}/v1/api/tim-kiem`);
 
-    if (sortLanguage) url.searchParams.append("sort_lang", sortLanguage);
-    if (category) url.searchParams.append("category", category);
-    if (country) url.searchParams.append("country", country);
-    if (year) url.searchParams.append("year", year);
+    appendParams(primaryUrlObj, query);
+    appendParams(fallbackUrlObj, { ...query, keyword: "a" });
 
-    console.log("url", url.toString());
-
-    const response = await fetcher(url.toString(), {
-      next: { revalidate: REVALIDATE_TIME },
-    });
-
-    if (!response.ok) {
-      return NextResponse.json(
-        { error: "Failed to fetch movie search results" },
-        { status: 500 }
-      );
-    }
+    const response = await fetchWithFallback(
+      primaryUrlObj.toString(),
+      fallbackUrlObj.toString(),
+      { next: { revalidate: REVALIDATE_TIME } }
+    );
 
     const data = await response.json();
 

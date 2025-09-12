@@ -24,6 +24,8 @@ export async function fetchMovieInfo(slug: string) {
 
     const data = await response.json();
 
+    console.log("fetch movie info data: ", data);
+
     return {
       movie: data?.movie || {},
       episodes: data?.episodes || [],
@@ -107,6 +109,8 @@ export async function fetchMovieDetail(
 
     const dataJson = await response.json();
 
+    console.log("fetch movie detail data: ", dataJson);
+
     return {
       items: dataJson?.data?.items || [],
       pagination: dataJson?.data?.params.pagination || {},
@@ -171,6 +175,8 @@ export async function fetchAdvanceFilterMovies({
 
     const dataJson = await response.json();
 
+    console.log("fetch advanced filter movies data: ", dataJson);
+
     return {
       items: dataJson?.data?.items || [],
       pagination: dataJson?.data?.params?.pagination || {},
@@ -213,11 +219,12 @@ export async function fetchNewlyUpdatedMovies(
 
     const dataJson = await response.json();
 
-    console.log("fetch newly updated movies data: ", dataJson);
-
     return {
-      items: dataJson?.data?.items || [],
-      pagination: dataJson?.data?.params?.pagination || {},
+      items: dataJson?.data?.items || dataJson?.items || [],
+      pagination:
+        dataJson?.data?.params?.pagination ||
+        dataJson?.params?.pagination ||
+        {},
       status: dataJson?.status === true || dataJson?.status === IS_SUCCESS,
     };
   } catch (error) {

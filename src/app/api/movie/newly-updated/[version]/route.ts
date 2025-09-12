@@ -3,6 +3,7 @@ import {
   NEXT_PUBLIC_CRAWL_MOVIES_URL,
 } from "@/constants/env.contant";
 import { fetcher, REVALIDATE_TIME } from "@/lib/fetcher";
+import { fetchWithFallback } from "@/lib/fetchWithFallback";
 import { NextRequest, NextResponse } from "next/server";
 
 const API_URL = process.env.NEXT_PUBLIC_API_URL;
@@ -26,30 +27,17 @@ export async function GET(
     const page = search.get("page") || "1";
     const versionPath = version !== "v1" ? `-${version}` : "";
 
-    // const baseUrl = `${API_URL}/danh-sach/phim-moi-cap-nhat${versionPath}`;
+    const primaryUrl = `${CRAWL_MOVIES_URL}/movies/latest?page=${page}&limit=${limit}`;
+    const fallbackUrl = `${API_URL}/danh-sach/phim-moi-cap-nhat${versionPath}?page=${page}&limit=${limit}`;
 
-    const baseUrl = `${CRAWL_MOVIES_URL}/movies/latest`;
-    const url = new URL(baseUrl);
-
-    url.searchParams.append("page", page);
-    url.searchParams.append("limit", limit);
-
-    const response = await fetcher(url.toString(), {
+    const response = await fetchWithFallback(primaryUrl, fallbackUrl, {
       next: { revalidate: REVALIDATE_TIME },
     });
 
-    console.log("Fetched newly updated movies from:", url.toString());
-    console.log("Response status:", response.status);
-
-    if (!response.ok) {
-      return NextResponse.json(
-        { error: "Failed to fetch newly updated movies" },
-        { status: 500 }
-      );
-    }
-
     const data = await response.json();
+
     return NextResponse.json(data, { status: 200 });
+
   } catch (error) {
     console.error("Error fetching newly updated movies:", error);
     return NextResponse.json(

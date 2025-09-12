@@ -2,7 +2,9 @@ import {
   NEXT_PUBLIC_API_VERSION,
   NEXT_PUBLIC_CRAWL_MOVIES_URL,
 } from "@/constants/env.contant";
+import { appendParams } from "@/lib/appendParams";
 import { fetcher, REVALIDATE_TIME } from "@/lib/fetcher";
+import { fetchWithFallback } from "@/lib/fetchWithFallback";
 import { NextRequest, NextResponse } from "next/server";
 
 const API_URL = process.env.NEXT_PUBLIC_API_URL;
@@ -20,29 +22,24 @@ export async function GET(
 ) {
   try {
     const search = req.nextUrl.searchParams;
-    const page = search.get("page") || "1";
-    const limit = search.get("limit") || "24";
-    const keyword = search.get("keyword") || "";
+    const query = {
+      page: search.get("page") || "1",
+      limit: search.get("limit") || "24",
+      keyword: search.get("keyword") || "",
+    };
 
-    // const baseUrl = `${API_URL}/v1/api/tim-kiem`;
-    const baseUrl = `${CRAWL_MOVIES_URL}/movies/search`;
-    const url = new URL(baseUrl);
+    const primaryUrlObj = new URL(`${CRAWL_MOVIES_URL}/movies/search`);
+    const fallbackUrlObj = new URL(`${API_URL}/v1/api/tim-kiem`);
 
-    url.searchParams.append("keyword", keyword);
-    url.searchParams.append("page", page);
-    url.searchParams.append("limit", limit);
+    appendParams(primaryUrlObj, query);
+    appendParams(fallbackUrlObj, query);
 
-    const response = await fetcher(url.toString(), {
-      next: { revalidate: REVALIDATE_TIME },
-    });
-
-    if (!response.ok) {
-      return NextResponse.json(
-        { error: "Failed to fetch movie search results" },
-        { status: 500 }
-      );
-    }
-
+    const response = await fetchWithFallback(
+      primaryUrlObj.toString(),
+      fallbackUrlObj.toString(), {
+        next: { revalidate: REVALIDATE_TIME },
+      }
+    );
     const data = await response.json();
 
     return NextResponse.json(data, { status: 200 });
