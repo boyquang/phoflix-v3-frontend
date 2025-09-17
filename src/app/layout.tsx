@@ -1,3 +1,5 @@
+export const dynamic = "force-dynamic";
+
 import type { Metadata, Viewport } from "next";
 import { Inter, Roboto } from "next/font/google";
 import { Provider } from "@/components/ui/provider";
@@ -14,8 +16,7 @@ const inter = Inter({
   weight: ["400", "500", "600", "700"],
 });
 
-const roboto = Roboto({ subsets: ['latin'], weight: ['400','700'] });
-
+const roboto = Roboto({ subsets: ["latin"], weight: ["400", "700"] });
 
 export const metadata: Metadata = {
   title: "PHOFLIX-V3 | Xem Phim Online Miễn Phí",

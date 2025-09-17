@@ -43,7 +43,9 @@ const MovieSuggesstions = ({
     if (fetched) return;
 
     const itemRandom = getRandomItem(data);
-    const describe = categories.includes(itemRandom) ? "the-loai" : "quoc-gia";
+    const describe = categories.includes(itemRandom as CategoryWithAll)
+      ? "the-loai"
+      : "quoc-gia";
 
     dispatch(
       fetchDataMovieDetail({

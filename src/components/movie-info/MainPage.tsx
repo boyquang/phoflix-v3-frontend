@@ -76,7 +76,7 @@ const MainPage = () => {
         <Box className="mt-[-100px]">
           <SimpleGrid columns={12} gap={0}>
             <GridItem colSpan={{ base: 12, md: 12, lg: 12, xl: 3 }}>
-              <MovieDetail data={movie} />
+              {/* <MovieDetail data={movie} /> */}
             </GridItem>
             <GridItem
               colSpan={{ base: 12, md: 12, lg: 12, xl: 9 }}
