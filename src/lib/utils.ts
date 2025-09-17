@@ -8,6 +8,7 @@ import { delay } from "lodash";
 import { DateEvent } from "@/configs/event.config";
 import { NEXT_PUBLIC_API_KKPHIM_IMAGE_URL } from "@/constants/env.contant";
 import { notFoundImage, placeholderImage } from "@/constants/image.contant";
+import slugify from "slugify";
 
 dayjs.locale("vi");
 dayjs.extend(relativeTime);
@@ -1020,3 +1021,11 @@ export const formatTimestamp = (
       throw new Error("Invalid format type");
   }
 };
+
+export function generateSlug(name: string) {
+  return slugify(name, {
+    lower: true, // viết thường hết
+    strict: true, // bỏ ký tự đặc biệt
+    locale: "vi", // hỗ trợ tiếng Việt
+  });
+}

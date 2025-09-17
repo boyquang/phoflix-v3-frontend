@@ -4,11 +4,24 @@ const BASE_URL = NEXT_PUBLIC_CRAWL_MOVIES_URL;
 
 type CrawlAction = "create" | "update";
 
-export const crawlMovies = async (action: CrawlAction, limit: number = 10) => {
+interface CrawlMovieParams {
+  action: CrawlAction;
+  accessToken: string;
+  limit?: number;
+}
+
+export const crawlMovies = async (params: CrawlMovieParams) => {
+  const { action, accessToken, limit = 10 } = params;
+
   try {
     const url = `${BASE_URL}/crawl/crawlMovies?type=${action}&limit=${limit}`;
 
-    const response = await fetch(url);
+    const response = await fetch(url, {
+      method: "GET",
+      headers: {
+        Authorization: `Bearer ${accessToken}`,
+      },
+    });
 
     if (!response.ok) {
       throw new Error("Network response was not ok");
@@ -26,17 +39,25 @@ export const crawlMovies = async (action: CrawlAction, limit: number = 10) => {
   }
 };
 
-export const checkIsCrawling = async () => {
+export const checkIsCrawling = async (accessToken: string) => {
   try {
     const url = `${BASE_URL}/crawl/checkIsCrawling`;
 
-    const response = await fetch(url);
+    const response = await fetch(url, {
+      method: "GET",
+      headers: {
+        Authorization: `Bearer ${accessToken}`,
+      },
+    });
+    const data = await response.json();
 
     if (!response.ok) {
-      throw new Error("Network response was not ok");
+      return {
+        status: data?.status || false,
+        isCrawling: false,
+        message: data?.message || "Lỗi khi kiểm tra trạng thái thu thập.",
+      };
     }
-
-    const data = await response.json();
 
     return data;
   } catch (error) {
@@ -49,17 +70,25 @@ export const checkIsCrawling = async () => {
   }
 };
 
-export const pauseCrawling = async () => {
+export const pauseCrawling = async (accessToken: string) => {
   try {
     const url = `${BASE_URL}/crawl/pauseCrawling`;
 
-    const response = await fetch(url);
+    const response = await fetch(url, {
+      method: "GET",
+      headers: {
+        Authorization: `Bearer ${accessToken}`,
+      },
+    });
+    const data = await response.json();
 
     if (!response.ok) {
-      throw new Error("Network response was not ok");
+      return {
+        status: data?.status || false,
+        isCrawling: true,
+        message: data?.message || "Lỗi khi tạm dừng quá trình thu thập.",
+      };
     }
-
-    const data = await response.json();
 
     return data;
   } catch (error) {
@@ -72,17 +101,25 @@ export const pauseCrawling = async () => {
   }
 };
 
-export const fetchMovieStats = async () => {
+export const fetchMovieStats = async (accessToken: string) => {
   try {
     const url = `${BASE_URL}/api/v1/movies/stats`;
 
-    const response = await fetch(url);
+    const response = await fetch(url, {
+      method: "GET",
+      headers: {
+        Authorization: `Bearer ${accessToken}`,
+      },
+    });
+    const data = await response.json();
 
     if (!response.ok) {
-      throw new Error("Network response was not ok");
+      return {
+        status: data?.status || false,
+        message: data?.message || "Lỗi khi lấy thống kê phim.",
+        data: null,
+      };
     }
-
-    const data = await response.json();
 
     return data;
   } catch (error) {
@@ -90,29 +127,29 @@ export const fetchMovieStats = async () => {
     return {
       status: false,
       message: "Lỗi khi lấy thống kê phim.",
-      data: {
-        totalMovies: 0,
-        totalSeries: 0,
-        totalSingles: 0,
-        totalTVShows: 0,
-        totalAnimations: 0,
-        totalCinemas: 0,
-      },
+      data: null,
     };
   }
 };
 
-export const resetCrawlStatus = async () => {
+export const resetCrawlStatus = async (accessToken: string) => {
   try {
     const url = `${BASE_URL}/crawl/resetCrawlStatus`;
 
-    const response = await fetch(url);
+    const response = await fetch(url, {
+      method: "GET",
+      headers: {
+        Authorization: `Bearer ${accessToken}`,
+      },
+    });
+    const data = await response.json();
 
     if (!response.ok) {
-      throw new Error("Network response was not ok");
+      return {
+        status: data?.status || false,
+        message: data?.message || "Lỗi khi đặt lại trạng thái cào.",
+      };
     }
-
-    const data = await response.json();
 
     return data;
   } catch (error) {

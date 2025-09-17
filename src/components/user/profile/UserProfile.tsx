@@ -7,6 +7,7 @@ import {
   HStack,
   Input,
   RadioGroup,
+  Spinner,
 } from "@chakra-ui/react";
 import { useSession } from "next-auth/react";
 import { useEffect, useState, useTransition } from "react";
@@ -143,9 +144,10 @@ const UserProfile = () => {
               onClick={handleUpdateUserProfile}
               className="w-full shadow-primary bg-[#ffda7d] text-[#1e2939]"
               size="sm"
-              loading={pending}
+              disabled={pending}
             >
               Cập nhật
+              {pending && <Spinner size="sm" />}
             </Button>
           </Box>
 

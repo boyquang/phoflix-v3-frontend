@@ -101,7 +101,7 @@ const SideBar = () => {
               <Link
                 href={link.path}
                 onClick={() => setIsOpen(false)}
-                className={`flex items-center p-2 text-gray-100 rounded-lg hover:bg-[#ffffff0f] group ${
+                className={`flex items-center p-2 text-white rounded-lg hover:bg-[#ffffff0f] group ${
                   pathname === link.path ? "bg-[#ffffff0f]" : ""
                 }`}
               >

@@ -495,7 +495,7 @@ export const initialMovieConfig: MovieConfigItem[] = [
 
 //////////////////////////////////////////////////////////////////
 
-export const categories = [
+export const categories: CategoryWithAll[] = [
   {
     _id: "9822be111d2ccc29c7172c78b8af8ff5",
     name: "Hành Động",
@@ -618,7 +618,7 @@ export const categories = [
   },
 ];
 
-export const countries = [
+export const countries: CountriesWithAll[] = [
   {
     _id: "f6ce1ae8b39af9d38d653b8a0890adb8",
     name: "Việt Nam",

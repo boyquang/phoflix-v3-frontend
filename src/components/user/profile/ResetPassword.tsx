@@ -73,7 +73,7 @@ const ResetPassword = () => {
       <Portal>
         <Dialog.Backdrop />
         <Dialog.Positioner>
-          <Dialog.Content className="bg-[rgba(40,43,58,0.8)] rounded-2xl text-gray-50 backdrop-blur max-w-[420px] mx-4 my-auto relative">
+          <Dialog.Content className="bg-[#1E2545] rounded-2xl text-gray-50 backdrop-blur max-w-[420px] mx-4 my-auto relative">
             <form onSubmit={handleSubmit(onSubmit)}>
               <Dialog.Header>
                 <Dialog.Title>Đổi mật khẩu</Dialog.Title>

@@ -98,7 +98,7 @@ const Page = async ({ params, searchParams }: PageProps) => {
         <RootLayout>
           <div className="lg:pt-28 pt-24 relative z-10">
             <h3 className="inline-block xl:text-3xl lg:text-2xl text-xl text-gradient-primary font-bold">
-              {`${titlePage} - ${totalItems} bộ phim`}
+              {titlePage || "Danh sách phim"}
             </h3>
             <div className="mt-12">
               <MovieGrid

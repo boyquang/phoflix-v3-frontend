@@ -13,7 +13,7 @@ const Footer = () => {
   if (pathname.includes("/dashboard")) return null;
 
   return (
-    <footer className="mt-16 bg-[#282b3a]">
+    <footer className="mt-16 bg-[#282b3a] xl:rounded-t-3xl">
       <RootLayout>
         <div className="grid py-12 grid-cols-12 gap-x-6 gap-y-6 lg:gap-x-12 lg:gap-y-4">
           <div className="col-span-12 md:col-span-12 lg:col-span-6 xl:col-span-4">
@@ -48,7 +48,7 @@ const Footer = () => {
               <Link
                 href="https://github.com/phohoccode"
                 target="_blank"
-                className="text-md text-gray-50 inline-flex gap-2 items-center transition duration-300 ease-in-out hover:text-[#f9ca24] hover:underline"
+                className="text-md text-gray-50 inline-flex gap-2 items-center transition duration-300 ease-in-out hover:text-[#ffd875] hover:underline"
               >
                 <GithubIcon />
                 <span>Github</span>
@@ -56,7 +56,7 @@ const Footer = () => {
               <Link
                 href="https://t.me/phohoccode_04"
                 target="_blank"
-                className="text-md text-gray-50 inline-flex gap-2 items-center transition duration-300 ease-in-out hover:text-[#f9ca24] hover:underline"
+                className="text-md text-gray-50 inline-flex gap-2 items-center transition duration-300 ease-in-out hover:text-[#ffd875] hover:underline"
               >
                 <TelegramIcon />
                 <span>Telegram</span>

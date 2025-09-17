@@ -44,7 +44,7 @@ const SlideItem = ({ item }: SlideItemProps) => {
             router.push(`/thong-tin-phim/${item?.slug}`);
           }
         }}
-        className="absolute bottom-4 left-0 right-0 2xl:px-12 xl:pb-20 p-4 z-6 lg:w-[50%] overflow-hidden"
+        className="absolute bottom-4 left-0 right-0 2xl:px-12 2xl:pb-6 p-4 z-6 lg:w-[50%] overflow-hidden"
       >
         <DecodeText
           as="h4"
@@ -52,23 +52,33 @@ const SlideItem = ({ item }: SlideItemProps) => {
           className="text-gradient-primary lg:text-4xl md:text-2xl font-semibold lg:inline-block truncate-lines-2 block text-xl lg:text-left text-center mb-2"
         />
         <DecodeText
-          as="h6"
+          as="p"
           text={item?.origin_name}
-          className="text-primary italic lg:text-left text-center text-sm truncate"
+          className="text-primary lg:text-left text-center text-sm truncate"
         />
         <Box className="flex gap-2 items-center flex-wrap lg:justify-start justify-center mt-4">
-          <TagClassic text={item?.quality || "Không xác định"} />
-          <TagClassic text={item?.year || "Không xác định"} />
-          <TagClassic text={item?.lang || "Không xác định"} />
-          <TagClassic text={item?.time || "Không xác định"} />
-          <TagClassic text={item?.episode_current || "Không xác định"} />
+          {item?.tmdb?.vote_average && item?.tmdb?.vote_average > 0 ? (
+            <Box className="inline-flex items-center justify-center gap-1 rounded-md h-6 px-1 border border-primary">
+              <span className="text-[0.625rem] text-primary">TMDb</span>
+              <span className="text-xs text-white">
+                {item?.tmdb?.vote_average.toFixed(1)}
+              </span>
+            </Box>
+          ) : null}
+          <Box className="text-xs font-semibold inline-flex items-center justify-center h-6 px-1 bg-primary linear-gradient text-black rounded-md">
+            {item?.quality || "Unknown"}
+          </Box>
+          <TagClassic text={item?.year || "Unknown"} />
+          <TagClassic text={item?.time || "Unknown"} />
+          <TagClassic text={item?.episode_current || "Unknown"} />
+          <TagClassic text={item?.lang || "Unknown"} />
         </Box>
 
         <Box className="lg:flex hidden flex-wrap gap-2 mt-2">
           {item?.categories?.map((caterogy, index: number) => (
             <TagClassic
               key={index}
-              text={caterogy?.name || "Không xác định"}
+              text={caterogy?.name || "Unknown"}
               isRedirect
               href={`/chi-tiet/the-loai/${caterogy?.slug}`}
             />

@@ -4,10 +4,12 @@ import { useEffect, useState } from "react";
 import RunCrawlMovies from "./RunCrawlMovies";
 import { fetchMovieStats } from "@/lib/actions/crawl-movies.action";
 import { socketCrawlMovies } from "@/configs/socket.config";
-import { IoIosStats } from "react-icons/io";
+import { IoIosStats, IoMdRefresh } from "react-icons/io";
 import { BsCupHotFill } from "react-icons/bs";
 import { toast } from "sonner";
 import ResetCrawlStatus from "./ResetCrawlStatus";
+import { useSession } from "next-auth/react";
+import { RxUpdate } from "react-icons/rx";
 
 const CrawlStatusBox = () => {
   const [stats, setStats] = useState({
@@ -23,6 +25,7 @@ const CrawlStatusBox = () => {
     totalSubtitledMovies: 0, // phim phụ đề
     totalVoiceDubbedMovies: 0, // phim lồng tiếng
   });
+  const { data: session } = useSession();
 
   useEffect(() => {
     socketCrawlMovies.on("refreshTotalMovies", (movieStats) => {
@@ -36,9 +39,13 @@ const CrawlStatusBox = () => {
   }, []);
 
   useEffect(() => {
+    if (!session?.user?.accessToken) return;
+
     const fetchData = async () => {
       try {
-        const response = await fetchMovieStats();
+        const response = await fetchMovieStats(
+          session?.user?.accessToken as string
+        );
 
         if (response?.status) {
           setStats((prev) => ({ ...prev, ...response.data }));
@@ -74,7 +81,9 @@ const CrawlStatusBox = () => {
               <span className="text-lg font-bold">{stats.totalSingles}</span>
             </div>
             <div className="bg-[#ffffff1a] rounded-lg p-2 flex flex-col items-center">
-              <span className="font-semibold text-sm">Chương trình truyền hình</span>
+              <span className="font-semibold text-sm">
+                Chương trình truyền hình
+              </span>
               <span className="text-lg font-bold">{stats.totalTVShows}</span>
             </div>
             <div className="bg-[#ffffff1a] rounded-lg p-2 flex flex-col items-center">
@@ -105,9 +114,10 @@ const CrawlStatusBox = () => {
             </div>
           </div>
 
-          <p className="text-sm text-green-400 mt-4 text-left">
-            Số phim đã cập nhật: {stats.totalUpdatedMovies} phim
-          </p>
+          <div className="text-sm text-green-400 mt-4 text-left flex items-center gap-1">
+            <RxUpdate />
+            <span>Đã cập nhật: {stats.totalUpdatedMovies}/{stats.totalMovies} phim</span>
+          </div>
         </div>
 
         <div className="lg:col-span-6 col-span-12 bg-[#ffffff0f] p-4 rounded-2xl flex flex-col justify-between items-start shadow-md">

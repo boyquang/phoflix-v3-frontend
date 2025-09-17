@@ -89,7 +89,7 @@ type Movie = {
     vote_average: number;
     vote_count: number;
   };
-  type: "hoathinh" | "single" | "series";
+  type: "hoathinh" | "single" | "series" | "tvshows" | null;
   content: string | null;
 };
 
@@ -201,6 +201,7 @@ type MovieSlice = {
 };
 
 type Categories =
+  | "tre-em"
   | "hanh-dong"
   | "lich-su"
   | "co-trang"
@@ -261,6 +262,18 @@ type Countries =
   | "brazil"
   | "y"
   | "na-uy";
+
+type CountriesWithAll = {
+  _id: string;
+  name: string;
+  slug: Countries;
+};
+
+type CategoryWithAll = {
+  _id: string;
+  name: string;
+  slug: Categories;
+};
 
 type Episode = {
   server_name: string | LanguageType;

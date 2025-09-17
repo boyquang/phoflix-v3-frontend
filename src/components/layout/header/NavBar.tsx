@@ -30,7 +30,7 @@ const NavBar = () => {
   return (
     <header
       className={`flex items-center justify-between fixed left-0 right-0 top-0 z-50 h-14 
-        bg-transparent max-w-[1900px] mx-auto 2xl:px-12 px-4 transition-all 
+        bg-transparent max-w-[1900px] mx-auto 2xl:px-12 px-4 transition-transform duration-300
         ${isVisiable ? "translate-y-0" : "-translate-y-full"} 
         ${lastScrollY > 0 ? "backdrop-blur" : ""}`}
     >

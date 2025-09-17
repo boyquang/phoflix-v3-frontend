@@ -1,12 +1,10 @@
 import Loading from "@/app/loading";
 import { PageProps } from "@/app/page";
 import ClientWrapper from "@/components/movie-info/ClientWrapper";
-import EmptyData from "@/components/shared/EmptyData";
 import { fetchMovieInfo } from "@/lib/actions/movie.action";
 import { NEXT_PUBLIC_SITE_URL } from "@/constants/env.contant";
 import { Metadata } from "next";
 import { Suspense } from "react";
-import { FaPhotoFilm } from "react-icons/fa6";
 import NotFound from "@/app/not-found";
 
 export async function generateMetadata({
@@ -77,8 +75,12 @@ export async function generateMetadata({
 
 const Page = async ({ searchParams, params }: PageProps) => {
   const { slug } = await params;
+  const { updated } = await searchParams;
 
-  const { movie, episodes, status } = await fetchMovieInfo(slug as string);
+  const { movie, episodes, status } = await fetchMovieInfo(
+    slug as string,
+    updated === "true"
+  );
 
   if (!status || Object.keys(movie).length === 0) return <NotFound />;
 

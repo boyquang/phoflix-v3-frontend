@@ -2,21 +2,36 @@
 
 import Image from "@/components/shared/Image";
 import { generateUrlImage } from "@/lib/utils";
-import { Box } from "@chakra-ui/react";
+import { Box, IconButton } from "@chakra-ui/react";
 import Link from "next/link";
 import ShowMoreText from "@/components/shared/ShowMoreText";
 import TextToSpeech from "@/components/shared/TextToSpeech";
 import { TagClassic } from "@/components/shared/TagClassic";
 import MoviePopular from "@/components/shared/MoviePopular";
 import DecodeText from "../shared/DecodeText";
+import { useSession } from "next-auth/react";
+import MovieActionsDialog from "../admin/dashboard/movie-management/MovieActionsDialog";
+import AddNewButton from "../shared/AddNewButton";
+import { LuPencilLine } from "react-icons/lu";
+import { useSelector } from "react-redux";
+import { RootState } from "@/store/store";
+import IconButtonAction from "../shared/IconButtonAction";
+import AlertDialog from "../shared/AlertDialog";
+import AdminMovieActions from "../admin/dashboard/movie-management/AdminMovieActions";
 
 interface MovieDetailProps {
-  data: Movie;
+  data: Movie & { episodes: Episode[] };
 }
 
 const MovieDetail = ({ data }: MovieDetailProps) => {
+  const { data: session } = useSession();
+
+  const isAdmin = session?.user?.role === "admin";
+
   return (
     <Box className="flex flex-col h-full md:p-6 p-4 gap-2 items-center lg:backdrop-blur-lg lg:bg-[#191B24] xl:items-start xl:rounded-bl-4xl xl:rounded-tl-4xl xl:rounded-tr-4xl lg:rounded-tl-4xl lg:rounded-tr-4xl relative z-[10]">
+      {isAdmin && <AdminMovieActions data={data} />}
+
       <Box className="w-40 mb-2">
         <Box className="h-0 pt-[150%] relative">
           <Image
@@ -60,7 +75,7 @@ const MovieDetail = ({ data }: MovieDetailProps) => {
         </Box>
       </Box>
 
-      <Box className="flex flex-col gap-4 mt-3 my-6">
+      <Box className="flex flex-col gap-4 mt-3 my-6 w-full">
         <Box className="flex flex-col text-sm gap-1">
           <Box className="flex items-center justify-between">
             <span className="text-gray-50 font-semibold">Giới thiệu:</span>

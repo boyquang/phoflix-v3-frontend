@@ -28,7 +28,7 @@ interface ClientWrapperProps {
 
 const ClientWrapper = ({ movie, episodes }: ClientWrapperProps) => {
   const dispatch: AppDispatch = useDispatch();
-  const { movie: movieInfo, isValidEpisodes } = useSelector(
+  const { movie: movieInfo } = useSelector(
     (state: RootState) => state.movie.movieInfo
   );
 
@@ -61,10 +61,13 @@ const ClientWrapper = ({ movie, episodes }: ClientWrapperProps) => {
         <div className="mt-[-100px]">
           <div className="grid grid-cols-12 gap-0">
             <div className="col-span-12 xl:col-span-4">
-              <MovieDetail data={movie} />
+              <MovieDetail data={{
+                ...movie,
+                episodes: episodes || [],
+              }} />
             </div>
             <div className="movie-main col-span-12 xl:col-span-8">
-              <Box className="relative h-full z-[10] flex flex-col gap-4 lg:p-8 md:p-6 p-4 xl:rounded-tl-4xl xl:rounded-tr-4xl xl:rounded-br-4xl xl:rounded-bl-none lg:rounded-bl-4xl lg:rounded-br-4xl lg:bg-[#191B24] lg:backdrop-blur-lg">
+              <Box className="relative h-full z-[10] flex flex-col gap-4 md:p-6 p-4 xl:rounded-tl-4xl xl:rounded-tr-4xl xl:rounded-br-4xl xl:rounded-bl-none lg:rounded-bl-4xl lg:rounded-br-4xl lg:bg-[#191B24] lg:backdrop-blur-lg">
                 <Box className="flex flex-col gap-8">
                   <Box className="flex gap-6 md:flex-row flex-col md:justify-start justify-center md:items-start items-center ">
                     <Link

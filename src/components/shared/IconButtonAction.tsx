@@ -37,6 +37,17 @@ const IconButtonAction = ({
 
   return (
     <IconButton
+      title={
+        action === "create"
+          ? "Thêm mới"
+          : action === "edit"
+          ? "Chỉnh sửa"
+          : action === "delete"
+          ? "Xoá"
+          : action === "check"
+          ? "Xác nhận"
+          : "Hủy bỏ"
+      }
       className={classNames[action]}
       aria-label={action}
       size={size}

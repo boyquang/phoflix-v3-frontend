@@ -25,7 +25,7 @@ const TabTrailer = () => {
       <h4 className="lg:text-2xl text-lg text-gray-50">Trailer</h4>
       <Box className="w-full h-0 relative lg:pt-[35%] md:pt-[50%] pt-[70%]">
         <iframe
-          className="w-full h-full absolute inset-0 border border-[#282b3a] rounded-2xl"
+          className="w-full h-full absolute inset-0 rounded-2xl"
           frameBorder="0"
           allowFullScreen
           allow="accelerometer"

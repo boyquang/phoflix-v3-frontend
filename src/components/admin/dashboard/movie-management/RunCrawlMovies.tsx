@@ -17,6 +17,7 @@ import { RxUpdate } from "react-icons/rx";
 import { PiLightningFill } from "react-icons/pi";
 import { useDispatch, useSelector } from "react-redux";
 import { toast } from "sonner";
+import { useSession } from "next-auth/react";
 
 interface RunCrawlMoviesProps {
   action: "create" | "update";
@@ -49,6 +50,7 @@ const RunCrawlMovies = ({ action }: RunCrawlMoviesProps) => {
   const { isOtherProcessRunning, actionCrawl } = useSelector(
     (state: RootState) => state.crawlMovies
   );
+  const { data: session } = useSession();
 
   useEffect(() => {
     socketCrawlMovies.on("notifyCrawlStatus", (isCrawling) => {
@@ -62,8 +64,10 @@ const RunCrawlMovies = ({ action }: RunCrawlMoviesProps) => {
   }, []);
 
   useEffect(() => {
+    if (!session?.user?.accessToken) return;
+
     const checkCrawlingStatus = async () => {
-      const result = await checkIsCrawling();
+      const result = await checkIsCrawling(session.user.accessToken as string);
 
       setIsCrawling(result.isCrawling);
       dispatch(setActionCrawl(result.action));
@@ -74,13 +78,18 @@ const RunCrawlMovies = ({ action }: RunCrawlMoviesProps) => {
   }, []);
 
   const handleCrawl = async () => {
+    if (!session?.user?.accessToken) {
+      toast.error("Bạn chưa đăng nhập!");
+      return;
+    }
+
+    // Nếu đang crawl và khác action thì không cho chạy
+    if (isCrawling && actionCrawl !== action) return;
+
+    // Chạy khi reload trang và có tiến trình khác đang chạy
+    if (isOtherProcessRunning && !isCrawling) return;
+
     try {
-      // Nếu đang crawl và khác action thì không cho chạy
-      if (isCrawling && actionCrawl !== action) return;
-
-      // Chạy khi reload trang và có tiến trình khác đang chạy
-      if (isOtherProcessRunning && !isCrawling) return;
-
       setLoading(true);
 
       let response = null;
@@ -88,10 +97,13 @@ const RunCrawlMovies = ({ action }: RunCrawlMoviesProps) => {
       // Nếu đang crawl và đúng action hiện tại thì dừng
       if (isCrawling && actionCrawl === action) {
         dispatch(setIsRunning(false));
-        response = await pauseCrawling();
+        response = await pauseCrawling(session?.user?.accessToken as string);
       } else {
         dispatch(setIsRunning(true));
-        response = await crawlMovies(action, 10);
+        response = await crawlMovies({
+          action,
+          accessToken: session?.user?.accessToken as string,
+        });
       }
 
       if (response && response.status) {
@@ -114,7 +126,7 @@ const RunCrawlMovies = ({ action }: RunCrawlMoviesProps) => {
         (isCrawling && actionCrawl !== action) ||
         (isOtherProcessRunning && !isCrawling)
       }
-      size="sm"
+      size="xs"
       className={
         isCrawling && actionCrawl === action ? styleIsCrawling : styleDefault
       }

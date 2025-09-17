@@ -2,20 +2,22 @@ import {
   NEXT_PUBLIC_SITE_URL,
   NEXT_PUBLIC_API_VERSION,
   NEXT_PUBLIC_BACKEND_URL,
+  NEXT_PUBLIC_CRAWL_MOVIES_URL,
 } from "@/constants/env.contant";
 import { fetcher, IS_SUCCESS, REVALIDATE_TIME } from "../fetcher";
 
 const BASE_URL = `${NEXT_PUBLIC_SITE_URL}/api/movie`;
 const BACKEND_URL = `${NEXT_PUBLIC_BACKEND_URL}/api/${NEXT_PUBLIC_API_VERSION}`;
+const CRAWL_MOVIES_URL = `${NEXT_PUBLIC_CRAWL_MOVIES_URL}/api/${NEXT_PUBLIC_API_VERSION}`;
 
-export async function fetchMovieInfo(slug: string) {
+export async function fetchMovieInfo(slug: string, force: boolean = false) {
   try {
     const url = `${BASE_URL}/info/${slug}`;
 
     const response = await fetcher(url, {
-      next: {
-        revalidate: REVALIDATE_TIME,
-      },
+      ...(force
+        ? { cache: "no-store" }
+        : { next: { revalidate: REVALIDATE_TIME } }),
     });
 
     if (!response.ok) {
@@ -23,8 +25,6 @@ export async function fetchMovieInfo(slug: string) {
     }
 
     const data = await response.json();
-
-    console.log("fetch movie info data: ", data);
 
     return {
       movie: data?.movie || {},
@@ -60,8 +60,6 @@ export async function fetchSearchMovies(
     }
 
     const dataJson = await response.json();
-
-    console.log("fetch search movies data: ", dataJson);
 
     return {
       movies: dataJson.data?.items || [],
@@ -108,8 +106,6 @@ export async function fetchMovieDetail(
     }
 
     const dataJson = await response.json();
-
-    console.log("fetch movie detail data: ", dataJson);
 
     return {
       items: dataJson?.data?.items || [],
@@ -174,8 +170,6 @@ export async function fetchAdvanceFilterMovies({
     }
 
     const dataJson = await response.json();
-
-    console.log("fetch advanced filter movies data: ", dataJson);
 
     return {
       items: dataJson?.data?.items || [],
@@ -504,6 +498,139 @@ export const getMovieRakingList = async (
 
     return data;
   } catch (error) {
+    return {
+      status: false,
+      message: "Lỗi server! Vui lòng thử lại sau.",
+      result: null,
+    };
+  }
+};
+
+export const createNewMovie = async (
+  movieData: MovieDetail | null,
+  accessToken: string
+) => {
+  try {
+    const url = `${CRAWL_MOVIES_URL}/movies/new-movie`;
+
+    const response = await fetcher(url, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${accessToken}`,
+      },
+      body: JSON.stringify(movieData),
+    });
+
+    const data = await response.json();
+
+    if (!response.ok) {
+      return {
+        status: false,
+        message: data?.message || "Lỗi server! Vui lòng thử lại sau.",
+        result: null,
+      };
+    }
+
+    return {
+      status: true,
+      message: "Tạo phim mới thành công.",
+      result: {
+        movie: data,
+      },
+    };
+  } catch (error) {
+    console.error("Failed to create new movie:", error);
+    return {
+      status: false,
+      message: "Lỗi server! Vui lòng thử lại sau.",
+      result: null,
+    };
+  }
+};
+
+interface UpdateMovieParams {
+  movieId: string;
+  movieData: MovieDetail | null;
+  accessToken: string;
+}
+
+export const updateMovie = async ({
+  movieId,
+  movieData,
+  accessToken,
+}: UpdateMovieParams) => {
+  try {
+    const url = `${CRAWL_MOVIES_URL}/movies/${movieId}`;
+
+    const response = await fetcher(url, {
+      method: "PATCH",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${accessToken}`,
+      },
+      body: JSON.stringify(movieData),
+    });
+
+    const data = await response.json();
+
+    if (!response.ok) {
+      return {
+        status: false,
+        message: data?.message || "Lỗi server! Vui lòng thử lại sau.",
+        result: null,
+      };
+    }
+
+    return {
+      status: true,
+      message: "Cập nhật phim thành công.",
+      result: {
+        movie: data,
+      },
+    };
+  } catch (error) {
+    console.error("Failed to update movie:", error);
+    return {
+      status: false,
+      message: "Lỗi server! Vui lòng thử lại sau.",
+      result: null,
+    };
+  }
+};
+
+export const deleteMovie = async (ids: string, accessToken: string) => {
+  try {
+    const url = `${CRAWL_MOVIES_URL}/movies`;
+
+    const response = await fetcher(url, {
+      method: "DELETE",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${accessToken}`,
+      },
+      body: JSON.stringify({ ids: [ids] }),
+    });
+
+    const data = await response.json();
+
+    if (!response.ok) {
+      return {
+        status: false,
+        message: data?.message || "Lỗi server! Vui lòng thử lại sau.",
+        result: null,
+      };
+    }
+
+    return {
+      status: true,
+      message: "Xoá phim thành công.",
+      result: {
+        movie: data,
+      },
+    };
+  } catch (error) {
+    console.error("Failed to delete movie:", error);
     return {
       status: false,
       message: "Lỗi server! Vui lòng thử lại sau.",

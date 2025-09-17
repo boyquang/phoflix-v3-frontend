@@ -38,6 +38,8 @@ export const getUserProfile = async ({
 
     const data = await response.json();
 
+    await new Promise((r) => setTimeout(r, 10000));
+
     if (!response.ok) {
       const { status, message, result } = data || {};
 

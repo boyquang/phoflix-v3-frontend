@@ -4,10 +4,10 @@ import NextAuth from "next-auth";
 declare module "next-auth" {
   interface User {
     accessToken?: string;
-    role?: string;
-    gender?: string;
-    status?: string;
-    typeAccount?: "credentials" | "google";
+    role?: Role;
+    gender?: Gender;
+    status?: Status;
+    typeAccount?: TypeAcccount;
     createdAt?: string;
     username?: string;
     image?: string;

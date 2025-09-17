@@ -27,8 +27,7 @@ import SnowEffect from "./effects/SnowEffect";
 import dynamic from "next/dynamic";
 import GoToSleepAnimation from "./warn-user/repose/GoToSleepAnimation";
 import ChatBotDialog from "./chat-bot/ChatBotDialog";
-import { auth } from "@/auth";
-import { signOut } from "next-auth/react";
+import { useSession } from "next-auth/react";
 import { ToasterConfig } from "@/configs/toaster.config";
 
 const ReposeUserAlert = dynamic(
@@ -44,14 +43,7 @@ const App = ({ children }: { children: React.ReactNode }) => {
   );
   const dispatch: AppDispatch = useDispatch();
   const pathname = usePathname();
-
-  // useEffect(() => {
-  //   if (reboot.status) {
-  //     signOut({
-  //       callbackUrl: window.location.href,
-  //     });
-  //   }
-  // }, [reboot.status]);
+  const { status } = useSession();
 
   // Kiểm tra trạng thái phiên đăng nhập
   useCheckSessionStatus();
