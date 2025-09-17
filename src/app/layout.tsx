@@ -1,5 +1,3 @@
-export const dynamic = "force-dynamic";
-
 import type { Metadata, Viewport } from "next";
 import { Inter, Roboto } from "next/font/google";
 import { Provider } from "@/components/ui/provider";
@@ -39,14 +37,6 @@ export default async function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  let session = null;
-
-  try {
-    session = await auth();
-  } catch (error) {
-    console.log("Error fetching session in layout:", error);
-  }
-
   return (
     <html suppressHydrationWarning lang="vi">
       <body className={`${inter.className} antialiased`}>
@@ -55,7 +45,7 @@ export default async function RootLayout({
         <StoreProvider>
           <Provider>
             <SessionProvider
-              session={session} // cung cấp session từ server cho client
+              // session={session} // cung cấp session từ server cho client
               refetchInterval={5 * 60} // tự động làm mới phiên mỗi 5 phút
               refetchOnWindowFocus={true} // làm mới khi cửa sổ được focus lại
               refetchWhenOffline={false} // không làm mới khi offline
