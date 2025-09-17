@@ -2,7 +2,7 @@ import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
   reactStrictMode: false,
-  output: "standalone", // bật khi build docker
+  // output: "standalone", // bật khi build docker
   images: {
     remotePatterns: [
       {

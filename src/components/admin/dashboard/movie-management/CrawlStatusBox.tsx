@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 import RunCrawlMovies from "./RunCrawlMovies";
 import { fetchMovieStats } from "@/lib/actions/crawl-movies.action";
 import { socketCrawlMovies } from "@/configs/socket.config";
-import { IoIosStats, IoMdRefresh } from "react-icons/io";
+import { IoIosStats } from "react-icons/io";
 import { BsCupHotFill } from "react-icons/bs";
 import { toast } from "sonner";
 import ResetCrawlStatus from "./ResetCrawlStatus";

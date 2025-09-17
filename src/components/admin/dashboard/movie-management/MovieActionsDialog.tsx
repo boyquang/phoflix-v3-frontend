@@ -21,7 +21,6 @@ import {
   Textarea,
 } from "@chakra-ui/react";
 import { useSession } from "next-auth/react";
-import { useRouter } from "next/dist/client/components/navigation";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import MetaFields from "./MetaFields";
@@ -30,11 +29,11 @@ import EpisodesEditor from "./EpisodesEditor";
 import { createNewMovie } from "@/lib/actions/movie.action";
 import { toast } from "sonner";
 import { generateSlug } from "@/lib/utils";
-import { get } from "lodash";
 import PasteDataJson from "./PasteDataJson";
 import MultiNameInput from "./MultiNameInput";
 import { updateMovie } from "@/lib/actions/movie.action";
 import FieldInput from "./FieldInput";
+import { useRouter } from "next/navigation";
 
 const { dialog } = appConfig.charka;
 const motionPresetDefault = dialog.motionPresetDefault;
