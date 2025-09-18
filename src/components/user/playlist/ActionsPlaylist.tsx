@@ -130,7 +130,8 @@ const ActionsPlaylist = ({
         }
 
         // Cập nhật dữ liệu trên trang hiện tại
-        router.refresh();
+        // router.refresh();
+        window.location.reload();
         toast.success(response?.message);
       } else {
         toast.error(response?.message);

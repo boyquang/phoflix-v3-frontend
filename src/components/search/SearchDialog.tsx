@@ -109,7 +109,7 @@ const SearchDialog = () => {
             className="bg-[#0f111af2] text-gray-50 border border-[#ffffff10] rounded-md backdrop-blur mx-4 lg:max-w-2xl md:max-w-xl sm:max-w-lg max-w-[calc(100%-32px)]"
           >
             <Dialog.Header p={4}>
-              <Dialog.Title>
+              <Dialog.Title className="w-full">
                 <InputGroup
                   startElement={<SearchIcon />}
                   endElement={

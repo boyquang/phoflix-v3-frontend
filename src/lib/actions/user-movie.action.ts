@@ -36,6 +36,7 @@ export const getUserMovies = async ({
     const response = await fetch(url, {
       method: "GET",
       headers: {
+        "Content-Type": "application/json",
         Authorization: `Bearer ${accessToken}`,
       },
     });
@@ -48,11 +49,7 @@ export const getUserMovies = async ({
       return {
         status: status || false,
         message: message || "Lỗi server! Vui lòng thử lại sau.",
-        result: result || {
-          movies: [],
-          totalItems: 0,
-          totalItemsPerPage: 0,
-        },
+        result: result || null,
       };
     }
 
@@ -64,11 +61,7 @@ export const getUserMovies = async ({
     return {
       status: false,
       message: "Lỗi server! Vui lòng thử lại sau.",
-      result: {
-        movies: [],
-        totalItems: 0,
-        totalItemsPerPage: 0,
-      },
+      result: null,
     };
   }
 };

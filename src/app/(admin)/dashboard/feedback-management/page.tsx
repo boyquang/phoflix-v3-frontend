@@ -8,6 +8,7 @@ import { getFeedbacks } from "@/lib/actions/admin-server.action";
 import { NEXT_PUBLIC_SITE_URL } from "@/constants/env.contant";
 import { Box } from "@chakra-ui/react";
 import { Suspense } from "react";
+import ClientWrapper from "@/components/admin/dashboard/feedback-management/ClientWrapper";
 
 export const generateMetadata = async () => {
   return {
@@ -41,28 +42,28 @@ export const generateMetadata = async () => {
 };
 
 const Page = async ({ searchParams }: PageProps) => {
-  const params = await searchParams;
-  const page = params.page ? Number(params.page) : 1;
-  const slug = params.slug ? params.slug.toString() : "all";
-  const session = await auth();
-  const limit = 20;
+  // const params = await searchParams;
+  // const page = params.page ? Number(params.page) : 1;
+  // const slug = params.slug ? params.slug.toString() : "all";
+  // const session = await auth();
+  // const limit = 20;
 
-  const response = await getFeedbacks({
-    page,
-    limit,
-    accessToken: session?.user?.accessToken as string,
-    slug,
-  });
+  // const response = await getFeedbacks({
+  //   page,
+  //   limit,
+  //   accessToken: session?.user?.accessToken as string,
+  //   slug,
+  // });
 
-  const items = response?.result?.feedbacks || [];
-  const totalItems = response?.result?.totalItems || 0;
-  const slugs = response?.result?.slugs || [];
-  const errorType = response?.errorType;
-  const message = response?.message || "Lỗi hệ thống. Vui lòng thử lại sau!";
+  // const items = response?.result?.feedbacks || [];
+  // const totalItems = response?.result?.totalItems || 0;
+  // const slugs = response?.result?.slugs || [];
+  // const errorType = response?.errorType;
+  // const message = response?.message || "Lỗi hệ thống. Vui lòng thử lại sau!";
 
   return (
     <Suspense fallback={<Loading type="bars" />}>
-      <Box className="text-gray-50">
+      {/* <Box className="text-gray-50">
         <div className="flex items-center justify-between">
           <h1 className="lg:text-3xl text-xl">Quản lý phản hồi</h1>
           {!errorType && <SlugSelectorFilter slugs={slugs} />}
@@ -88,7 +89,8 @@ const Page = async ({ searchParams }: PageProps) => {
             )}
           </>
         )}
-      </Box>
+      </Box> */}
+      <ClientWrapper />
     </Suspense>
   );
 };

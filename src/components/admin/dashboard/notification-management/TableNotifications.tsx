@@ -15,9 +15,10 @@ import { toast } from "sonner";
 interface TableNotificationsProps {
   items: NotificationTable[];
   offset: number;
+  triggerRefresh: () => void;
 }
 
-const TableNotifications = ({ items, offset }: TableNotificationsProps) => {
+const TableNotifications = ({ items, offset, triggerRefresh }: TableNotificationsProps) => {
   const router = useRouter();
   const { data: session } = useSession();
   const [editingField, setEditingField] = useState<{
@@ -48,7 +49,7 @@ const TableNotifications = ({ items, offset }: TableNotificationsProps) => {
       });
 
       if (response?.status) {
-        router.refresh();
+        triggerRefresh()
         toast.success(response?.message);
       } else {
         toast.error(response?.message);
@@ -76,7 +77,7 @@ const TableNotifications = ({ items, offset }: TableNotificationsProps) => {
       });
 
       if (response?.status) {
-        router.refresh();
+        triggerRefresh()
         toast.success(response?.message);
       } else {
         toast.error(response?.message);

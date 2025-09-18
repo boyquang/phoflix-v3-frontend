@@ -1,6 +1,6 @@
 import { Suspense } from "react";
 import Loading from "@/app/loading";
-import MainPage from "@/components/user/notification/MainPage";
+import ClientWrapper from "@/components/user/notification/ClientWrapper";
 import { NEXT_PUBLIC_SITE_URL } from "@/constants/env.contant";
 
 export async function generateMetadata() {
@@ -38,7 +38,7 @@ export async function generateMetadata() {
 const Page = () => {
   return (
     <Suspense fallback={<Loading height="h-1/2" type="bars" />}>
-      <MainPage />
+      <ClientWrapper />
     </Suspense>
   );
 };

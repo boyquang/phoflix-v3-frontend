@@ -62,7 +62,7 @@ const MovieGrid = ({ items, colums, userId, type }: MovieGridProps) => {
       });
 
       if (response?.status) {
-        router.refresh();
+        window.location.reload();
         toast.success(response?.message);
       } else {
         toast.error(response?.message);

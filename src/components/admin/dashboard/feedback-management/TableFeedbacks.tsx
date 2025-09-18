@@ -15,9 +15,14 @@ import { toast } from "sonner";
 interface TableFeedbacksProps {
   items: FeedbackTable[];
   offset: number;
+  triggerRefresh: () => void;
 }
 
-const TableFeedbacks = ({ items, offset }: TableFeedbacksProps) => {
+const TableFeedbacks = ({
+  items,
+  offset,
+  triggerRefresh,
+}: TableFeedbacksProps) => {
   const router = useRouter();
   const { data: session } = useSession();
   const [markFeedbackAsSpamId, setMarkFeedbackAsSpamId] = useState<
@@ -41,7 +46,7 @@ const TableFeedbacks = ({ items, offset }: TableFeedbacksProps) => {
       });
 
       if (response?.status) {
-        router.refresh();
+        triggerRefresh();
         toast.success(response?.message);
       } else {
         toast.error(response?.message);

@@ -7,6 +7,7 @@ import { getReports } from "@/lib/actions/admin-server.action";
 import { NEXT_PUBLIC_SITE_URL } from "@/constants/env.contant";
 import { Box } from "@chakra-ui/react";
 import { Suspense } from "react";
+import ClientWrapper from "@/components/admin/dashboard/report-management/ClientWrapper";
 
 export const generateMetadata = async () => {
   return {
@@ -40,25 +41,25 @@ export const generateMetadata = async () => {
 };
 
 const Page = async ({ searchParams }: PageProps) => {
-  const params = await searchParams;
-  const page = params.page ? Number(params.page) : 1;
-  const session = await auth();
-  const limit = 20;
+  // const params = await searchParams;
+  // const page = params.page ? Number(params.page) : 1;
+  // const session = await auth();
+  // const limit = 20;
 
-  const response = await getReports({
-    page: page,
-    limit,
-    accessToken: session?.user?.accessToken as string,
-  });
+  // const response = await getReports({
+  //   page: page,
+  //   limit,
+  //   accessToken: session?.user?.accessToken as string,
+  // });
 
-  const items = response?.result?.reports || [];
-  const totalItems = response?.result?.totalItems || 0;
-  const errorType = response?.errorType;
-  const message = response?.message || "Lỗi hệ thống. Vui lòng thử lại sau!";
+  // const items = response?.result?.reports || [];
+  // const totalItems = response?.result?.totalItems || 0;
+  // const errorType = response?.errorType;
+  // const message = response?.message || "Lỗi hệ thống. Vui lòng thử lại sau!";
 
   return (
     <Suspense fallback={<Loading type="bars" />}>
-      <Box className="text-gray-50">
+      {/* <Box className="text-gray-50">
         <h1 className="lg:text-3xl text-xl">Quản lý báo cáo</h1>
 
         {errorType === "InvalidToken" || errorType === "ServerError" ? (
@@ -81,7 +82,8 @@ const Page = async ({ searchParams }: PageProps) => {
             )}
           </>
         )}
-      </Box>
+      </Box> */}
+      <ClientWrapper />
     </Suspense>
   );
 };

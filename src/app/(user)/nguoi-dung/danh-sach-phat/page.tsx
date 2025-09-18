@@ -14,6 +14,7 @@ import { NEXT_PUBLIC_SITE_URL } from "@/constants/env.contant";
 import { Box, Button } from "@chakra-ui/react";
 import { Suspense } from "react";
 import { FaPlus } from "react-icons/fa6";
+import ClientWrapper from "@/components/user/playlist/ClientWrapper";
 
 export async function generateMetadata() {
   const title = "PHOFLIX-V3 - Danh sách phát phim yêu thích";
@@ -48,55 +49,55 @@ export async function generateMetadata() {
 }
 
 const Page = async ({ searchParams }: PageProps) => {
-  const session = await auth();
-  const userId = session?.user?.id as string;
-  const params = await searchParams;
-  const limit = 18;
-  const currentPage = params?.page ? Number(params?.page) : 1;
+  // const session = await auth();
+  // const userId = session?.user?.id as string;
+  // const params = await searchParams;
+  // const limit = 18;
+  // const currentPage = params?.page ? Number(params?.page) : 1;
 
-  const responsePlaylist = await getUserPlaylists({
-    userId,
-    accessToken: session?.user?.accessToken as string,
-  });
+  // const responsePlaylist = await getUserPlaylists({
+  //   userId,
+  //   accessToken: session?.user?.accessToken as string,
+  // });
 
-  const playlists = responsePlaylist?.result?.playlists || [];
-  let responseMovies = null;
-  let playlistId: string | null = null;
+  // const playlists = responsePlaylist?.result?.playlists || [];
+  // let responseMovies = null;
+  // let playlistId: string | null = null;
 
-  // Chỉ chạy khi có playlist
-  if (playlists?.length > 0) {
-    // Lấy playlistId từ params hoặc lấy playlistId đầu tiên trong danh sách
-    playlistId = params?.playlistId
-      ? String(params?.playlistId)
-      : playlists?.[0]?.id;
+  // // Chỉ chạy khi có playlist
+  // if (playlists?.length > 0) {
+  //   // Lấy playlistId từ params hoặc lấy playlistId đầu tiên trong danh sách
+  //   playlistId = params?.playlistId
+  //     ? String(params?.playlistId)
+  //     : playlists?.[0]?.id;
 
-    // Kiểm tra playlistId có tồn tại trong danh sách playlist hay không
-    const existsPlaylist = playlists?.some(
-      (playlist: Playlist) => playlist?.id === playlistId
-    );
+  //   // Kiểm tra playlistId có tồn tại trong danh sách playlist hay không
+  //   const existsPlaylist = playlists?.some(
+  //     (playlist: Playlist) => playlist?.id === playlistId
+  //   );
 
-    // Nếu không tồn tại thì lấy playlistId đầu tiên trong danh sách
-    if (!existsPlaylist) {
-      playlistId = playlists?.[0]?.id;
-    }
+  //   // Nếu không tồn tại thì lấy playlistId đầu tiên trong danh sách
+  //   if (!existsPlaylist) {
+  //     playlistId = playlists?.[0]?.id;
+  //   }
 
-    // Lấy danh sách phim từ playlist
-    responseMovies = await getUserMoviesFromPlaylist({
-      userId,
-      playlistId: playlistId as string,
-      page: currentPage,
-      limit,
-      accessToken: session?.user?.accessToken as string,
-    });
-  }
+  //   // Lấy danh sách phim từ playlist
+  //   responseMovies = await getUserMoviesFromPlaylist({
+  //     userId,
+  //     playlistId: playlistId as string,
+  //     page: currentPage,
+  //     limit,
+  //     accessToken: session?.user?.accessToken as string,
+  //   });
+  // }
 
-  const movies = responseMovies?.result?.movies || [];
-  const totalItems = responseMovies?.result?.totalItems || 0;
-  const totalItemsPerPage = responseMovies?.result?.totalItemsPerPage || 0;
+  // const movies = responseMovies?.result?.movies || [];
+  // const totalItems = responseMovies?.result?.totalItems || 0;
+  // const totalItemsPerPage = responseMovies?.result?.totalItemsPerPage || 0;
 
   return (
     <Suspense fallback={<Loading type="bars" height="h-96" />}>
-      <Box className="flex items-center justify-between flex-wrap gap-2 mb-4">
+      {/* <Box className="flex items-center justify-between flex-wrap gap-2 mb-4">
         <h3 className="text-gray-50 text-lg">Danh sách phát</h3>
 
         <Box className="flex items-center gap-2">
@@ -129,7 +130,8 @@ const Page = async ({ searchParams }: PageProps) => {
         currentPage={currentPage}
         limit={limit}
         type="playlist"
-      />
+      /> */}
+      <ClientWrapper />
     </Suspense>
   );
 };

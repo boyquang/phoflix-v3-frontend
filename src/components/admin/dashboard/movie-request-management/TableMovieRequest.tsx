@@ -51,7 +51,7 @@ const TableMovieRequest = ({ items, offset }: TableMovieRequestProps) => {
       const isSuccess = !!response?.status;
 
       if (isSuccess) {
-        router.refresh();
+        window.location.reload();
         toast.success(response?.message);
       } else {
         toast.error(response?.message);

@@ -57,7 +57,7 @@ const DeleteAllMovies = ({ type, playlistId }: DeleteAllMoviesProps) => {
 
       if (response?.status) {
         toast.success(response?.message);
-        router.refresh();
+        window.location.reload();
       } else {
         toast.error(response?.message);
       }

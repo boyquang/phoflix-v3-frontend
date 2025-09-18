@@ -23,7 +23,6 @@ const DeleteSelectedMovies = ({
   playlistId,
 }: DeleteSelectedMoviesProps) => {
   const dispatch: AppDispatch = useDispatch();
-  const router = useRouter();
   const { data: session } = useSession();
   const { selectedDeleteMode, selectedMovieIds } = useSelector(
     (state: RootState) => state.user.userMovies
@@ -43,7 +42,7 @@ const DeleteSelectedMovies = ({
 
       if (response?.status) {
         dispatch(setSelectedDeleteMode(false));
-        router.refresh();
+        window.location.reload();
         toast.success(response?.message);
       } else {
         toast.error(response?.message);

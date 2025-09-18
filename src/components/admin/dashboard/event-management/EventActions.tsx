@@ -11,9 +11,10 @@ import { toast } from "sonner";
 
 interface EventActionsProps {
   item: EventData;
+  triggerRefresh: () => void;
 }
 
-const EventActions = ({ item }: EventActionsProps) => {
+const EventActions = ({ item, triggerRefresh }: EventActionsProps) => {
   const [loadingDelete, setLoadingDelete] = useState(false);
   const router = useRouter();
   const { data: session } = useSession();
@@ -29,7 +30,7 @@ const EventActions = ({ item }: EventActionsProps) => {
       );
 
       if (response?.status) {
-        router.refresh();
+        triggerRefresh();
         toast.success(response?.message);
       } else {
         toast.error(response?.message);
@@ -51,6 +52,7 @@ const EventActions = ({ item }: EventActionsProps) => {
         trigger={<IconButtonAction action="delete" />}
       />
       <EventDialog
+        triggerRefresh={triggerRefresh}
         action="update"
         data={item}
         trigger={<IconButtonAction action="edit" />}

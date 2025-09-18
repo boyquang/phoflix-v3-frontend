@@ -25,7 +25,7 @@ const CrawlStatusBox = () => {
     totalSubtitledMovies: 0, // phim phụ đề
     totalVoiceDubbedMovies: 0, // phim lồng tiếng
   });
-  const { data: session } = useSession();
+  const { data: session, status } = useSession();
 
   useEffect(() => {
     socketCrawlMovies.on("refreshTotalMovies", (movieStats) => {
@@ -39,7 +39,7 @@ const CrawlStatusBox = () => {
   }, []);
 
   useEffect(() => {
-    if (!session?.user?.accessToken) return;
+    if (status !== "authenticated") return;
 
     const fetchData = async () => {
       try {
@@ -56,7 +56,7 @@ const CrawlStatusBox = () => {
     };
 
     fetchData();
-  }, []);
+  }, [status]);
 
   return (
     <div className="mt-8">
@@ -116,7 +116,9 @@ const CrawlStatusBox = () => {
 
           <div className="text-sm text-green-400 mt-4 text-left flex items-center gap-1">
             <RxUpdate />
-            <span>Đã cập nhật: {stats.totalUpdatedMovies}/{stats.totalMovies} phim</span>
+            <span>
+              Đã cập nhật: {stats.totalUpdatedMovies}/{stats.totalMovies} phim
+            </span>
           </div>
         </div>
 

@@ -1,6 +1,6 @@
 "use client";
 
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import { useState } from "react";
 
 interface SlugSelectorFilterProps {
@@ -9,7 +9,13 @@ interface SlugSelectorFilterProps {
 
 const SlugSelectorFilter = ({ slugs }: SlugSelectorFilterProps) => {
   const router = useRouter();
-  const [slugSelected, setSlugSelected] = useState<string | "all">("all");
+  const searchParams = useSearchParams();
+  const slug = searchParams.get("slug")
+    ? searchParams.get("slug")?.toString()
+    : "all";
+  const [slugSelected, setSlugSelected] = useState<string | "all">(() => {
+    return slugs.includes(slug as string) ? (slug as string) : "all";
+  });
 
   const handleChangeSlug = (newSlug: string) => {
     const searchParams = new URLSearchParams(window.location.search);

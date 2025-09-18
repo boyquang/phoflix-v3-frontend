@@ -273,3 +273,95 @@ export const getPlaylistsContainingMovie = async ({
     };
   }
 };
+
+export const getUserPlaylists = async ({
+  userId,
+  accessToken,
+}: GetUserPlaylists): Promise<any> => {
+  try {
+    const params = new URLSearchParams({
+      userId,
+    });
+
+    const url = `${BASE_URL}/playlists?${params.toString()}`;
+
+    const response = await fetch(url, {
+      method: "GET",
+      headers: {
+        Authorization: `Bearer ${accessToken}`,
+      },
+    });
+
+    const data = await response.json();
+
+    if (!response.ok) {
+      const { status, message, result } = data || {};
+
+      return {
+        status: status || false,
+        message: message || "Lỗi server! Vui lòng thử lại sau.",
+        result: result || null,
+      };
+    }
+
+    return data;
+  } catch (error) {
+    if (ENV === "development") {
+      console.error("Error getting user playlists:", error);
+    }
+    return {
+      status: false,
+      message: "Lỗi server! Vui lòng thử lại sau.",
+      result: null,
+    };
+  }
+};
+
+export const getUserMoviesFromPlaylist = async ({
+  userId,
+  playlistId,
+  page,
+  limit,
+  accessToken,
+}: GetUserMoviesFromPlaylist): Promise<any> => {
+  try {
+    const params = new URLSearchParams({
+      userId,
+      playlistId,
+      page: page.toString(),
+      limit: limit.toString(),
+    });
+
+    const url = `${BASE_URL}/playlist/movies?${params.toString()}`;
+
+    const response = await fetch(url, {
+      method: "GET",
+      headers: {
+        Authorization: `Bearer ${accessToken}`,
+      },
+    });
+
+    const data = await response.json();
+
+    if (!response.ok) {
+      const { status, message, result } = data || {};
+
+      return {
+        status: status || false,
+        message: message || "Lỗi server! Vui lòng thử lại sau.",
+        result: result || null,
+      };
+    }
+
+    return data;
+  } catch (error) {
+    if (ENV === "development") {
+      console.error("Error getting user movies from playlist:", error);
+    }
+    return {
+      status: false,
+      message: "Lỗi server! Vui lòng thử lại sau.",
+      result: null,
+    };
+  }
+};

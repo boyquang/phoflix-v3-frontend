@@ -8,11 +8,13 @@ import { AppDispatch } from "@/store/store";
 import { useDispatch } from "react-redux";
 import { setSelectedPlaylistId } from "@/store/slices/user.slice";
 import ActionsPlaylist from "./ActionsPlaylist";
+import Loading from "@/app/loading";
 interface PlaylistsProps {
   playlists: Playlist[];
+  loading: boolean;
 }
 
-const Playlists = ({ playlists }: PlaylistsProps) => {
+const Playlists = ({ playlists, loading }: PlaylistsProps) => {
   const router = useRouter();
   const dispatch: AppDispatch = useDispatch();
   const params = useSearchParams();
@@ -41,7 +43,6 @@ const Playlists = ({ playlists }: PlaylistsProps) => {
   }, [playlists]);
 
   const handleChangePlaylist = (playlist: Playlist) => {
-
     if (playlist?.id === selectedPlaylist?.id) return;
 
     const params = new URLSearchParams(window.location.search);
@@ -58,6 +59,12 @@ const Playlists = ({ playlists }: PlaylistsProps) => {
     setSelectedPlaylist(playlist);
   };
 
+  if (loading)
+    return (
+      <Box className="text-primary mt-2 text-sm">
+        Đang tải danh sách phát...
+      </Box>
+    );
   if (!playlists || playlists?.length === 0) return null;
 
   return (
@@ -102,13 +109,13 @@ const Playlists = ({ playlists }: PlaylistsProps) => {
           </Box>
         ))}
       </Box>
-
+{/* 
       {pending && (
         <Box className="flex items-center gap-1.5 text-primary">
           <Spinner size="xs" />
           <h4 className="text-sm">Đang tải dữ liệu mới</h4>
         </Box>
-      )}
+      )} */}
     </>
   );
 };

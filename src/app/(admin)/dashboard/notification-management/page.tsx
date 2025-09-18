@@ -9,6 +9,7 @@ import { getNotifications } from "@/lib/actions/admin-server.action";
 import { NEXT_PUBLIC_SITE_URL } from "@/constants/env.contant";
 import { Box } from "@chakra-ui/react";
 import { Suspense } from "react";
+import ClientWrapper from "@/components/admin/dashboard/notification-management/ClientWrapper";
 
 export const generateMetadata = async () => {
   return {
@@ -43,25 +44,25 @@ export const generateMetadata = async () => {
 };
 
 const Page = async ({ searchParams }: PageProps) => {
-  const params = await searchParams;
-  const page = params.page ? Number(params.page) : 1;
-  const session = await auth();
-  const limit = 20;
+  // const params = await searchParams;
+  // const page = params.page ? Number(params.page) : 1;
+  // const session = await auth();
+  // const limit = 20;
 
-  const response = await getNotifications({
-    page: page,
-    limit,
-    accessToken: session?.user?.accessToken as string,
-  });
+  // const response = await getNotifications({
+  //   page: page,
+  //   limit,
+  //   accessToken: session?.user?.accessToken as string,
+  // });
 
-  const items = response?.result?.notifications || [];
-  const totalItems = response?.result?.totalItems || 0;
-  const errorType = response?.errorType;
-  const message = response?.message || "Lỗi hệ thống. Vui lòng thử lại sau!";
+  // const items = response?.result?.notifications || [];
+  // const totalItems = response?.result?.totalItems || 0;
+  // const errorType = response?.errorType;
+  // const message = response?.message || "Lỗi hệ thống. Vui lòng thử lại sau!";
 
   return (
     <Suspense fallback={<Loading type="bars" />}>
-      <Box className="text-gray-50">
+      {/* <Box className="text-gray-50">
         <div className="flex items-center justify-between">
           <h1 className="lg:text-3xl text-xl font-semibold">
             Quản lý thông báo
@@ -95,7 +96,8 @@ const Page = async ({ searchParams }: PageProps) => {
             )}
           </>
         )}
-      </Box>
+      </Box> */}
+      <ClientWrapper />
     </Suspense>
   );
 };

@@ -24,9 +24,13 @@ const motionPresetDefault = dialog.motionPresetDefault;
 
 interface NotificationDialogProps {
   trigger: React.ReactNode;
+  triggerRefresh?: () => void;
 }
 
-const NotificationDialog = ({ trigger }: NotificationDialogProps) => {
+const NotificationDialog = ({
+  trigger,
+  triggerRefresh,
+}: NotificationDialogProps) => {
   const [open, setOpen] = useState(false);
   const [image, setImage] = useState("");
   const router = useRouter();
@@ -54,7 +58,8 @@ const NotificationDialog = ({ trigger }: NotificationDialogProps) => {
       if (response?.status) {
         setOpen(false);
         reset();
-        router.refresh();
+        // router.refresh();
+        if (triggerRefresh) triggerRefresh();
         toast.success("Tạo thông báo thành công");
       } else {
         toast.error(response?.message);

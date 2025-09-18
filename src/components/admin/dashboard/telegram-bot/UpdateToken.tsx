@@ -7,7 +7,11 @@ import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { toast } from "sonner";
 
-const UpdateToken = () => {
+interface UpdateTokenProps {
+  triggerRefresh: () => void;
+}
+
+const UpdateToken = ({ triggerRefresh }: UpdateTokenProps) => {
   const router = useRouter();
   const { data: session } = useSession();
   const [token, setToken] = useState("");
@@ -21,7 +25,7 @@ const UpdateToken = () => {
       const response = await updateToken(token, session?.user.id as string);
 
       if (response.status) {
-        router.refresh();
+        triggerRefresh();
         setToken("");
         toast.success(response?.message);
       } else {

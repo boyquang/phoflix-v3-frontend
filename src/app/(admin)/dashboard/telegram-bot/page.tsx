@@ -1,5 +1,6 @@
 import Loading from "@/app/loading";
 import { auth } from "@/auth";
+import ClientWrapper from "@/components/admin/dashboard/telegram-bot/ClientWrapper";
 import TableTokens from "@/components/admin/dashboard/telegram-bot/TableTokens";
 import UpdateToken from "@/components/admin/dashboard/telegram-bot/UpdateToken";
 import { getTokens } from "@/lib/actions/telegram-bot.action";
@@ -7,16 +8,16 @@ import { Box } from "@chakra-ui/react";
 import { Suspense } from "react";
 
 const Page = async () => {
-  const session = await auth();
-  const response = await getTokens(session?.user.id as string);
+  // const session = await auth();
+  // const response = await getTokens(session?.user.id as string);
 
-  const tokens = response?.result?.tokens || [];
-  const errorType = response?.errorType;
-  const message = response?.message || "Lỗi hệ thống. Vui lòng thử lại sau!";
+  // const tokens = response?.result?.tokens || [];
+  // const errorType = response?.errorType;
+  // const message = response?.message || "Lỗi hệ thống. Vui lòng thử lại sau!";
 
   return (
     <Suspense fallback={<Loading type="bars" />}>
-      <Box className="text-gray-50">
+      {/* <Box className="text-gray-50">
         <h1 className="lg:text-3xl text-xl font-semibold mb-6">Telegram Bot</h1>
 
         {errorType === "InvalidToken" || errorType === "ServerError" ? (
@@ -41,7 +42,8 @@ const Page = async () => {
             </div>
           </div>
         )}
-      </Box>
+      </Box> */}
+      <ClientWrapper />
     </Suspense>
   );
 };

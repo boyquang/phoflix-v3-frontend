@@ -30,9 +30,10 @@ interface Users {
 interface TableUsersProps {
   items: Users[];
   offset: number;
+  triggerRefresh: () => void;
 }
 
-const TableUsers = ({ items, offset }: TableUsersProps) => {
+const TableUsers = ({ items, offset, triggerRefresh }: TableUsersProps) => {
   const { data: sesstion } = useSession();
   const router = useRouter();
   const [userId, setUserId] = useState<string | null>(null);
@@ -52,7 +53,9 @@ const TableUsers = ({ items, offset }: TableUsersProps) => {
       });
 
       if (response?.status) {
-        router.refresh();
+        // window.location.reload();
+        triggerRefresh();
+
         toast.success(response?.message);
       } else {
         toast.error(response?.message);
@@ -79,7 +82,8 @@ const TableUsers = ({ items, offset }: TableUsersProps) => {
       });
 
       if (response?.status) {
-        router.refresh();
+        // window.location.reload();
+        triggerRefresh();
         toast.success(response?.message);
       } else {
         toast.error(response?.message);

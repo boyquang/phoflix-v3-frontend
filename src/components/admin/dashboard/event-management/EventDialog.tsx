@@ -31,10 +31,16 @@ const motionPresetDefault = dialog.motionPresetDefault;
 interface EventDialogProps {
   action: "create" | "update";
   trigger: React.ReactNode;
+  triggerRefresh?: () => void;
   data?: EventData;
 }
 
-const EventDialog = ({ action, data, trigger }: EventDialogProps) => {
+const EventDialog = ({
+  action,
+  data,
+  trigger,
+  triggerRefresh,
+}: EventDialogProps) => {
   const [open, setOpen] = useState(false);
   const [loading, setLoading] = useState(false);
   const [fullscreen, setFullScreen] = useState(false);
@@ -80,7 +86,7 @@ const EventDialog = ({ action, data, trigger }: EventDialogProps) => {
       }
 
       if (response?.status) {
-        router.refresh();
+        if (triggerRefresh) triggerRefresh();
         setOpen(false);
         reset();
         toast.success(response?.message);
