@@ -11,6 +11,9 @@ import PopoverMovieRequest from "./PopoverMovieRequest";
 import { useState } from "react";
 import { movieRequestProcess } from "@/lib/actions/admin-client.action";
 import { toast } from "sonner";
+import { useDispatch } from "react-redux";
+import { AppDispatch } from "@/store/store";
+import { setTriggerRefresh } from "@/store/slices/system.slice";
 
 interface TableMovieRequestProps {
   items: MovieRequest[];
@@ -24,9 +27,9 @@ export interface MovieRequestProcess {
 }
 
 const TableMovieRequest = ({ items, offset }: TableMovieRequestProps) => {
-  const router = useRouter();
   const { data: session } = useSession();
   const [movieRequestId, setMovieRequestId] = useState<string | null>(null);
+  const dispatch: AppDispatch = useDispatch();
 
   const handleMovieRequestProcess = async ({
     movieRequestId,
@@ -51,7 +54,7 @@ const TableMovieRequest = ({ items, offset }: TableMovieRequestProps) => {
       const isSuccess = !!response?.status;
 
       if (isSuccess) {
-        window.location.reload();
+        dispatch(setTriggerRefresh());
         toast.success(response?.message);
       } else {
         toast.error(response?.message);

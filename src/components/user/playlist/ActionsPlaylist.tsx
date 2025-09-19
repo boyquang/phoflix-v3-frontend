@@ -6,6 +6,8 @@ import {
   deletePlaylist,
   updatePlaylist,
 } from "@/lib/actions/playlist.action";
+import { setTriggerRefresh } from "@/store/slices/system.slice";
+import { AppDispatch, RootState } from "@/store/store";
 import {
   Button,
   CloseButton,
@@ -19,6 +21,7 @@ import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
 import { MdDelete } from "react-icons/md";
+import { useDispatch, useSelector } from "react-redux";
 import { toast } from "sonner";
 
 interface ActionsPlaylistProps {
@@ -46,6 +49,7 @@ const ActionsPlaylist = ({
   const { data: session } = useSession();
   const router = useRouter();
   const inputRef = useRef<HTMLInputElement | null>(null);
+  const dispatch: AppDispatch = useDispatch();
 
   useEffect(() => {
     if (action === "create") {
@@ -129,9 +133,9 @@ const ActionsPlaylist = ({
           callback();
         }
 
-        // Cập nhật dữ liệu trên trang hiện tại
-        // router.refresh();
-        window.location.reload();
+        // làm mới trang
+        dispatch(setTriggerRefresh());
+
         toast.success(response?.message);
       } else {
         toast.error(response?.message);

@@ -78,8 +78,6 @@ const crawlMoviesSlice = createSlice({
       if (state.movieDetail) {
         set(state.movieDetail, field, value);
       }
-
-      console.log("field", field, value, current(state.movieDetail));
     },
     setEpisode(
       state,

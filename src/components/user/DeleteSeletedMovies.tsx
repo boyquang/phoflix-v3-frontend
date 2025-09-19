@@ -2,6 +2,7 @@
 
 import AlertDialog from "@/components/shared/AlertDialog";
 import { deleteSelectedMovies } from "@/lib/actions/user-movie.action";
+import { setTriggerRefresh } from "@/store/slices/system.slice";
 import { setSelectedDeleteMode } from "@/store/slices/user.slice";
 import { AppDispatch, RootState } from "@/store/store";
 import { Box, Button } from "@chakra-ui/react";
@@ -42,7 +43,7 @@ const DeleteSelectedMovies = ({
 
       if (response?.status) {
         dispatch(setSelectedDeleteMode(false));
-        window.location.reload();
+        dispatch(setTriggerRefresh()); // làm mới lại danh sách phim
         toast.success(response?.message);
       } else {
         toast.error(response?.message);

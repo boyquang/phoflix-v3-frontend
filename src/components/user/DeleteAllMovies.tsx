@@ -2,13 +2,14 @@
 
 import AlertDialog from "@/components/shared/AlertDialog";
 import { deleteAllMovies } from "@/lib/actions/user-movie.action";
-import { RootState } from "@/store/store";
+import { setTriggerRefresh } from "@/store/slices/system.slice";
+import { AppDispatch, RootState } from "@/store/store";
 import { Button } from "@chakra-ui/react";
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import { MdDelete } from "react-icons/md";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { toast } from "sonner";
 
 interface DeleteAllMoviesProps {
@@ -21,10 +22,10 @@ const DeleteAllMovies = ({ type, playlistId }: DeleteAllMoviesProps) => {
   const [loading, setLoading] = useState(false);
   const [title, setTitle] = useState("");
   const [content, setContent] = useState("");
-  const router = useRouter();
   const { selectedDeleteMode } = useSelector(
     (state: RootState) => state.user.userMovies
   );
+  const dispatch: AppDispatch = useDispatch();
 
   useEffect(() => {
     switch (type) {
@@ -57,7 +58,7 @@ const DeleteAllMovies = ({ type, playlistId }: DeleteAllMoviesProps) => {
 
       if (response?.status) {
         toast.success(response?.message);
-        window.location.reload();
+        dispatch(setTriggerRefresh()); // làm mới lại danh sách phim
       } else {
         toast.error(response?.message);
       }

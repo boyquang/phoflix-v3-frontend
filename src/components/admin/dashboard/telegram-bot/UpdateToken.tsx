@@ -1,21 +1,22 @@
 "use client";
 
 import { updateToken } from "@/lib/actions/telegram-bot.action";
+import { setTriggerRefresh } from "@/store/slices/system.slice";
+import { AppDispatch } from "@/store/store";
 import { Button, Input, Spinner } from "@chakra-ui/react";
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
+import { useDispatch } from "react-redux";
 import { toast } from "sonner";
 
-interface UpdateTokenProps {
-  triggerRefresh: () => void;
-}
+interface UpdateTokenProps {}
 
-const UpdateToken = ({ triggerRefresh }: UpdateTokenProps) => {
-  const router = useRouter();
+const UpdateToken = () => {
   const { data: session } = useSession();
   const [token, setToken] = useState("");
   const [loading, setLoading] = useState(false);
+  const dispatch: AppDispatch = useDispatch();
 
   const handleUpdateToken = async () => {
     if (!token.trim()) return;
@@ -25,7 +26,7 @@ const UpdateToken = ({ triggerRefresh }: UpdateTokenProps) => {
       const response = await updateToken(token, session?.user.id as string);
 
       if (response.status) {
-        triggerRefresh();
+        dispatch(setTriggerRefresh());
         setToken("");
         toast.success(response?.message);
       } else {

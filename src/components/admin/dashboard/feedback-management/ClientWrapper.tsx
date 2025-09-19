@@ -10,6 +10,8 @@ import PaginationCustom from "@/components/shared/PaginationCustom";
 import { getFeedbacks } from "@/lib/actions/admin-client.action";
 import { toast } from "sonner";
 import Loading from "@/app/loading";
+import { RootState } from "@/store/store";
+import { useSelector } from "react-redux";
 
 const ClientWrapper = () => {
   const searchParams = useSearchParams();
@@ -20,7 +22,7 @@ const ClientWrapper = () => {
   const { data: session, status } = useSession();
   const [response, setResponse] = useState<any>(null);
   const [loading, setLoading] = useState<boolean>(false);
-  const [triggerRefresh, setTriggerRefresh] = useState<boolean>(false);
+  const { triggerRefresh } = useSelector((state: RootState) => state.system);
   const limit = 20;
 
   useEffect(() => {
@@ -51,7 +53,7 @@ const ClientWrapper = () => {
     fetchData();
   }, [page, status, slug, triggerRefresh]);
 
-  if (loading) return <Loading />;
+  if (loading) return <Loading height="h-96" />;
 
   return (
     <Box className="text-gray-50">
@@ -72,7 +74,6 @@ const ClientWrapper = () => {
       ) : (
         <>
           <TableFeedbacks
-              triggerRefresh={() => setTriggerRefresh(!triggerRefresh)}
             items={response?.result?.feedbacks || []}
             offset={(page - 1) * limit}
           />

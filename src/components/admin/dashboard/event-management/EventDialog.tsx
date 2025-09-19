@@ -24,6 +24,9 @@ import "react-markdown-editor-lite/lib/index.css";
 import dynamic from "next/dynamic";
 import MarkdownViewer from "@/components/shared/MarkdownViewer";
 import { toast } from "sonner";
+import { AppDispatch } from "@/store/store";
+import { useDispatch } from "react-redux";
+import { setTriggerRefresh } from "@/store/slices/system.slice";
 
 const { dialog } = appConfig.charka;
 const motionPresetDefault = dialog.motionPresetDefault;
@@ -31,21 +34,15 @@ const motionPresetDefault = dialog.motionPresetDefault;
 interface EventDialogProps {
   action: "create" | "update";
   trigger: React.ReactNode;
-  triggerRefresh?: () => void;
   data?: EventData;
 }
 
-const EventDialog = ({
-  action,
-  data,
-  trigger,
-  triggerRefresh,
-}: EventDialogProps) => {
+const EventDialog = ({ action, data, trigger }: EventDialogProps) => {
   const [open, setOpen] = useState(false);
   const [loading, setLoading] = useState(false);
   const [fullscreen, setFullScreen] = useState(false);
-  const router = useRouter();
   const { data: session } = useSession();
+  const dispatch: AppDispatch = useDispatch();
 
   const {
     register: rhfEvent,
@@ -86,7 +83,7 @@ const EventDialog = ({
       }
 
       if (response?.status) {
-        if (triggerRefresh) triggerRefresh();
+        dispatch(setTriggerRefresh());
         setOpen(false);
         reset();
         toast.success(response?.message);

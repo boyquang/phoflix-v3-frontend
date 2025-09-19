@@ -4,11 +4,13 @@ import { getUsers } from "@/lib/actions/admin-client.action";
 import { Box } from "@chakra-ui/react";
 import { useSession } from "next-auth/react";
 import { useSearchParams } from "next/navigation";
-import { useEffect, useState } from "react";
+import { use, useEffect, useState } from "react";
 import { toast } from "sonner";
 import TableUsers from "./TableUsers";
 import PaginationCustom from "@/components/shared/PaginationCustom";
 import Loading from "@/app/loading";
+import { useSelector } from "react-redux";
+import { RootState } from "@/store/store";
 
 const ClientWrapper = () => {
   const searchParams = useSearchParams();
@@ -16,7 +18,7 @@ const ClientWrapper = () => {
   const { data: session, status } = useSession();
   const [response, setResponse] = useState<any>(null);
   const [loading, setLoading] = useState<boolean>(false);
-  const [triggerRefresh, setTriggerRefresh] = useState<boolean>(false);
+  const { triggerRefresh } = useSelector((state: RootState) => state.system);
 
   useEffect(() => {
     if (status !== "authenticated") return;
@@ -45,7 +47,7 @@ const ClientWrapper = () => {
     fetchData();
   }, [page, status, triggerRefresh]);
 
-  if (loading) return <Loading />;
+  if (loading) return <Loading height="h-96" />;
 
   return (
     <Box className="text-gray-50">
@@ -63,7 +65,6 @@ const ClientWrapper = () => {
           <TableUsers
             items={response?.result?.users}
             offset={(page - 1) * 20}
-            triggerRefresh={() => setTriggerRefresh(!triggerRefresh)}
           />
           {response?.result?.totalItems >= 20 && (
             <PaginationCustom

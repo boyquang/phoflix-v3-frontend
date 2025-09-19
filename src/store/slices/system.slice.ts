@@ -12,6 +12,7 @@ const initialState: SystemSlice = {
   windowWidth: 0,
   lastScrollY: 0,
   isVisiable: true,
+  triggerRefresh: false,
   topSearchTrending: {
     items: [],
     loading: false,
@@ -110,6 +111,10 @@ const systemSlice = createSlice({
       localStorage.setItem("sleepEndTime", JSON.stringify(endTime));
       localStorage.setItem("sleepCustomPrompt", JSON.stringify(customPrompt));
     },
+
+    setTriggerRefresh: (state) => {
+      state.triggerRefresh = !state.triggerRefresh;
+    },
   },
 
   extraReducers: (builder) => {
@@ -152,5 +157,6 @@ export const {
   setCustomReposeUser,
   setOpenAlertRepose,
   setReboot,
+  setTriggerRefresh,
 } = systemSlice.actions;
 export default systemSlice.reducer;

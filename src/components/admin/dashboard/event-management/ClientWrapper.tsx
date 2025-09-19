@@ -8,12 +8,14 @@ import TableEvents from "./TableEvents";
 import { getEventList } from "@/lib/actions/event.action";
 import { toast } from "sonner";
 import Loading from "@/app/loading";
+import { useSelector } from "react-redux";
+import { RootState } from "@/store/store";
 
 const ClientWrapper = () => {
   const [response, setResponse] = useState<any>(null);
   const [loading, setLoading] = useState<boolean>(false);
   const { data: session, status } = useSession();
-  const [triggerRefresh, setTriggerRefresh] = useState<boolean>(false);
+  const { triggerRefresh } = useSelector((state: RootState) => state.system);
 
   useEffect(() => {
     if (status !== "authenticated") return;
@@ -40,7 +42,7 @@ const ClientWrapper = () => {
     fetchData();
   }, [status, triggerRefresh]);
 
-  if (loading) return <Loading />;
+  if (loading) return <Loading height="h-96" />;
 
   return (
     <div className="text-gray-50">
@@ -48,7 +50,6 @@ const ClientWrapper = () => {
         <h1 className="lg:text-3xl text-xl font-semibold">Quản lý sự kiện</h1>
         {!response?.errorType && (
           <EventDialog
-            triggerRefresh={() => setTriggerRefresh(!triggerRefresh)}
             action="create"
             trigger={<AddNewButton label="Thêm sự kiện" size="sm" />}
           />
@@ -59,11 +60,7 @@ const ClientWrapper = () => {
         response?.errorType === "ServerError" ? (
           <div className="text-red-500 text-base">{response?.message}</div>
         ) : (
-          <TableEvents
-            triggerRefresh={() => setTriggerRefresh(!triggerRefresh)}
-            items={response?.result}
-            offset={0}
-          />
+          <TableEvents items={response?.result} offset={0} />
         )}
       </div>
     </div>

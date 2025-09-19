@@ -8,16 +8,18 @@ import { useRouter } from "next/navigation";
 import IconButtonAction from "@/components/shared/IconButtonAction";
 import { useSession } from "next-auth/react";
 import { toast } from "sonner";
+import { useDispatch } from "react-redux";
+import { AppDispatch } from "@/store/store";
+import { setTriggerRefresh } from "@/store/slices/system.slice";
 
 interface EventActionsProps {
   item: EventData;
-  triggerRefresh: () => void;
 }
 
-const EventActions = ({ item, triggerRefresh }: EventActionsProps) => {
+const EventActions = ({ item }: EventActionsProps) => {
   const [loadingDelete, setLoadingDelete] = useState(false);
-  const router = useRouter();
   const { data: session } = useSession();
+  const dispatch: AppDispatch = useDispatch();
 
   const handleDelete = async () => {
     if (!item.id) return;
@@ -30,7 +32,7 @@ const EventActions = ({ item, triggerRefresh }: EventActionsProps) => {
       );
 
       if (response?.status) {
-        triggerRefresh();
+        dispatch(setTriggerRefresh());
         toast.success(response?.message);
       } else {
         toast.error(response?.message);
@@ -52,7 +54,6 @@ const EventActions = ({ item, triggerRefresh }: EventActionsProps) => {
         trigger={<IconButtonAction action="delete" />}
       />
       <EventDialog
-        triggerRefresh={triggerRefresh}
         action="update"
         data={item}
         trigger={<IconButtonAction action="edit" />}

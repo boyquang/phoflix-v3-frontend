@@ -18,25 +18,24 @@ import { useForm } from "react-hook-form";
 import UploadFile from "../../upload-file/UploadFile";
 import { appConfig } from "@/configs/app.config";
 import { toast } from "sonner";
+import { AppDispatch } from "@/store/store";
+import { useDispatch } from "react-redux";
+import { setTriggerRefresh } from "@/store/slices/system.slice";
 
 const { dialog } = appConfig.charka;
 const motionPresetDefault = dialog.motionPresetDefault;
 
 interface NotificationDialogProps {
   trigger: React.ReactNode;
-  triggerRefresh?: () => void;
 }
 
-const NotificationDialog = ({
-  trigger,
-  triggerRefresh,
-}: NotificationDialogProps) => {
+const NotificationDialog = ({ trigger }: NotificationDialogProps) => {
   const [open, setOpen] = useState(false);
   const [image, setImage] = useState("");
-  const router = useRouter();
   const { data: session } = useSession();
   const [loading, setLoading] = useState(false);
   const { register, handleSubmit, reset } = useForm();
+  const dispatch: AppDispatch = useDispatch();
 
   const handleCreateNotification = async (data: any) => {
     if (!data?.content.trim()) {
@@ -58,8 +57,7 @@ const NotificationDialog = ({
       if (response?.status) {
         setOpen(false);
         reset();
-        // router.refresh();
-        if (triggerRefresh) triggerRefresh();
+        dispatch(setTriggerRefresh());
         toast.success("Tạo thông báo thành công");
       } else {
         toast.error(response?.message);

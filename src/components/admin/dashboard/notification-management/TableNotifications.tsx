@@ -11,21 +11,23 @@ import {
   updateNotification,
 } from "@/lib/actions/admin-client.action";
 import { toast } from "sonner";
+import { AppDispatch } from "@/store/store";
+import { useDispatch } from "react-redux";
+import { setTriggerRefresh } from "@/store/slices/system.slice";
 
 interface TableNotificationsProps {
   items: NotificationTable[];
   offset: number;
-  triggerRefresh: () => void;
 }
 
-const TableNotifications = ({ items, offset, triggerRefresh }: TableNotificationsProps) => {
-  const router = useRouter();
+const TableNotifications = ({ items, offset }: TableNotificationsProps) => {
   const { data: session } = useSession();
   const [editingField, setEditingField] = useState<{
     id: string;
     key: string;
   } | null>(null);
   const [idDelete, setIdDelete] = useState<string | null>(null);
+  const dispatch: AppDispatch = useDispatch();
 
   const handleUpdateInfo = async (
     data: Record<string, any>,
@@ -49,7 +51,7 @@ const TableNotifications = ({ items, offset, triggerRefresh }: TableNotification
       });
 
       if (response?.status) {
-        triggerRefresh()
+        dispatch(setTriggerRefresh());
         toast.success(response?.message);
       } else {
         toast.error(response?.message);
@@ -77,7 +79,7 @@ const TableNotifications = ({ items, offset, triggerRefresh }: TableNotification
       });
 
       if (response?.status) {
-        triggerRefresh()
+        dispatch(setTriggerRefresh());
         toast.success(response?.message);
       } else {
         toast.error(response?.message);

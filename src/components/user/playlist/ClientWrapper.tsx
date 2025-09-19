@@ -16,6 +16,8 @@ import {
 } from "@/lib/actions/playlist.action";
 import { toast } from "sonner";
 import Loading from "@/app/loading";
+import { useSelector } from "react-redux";
+import { RootState } from "@/store/store";
 
 const limit = 18;
 
@@ -29,11 +31,12 @@ const ClientWrapper = () => {
   const [playlists, setPlaylists] = useState<any[]>([]);
   const [playlistId, setPlaylistId] = useState<string | null>(null);
   const [loadingPlaylists, setLoadingPlaylists] = useState(false);
+  const { triggerRefresh } = useSelector((state: RootState) => state.system);
 
   useEffect(() => {
     if (status !== "authenticated") return;
 
-    const fetchData = async () => {
+    const fetchPlaylists = async () => {
       try {
         setLoadingPlaylists(true);
         const response = await getUserPlaylists({
@@ -51,8 +54,8 @@ const ClientWrapper = () => {
       }
     };
 
-    fetchData();
-  }, [status]);
+    fetchPlaylists();
+  }, [status, triggerRefresh]);
 
   useEffect(() => {
     let playlistTemp: string | null = null;
@@ -101,7 +104,7 @@ const ClientWrapper = () => {
     };
 
     fetchMovies();
-  }, [playlists, playlistId, page, status]);
+  }, [playlists, playlistId, page, status, triggerRefresh]);
 
   return (
     <div>

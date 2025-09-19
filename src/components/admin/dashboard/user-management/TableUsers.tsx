@@ -14,6 +14,9 @@ import { useState } from "react";
 import EmptyData from "@/components/shared/EmptyData";
 import { FaUser } from "react-icons/fa6";
 import { toast } from "sonner";
+import { AppDispatch } from "@/store/store";
+import { useDispatch } from "react-redux";
+import { setTriggerRefresh } from "@/store/slices/system.slice";
 
 interface Users {
   id: string;
@@ -30,16 +33,15 @@ interface Users {
 interface TableUsersProps {
   items: Users[];
   offset: number;
-  triggerRefresh: () => void;
 }
 
-const TableUsers = ({ items, offset, triggerRefresh }: TableUsersProps) => {
-  const { data: sesstion } = useSession();
-  const router = useRouter();
+const TableUsers = ({ items, offset }: TableUsersProps) => {
+  const { data: session } = useSession();
   const [userId, setUserId] = useState<string | null>(null);
+  const dispatch: AppDispatch = useDispatch();
 
   const handleChangeRole = async (id: string, role: "member" | "admin") => {
-    if (id === sesstion?.user?.id) {
+    if (id === session?.user?.id) {
       toast.info("Bạn không thể thay đổi vai trò của chính mình.");
       return;
     }
@@ -47,15 +49,13 @@ const TableUsers = ({ items, offset, triggerRefresh }: TableUsersProps) => {
     try {
       const response = await changeRoleUser({
         userId: id,
-        adminId: sesstion?.user?.id as string,
+        adminId: session?.user?.id as string,
         role,
-        accessToken: sesstion?.user?.accessToken as string,
+        accessToken: session?.user?.accessToken as string,
       });
 
       if (response?.status) {
-        // window.location.reload();
-        triggerRefresh();
-
+        dispatch(setTriggerRefresh());
         toast.success(response?.message);
       } else {
         toast.error(response?.message);
@@ -67,7 +67,7 @@ const TableUsers = ({ items, offset, triggerRefresh }: TableUsersProps) => {
   };
 
   const handleChangeStatus = async (id: string, checked: boolean) => {
-    if (id === sesstion?.user?.id) {
+    if (id === session?.user?.id) {
       toast.info("Bạn không thể thay đổi trạng thái của chính mình.");
       return;
     }
@@ -76,14 +76,13 @@ const TableUsers = ({ items, offset, triggerRefresh }: TableUsersProps) => {
       setUserId(id);
       const response = await changeStatusUser({
         userId: id,
-        adminId: sesstion?.user?.id as string,
+        adminId: session?.user?.id as string,
         status: checked ? "banned" : "active",
-        accessToken: sesstion?.user?.accessToken as string,
+        accessToken: session?.user?.accessToken as string,
       });
 
       if (response?.status) {
-        // window.location.reload();
-        triggerRefresh();
+        dispatch(setTriggerRefresh());
         toast.success(response?.message);
       } else {
         toast.error(response?.message);
@@ -157,7 +156,7 @@ const TableUsers = ({ items, offset, triggerRefresh }: TableUsersProps) => {
                   <span className="font-medium text-white">
                     {item.username}
                   </span>
-                  {item.id === sesstion?.user?.id && (
+                  {item.id === session?.user?.id && (
                     <span className="text-green-500 font-semibold"> (Bạn)</span>
                   )}
                 </td>

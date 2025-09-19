@@ -8,10 +8,9 @@ import EventActions from "./EventActions";
 interface TableEventsProps {
   items: EventData[];
   offset: number;
-  triggerRefresh: () => void;
 }
 
-const TableEvents = ({ items, offset, triggerRefresh }: TableEventsProps) => {
+const TableEvents = ({ items, offset }: TableEventsProps) => {
   if (!items || items.length === 0) {
     return (
       <div className="min-h-96 flex items-center justify-center">
@@ -66,7 +65,7 @@ const TableEvents = ({ items, offset, triggerRefresh }: TableEventsProps) => {
                   </span>
                 </td>
                 <td className="px-4 py-3 whitespace-nowrap">
-                  <EventActions item={item} triggerRefresh={triggerRefresh} />
+                  <EventActions item={item} />
                 </td>
                 <td className="px-4 py-3 whitespace-nowrap">{item.name}</td>
                 <td className="px-4 py-3 whitespace-nowrap">{item.date}</td>

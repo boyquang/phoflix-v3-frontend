@@ -10,6 +10,8 @@ import { getMovieRequests } from "@/lib/actions/admin-client.action";
 import { toast } from "sonner";
 import { Box } from "@chakra-ui/react";
 import Loading from "@/app/loading";
+import { RootState } from "@/store/store";
+import { useSelector } from "react-redux";
 
 type StatusType = "all" | "pending" | "approved" | "rejected";
 
@@ -22,6 +24,7 @@ const ClientWrapper = () => {
   const { data: session, status: sessionStatus } = useSession();
   const [response, setResponse] = useState<any>(null);
   const [loading, setLoading] = useState<boolean>(false);
+  const { triggerRefresh } = useSelector((state: RootState) => state.system);
 
   useEffect(() => {
     if (sessionStatus !== "authenticated") return;
@@ -48,9 +51,9 @@ const ClientWrapper = () => {
     };
 
     fetchData();
-  }, [page, status]);
+  }, [page, status, sessionStatus, triggerRefresh]);
 
-  if (loading) return <Loading />;
+  if (loading) return <Loading height="h-96" />;
 
   return (
     <Box className="text-gray-50">

@@ -11,23 +11,21 @@ import EmptyData from "@/components/shared/EmptyData";
 import { FaCommentAlt } from "react-icons/fa";
 import Link from "next/link";
 import { toast } from "sonner";
+import { useDispatch } from "react-redux";
+import { AppDispatch } from "@/store/store";
+import { setTriggerRefresh } from "@/store/slices/system.slice";
 
 interface TableFeedbacksProps {
   items: FeedbackTable[];
   offset: number;
-  triggerRefresh: () => void;
 }
 
-const TableFeedbacks = ({
-  items,
-  offset,
-  triggerRefresh,
-}: TableFeedbacksProps) => {
-  const router = useRouter();
+const TableFeedbacks = ({ items, offset }: TableFeedbacksProps) => {
   const { data: session } = useSession();
   const [markFeedbackAsSpamId, setMarkFeedbackAsSpamId] = useState<
     string | null
   >(null);
+  const dispatch: AppDispatch = useDispatch();
 
   const handleMarkAsSpam = async (feedbackId: string, checked: boolean) => {
     if (!session) {
@@ -46,7 +44,7 @@ const TableFeedbacks = ({
       });
 
       if (response?.status) {
-        triggerRefresh();
+        dispatch(setTriggerRefresh());
         toast.success(response?.message);
       } else {
         toast.error(response?.message);

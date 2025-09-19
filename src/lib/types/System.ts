@@ -45,4 +45,5 @@ type SystemSlice = {
   reboot: {
     status: boolean;
   };
+  triggerRefresh: boolean;
 };

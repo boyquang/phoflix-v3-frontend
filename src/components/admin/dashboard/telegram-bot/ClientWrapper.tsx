@@ -8,12 +8,14 @@ import { useEffect, useState } from "react";
 import { getTokens } from "@/lib/actions/telegram-bot.action";
 import { toast } from "sonner";
 import Loading from "@/app/loading";
+import { useSelector } from "react-redux";
+import { RootState } from "@/store/store";
 
 const ClientWrapper = () => {
   const { data: session, status } = useSession();
   const [response, setResponse] = useState<any>(null);
   const [loading, setLoading] = useState<boolean>(false);
-  const [triggerRefresh, setTriggerRefresh] = useState<boolean>(false);
+  const { triggerRefresh } = useSelector((state: RootState) => state.system);
 
   useEffect(() => {
     if (status !== "authenticated") return;
@@ -38,7 +40,7 @@ const ClientWrapper = () => {
     fetchData();
   }, [status, triggerRefresh]);
 
-  if (loading) return <Loading />;
+  if (loading) return <Loading height="h-96" />;
 
   return (
     <Box className="text-gray-50">
@@ -53,9 +55,7 @@ const ClientWrapper = () => {
         </p>
       ) : (
         <div className="mt-8">
-          <UpdateToken
-            triggerRefresh={() => setTriggerRefresh(!triggerRefresh)}
-          />
+          <UpdateToken />
           <div className="mt-8 overflow-x-auto">
             <h4 className="text-lg text-white mb-4">Lịch sử cập nhật</h4>
 

@@ -2,15 +2,16 @@
 
 import EmptyData from "@/components/shared/EmptyData";
 import { deleteMovie } from "@/lib/actions/user-movie.action";
-import { RootState } from "@/store/store";
+import { AppDispatch, RootState } from "@/store/store";
 import { SimpleGrid } from "@chakra-ui/react";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { useEffect, useState } from "react";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import MovieItem from "./MovieItem";
 import { useSession } from "next-auth/react";
 import { RiMovieFill } from "react-icons/ri";
 import { toast } from "sonner";
+import { setTriggerRefresh } from "@/store/slices/system.slice";
 
 interface MovieGridProps {
   items: MovieDB[];
@@ -32,6 +33,7 @@ const MovieGrid = ({ items, colums, userId, type }: MovieGridProps) => {
   const pathname = usePathname();
   const { data: session } = useSession();
   const [idDelete, setIdDelete] = useState<string | null>(null);
+  const dispatch: AppDispatch = useDispatch();
 
   const updatePageAndRefresh = (newPage: number) => {
     const params = new URLSearchParams(searchParams.toString());
@@ -62,7 +64,7 @@ const MovieGrid = ({ items, colums, userId, type }: MovieGridProps) => {
       });
 
       if (response?.status) {
-        window.location.reload();
+        dispatch(setTriggerRefresh()); // làm mới lại danh sách phim
         toast.success(response?.message);
       } else {
         toast.error(response?.message);

@@ -49,7 +49,7 @@ const ClientWrapper = () => {
     fetchData();
   }, [page, status]);
 
-  if (loading) return <Loading />;
+  if (loading) return <Loading height="h-96" />;
 
   return (
     <>

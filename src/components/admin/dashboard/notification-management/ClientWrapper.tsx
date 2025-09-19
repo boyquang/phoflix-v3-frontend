@@ -11,6 +11,8 @@ import { useEffect, useState } from "react";
 import { toast } from "sonner";
 import TableNotifications from "./TableNotifications";
 import PaginationCustom from "@/components/shared/PaginationCustom";
+import { RootState } from "@/store/store";
+import { useSelector } from "react-redux";
 
 const limit = 20;
 
@@ -20,7 +22,7 @@ const ClientWrapper = () => {
   const { data: session, status } = useSession();
   const [response, setResponse] = useState<any>(null);
   const [loading, setLoading] = useState<boolean>(false);
-  const [triggerRefresh, setTriggerRefresh] = useState<boolean>(false);
+  const { triggerRefresh } = useSelector((state: RootState) => state.system);
 
   useEffect(() => {
     if (status !== "authenticated") return;
@@ -48,7 +50,7 @@ const ClientWrapper = () => {
     fetchData();
   }, [page, status, triggerRefresh]);
 
-  if (loading) return <Loading />;
+  if (loading) return <Loading height="h-96" />;
 
   return (
     <Box className="text-gray-50">
@@ -56,7 +58,6 @@ const ClientWrapper = () => {
         <h1 className="lg:text-3xl text-xl font-semibold">Quản lý thông báo</h1>
         {!response?.errorType && (
           <NotificationDialog
-            triggerRefresh={() => setTriggerRefresh(!triggerRefresh)}
             trigger={
               <AddNewButton size="sm" label="Tạo thông báo" rounded="full" />
             }
@@ -74,7 +75,6 @@ const ClientWrapper = () => {
       ) : (
         <>
           <TableNotifications
-            triggerRefresh={() => setTriggerRefresh(!triggerRefresh)}
             offset={(page - 1) * limit}
             items={response?.result?.notifications}
           />

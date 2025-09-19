@@ -59,7 +59,7 @@ const Page = ({ searchParams }: PageProps) => {
   // const message = response?.message || "Lỗi hệ thống. Vui lòng thử lại sau!";
 
   return (
-    <Suspense fallback={<Loading type="bars" />}>
+    <Suspense fallback={<Loading type="bars" height="h-96" />}>
       <ClientWrapper />
       {/* <Box className="text-gray-50">
         <h1 className="lg:text-3xl text-xl">Quản lý người dùng</h1>

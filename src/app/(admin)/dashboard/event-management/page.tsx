@@ -17,7 +17,7 @@ const Page = async ({ params, searchParams }: PageProps) => {
   // const message = response?.message || "Lỗi hệ thống. Vui lòng thử lại sau!";
 
   return (
-    <Suspense fallback={<Loading type="bars" />}>
+    <Suspense fallback={<Loading type="bars" height="h-96" />}>
       {/* <div className="text-gray-50">
         <div className="flex items-center justify-between">
           <h1 className="lg:text-3xl text-xl font-semibold">Quản lý sự kiện</h1>
