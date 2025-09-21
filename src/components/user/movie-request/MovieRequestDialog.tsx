@@ -20,7 +20,7 @@ import { useForm } from "react-hook-form";
 import { appConfig } from "@/configs/app.config";
 import { toast } from "sonner";
 
-const { dialog } = appConfig.charka;
+const { dialog } = appConfig.chakra;
 const motionPresetDefault = dialog.motionPresetDefault;
 
 interface FormValues {

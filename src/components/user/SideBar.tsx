@@ -8,6 +8,8 @@ import { FiLogOut } from "react-icons/fi";
 import ProfileHeader from "@/components/shared/ProfileHeader";
 import { signOut } from "next-auth/react";
 import { usePathname } from "next/navigation";
+import { MdOutlinePlaylistAdd } from "react-icons/md";
+import { RiPlayListAddLine } from "react-icons/ri";
 
 const menu = [
   {
@@ -16,7 +18,7 @@ const menu = [
     link: "/nguoi-dung/yeu-thich",
   },
   {
-    icon: <FaPlus />,
+    icon: <RiPlayListAddLine />,
     label: "Danh sách phát",
     link: "/nguoi-dung/danh-sach-phat",
   },

@@ -4,7 +4,7 @@ import { appConfig } from "@/configs/app.config";
 import { Button, CloseButton, Dialog, Portal } from "@chakra-ui/react";
 import React from "react";
 
-const { dialog } = appConfig.charka;
+const { dialog } = appConfig.chakra;
 const motionPresetDefault = dialog.motionPresetDefault;
 
 interface DialogRootProps {

@@ -11,7 +11,7 @@ import ChatComposer from "./ChatComposer";
 import { botAvatar } from "@/constants/image.contant";
 import Image from "../shared/Image";
 
-const { dialog } = appConfig.charka;
+const { dialog } = appConfig.chakra;
 const motionPresetDefault = dialog.motionPresetDefault;
 
 const ChatBotDialog = () => {

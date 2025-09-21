@@ -12,7 +12,7 @@ interface AppConfig {
     };
   };
   pages: Record<string, any>;
-  charka: {
+  chakra: {
     dialog: {
       motionPresetDefault:
         | "scale"
@@ -67,7 +67,7 @@ export const appConfig: AppConfig = {
       status: FeatureStatus.ACTIVE,
     },
   },
-  charka: {
+  chakra: {
     dialog: {
       motionPresetDefault: "slide-in-bottom",
     },

@@ -16,8 +16,9 @@ import {
 } from "@/lib/actions/playlist.action";
 import { toast } from "sonner";
 import Loading from "@/app/loading";
-import { useSelector } from "react-redux";
-import { RootState } from "@/store/store";
+import { useDispatch, useSelector } from "react-redux";
+import { AppDispatch, RootState } from "@/store/store";
+import { setPlaylistByKey } from "@/store/slices/user.slice";
 
 const limit = 18;
 
@@ -29,9 +30,39 @@ const ClientWrapper = () => {
   const [loading, setLoading] = useState(false);
   const [response, setResponse] = useState<any>(null);
   const [playlists, setPlaylists] = useState<any[]>([]);
-  const [playlistId, setPlaylistId] = useState<string | null>(null);
   const [loadingPlaylists, setLoadingPlaylists] = useState(false);
-  const { triggerRefresh } = useSelector((state: RootState) => state.system);
+  const { refreshPlaylists, refreshMovies, selectedPlaylistId } = useSelector(
+    (state: RootState) => state.user.playlist
+  );
+  const dispatch: AppDispatch = useDispatch();
+
+  const handleSetPlaylistId = (playlists: Playlist[]) => {
+    if (playlists?.length === 0) {
+      dispatch(setPlaylistByKey({ key: "selectedPlaylistId", value: null }));
+      return;
+    }
+
+    let playlistTemp: string | null = null;
+
+    // Nếu có playlistId từ URL, ưu tiên sử dụng
+    playlistTemp = playlistIdFromParams
+      ? String(playlistIdFromParams)
+      : playlists[0]?.id;
+
+    // Kiểm tra playlistId có tồn tại trong danh sách playlist hay không
+    const existPlaylistIdFromPlaylists = playlists?.find(
+      (playlist) => playlist?.id === playlistTemp
+    );
+
+    // Nếu không tồn tại thì lấy playlistId đầu tiên trong danh sách
+    if (!existPlaylistIdFromPlaylists) {
+      playlistTemp = playlists[0]?.id;
+    }
+
+    dispatch(
+      setPlaylistByKey({ key: "selectedPlaylistId", value: playlistTemp })
+    );
+  };
 
   useEffect(() => {
     if (status !== "authenticated") return;
@@ -45,7 +76,9 @@ const ClientWrapper = () => {
         });
 
         if (response.status) {
-          setPlaylists(response.result.playlists || []);
+          const playlists = response.result.playlists || [];
+          setPlaylists(playlists);
+          handleSetPlaylistId(playlists);
         }
       } catch (error) {
         toast.error("Lỗi khi tải danh sách phát.");
@@ -55,39 +88,18 @@ const ClientWrapper = () => {
     };
 
     fetchPlaylists();
-  }, [status, triggerRefresh]);
-
-  useEffect(() => {
-    let playlistTemp: string | null = null;
-
-    // Nếu có playlistId từ URL, ưu tiên sử dụng
-    playlistTemp = playlistIdFromParams
-      ? String(playlistIdFromParams)
-      : playlists[0]?.id;
-
-    // Kiểm tra playlistId có tồn tại trong danh sách playlist hay không
-    const existPlaylistIdFromPlaylists = playlists.find(
-      (playlist: Playlist) => playlist?.id === playlistTemp
-    );
-
-    // Nếu không tồn tại thì lấy playlistId đầu tiên trong danh sách
-    if (!existPlaylistIdFromPlaylists) {
-      playlistTemp = playlists[0]?.id;
-    }
-
-    setPlaylistId(playlistTemp);
-  }, [playlists, playlistIdFromParams]);
+  }, [status, refreshPlaylists, refreshMovies]);
 
   // Lấy danh sách phim khi thay đổi playlistId hoặc page
   useEffect(() => {
-    if (status !== "authenticated" || playlists?.length === 0) return;
+    if (status !== "authenticated" || !selectedPlaylistId) return;
 
     const fetchMovies = async () => {
       try {
         setLoading(true);
         const response = await getUserMoviesFromPlaylist({
           userId: session?.user?.id as string,
-          playlistId: playlistId as string,
+          playlistId: selectedPlaylistId as string,
           page,
           limit,
           accessToken: session?.user?.accessToken as string,
@@ -104,11 +116,11 @@ const ClientWrapper = () => {
     };
 
     fetchMovies();
-  }, [playlists, playlistId, page, status, triggerRefresh]);
+  }, [selectedPlaylistId, page, status, refreshMovies]);
 
   return (
     <div>
-      <Box className="flex items-center justify-between flex-wrap gap-2 mb-4">
+      <Box className="flex items-center justify-between flex-wrap gap-2 mb-6">
         <h3 className="text-gray-50 text-lg">Danh sách phát</h3>
 
         <Box className="flex items-center gap-2">
@@ -124,10 +136,13 @@ const ClientWrapper = () => {
           </ActionsPlaylist>
 
           {response?.result?.movies?.length >= 2 && (
-            <DeleteSelectedMovies type="playlist" playlistId={playlistId} />
+            <DeleteSelectedMovies
+              type="playlist"
+              playlistId={selectedPlaylistId}
+            />
           )}
           {response?.result?.movies?.length >= 3 && (
-            <DeleteAllMovies type="playlist" playlistId={playlistId} />
+            <DeleteAllMovies type="playlist" playlistId={selectedPlaylistId} />
           )}
         </Box>
       </Box>
@@ -135,14 +150,18 @@ const ClientWrapper = () => {
       <Playlists playlists={playlists} loading={loadingPlaylists} />
 
       {!loading ? (
-        <MovieSection
-          movies={response?.result?.movies}
-          totalItems={response?.result?.totalItems}
-          totalItemsPerPage={response?.result?.totalItemsPerPage}
-          currentPage={page}
-          limit={limit}
-          type="playlist"
-        />
+        <>
+          {playlists?.length > 0 ? (
+            <MovieSection
+              movies={response?.result?.movies}
+              totalItems={response?.result?.totalItems}
+              totalItemsPerPage={response?.result?.totalItemsPerPage}
+              currentPage={page}
+              limit={limit}
+              type="playlist"
+            />
+          ) : null}
+        </>
       ) : (
         <Loading type="bars" height="h-96" />
       )}

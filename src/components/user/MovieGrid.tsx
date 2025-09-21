@@ -12,6 +12,7 @@ import { useSession } from "next-auth/react";
 import { RiMovieFill } from "react-icons/ri";
 import { toast } from "sonner";
 import { setTriggerRefresh } from "@/store/slices/system.slice";
+import { setPlaylistByKey } from "@/store/slices/user.slice";
 
 interface MovieGridProps {
   items: MovieDB[];
@@ -29,7 +30,9 @@ interface MovieGridProps {
 const MovieGrid = ({ items, colums, userId, type }: MovieGridProps) => {
   const router = useRouter();
   const searchParams = useSearchParams();
-  const { selectedPlaylistId } = useSelector((state: RootState) => state.user);
+  const { selectedPlaylistId } = useSelector(
+    (state: RootState) => state.user.playlist
+  );
   const pathname = usePathname();
   const { data: session } = useSession();
   const [idDelete, setIdDelete] = useState<string | null>(null);
@@ -64,7 +67,13 @@ const MovieGrid = ({ items, colums, userId, type }: MovieGridProps) => {
       });
 
       if (response?.status) {
-        dispatch(setTriggerRefresh()); // làm mới lại danh sách phim
+        if (pathname === "/nguoi-dung/danh-sach-phat") {
+          // Nếu đang ở trang danh sách phát thì làm mới lại danh sách phát
+          dispatch(setPlaylistByKey({ key: "refreshMovies" }));
+        } else {
+          dispatch(setTriggerRefresh()); // làm mới lại danh sách phim
+        }
+
         toast.success(response?.message);
       } else {
         toast.error(response?.message);

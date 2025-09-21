@@ -21,7 +21,7 @@ import SearchPreview from "./SearchPreview";
 import Link from "next/link";
 import { toast } from "sonner";
 
-const { dialog } = appConfig.charka;
+const { dialog } = appConfig.chakra;
 const motionPresetDefault = dialog.motionPresetDefault;
 
 export const limitSearchPreview = 5;

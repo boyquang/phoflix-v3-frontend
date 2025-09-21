@@ -10,6 +10,8 @@ import { useEffect, useState } from "react";
 import Loading from "@/app/loading";
 import { getUserMovies } from "@/lib/actions/user-movie.action";
 import { toast } from "sonner";
+import { RootState } from "@/store/store";
+import { useSelector } from "react-redux";
 
 const limit = 18;
 
@@ -19,6 +21,7 @@ const ClientWrapper = () => {
   const { data: session, status } = useSession();
   const [response, setResponse] = useState<any>(null);
   const [loading, setLoading] = useState<boolean>(false);
+  const { triggerRefresh } = useSelector((state: RootState) => state.system);
 
   useEffect(() => {
     if (status !== "authenticated") return;
@@ -47,7 +50,7 @@ const ClientWrapper = () => {
     };
 
     fetchData();
-  }, [page, status]);
+  }, [page, status, triggerRefresh]);
 
   if (loading) return <Loading height="h-96" />;
 

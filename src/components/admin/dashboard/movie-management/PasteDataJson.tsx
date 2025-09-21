@@ -16,7 +16,7 @@ import { useDispatch } from "react-redux";
 import { toast } from "sonner";
 import ReactJson from "react-json-view";
 
-const { dialog } = appConfig.charka;
+const { dialog } = appConfig.chakra;
 const motionPresetDefault = dialog.motionPresetDefault;
 
 interface PasteDataJsonProps {

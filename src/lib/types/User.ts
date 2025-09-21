@@ -35,7 +35,6 @@ type UserSlice = {
     keyword: string;
     fetched: boolean;
   };
-  selectedPlaylistId: any;
   reviews: {
     items: any;
     loading: boolean;
@@ -67,6 +66,9 @@ type UserSlice = {
   playlist: {
     items: any[];
     playlistIds: string[];
+    refreshMovies: boolean;
+    refreshPlaylists: boolean;
+    selectedPlaylistId: string | null;
   };
 };
 

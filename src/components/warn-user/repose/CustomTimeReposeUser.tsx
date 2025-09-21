@@ -17,7 +17,7 @@ import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { toast } from "sonner";
 
-const { dialog } = appConfig.charka;
+const { dialog } = appConfig.chakra;
 const motionPresetDefault = dialog.motionPresetDefault;
 
 const CustomTimeReposeUser = () => {
@@ -55,7 +55,9 @@ const CustomTimeReposeUser = () => {
 
     // Kiểm tra khoảng thời gian giữa bắt đầu và kết thúc
     if (diff < 30 && startHours === endhours) {
-      toast.error("Khoảng thời gian giữa bắt đầu và kết thúc phải lớn hơn 30 phút.");
+      toast.error(
+        "Khoảng thời gian giữa bắt đầu và kết thúc phải lớn hơn 30 phút."
+      );
       return;
     }
 

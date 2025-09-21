@@ -15,7 +15,7 @@ import {
 } from "@/store/slices/system.slice";
 import { getFromStorage, setToStorage, splitTime } from "@/lib/utils";
 
-const { dialog } = appConfig.charka;
+const { dialog } = appConfig.chakra;
 const motionPresetDefault = dialog.motionPresetDefault;
 
 // Chế độ nghỉ ngơi của người dùng

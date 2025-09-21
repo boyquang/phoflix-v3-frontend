@@ -1,12 +1,14 @@
 "use client";
 
 import AlertDialog from "@/components/shared/AlertDialog";
+import { appConfig } from "@/configs/app.config";
 import {
   createNewPlaylist,
   deletePlaylist,
   updatePlaylist,
 } from "@/lib/actions/playlist.action";
 import { setTriggerRefresh } from "@/store/slices/system.slice";
+import { setPlaylistByKey } from "@/store/slices/user.slice";
 import { AppDispatch, RootState } from "@/store/store";
 import {
   Button,
@@ -16,13 +18,15 @@ import {
   Input,
   Portal,
 } from "@chakra-ui/react";
-import { delay } from "lodash";
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
 import { MdDelete } from "react-icons/md";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { toast } from "sonner";
+
+const { dialog } = appConfig.chakra;
+const motionPresetDefault = dialog.motionPresetDefault;
 
 interface ActionsPlaylistProps {
   action: "update" | "create" | "delete";
@@ -106,36 +110,25 @@ const ActionsPlaylist = ({
     }
 
     try {
-      let response = null;
-
       setLoading((prev) => ({ ...prev, [action]: true }));
 
-      switch (action) {
-        case "create":
-          response = await handleCreateNewPlaylist();
-          break;
-        case "update":
-          response = await handleUpdatePlaylist();
-          break;
-        case "delete":
-          response = await handleDeletePlaylist();
-          break;
-        default:
-          break;
-      }
+      const mappingAction = {
+        create: handleCreateNewPlaylist,
+        update: handleUpdatePlaylist,
+        delete: handleDeletePlaylist,
+      };
+
+      const response = await mappingAction[action]();
 
       if (response?.status) {
         setPlaylistName("");
         setIsOpen(false);
 
         // Thực hiện hành động sau khi xóa thành công
-        if (callback) {
-          callback();
-        }
+        if (callback) callback();
 
-        // làm mới trang
-        dispatch(setTriggerRefresh());
-
+        // Cập nhật lại danh sách phát
+        dispatch(setPlaylistByKey({ key: "refreshPlaylists", value: true }));
         toast.success(response?.message);
       } else {
         toast.error(response?.message);
@@ -153,19 +146,24 @@ const ActionsPlaylist = ({
       open={isOpen}
       initialFocusEl={undefined}
       onOpenChange={({ open }) => setIsOpen(open)}
+      motionPreset={motionPresetDefault}
     >
       <Dialog.Trigger asChild>{children}</Dialog.Trigger>
       <Portal>
-        <Dialog.Backdrop />
+        <Dialog.Backdrop
+          css={{
+            zIndex: "1230 !important",
+          }}
+        />
         <Dialog.Positioner
           css={{
-            zIndex: "9999 !important",
+            zIndex: "1234 !important",
           }}
         >
-          <Dialog.Content className="relative text-gray-50 max-w-[320px] bg-[#2a314e] rounded-2xl backdrop-blur mx-4 my-auto">
+          <Dialog.Content className="relative text-gray-50 max-w-[420px] bg-[#2a314e] rounded-2xl backdrop-blur mx-4 my-auto">
             <Dialog.CloseTrigger
               asChild
-              className="absolute top-2 right-2 text-gray-300 hover:text-gray-100 hover:bg-transparent"
+              className="absolute top-2 right-2 text-white hover:bg-transparent"
             >
               <CloseButton size="sm" />
             </Dialog.CloseTrigger>

@@ -7,7 +7,7 @@ import { useSelector } from "react-redux";
 import Clipboard from "./Clipboard";
 import { appConfig } from "@/configs/app.config";
 
-const { dialog } = appConfig.charka;
+const { dialog } = appConfig.chakra;
 const motionPresetDefault = dialog.motionPresetDefault;
 
 interface DownloadDialogProps {

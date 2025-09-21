@@ -13,6 +13,7 @@ import { BsFillGridFill } from "react-icons/bs";
 import { appConfig, FeatureStatus } from "@/configs/app.config";
 import StatusTag from "@/components/shared/StatusTag";
 import { SiGoogleforms } from "react-icons/si";
+import { RiPlayListAddLine } from "react-icons/ri";
 
 let menu = [
   {
@@ -23,7 +24,7 @@ let menu = [
       appConfig.pages["/nguoi-dung/yeu-thich"]?.status || FeatureStatus.ACTIVE,
   },
   {
-    icon: <FaPlus />,
+    icon: <RiPlayListAddLine />,
     title: "Danh sách phát",
     link: "/nguoi-dung/danh-sach-phat",
     status:

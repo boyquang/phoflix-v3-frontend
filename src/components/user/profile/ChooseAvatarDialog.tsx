@@ -14,7 +14,7 @@ import { avatars } from "@/constants/avatar.contant";
 import UploadFile from "@/components/upload-file/UploadFile";
 import { toast } from "sonner";
 
-const { dialog } = appConfig.charka;
+const { dialog } = appConfig.chakra;
 const motionPresetDefault = dialog.motionPresetDefault;
 
 const ChooseAvatarDialog = () => {

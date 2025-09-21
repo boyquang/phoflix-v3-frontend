@@ -17,7 +17,7 @@ import { showDialogSinInWhenNotLogin } from "@/store/slices/system.slice";
 import { appConfig } from "@/configs/app.config";
 import { toast } from "sonner";
 
-const { dialog } = appConfig.charka;
+const { dialog } = appConfig.chakra;
 const motionPresetDefault = dialog.motionPresetDefault;
 
 const ReportDialog = () => {

@@ -8,7 +8,7 @@ import SignIn from "./SignIn";
 import ResetPassword from "./ResetPassword";
 import { appConfig } from "@/configs/app.config";
 
-const { dialog } = appConfig.charka;
+const { dialog } = appConfig.chakra;
 const motionPresetDefault = dialog.motionPresetDefault;
 
 interface AuthDialogProps {

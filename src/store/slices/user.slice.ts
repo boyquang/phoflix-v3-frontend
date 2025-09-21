@@ -16,7 +16,6 @@ const initialState: UserSlice = {
     keyword: "",
     fetched: false,
   },
-  selectedPlaylistId: null,
   reviews: {
     items: [],
     loading: false,
@@ -44,6 +43,9 @@ const initialState: UserSlice = {
   playlist: {
     items: [],
     playlistIds: [],
+    refreshMovies: false,
+    selectedPlaylistId: null,
+    refreshPlaylists: false,
   },
   userMovies: {
     selectedDeleteMode: false,
@@ -55,8 +57,22 @@ const userSlice = createSlice({
   name: "user",
   initialState,
   reducers: {
-    setSelectedPlaylistId: (state, action) => {
-      state.selectedPlaylistId = action.payload;
+    setPlaylistByKey(
+      state,
+      action: {
+        payload: { key: keyof UserSlice["playlist"]; value?: any };
+      }
+    ) {
+      const { key, value } = action.payload;
+
+      if (key in state.playlist) {
+        if (key === "refreshMovies" || key === "refreshPlaylists") {
+          state.playlist[key] = !state.playlist[key];
+          return;
+        }
+
+        state.playlist[key] = value;
+      }
     },
     setKeyWord: (state, action) => {
       state.searchHistory.keyword = action.payload;
@@ -158,7 +174,6 @@ const userSlice = createSlice({
 });
 
 export const {
-  setSelectedPlaylistId,
   setSelectedReview,
   setReviewContent,
   setSelectedDeleteMode,
@@ -168,6 +183,7 @@ export const {
   setReportDescription,
   setFetched,
   setSelectedMovieIds,
+  setPlaylistByKey,
 } = userSlice.actions;
 
 export default userSlice.reducer;

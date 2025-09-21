@@ -28,7 +28,7 @@ import { AppDispatch } from "@/store/store";
 import { useDispatch } from "react-redux";
 import { setTriggerRefresh } from "@/store/slices/system.slice";
 
-const { dialog } = appConfig.charka;
+const { dialog } = appConfig.chakra;
 const motionPresetDefault = dialog.motionPresetDefault;
 
 interface EventDialogProps {

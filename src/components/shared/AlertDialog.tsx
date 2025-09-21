@@ -4,7 +4,7 @@ import { Button, CloseButton, Dialog, Portal, Spinner } from "@chakra-ui/react";
 import React, { useState } from "react";
 import { appConfig } from "@/configs/app.config";
 
-const { dialog } = appConfig.charka;
+const { dialog } = appConfig.chakra;
 const motionPresetDefault = dialog.motionPresetDefault;
 
 interface AlertDialogProps {
@@ -44,13 +44,9 @@ const AlertDialog = ({
         <Dialog.Positioner
           css={{
             zIndex: "9999 !important",
-            alignItems: "center", 
-            "@media (max-width: 768px)": {
-              alignItems: "flex-end",
-            },
           }}
         >
-          <Dialog.Content className="relative text-gray-50 bg-[#2a314e] rounded-2xl backdrop-blur max-w-[420px] mx-4">
+          <Dialog.Content className="relative text-black bg-white rounded-2xl backdrop-blur max-w-[420px] mx-4">
             <Dialog.Header>
               <Dialog.Title>{title}</Dialog.Title>
             </Dialog.Header>
@@ -62,7 +58,7 @@ const AlertDialog = ({
                 <Button
                   size="xs"
                   variant="solid"
-                  className="bg-gray-50 text-gray-900 min-w-24"
+                  className="bg-gray-300 text-black min-w-24 hover:opacity-80"
                 >
                   Hủy bỏ
                 </Button>
@@ -70,7 +66,7 @@ const AlertDialog = ({
               <Button
                 onClick={handleConfirm}
                 size="xs"
-                className={`min-w-24 shadow-primary bg-primary text-gray-900 ${
+                className={`min-w-24 shadow-primary bg-primary text-black hover:opacity-80 ${
                   loading ? "opacity-50 cursor-not-allowed" : ""
                 }`}
               >
@@ -81,9 +77,9 @@ const AlertDialog = ({
 
             <Dialog.CloseTrigger
               asChild
-              className="absolute top-2 right-2 text-gray-300 hover:text-gray-100 hover:bg-transparent"
+              className="absolute top-2 right-2 hover:bg-transparent"
             >
-              <CloseButton size="sm" />
+              <CloseButton size="sm" className="text-black" />
             </Dialog.CloseTrigger>
           </Dialog.Content>
         </Dialog.Positioner>

@@ -15,7 +15,6 @@ import {
   CloseButton,
   Dialog,
   Field,
-  Input,
   Portal,
   Spinner,
   Textarea,
@@ -35,7 +34,7 @@ import { updateMovie } from "@/lib/actions/movie.action";
 import FieldInput from "./FieldInput";
 import { useRouter } from "next/navigation";
 
-const { dialog } = appConfig.charka;
+const { dialog } = appConfig.chakra;
 const motionPresetDefault = dialog.motionPresetDefault;
 
 interface MovieActionsDialogProps {
@@ -306,7 +305,6 @@ const MovieActionsDialog = ({
         <Box>{trigger}</Box>
       </Dialog.Trigger>
       <Portal>
-        <Dialog.Backdrop />
         <Dialog.Positioner
           css={{
             zIndex: "9999 !important",

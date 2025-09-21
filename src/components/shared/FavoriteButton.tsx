@@ -132,7 +132,13 @@ const FavoriteButton = ({
           ${favorite ? "text-[#ffd875]" : "text-gray-50"}
         `}
     >
-      {loading ? <Spinner /> : favorite ? <IoMdHeartDislike /> : <IoMdHeart />}
+      {loading ? (
+        <Spinner size="xs" />
+      ) : favorite ? (
+        <IoMdHeartDislike/>
+      ) : (
+        <IoMdHeart />
+      )}
       <span
         className={`text-xs whitespace-nowrap ${
           !responsiveText ? "block" : "hidden xs:block"

@@ -1,14 +1,15 @@
 "use client";
 
-import { Box, Spinner } from "@chakra-ui/react";
-import { useRouter, useSearchParams } from "next/navigation";
-import { useEffect, useState, useTransition } from "react";
+import { Box } from "@chakra-ui/react";
+import { useRouter } from "next/navigation";
+import { useTransition } from "react";
 import { IoPlayCircleOutline } from "react-icons/io5";
-import { AppDispatch } from "@/store/store";
-import { useDispatch } from "react-redux";
-import { setSelectedPlaylistId } from "@/store/slices/user.slice";
+import { AppDispatch, RootState } from "@/store/store";
+import { useDispatch, useSelector } from "react-redux";
 import ActionsPlaylist from "./ActionsPlaylist";
-import Loading from "@/app/loading";
+import { setPlaylistByKey } from "@/store/slices/user.slice";
+import EmptyData from "@/components/shared/EmptyData";
+import { MdOutlinePlaylistAdd } from "react-icons/md";
 interface PlaylistsProps {
   playlists: Playlist[];
   loading: boolean;
@@ -17,33 +18,13 @@ interface PlaylistsProps {
 const Playlists = ({ playlists, loading }: PlaylistsProps) => {
   const router = useRouter();
   const dispatch: AppDispatch = useDispatch();
-  const params = useSearchParams();
   const [pending, startTransition] = useTransition();
-  const playlistId = params.get("playlistId");
-  const [selectedPlaylist, setSelectedPlaylist] = useState<Playlist | null>(
-    null
+  const { selectedPlaylistId } = useSelector(
+    (state: RootState) => state.user.playlist
   );
 
-  useEffect(() => {
-    if (playlistId) {
-      const playlist = playlists?.find(
-        (playlist) => playlist?.id === playlistId
-      );
-
-      if (playlist) {
-        setSelectedPlaylist(playlist);
-        dispatch(setSelectedPlaylistId(playlist?.id));
-        return;
-      }
-    }
-
-    // Nếu không có playlistId trong URL, chọn playlist đầu tiên
-    setSelectedPlaylist(playlists?.[0] || null);
-    dispatch(setSelectedPlaylistId(playlists?.[0]?.id) || null);
-  }, [playlists]);
-
   const handleChangePlaylist = (playlist: Playlist) => {
-    if (playlist?.id === selectedPlaylist?.id) return;
+    if (playlist?.id === selectedPlaylistId) return;
 
     const params = new URLSearchParams(window.location.search);
 
@@ -56,7 +37,9 @@ const Playlists = ({ playlists, loading }: PlaylistsProps) => {
       });
     });
 
-    setSelectedPlaylist(playlist);
+    dispatch(
+      setPlaylistByKey({ key: "selectedPlaylistId", value: playlist?.id })
+    );
   };
 
   if (loading)
@@ -65,7 +48,15 @@ const Playlists = ({ playlists, loading }: PlaylistsProps) => {
         Đang tải danh sách phát...
       </Box>
     );
-  if (!playlists || playlists?.length === 0) return null;
+  if (!playlists || playlists?.length === 0)
+    return (
+      <EmptyData
+        className="bg-[#ffffff05] rounded-2xl"
+        icon={<MdOutlinePlaylistAdd />}
+        title="Chưa có danh sách phát"
+        description="Bạn chưa tạo danh sách phát nào. Hãy tạo danh sách phát để lưu trữ các bộ phim yêu thích của bạn."
+      />
+    );
 
   return (
     <>
@@ -80,12 +71,12 @@ const Playlists = ({ playlists, loading }: PlaylistsProps) => {
                 transition-all
                 bg-transparent
                 ${
-                  pending && selectedPlaylist?.id !== playlist?.id
+                  pending && selectedPlaylistId !== playlist?.id
                     ? "opacity-50 pointer-events-none"
                     : ""
                 }
                 ${
-                  selectedPlaylist?.id === playlist?.id
+                  selectedPlaylistId === playlist?.id
                     ? "border-[#ffd875]"
                     : "border-[#ffffff10] hover:bg-[#25272f]"
                 }
@@ -109,7 +100,7 @@ const Playlists = ({ playlists, loading }: PlaylistsProps) => {
           </Box>
         ))}
       </Box>
-{/* 
+      {/* 
       {pending && (
         <Box className="flex items-center gap-1.5 text-primary">
           <Spinner size="xs" />
