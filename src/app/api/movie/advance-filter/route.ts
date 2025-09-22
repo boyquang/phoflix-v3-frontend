@@ -31,8 +31,8 @@ export async function GET(
     const query = {
       page: search.get("page") || "1",
       limit: search.get("limit") || "24",
-      sortType: search.get("sort_type") || "asc",
-      sortLanguage: search.get("sort_lang") || undefined,
+      sort_type: search.get("sort_type") || "asc",
+      sort_lang: search.get("sort_lang") || undefined,
       category: search.get("category") || undefined,
       country: search.get("country") || undefined,
       year: search.get("year") || undefined,
