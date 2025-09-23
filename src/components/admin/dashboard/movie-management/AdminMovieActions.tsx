@@ -6,6 +6,7 @@ import IconButtonAction from "@/components/shared/IconButtonAction";
 import AlertDialog from "@/components/shared/AlertDialog";
 import { useState } from "react";
 import { deleteMovie } from "@/lib/actions/movie.action";
+import { syncMovieData } from "@/lib/actions/crawl-movies.action";
 import { toast } from "sonner";
 import { useRouter } from "next/navigation";
 import { useSession } from "next-auth/react";
@@ -16,6 +17,7 @@ interface AdminMovieActionsProps {
 
 const AdminMovieActions = ({ data }: AdminMovieActionsProps) => {
   const [loadingDelete, setLoadingDelete] = useState(false);
+  const [loadingSync, setLoadingSync] = useState(false);
   const router = useRouter();
   const { data: session } = useSession();
 
@@ -39,6 +41,29 @@ const AdminMovieActions = ({ data }: AdminMovieActionsProps) => {
       toast.error("Xoá phim thất bại, vui lòng thử lại!");
     } finally {
       setLoadingDelete(false);
+    }
+  };
+
+  const handleAsyncData = async () => {
+    try {
+      setLoadingSync(true);
+      const response = await syncMovieData(
+        data.slug,
+        session?.user?.accessToken as string
+      );
+
+      if (response.status) {
+        toast.success(response.message || "Đồng bộ dữ liệu thành công!");
+        toast.info("Dữ liệu sẽ được làm mới sau vài phút.");
+        router.push(`/thong-tin-phim/${data.slug}?updated=true`);
+      } else {
+        toast.error(response.message || "Đồng bộ dữ liệu thất bại!");
+      }
+    } catch (error) {
+      console.error("Error syncing movie data:", error);
+      toast.error("Đồng bộ dữ liệu thất bại, vui lòng thử lại!");
+    } finally {
+      setLoadingSync(false);
     }
   };
 
@@ -66,6 +91,12 @@ const AdminMovieActions = ({ data }: AdminMovieActionsProps) => {
         content={`Bạn có chắc chắn muốn xoá phim "${data?.name}" không?`}
         loading={loadingDelete}
         confirmCallback={handleDeleteMovie}
+      />
+      <IconButtonAction
+        action="async"
+        size="md"
+        loading={loadingSync}
+        onClick={handleAsyncData}
       />
     </Box>
   );

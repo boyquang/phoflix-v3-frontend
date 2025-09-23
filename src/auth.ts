@@ -76,19 +76,19 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
   jwt: {
     maxAge: MAX_AGE,
 
-    // sử dụng HS256 để mã hóa token thay vì RS256
-    encode: async ({ token, secret, maxAge }) => {
-      return jwt.sign(token!, NEXTAUTH_JWT_SECRET as string, {
-        algorithm: "HS256",
-      });
-    },
+    // // sử dụng HS256 để mã hóa token thay vì RS256
+    // encode: async ({ token, secret, maxAge }) => {
+    //   return jwt.sign(token!, NEXTAUTH_JWT_SECRET as string, {
+    //     algorithm: "HS256",
+    //   });
+    // },
 
-    // giải mã token sử dụng HS256
-    decode: async ({ token, secret }) => {
-      return jwt.verify(token!, NEXTAUTH_JWT_SECRET as string, {
-        algorithms: ["HS256"],
-      }) as JWT;
-    },
+    // // giải mã token sử dụng HS256
+    // decode: async ({ token, secret }) => {
+    //   return jwt.verify(token!, NEXTAUTH_JWT_SECRET as string, {
+    //     algorithms: ["HS256", "RS256"],
+    //   }) as JWT;
+    // },
   },
   callbacks: {
     async jwt({ token, user, account, profile, isNewUser }: IJWT) {
@@ -121,7 +121,8 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
           accessToken: token.accessToken as string,
         });
 
-        if (!response?.status) {
+        // nếu chưa có tài khoản thì đăng ký
+        if (!response?.result?.user) {
           await registerGoogleAccount({
             email: profile?.email as string,
             name: profile?.name as string,

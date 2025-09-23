@@ -76,8 +76,12 @@ export async function generateMetadata({
 
 const Page = async ({ params, searchParams }: PageProps) => {
   const { slug } = await params;
+  const { updated } = await searchParams;
 
-  const { movie, episodes, status } = await fetchMovieInfo(slug as string);
+  const { movie, episodes, status } = await fetchMovieInfo(
+    slug as string,
+    updated === "true"
+  );
 
   if (!status || Object.keys(movie).length === 0) {
     return (

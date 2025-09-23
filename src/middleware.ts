@@ -25,6 +25,10 @@ export async function middleware(request: NextRequest) {
         : "__Secure-authjs.session-token",
   });
 
+  if (ENV === "development") {
+    console.log("Token:", token);
+  }
+
   // Nếu không có token và yêu cầu truy cập vào trang bảo vệ
   if (!token && protectedPaths.includes(pathname)) {
     return NextResponse.redirect(new URL("/", request.url));

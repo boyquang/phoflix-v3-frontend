@@ -70,7 +70,11 @@ const SignIn = () => {
   };
 
   return (
-    <Box className="flex flex-col gap-2">
+    <Box
+      className={`flex flex-col gap-2 ${
+        loading.credentials || loading.google ? "opacity-50 pointer-events-none" : ""
+      }`}
+    >
       <h3 className="text-gray-50 text-lg">Đăng nhập</h3>
       <p className="text-gray-400 text-xs">
         Nếu bạn chưa có tài khoản,{" "}
@@ -122,7 +126,7 @@ const SignIn = () => {
         <Button
           type="submit"
           size="sm"
-          disabled={loading.credentials}
+          disabled={loading.credentials || loading.google}
           className="shadow-primary bg-primary linear-gradient text-gray-900"
         >
           {loading.credentials && <Spinner size="xs" />}

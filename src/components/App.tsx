@@ -27,7 +27,6 @@ import SnowEffect from "./effects/SnowEffect";
 import dynamic from "next/dynamic";
 import GoToSleepAnimation from "./warn-user/repose/GoToSleepAnimation";
 import ChatBotDialog from "./chat-bot/ChatBotDialog";
-import { useSession } from "next-auth/react";
 import { ToasterConfig } from "@/configs/toaster.config";
 
 const ReposeUserAlert = dynamic(
@@ -38,12 +37,11 @@ const ReposeUserAlert = dynamic(
 );
 
 const App = ({ children }: { children: React.ReactNode }) => {
-  const { isOpenDrawer, isShowAuthDialog, typeAuth, reboot } = useSelector(
+  const { isOpenDrawer, isShowAuthDialog, typeAuth } = useSelector(
     (state: RootState) => state.system
   );
   const dispatch: AppDispatch = useDispatch();
   const pathname = usePathname();
-  const { status } = useSession();
 
   // Kiểm tra trạng thái phiên đăng nhập
   useCheckSessionStatus();

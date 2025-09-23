@@ -11,8 +11,6 @@ const useCheckSessionStatus = () => {
   useEffect(() => {
     // Chỉ chạy khi xác thực đã hoàn tất
     if (status === "authenticated") {
-      // dispatch(setReboot({ status: false }));
-
       if (!session.user?.email) {
         toast.error("Phiên đăng nhập không hợp lệ. Vui lòng thử lại sau.");
         delay(() => signOut(), 1000);

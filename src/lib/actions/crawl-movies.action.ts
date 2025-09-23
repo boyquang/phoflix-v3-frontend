@@ -1,4 +1,5 @@
 import { NEXT_PUBLIC_CRAWL_MOVIES_URL } from "@/constants/env.contant";
+import { fetcher } from "../fetcher";
 
 const BASE_URL = NEXT_PUBLIC_CRAWL_MOVIES_URL;
 
@@ -157,6 +158,44 @@ export const resetCrawlStatus = async (accessToken: string) => {
     return {
       status: false,
       message: "Lỗi khi đặt lại trạng thái cào.",
+    };
+  }
+};
+
+export const syncMovieData = async (slug: string, accessToken: string) => {
+  try {
+    const url = `${BASE_URL}/crawl/syncMovieDataBySlug`;
+
+    const response = await fetcher(url, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${accessToken}`,
+      },
+      body: JSON.stringify({ slug }),
+    });
+
+    const data = await response.json();
+
+    if (!response.ok) {
+      return {
+        status: false,
+        message: data?.message || "Lỗi server! Vui lòng thử lại sau.",
+        result: null,
+      };
+    }
+
+    return {
+      status: true,
+      message: "Đồng bộ dữ liệu phim thành công.",
+      result: null,
+    };
+  } catch (error) {
+    console.error("Failed to sync movie data:", error);
+    return {
+      status: false,
+      message: "Lỗi server! Vui lòng thử lại sau.",
+      result: null,
     };
   }
 };

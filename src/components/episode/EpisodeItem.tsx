@@ -3,7 +3,7 @@
 import { getIdFromLinkEmbed } from "@/lib/utils";
 import { Button } from "@chakra-ui/react";
 import Link from "next/link";
-import { useParams, usePathname } from "next/navigation";
+import { useParams, usePathname, useSearchParams } from "next/navigation";
 import { BsPlayFill } from "react-icons/bs";
 
 interface EpisodeItemProps {
@@ -23,6 +23,7 @@ const EpisodeItem = ({
 }: EpisodeItemProps) => {
   const params = useParams();
   const pathname = usePathname();
+  const searchParams = useSearchParams();
   const segment = pathname?.split("/")[1];
   const id = getIdFromLinkEmbed(item?.link_embed, 8) || "error-link-embed";
   const episode = item?.slug || "error-episode";
@@ -31,8 +32,10 @@ const EpisodeItem = ({
 
   // Tạo đường dẫn href dựa trên segment và params
   let href = "";
-  if (segment === "thong-tin-phim") {
-    href = `/dang-xem/${params?.slug}?${queryParams}`;
+
+  if (segment === "thong-tin-phim") { 
+    const updatedFlag = searchParams?.get("updated") ? "&updated=true" : "";
+    href = `/thong-tin-phim/${params?.slug}?${queryParams}${updatedFlag}`;
   } else if (segment === "phong-xem-chung") {
     href = `/phong-xem-chung/${params?.roomId}?${queryParams}`;
   }
