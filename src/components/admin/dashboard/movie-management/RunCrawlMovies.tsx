@@ -109,6 +109,12 @@ const RunCrawlMovies = ({ action }: RunCrawlMoviesProps) => {
       if (response && response.status) {
         setIsCrawling(response.isCrawling);
         dispatch(setActionCrawl(response.action));
+      } else {
+        setIsCrawling(false);
+        dispatch(setIsRunning(false));
+        toast.error(
+          response?.message || "Đã có lỗi xảy ra, vui lòng thử lại!"
+        );
       }
     } catch (error) {
       console.error("Error in handleCrawl:", error);

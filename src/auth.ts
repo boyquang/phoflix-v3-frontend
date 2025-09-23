@@ -1,3 +1,4 @@
+import jwt from "jsonwebtoken";
 import NextAuth, {
   Account,
   AuthError,
@@ -10,6 +11,7 @@ import GoogleProvider from "next-auth/providers/google";
 import { login, registerGoogleAccount } from "./lib/actions/auth-server.action";
 import { getUserProfile } from "./lib/actions/user-server.action";
 import { JWT } from "next-auth/jwt";
+import { NEXTAUTH_JWT_SECRET } from "./constants/env.contant";
 
 export class InvalidLoginError extends AuthError {
   constructor(public code: string, public details?: string) {
@@ -73,6 +75,20 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
   },
   jwt: {
     maxAge: MAX_AGE,
+
+    // sử dụng HS256 để mã hóa token thay vì RS256
+    encode: async ({ token, secret, maxAge }) => {
+      return jwt.sign(token!, NEXTAUTH_JWT_SECRET as string, {
+        algorithm: "HS256",
+      });
+    },
+
+    // giải mã token sử dụng HS256
+    decode: async ({ token, secret }) => {
+      return jwt.verify(token!, NEXTAUTH_JWT_SECRET as string, {
+        algorithms: ["HS256"],
+      }) as JWT;
+    },
   },
   callbacks: {
     async jwt({ token, user, account, profile, isNewUser }: IJWT) {
