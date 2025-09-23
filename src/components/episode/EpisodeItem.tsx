@@ -35,7 +35,7 @@ const EpisodeItem = ({
 
   if (segment === "thong-tin-phim") { 
     const updatedFlag = searchParams?.get("updated") ? "&updated=true" : "";
-    href = `/thong-tin-phim/${params?.slug}?${queryParams}${updatedFlag}`;
+    href = `/dang-xem/${params?.slug}?${queryParams}${updatedFlag}`;
   } else if (segment === "phong-xem-chung") {
     href = `/phong-xem-chung/${params?.roomId}?${queryParams}`;
   }
