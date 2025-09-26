@@ -28,6 +28,9 @@ const ChatComposer = () => {
   const handlSendQuestion = async (prompt: string) => {
     if (!prompt.trim()) return;
 
+    toast.info("Chức năng đang nâng cấp, vui lòng quay lại sau!");
+    return;
+
     try {
       dispatch(
         setGroupedChatByDate({
@@ -69,6 +72,9 @@ const ChatComposer = () => {
   };
 
   const handleCallbackVoiceSearch = (keyword: string) => {
+    toast.info("Chức năng đang nâng cấp, vui lòng quay lại sau!");
+    return;
+
     setPrompt(keyword);
     delay(() => handlSendQuestion(keyword), 200);
   };
@@ -95,7 +101,11 @@ const ChatComposer = () => {
         rounded="none"
         className="flex-1 border-0 text-white w-full p-0 outline-0 ring-0"
       />
-      <Box className="flex items-center justify-between mt-6">
+      <Box
+        className={`flex items-center justify-between mt-6 ${
+          loadingSendQuestion ? "opacity-50 pointer-events-none" : ""
+        }`}
+      >
         {groupedChatByDate?.length > 0 ? <ClearChat /> : <Box />}
         <Box className="flex items-center gap-2">
           <VoiceButton
@@ -107,7 +117,7 @@ const ChatComposer = () => {
             size="md"
             onClick={() => handlSendQuestion(prompt)}
             disabled={!prompt.trim() || loadingSendQuestion}
-            aria-label="Send question"
+            aria-label="Gửi câu hỏi"
             className="bg-primary disabled:opacity-50 border-0 linear-gradient hover:opacity-80 text-black"
             rounded="full"
           >

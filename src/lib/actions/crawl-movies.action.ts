@@ -24,17 +24,22 @@ export const crawlMovies = async (params: CrawlMovieParams) => {
       },
     });
 
-    if (!response.ok) {
-      throw new Error("Network response was not ok");
-    }
-
     const data = await response.json();
+
+    if (!response.ok) {
+      return {
+        status: data?.status || false,
+        isCrawling: false,
+        message: data?.message || "Lỗi khi bắt đầu quá trình thu thập phim.",
+      };
+    }
 
     return data;
   } catch (error) {
     console.error("Error starting crawl movies:", error);
     return {
       status: false,
+      isCrawling: false,
       message: "Lỗi khi bắt đầu quá trình thu thập phim.",
     };
   }

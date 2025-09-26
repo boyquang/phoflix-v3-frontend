@@ -1,9 +1,11 @@
 import {
   NEXT_PUBLIC_API_VERSION,
   NEXT_PUBLIC_BACKEND_URL,
+  NEXT_PUBLIC_CRAWL_MOVIES_URL,
 } from "../../constants/env.contant";
 
-const BASE_URL = `${NEXT_PUBLIC_BACKEND_URL}/api/${NEXT_PUBLIC_API_VERSION}/chatBot`;
+// const BASE_URL = `${NEXT_PUBLIC_BACKEND_URL}/api/${NEXT_PUBLIC_API_VERSION}/chatBot`;
+const BASE_URL = `${NEXT_PUBLIC_CRAWL_MOVIES_URL}/api/${NEXT_PUBLIC_API_VERSION}/chat-bot`;
 
 interface GetChatHistoryParams {
   userId: string;
@@ -71,7 +73,8 @@ export const completions = async (params: CompletionsParams) => {
   try {
     const { userId, prompt, accessToken } = params;
 
-    const url = `${BASE_URL}/completions`;
+    // const url = `${BASE_URL}/completions`;
+    const url = `${BASE_URL}/send-message`;
 
     const response = await fetch(url, {
       method: "POST",
@@ -79,7 +82,7 @@ export const completions = async (params: CompletionsParams) => {
         "Content-Type": "application/json",
         Authorization: `Bearer ${accessToken}`,
       },
-      body: JSON.stringify({ prompt, userId }),
+      body: JSON.stringify({ question: prompt, userId }),
     });
 
     const data = await response.json();
@@ -121,7 +124,8 @@ export const saveMessage = async (params: SaveMessageParams) => {
   try {
     const { userId, question, reply, accessToken } = params;
 
-    const url = `${BASE_URL}/saveMessage`;
+    // const url = `${BASE_URL}/saveMessage`;
+    const url = `${BASE_URL}/save-message`;
 
     const response = await fetch(url, {
       method: "POST",
@@ -163,7 +167,8 @@ export const saveMessage = async (params: SaveMessageParams) => {
 
 export const clearHistory = async (userId: string, accessToken: string) => {
   try {
-    const url = `${BASE_URL}/clearHistory`;
+    // const url = `${BASE_URL}/clearHistory`;
+    const url = `${BASE_URL}/clear`;
 
     const response = await fetch(url, {
       method: "DELETE",

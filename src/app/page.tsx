@@ -41,7 +41,8 @@ export const metadata: Metadata = {
 };
 
 const Page = async ({ params, searchParams }: PageProps) => {
-  const response = await fetchNewlyUpdatedMovies("v3", 10, 1);
+  const { updated } = await searchParams;
+  const response = await fetchNewlyUpdatedMovies("v3",10,1,updated === "true");
   const { items } = response;
   const totalItems = 7;
 

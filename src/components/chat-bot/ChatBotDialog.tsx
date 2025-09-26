@@ -10,6 +10,7 @@ import { RootState } from "@/store/store";
 import ChatComposer from "./ChatComposer";
 import { botAvatar } from "@/constants/image.contant";
 import Image from "../shared/Image";
+import PopoverInfo from "./PopoverInfo";
 
 const { dialog } = appConfig.chakra;
 const motionPresetDefault = dialog.motionPresetDefault;
@@ -64,7 +65,7 @@ const ChatBotDialog = () => {
         <Dialog.Backdrop />
         <Dialog.Positioner
           css={{
-            zIndex: "9999 !important",
+            zIndex: "9998 !important",
           }}
         >
           <Dialog.Content
@@ -83,10 +84,11 @@ const ChatBotDialog = () => {
             </Dialog.CloseTrigger>
 
             <Dialog.Header p={0}>
-              <Box className="xs:p-4 p-2">
-                <Dialog.Title className="xs:text-lg inline-block font-semibold text-base text-gradient-primary">
+              <Box className="p-4 flex mx-auto items-center gap-1">
+                <Dialog.Title className="xs:text-lg text-center inline-block font-semibold text-base text-gradient-primary">
                   Trợ lý ảo
                 </Dialog.Title>
+                <PopoverInfo />
               </Box>
             </Dialog.Header>
             <div className="w-full h-[1px] bg-[#ffffff10]"></div>

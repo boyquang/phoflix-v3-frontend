@@ -191,7 +191,8 @@ export async function fetchAdvanceFilterMovies({
 export async function fetchNewlyUpdatedMovies(
   version: "v1" | "v2" | "v3" = "v3",
   limit: number = 24,
-  page: number = 1
+  page: number = 1,
+  force: boolean = false
 ) {
   try {
     const params = new URLSearchParams({
@@ -202,7 +203,11 @@ export async function fetchNewlyUpdatedMovies(
     const url = `${BASE_URL}/newly-updated/${version}?${params.toString()}`;
 
     const response = await fetcher(url, {
-      next: { revalidate: REVALIDATE_TIME },
+      ...(force
+        ? { cache: "no-store" }
+        : {
+            next: { revalidate: REVALIDATE_TIME },
+          }),
     });
 
     if (!response.ok) {

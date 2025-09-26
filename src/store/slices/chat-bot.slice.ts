@@ -7,11 +7,13 @@ interface ChatBotState {
   error: boolean;
   hasMore: boolean;
   existChat: boolean;
+  dailyChatLimit: number;
   fetched: boolean;
   chatHistory: Array<{
     id: string;
     role: "user" | "bot";
     content: string;
+    movies: Movie[];
     createdAt: number; // Timestamp
   }>;
   loadingSendQuestion: boolean;
@@ -19,9 +21,10 @@ interface ChatBotState {
     date: string;
     messages: Array<{
       id: string;
-      role: string;
+      role: "user" | "bot";
       content: string;
       createdAt: number;
+      movies: Movie[];
     }>;
   }>;
 }
@@ -33,6 +36,7 @@ const initialState: ChatBotState = {
   hasMore: false,
   fetched: false,
   chatHistory: [],
+  dailyChatLimit: 0,
   loadingSendQuestion: false,
   groupedChatByDate: [],
 };
@@ -44,10 +48,12 @@ const chatBotSlice = createSlice({
     setGroupedChatByDate: (state, action) => {
       const { date, message } = action.payload;
 
+      // Kiểm tra nếu đã có nhóm với ngày này chưa
       const existingGroup = state.groupedChatByDate.find(
         (group) => group.date === date
       );
 
+      // Nếu có thì thêm tin nhắn vào nhóm đó, nếu không thì tạo nhóm mới
       if (existingGroup) {
         existingGroup.messages.push(message);
       } else {
@@ -76,11 +82,12 @@ const chatBotSlice = createSlice({
         state.error = false;
         state.existChat = action.payload.result?.existChat || false;
         state.hasMore = action.payload.result?.hasMore || false;
+        state.dailyChatLimit = action.payload.result?.dailyChatLimit || 0;
         state.fetched = true;
 
         const newChats = action.payload.result?.chatHistory || [];
 
-        // 👉 Gộp dữ liệu mới với dữ liệu cũ (prepend nếu load thêm)
+        // Gộp dữ liệu mới với dữ liệu cũ (prepend nếu load thêm)
         if (state.chatHistory.length > 0) {
           // Gộp tin nhắn cũ vào đầu danh sách
           state.chatHistory = [...newChats, ...state.chatHistory];
@@ -89,19 +96,23 @@ const chatBotSlice = createSlice({
           state.chatHistory = newChats;
         }
 
-        // 👉 Gom nhóm lại theo ngày sau khi đã gộp toàn bộ chatHistory
+        // Gộp nhóm lại theo ngày sau khi đã gộp toàn bộ chatHistory
         const grouped: Record<string, any[]> = {};
 
         state.chatHistory.forEach((chat: any) => {
           const date = formatTimestamp(chat.createdAt, "DD/MM/YYYY");
 
+          // Nếu chưa có nhóm cho ngày này thì tạo mới
           if (!grouped[date]) {
             grouped[date] = [];
           }
 
+          // Thêm tin nhắn vào nhóm tương ứng
           grouped[date].push({
+            id: chat.id,
             role: chat.role,
             content: chat.content,
+            movies: chat.movies || [],
             createdAt: chat.createdAt,
           });
         });

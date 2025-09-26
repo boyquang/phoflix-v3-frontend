@@ -112,9 +112,7 @@ const RunCrawlMovies = ({ action }: RunCrawlMoviesProps) => {
       } else {
         setIsCrawling(false);
         dispatch(setIsRunning(false));
-        toast.error(
-          response?.message || "Đã có lỗi xảy ra, vui lòng thử lại!"
-        );
+        toast.error(response?.message || "Đã có lỗi xảy ra, vui lòng thử lại!");
       }
     } catch (error) {
       console.error("Error in handleCrawl:", error);

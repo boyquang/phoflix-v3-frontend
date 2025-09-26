@@ -110,6 +110,9 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
         }
       } else if (account?.provider === "google") {
         if (account?.id_token) {
+
+          console.log("Google account id_token:", account.id_token);
+
           token.accessToken = account?.id_token;
         }
       }

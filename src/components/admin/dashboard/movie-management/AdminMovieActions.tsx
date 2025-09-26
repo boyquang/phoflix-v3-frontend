@@ -16,54 +16,57 @@ interface AdminMovieActionsProps {
 }
 
 const AdminMovieActions = ({ data }: AdminMovieActionsProps) => {
-  const [loadingDelete, setLoadingDelete] = useState(false);
-  const [loadingSync, setLoadingSync] = useState(false);
+  const [loading, setLoading] = useState({
+    delete: false,
+    sync: false,
+  });
   const router = useRouter();
   const { data: session } = useSession();
 
-  const handleDeleteMovie = async () => {
-    try {
-      setLoadingDelete(true);
-      const response = await deleteMovie(
-        data._id,
-        session?.user?.accessToken as string
-      );
-
-      if (response.status) {
-        toast.success("Xoá phim thành công!");
-        toast.info("Dữ liệu sẽ được làm mới sau vài phút.");
-        router.push("/");
-      } else {
-        toast.error(response.message || "Xoá phim thất bại!");
-      }
-    } catch (error) {
-      console.error("Error deleting movie:", error);
-      toast.error("Xoá phim thất bại, vui lòng thử lại!");
-    } finally {
-      setLoadingDelete(false);
-    }
+  const handleAsyncData = async () => {
+    const response = await syncMovieData(
+      data.slug,
+      session?.user?.accessToken as string
+    );
+    return response;
   };
 
-  const handleAsyncData = async () => {
-    try {
-      setLoadingSync(true);
-      const response = await syncMovieData(
-        data.slug,
-        session?.user?.accessToken as string
-      );
+  const handleDeleteMovie = async () => {
+    const response = await deleteMovie(
+      data._id,
+      session?.user?.accessToken as string
+    );
+    return response;
+  };
 
-      if (response.status) {
-        toast.success(response.message || "Đồng bộ dữ liệu thành công!");
-        toast.info("Dữ liệu sẽ được làm mới sau vài phút.");
+  const handleAction = async (action: "delete" | "sync") => {
+    try {
+      setLoading((prev) => ({ ...prev, [action]: true }));
+
+      const actionMap = {
+        delete: handleDeleteMovie,
+        sync: handleAsyncData,
+      };
+
+      const response = await actionMap[action]();
+
+      if (!response?.status) {
+        toast.error(response?.message || "Xử lý thất bại!");
+        return;
+      }
+
+      toast.success(response.message || "Xử lý thành công!");
+      toast.info("Dữ liệu sẽ được làm mới sau vài phút.");
+
+      if (action === "delete") router.push("/?updated=true");
+      if (action === "sync") {
         router.push(`/thong-tin-phim/${data.slug}?updated=true`);
-      } else {
-        toast.error(response.message || "Đồng bộ dữ liệu thất bại!");
       }
     } catch (error) {
-      console.error("Error syncing movie data:", error);
-      toast.error("Đồng bộ dữ liệu thất bại, vui lòng thử lại!");
+      toast.error("Xử lý thất bại, vui lòng thử lại!");
+      console.error(`Error during ${action} action:`, error);
     } finally {
-      setLoadingSync(false);
+      setLoading((prev) => ({ ...prev, [action]: false }));
     }
   };
 
@@ -89,14 +92,14 @@ const AdminMovieActions = ({ data }: AdminMovieActionsProps) => {
         }
         title="Xoá phim"
         content={`Bạn có chắc chắn muốn xoá phim "${data?.name}" không?`}
-        loading={loadingDelete}
-        confirmCallback={handleDeleteMovie}
+        loading={loading.delete}
+        confirmCallback={() => handleAction("delete")}
       />
       <IconButtonAction
         action="async"
         size="md"
-        loading={loadingSync}
-        onClick={handleAsyncData}
+        loading={loading.sync}
+        onClick={() => handleAction("sync")}
       />
     </Box>
   );

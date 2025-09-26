@@ -26,18 +26,22 @@ export async function GET(
     const limit = search.get("limit") || "24";
     const page = search.get("page") || "1";
     const versionPath = version !== "v1" ? `-${version}` : "";
+    const updated = search.get("updated") === "true";
 
     const primaryUrl = `${CRAWL_MOVIES_URL}/movies/latest?page=${page}&limit=${limit}`;
     const fallbackUrl = `${API_URL}/danh-sach/phim-moi-cap-nhat${versionPath}?page=${page}&limit=${limit}`;
 
     const response = await fetchWithFallback(primaryUrl, fallbackUrl, {
-      next: { revalidate: REVALIDATE_TIME },
+      ...(updated
+        ? { cache: "no-store" }
+        : {
+            next: { revalidate: REVALIDATE_TIME },
+          }),
     });
 
     const data = await response.json();
 
     return NextResponse.json(data, { status: 200 });
-
   } catch (error) {
     console.error("Error fetching newly updated movies:", error);
     return NextResponse.json(
