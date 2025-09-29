@@ -1,6 +1,6 @@
 "use client";
 
-import { completions } from "@/lib/actions/chat-bot.action";
+import { sendMessage } from "@/lib/actions/chat-bot.action";
 import { formatTimestamp } from "@/lib/utils";
 import {
   setGroupedChatByDate,
@@ -28,10 +28,8 @@ const ChatComposer = () => {
   const handlSendQuestion = async (prompt: string) => {
     if (!prompt.trim()) return;
 
-    toast.info("Chức năng đang nâng cấp, vui lòng quay lại sau!");
-    return;
-
     try {
+      // Thêm tin nhắn người dùng vào chat trước
       dispatch(
         setGroupedChatByDate({
           date: formatTimestamp(new Date().getTime(), "DD/MM/YYYY"),
@@ -46,8 +44,7 @@ const ChatComposer = () => {
       dispatch(setLoadingSendQuestion(true));
       setPrompt("");
 
-      const response = await completions({
-        userId: session?.user.id as string,
+      const response = await sendMessage({
         prompt: prompt.trim(),
         accessToken: session?.user?.accessToken as string,
       });
@@ -72,9 +69,6 @@ const ChatComposer = () => {
   };
 
   const handleCallbackVoiceSearch = (keyword: string) => {
-    toast.info("Chức năng đang nâng cấp, vui lòng quay lại sau!");
-    return;
-
     setPrompt(keyword);
     delay(() => handlSendQuestion(keyword), 200);
   };

@@ -4,7 +4,7 @@ import { Box } from "@chakra-ui/react";
 import NavBar from "./layout/header/NavBar";
 import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "@/store/store";
-import { Toaster as NewToaster } from "sonner";
+import { Toaster as NewToaster, toast } from "sonner";
 import {
   setIsOpenDrawer,
   setIsShowAuthDialog,
@@ -16,7 +16,7 @@ import { Toaster } from "./ui/toaster";
 import Footer from "./layout/Footer";
 import AuthDialog from "./auth/AuthDialog";
 import ScrollToTopButton from "./shared/ScrollToTopButton";
-import { usePathname } from "next/navigation";
+import { usePathname, useSearchParams } from "next/navigation";
 import { setHasLeftRoom } from "@/store/slices/watching-together.slice";
 import useCheckSessionStatus from "@/hooks/useCheckSessionStatus";
 import useResize from "@/hooks/useReszie";
@@ -42,6 +42,17 @@ const App = ({ children }: { children: React.ReactNode }) => {
   );
   const dispatch: AppDispatch = useDispatch();
   const pathname = usePathname();
+
+  useEffect(() => {
+    if (typeof window === "undefined") return;
+
+    const searchParams = new URLSearchParams(window.location.search);
+    const code = searchParams.get("code");
+
+    if (code === "BANNED_ACCOUNT") {
+      toast.error("Tài khoản của bạn đã bị khóa!");
+    }
+  }, []);
 
   // Kiểm tra trạng thái phiên đăng nhập
   useCheckSessionStatus();

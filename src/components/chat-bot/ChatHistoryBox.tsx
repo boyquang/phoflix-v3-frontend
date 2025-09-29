@@ -3,13 +3,14 @@
 import Loading from "@/app/loading";
 import { fetchChatHistory } from "@/store/async-thunks/chat-bot.thunk";
 import { AppDispatch, RootState } from "@/store/store";
-import { Box } from "@chakra-ui/react";
+import { Box, IconButton } from "@chakra-ui/react";
 import { useSession } from "next-auth/react";
 import { useEffect, useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import LoadingSendQuestion from "./LoadingSendQuestion";
 import useScrollLoadTop from "@/hooks/useScrollLoadTop";
 import MessageItem from "./MessageItem";
+import { HiOutlineArrowDown } from "react-icons/hi2";
 
 const ChatHistoryBox = () => {
   const dispatch: AppDispatch = useDispatch();
@@ -25,6 +26,8 @@ const ChatHistoryBox = () => {
   const containerRef = useRef<HTMLDivElement | null>(null);
   const scrollToBottomRef = useRef<HTMLDivElement | null>(null);
   const [loadMore, setLoadMore] = useState(false);
+  const [showScrollToBottom, setShowScrollToBottom] = useState(false);
+  const [scrollToBottom, setScrollToBottom] = useState(true);
 
   const handleLoadMore = async () => {
     const lastChat = chatHistory?.[0];
@@ -68,12 +71,35 @@ const ChatHistoryBox = () => {
     }
   }, [status, fetched]);
 
-  // Cuộn xuống cuối cùng khi có dữ liệu mới hoặc khi lần đầu tiên tải dữ liệu
+  // Hiển thị nút cuộn xuống cuối khi người dùng cuộn lên trên
   useEffect(() => {
-    if (fetched && scrollToBottomRef.current) {
+    const container = containerRef?.current;
+    if (!container) return;
+
+    const handleScroll = () => {
+      const { scrollTop, scrollHeight, clientHeight } = container;
+
+      // Nếu khoảng cách từ đáy đến cuối lớn hơn 300px thì hiện nút
+      if (scrollHeight - scrollTop - clientHeight > 300) {
+        setShowScrollToBottom(true);
+      } else {
+        setShowScrollToBottom(false);
+      }
+    };
+
+    container.addEventListener("scroll", handleScroll);
+  }, [fetched]);
+
+  const handleScrollToBottom = () => {
+    if (scrollToBottomRef.current) {
       scrollToBottomRef.current.scrollIntoView({ behavior: "smooth" });
     }
-  }, [fetched, loadingSendQuestion]);
+  };
+
+  // Cuộn xuống cuối cùng khi có dữ liệu mới hoặc khi lần đầu tiên tải dữ liệu
+  useEffect(() => {
+    if (fetched) handleScrollToBottom();
+  }, [fetched, loadingSendQuestion, scrollToBottom]);
 
   if (loading && !fetched) {
     return (
@@ -94,24 +120,44 @@ const ChatHistoryBox = () => {
   }
 
   return (
-    <Box className="overflow-y-auto max-h-[calc(70vh-32px)]" ref={containerRef}>
-      {loadMore && (
-        <Box className="flex items-center justify-center my-4">
-          <Box className="flex space-x-1">
-            <span className="h-2 w-2 bg-white rounded-full animate-bounce [animation-delay:-0.3s]"></span>
-            <span className="h-2 w-2 bg-white rounded-full animate-bounce [animation-delay:-0.15s]"></span>
-            <span className="h-2 w-2 bg-white rounded-full animate-bounce"></span>
+    <Box className="relative">
+      <Box
+        className="overflow-y-auto max-h-[calc(70vh-32px)] "
+        ref={containerRef}
+      >
+        {loadMore && (
+          <Box className="flex items-center justify-center my-4">
+            <Box className="flex space-x-1">
+              <span className="h-2 w-2 bg-white rounded-full animate-bounce [animation-delay:-0.3s]"></span>
+              <span className="h-2 w-2 bg-white rounded-full animate-bounce [animation-delay:-0.15s]"></span>
+              <span className="h-2 w-2 bg-white rounded-full animate-bounce"></span>
+            </Box>
           </Box>
-        </Box>
-      )}
+        )}
 
-      <Box className="flex flex-col gap-6 h-full xs:p-4 p-2">
-        {groupedChatByDate?.map((section, index) => (
-          <MessageItem key={index} section={section} />
-        ))}
-        {loadingSendQuestion && <LoadingSendQuestion />}
+        <Box className="flex flex-col gap-6 h-full xs:p-4 p-2">
+          {groupedChatByDate?.map((section, index) => (
+            <MessageItem key={index} section={section} />
+          ))}
+          {loadingSendQuestion && <LoadingSendQuestion />}
+        </Box>
+
+        <div ref={scrollToBottomRef} className="h-0"></div>
       </Box>
-      <div ref={scrollToBottomRef} className="h-0"></div>
+      <Box
+        className={`absolute z-20 bottom-0 left-1/2 -translate-x-1/2 transition-all ${
+          showScrollToBottom ? "opacity-100" : "opacity-0 pointer-events-none"
+        }`}
+      >
+        <IconButton
+          onClick={() => setScrollToBottom(!scrollToBottom)}
+          rounded="full"
+          size="sm"
+          className="bg-white text-black transition-all hover:scale-125 shadow-2xl border-[#0d0d0d1a] border"
+        >
+          <HiOutlineArrowDown />
+        </IconButton>
+      </Box>
     </Box>
   );
 };

@@ -61,18 +61,23 @@ const SignIn = () => {
     }
   };
 
-  const handleLoginWithGoogle = () => {
+  const handleLoginWithGoogle = async () => {
     setLoading({
       credentials: false,
       google: true,
     });
-    signIn("google", { callbackUrl: window.location.href });
+
+    await signIn("google", {
+      callbackUrl: "/",
+    });
   };
 
   return (
     <Box
       className={`flex flex-col gap-2 ${
-        loading.credentials || loading.google ? "opacity-50 pointer-events-none" : ""
+        loading.credentials || loading.google
+          ? "opacity-50 pointer-events-none"
+          : ""
       }`}
     >
       <h3 className="text-gray-50 text-lg">Đăng nhập</h3>

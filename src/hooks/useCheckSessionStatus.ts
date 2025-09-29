@@ -16,10 +16,10 @@ const useCheckSessionStatus = () => {
         delay(() => signOut(), 1000);
       }
 
-      if (session?.user?.status === "banned") {
-        toast.error("Tài khoản của bạn đã bị khóa!");
-        delay(() => signOut(), 500);
-      }
+      // if (session?.user?.status === "banned") {
+      //   toast.error("Tài khoản của bạn đã bị khóa!");
+      //   delay(() => signOut(), 500);
+      // }
     }
   }, [status]);
 };

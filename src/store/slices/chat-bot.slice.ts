@@ -27,6 +27,7 @@ interface ChatBotState {
       movies: Movie[];
     }>;
   }>;
+  open: boolean; // trạng thái mở đóng chat bot
 }
 
 const initialState: ChatBotState = {
@@ -39,12 +40,17 @@ const initialState: ChatBotState = {
   dailyChatLimit: 0,
   loadingSendQuestion: false,
   groupedChatByDate: [],
+  open: false,
 };
 
 const chatBotSlice = createSlice({
   name: "chatBot",
   initialState,
   reducers: {
+    setOpenDialog: (state, action) => {
+      state.open = action.payload;
+    },
+
     setGroupedChatByDate: (state, action) => {
       const { date, message } = action.payload;
 
@@ -96,9 +102,17 @@ const chatBotSlice = createSlice({
           state.chatHistory = newChats;
         }
 
-        // Gộp nhóm lại theo ngày sau khi đã gộp toàn bộ chatHistory
+        /**
+         * grouped sẽ có dạng:
+         * {
+         *  "01/01/2024": [ {id, role, content, createdAt, movies}, {...} ],
+         *  "02/01/2024": [ {id, role, content, createdAt, movies}, {...} ],
+         * }
+         */
+
         const grouped: Record<string, any[]> = {};
 
+        // Gộp nhóm lại theo ngày sau khi đã gộp toàn bộ chatHistory
         state.chatHistory.forEach((chat: any) => {
           const date = formatTimestamp(chat.createdAt, "DD/MM/YYYY");
 
@@ -117,6 +131,22 @@ const chatBotSlice = createSlice({
           });
         });
 
+        /**
+         *
+         * Object.entries(grouped) sẽ có dạng:
+         * [
+         *  [ "01/01/2024", [ {id, role, content, createdAt, movies}, {...} ] ],
+         *  [ "02/01/2024", [ {id, role, content, createdAt, movies}, {...} ] ],
+         * ]
+         *
+         * flatMap chuyển đổi thành mảng 1 cấp
+         * [
+         *  { date: "01/01/2024", messages: [ {id, role, content, createdAt, movies}, {...} ] },
+         *  { date: "02/01/2024", messages: [ {id, role, content, createdAt, movies}, {...} ] },
+         * ]
+         */
+
+        // Chuyển đổi đối tượng grouped thành mảng để lưu vào state
         state.groupedChatByDate = Object.entries(grouped).flatMap(
           ([date, messages]) => ({
             date,
@@ -136,6 +166,10 @@ const chatBotSlice = createSlice({
   },
 });
 
-export const { resetChat, setGroupedChatByDate, setLoadingSendQuestion } =
-  chatBotSlice.actions;
+export const {
+  resetChat,
+  setOpenDialog,
+  setGroupedChatByDate,
+  setLoadingSendQuestion,
+} = chatBotSlice.actions;
 export default chatBotSlice.reducer;

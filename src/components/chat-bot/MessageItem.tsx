@@ -4,7 +4,6 @@ import { Box } from "@chakra-ui/react";
 import ChatTime from "./ChatTime";
 import AvatarBot from "./AvartarBot";
 import { formatTimestamp } from "@/lib/utils";
-import ReactMarkdown from "react-markdown";
 import MessageContent from "./MessageContent";
 
 interface MessageItemProps {
@@ -35,7 +34,7 @@ const MessageItem = ({ section }: MessageItemProps) => {
         >
           {chat?.role === "bot" && <AvatarBot />}
           <Box
-            className={`px-4 py-2 shadow-sm text-black min-w-12 lg:max-w-[75%] max-w-[90%]
+            className={`px-4 py-2 shadow-sm text-black min-w-12 lg:max-w-[75%] max-w-[80%]
                       ${
                         chat?.role === "user"
                           ? "bg-white liner-gradient rounded-tl-2xl rounded-tr-md rounded-bl-2xl rounded-br-2xl"

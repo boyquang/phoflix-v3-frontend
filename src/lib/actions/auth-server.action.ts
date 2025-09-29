@@ -110,6 +110,47 @@ export async function login({
   }
 }
 
+export async function googleLogin(profile: any): Promise<any> {
+  try {
+    const url = `${BASE_URL}/google-login`;
+
+    const response = await fetch(url, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        profile,
+      }),
+    });
+
+    const data = await response.json();
+
+    if (!response.ok) {
+      const { status, message, result, code } = data || {};
+      return {
+        status: status || false,
+        message: message || "Lỗi server! Vui lòng thử lại sau.",
+        result: result || null,
+        code: code || null,
+      };
+    }
+
+    return data;
+  } catch (error) {
+    if (ENV === "development") {
+      console.log("Error fetching google login:", error);
+    }
+
+    return {
+      status: false,
+      message: "Đã có lỗi xảy ra, vui lòng thử lại!",
+      result: null,
+      code: "SERVER_ERROR",
+    };
+  }
+}
+
 /**
  *
  * @param email: string - email of the user

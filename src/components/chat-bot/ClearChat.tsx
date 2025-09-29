@@ -18,10 +18,7 @@ const ClearChat = () => {
   const handleClearChat = async () => {
     try {
       setLoading(true);
-      const response = await clearHistory(
-        session?.user.id as string,
-        session?.user.accessToken as string
-      );
+      const response = await clearHistory(session?.user.accessToken as string);
 
       if (response?.status) {
         dispatch(resetChat());

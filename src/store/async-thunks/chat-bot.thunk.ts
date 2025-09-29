@@ -35,7 +35,7 @@ export const clearChatHistory = createAsyncThunk(
   "chatBot/clearChatHistory",
   async ({ userId, accessToken }: ClearChatHistoryParams) => {
     try {
-      const response = await clearHistory(userId, accessToken);
+      const response = await clearHistory(accessToken);
 
       return response;
     } catch (error) {

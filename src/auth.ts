@@ -1,4 +1,3 @@
-import jwt from "jsonwebtoken";
 import NextAuth, {
   Account,
   AuthError,
@@ -8,10 +7,9 @@ import NextAuth, {
 } from "next-auth";
 import Credentials from "next-auth/providers/credentials";
 import GoogleProvider from "next-auth/providers/google";
-import { login, registerGoogleAccount } from "./lib/actions/auth-server.action";
+import { googleLogin, login } from "./lib/actions/auth-server.action";
 import { getUserProfile } from "./lib/actions/user-server.action";
 import { JWT } from "next-auth/jwt";
-import { NEXTAUTH_JWT_SECRET } from "./constants/env.contant";
 
 export class InvalidLoginError extends AuthError {
   constructor(public code: string, public details?: string) {
@@ -91,59 +89,41 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
     // },
   },
   callbacks: {
-    async jwt({ token, user, account, profile, isNewUser }: IJWT) {
-      /**
-       * TODO:
-       * 1.
-       *  1.1 Nếu là tài khoản credentials thì lấy accessToken từ user
-       *  1.2 Nếu là tài khoản google thì lấy accessToken từ account
-       *   1.2.1 Nếu là tài khoản google thì gọi api getUserProfile để kiểm tra tài khoản đã tồn tại hay chưa
-       *   1.2.2 Nếu tài khoản chưa tồn tại thì gọi api registerGoogleAccount để tạo mới tài khoản
-       * 2. Gọi api getUserProfile để lấy thông tin người dùng từ backend
-       * 3. Gán thông tin người dùng vào token
-       * 4. Trả về token
-       */
+    async signIn({ user, account, profile, isNewUser }: any) {
+      if (account?.provider === "google") {
+        const response = await googleLogin(profile);
 
-      if (account?.provider === "credentials") {
-        if (user?.accessToken) {
-          token.accessToken = user?.accessToken;
-        }
-      } else if (account?.provider === "google") {
-        if (account?.id_token) {
-
-          console.log("Google account id_token:", account.id_token);
-
-          token.accessToken = account?.id_token;
+        // nếu đăng nhập không thành công thì trả về trang chủ với mã lỗi
+        if (!response?.status) {
+          return "/?error=login-failed&code=" + response?.code;
         }
       }
 
-      if (account?.provider === "google") {
-        const response = await getUserProfile({
-          email: profile?.email as string,
-          typeAccount: "google",
-          accessToken: token.accessToken as string,
-        });
+      return true;
+    },
 
-        // nếu chưa có tài khoản thì đăng ký
-        if (!response?.result?.user) {
-          await registerGoogleAccount({
-            email: profile?.email as string,
-            name: profile?.name as string,
-            avatar: profile?.picture,
-            typeAccount: "google",
-            password: null,
-          });
+    async jwt({ token, user, account, profile, isNewUser }: IJWT) {
+      if (account?.provider === "credentials" && user?.accessToken) {
+        token.accessToken = user?.accessToken;
+        token.typeAccount = "credentials";
+      }
+
+      if (account?.provider === "google") {
+        const response = await googleLogin(profile);
+
+        if (!response?.status) {
+          return token;
         }
 
+        token.accessToken = response?.result?.accessToken;
         token.typeAccount = "google";
-      } else if (account?.provider === "credentials") {
-        token.typeAccount = "credentials";
       }
 
       const response = await getUserProfile({
         email: token?.email as string,
         typeAccount: (account?.provider as TypeAccount) ?? token?.typeAccount,
-        accessToken: token?.accessToken as string,
+        accessToken:
+          (token?.accessToken as string) || (account?.id_token as string),
       });
 
       token.id = response?.result?.id;

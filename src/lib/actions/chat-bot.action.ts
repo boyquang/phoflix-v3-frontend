@@ -1,10 +1,8 @@
 import {
   NEXT_PUBLIC_API_VERSION,
-  NEXT_PUBLIC_BACKEND_URL,
   NEXT_PUBLIC_CRAWL_MOVIES_URL,
 } from "../../constants/env.contant";
 
-// const BASE_URL = `${NEXT_PUBLIC_BACKEND_URL}/api/${NEXT_PUBLIC_API_VERSION}/chatBot`;
 const BASE_URL = `${NEXT_PUBLIC_CRAWL_MOVIES_URL}/api/${NEXT_PUBLIC_API_VERSION}/chat-bot`;
 
 interface GetChatHistoryParams {
@@ -16,10 +14,9 @@ interface GetChatHistoryParams {
 
 export const getChatHistory = async (params: GetChatHistoryParams) => {
   try {
-    const { userId, limit, before, accessToken } = params;
+    const { limit, before, accessToken } = params;
 
     const queryParams = new URLSearchParams({
-      userId,
       ...(limit && { limit: limit.toString() }),
       ...(before && { before: before.toString() }),
     });
@@ -63,17 +60,15 @@ export const getChatHistory = async (params: GetChatHistoryParams) => {
   }
 };
 
-interface CompletionsParams {
-  userId: string;
+interface SendMessageParams {
   prompt: string;
   accessToken: string;
 }
 
-export const completions = async (params: CompletionsParams) => {
+export const sendMessage = async (params: SendMessageParams) => {
   try {
-    const { userId, prompt, accessToken } = params;
+    const { prompt, accessToken } = params;
 
-    // const url = `${BASE_URL}/completions`;
     const url = `${BASE_URL}/send-message`;
 
     const response = await fetch(url, {
@@ -82,7 +77,7 @@ export const completions = async (params: CompletionsParams) => {
         "Content-Type": "application/json",
         Authorization: `Bearer ${accessToken}`,
       },
-      body: JSON.stringify({ question: prompt, userId }),
+      body: JSON.stringify({ question: prompt }),
     });
 
     const data = await response.json();
@@ -114,7 +109,6 @@ export const completions = async (params: CompletionsParams) => {
 };
 
 interface SaveMessageParams {
-  userId: string;
   question: string;
   reply: string;
   accessToken: string;
@@ -122,9 +116,8 @@ interface SaveMessageParams {
 
 export const saveMessage = async (params: SaveMessageParams) => {
   try {
-    const { userId, question, reply, accessToken } = params;
+    const { question, reply, accessToken } = params;
 
-    // const url = `${BASE_URL}/saveMessage`;
     const url = `${BASE_URL}/save-message`;
 
     const response = await fetch(url, {
@@ -133,7 +126,7 @@ export const saveMessage = async (params: SaveMessageParams) => {
         "Content-Type": "application/json",
         Authorization: `Bearer ${accessToken}`,
       },
-      body: JSON.stringify({ userId, question, reply }),
+      body: JSON.stringify({ question, reply }),
     });
 
     const data = await response.json();
@@ -165,9 +158,8 @@ export const saveMessage = async (params: SaveMessageParams) => {
   }
 };
 
-export const clearHistory = async (userId: string, accessToken: string) => {
+export const clearHistory = async (accessToken: string) => {
   try {
-    // const url = `${BASE_URL}/clearHistory`;
     const url = `${BASE_URL}/clear`;
 
     const response = await fetch(url, {
@@ -176,7 +168,6 @@ export const clearHistory = async (userId: string, accessToken: string) => {
         "Content-Type": "application/json",
         Authorization: `Bearer ${accessToken}`,
       },
-      body: JSON.stringify({ userId }),
     });
 
     const data = await response.json();
