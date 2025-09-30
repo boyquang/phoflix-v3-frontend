@@ -10,15 +10,13 @@ import Playlists from "./Playlists";
 import MovieSection from "../MovieSection";
 import { useSession } from "next-auth/react";
 import { useEffect, useState } from "react";
-import {
-  getUserMoviesFromPlaylist,
-  getUserPlaylists,
-} from "@/lib/actions/playlist.action";
+import { getPlaylists, getUserPlaylists } from "@/lib/actions/playlist.action";
 import { toast } from "sonner";
 import Loading from "@/app/loading";
 import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "@/store/store";
 import { setPlaylistByKey } from "@/store/slices/user.slice";
+import { getUserMovies } from "@/lib/actions/user-movie.action";
 
 const limit = 18;
 
@@ -47,16 +45,16 @@ const ClientWrapper = () => {
     // Nếu có playlistId từ URL, ưu tiên sử dụng
     playlistTemp = playlistIdFromParams
       ? String(playlistIdFromParams)
-      : playlists[0]?.id;
+      : playlists[0]?._id;
 
     // Kiểm tra playlistId có tồn tại trong danh sách playlist hay không
     const existPlaylistIdFromPlaylists = playlists?.find(
-      (playlist) => playlist?.id === playlistTemp
+      (playlist) => playlist?._id === playlistTemp
     );
 
     // Nếu không tồn tại thì lấy playlistId đầu tiên trong danh sách
     if (!existPlaylistIdFromPlaylists) {
-      playlistTemp = playlists[0]?.id;
+      playlistTemp = playlists[0]?._id;
     }
 
     dispatch(
@@ -70,10 +68,9 @@ const ClientWrapper = () => {
     const fetchPlaylists = async () => {
       try {
         setLoadingPlaylists(true);
-        const response = await getUserPlaylists({
-          userId: session?.user?.id as string,
-          accessToken: session?.user?.accessToken as string,
-        });
+        const response = await getPlaylists(
+          session?.user?.accessToken as string
+        );
 
         if (response.status) {
           const playlists = response.result.playlists || [];
@@ -97,8 +94,8 @@ const ClientWrapper = () => {
     const fetchMovies = async () => {
       try {
         setLoading(true);
-        const response = await getUserMoviesFromPlaylist({
-          userId: session?.user?.id as string,
+        const response = await getUserMovies({
+          type: "playlist",
           playlistId: selectedPlaylistId as string,
           page,
           limit,

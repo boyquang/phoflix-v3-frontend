@@ -21,9 +21,9 @@ import MovieTooltip from "@/components/shared/MovieTooltip";
 import DecodeText from "../shared/DecodeText";
 
 interface MovieItemProps {
-  item: MovieDB;
+  item: Movie;
   isLoading: boolean;
-  callback: (slug: string, id: string) => void;
+  callback: (movieId: string) => void;
 }
 
 interface Tooltip {
@@ -40,7 +40,6 @@ const MovieItem = ({ item, isLoading, callback }: MovieItemProps) => {
   const currentElementRef = useRef<HTMLImageElement | null>(null);
   const tooltipTimeout = useRef<NodeJS.Timeout | null>(null);
   const { windowWidth } = useSelector((state: RootState) => state.system);
-  const movieData = item?.movie_data;
   const { selectedDeleteMode, selectedMovieIds } = useSelector(
     (state: RootState) => state.user.userMovies
   );
@@ -59,7 +58,7 @@ const MovieItem = ({ item, isLoading, callback }: MovieItemProps) => {
 
   return (
     <Box
-      id={item?.id}
+      id={item?._id}
       className={`group select-none ${
         selectedDeleteMode
           ? ""
@@ -73,24 +72,20 @@ const MovieItem = ({ item, isLoading, callback }: MovieItemProps) => {
           onMouseLeave={handleMouseLeave}
           onClick={() => {
             if (selectedDeleteMode) {
-              dispatch(setSelectedMovieIds(item?.id));
+              dispatch(setSelectedMovieIds(item?._id));
             }
           }}
         >
           <HoverOutlineWrapper rounded="lg" ringSize="2">
             <Tag
-              href={
-                !selectedDeleteMode
-                  ? `/thong-tin-phim/${item?.movie_slug}`
-                  : "#"
-              }
+              href={!selectedDeleteMode ? `/thong-tin-phim/${item?.slug}` : "#"}
               className="flex flex-col gap-2 group"
             >
               <Box className="h-0 overflow-hidden pb-[150%] relative">
                 <Image
                   ref={currentElementRef}
-                  src={generateUrlImage(movieData?.poster_url)}
-                  alt={item?.movie_data.name || "Không xác định"}
+                  src={generateUrlImage(item?.poster_url)}
+                  alt={item?.name || "Không xác định"}
                   className="rounded-lg group-hover:brightness-75 transition-all"
                 />
               </Box>
@@ -98,16 +93,14 @@ const MovieItem = ({ item, isLoading, callback }: MovieItemProps) => {
             <Box className="absolute xs:left-1/2 xs:transform xs:-translate-x-1/2 left-0 right-0 bottom-0">
               <StatusTag
                 uppercase={false}
-                text={formatDate(item?.created_at)}
+                text={formatDate(item?.createAt || "N/a")}
                 bordered
                 rounded="xs:rounded-t-sm xs:rounded-b-none rounded-t-none rounded-b-xl"
               />
             </Box>
           </HoverOutlineWrapper>
 
-          {tooltip?.visible && (
-            <MovieTooltip data={movieData} position={tooltip} />
-          )}
+          {tooltip?.visible && <MovieTooltip data={item} position={tooltip} />}
         </Box>
 
         <Box className="absolute right-2 top-2">
@@ -115,14 +108,16 @@ const MovieItem = ({ item, isLoading, callback }: MovieItemProps) => {
             <CheckboxCustom
               color="primary"
               size="medium"
-              checked={selectedMovieIds?.includes(item?.id)}
-              onChange={() => dispatch(setSelectedMovieIds(item?.id))}
+              checked={selectedMovieIds?.includes(item?._id)}
+              onChange={() => {
+                dispatch(setSelectedMovieIds(item?._id));
+              }}
             />
           ) : (
             <IconButton
               size="xs"
               loading={isLoading}
-              onClick={() => callback(item?.movie_slug, item?.id)}
+              onClick={() => callback(item?._id)}
               aria-label="Xóa"
               className="bg-transparent border border-[#ffffffb0] hover:bg-[#ffffff10] rounded-full"
             >
@@ -132,7 +127,7 @@ const MovieItem = ({ item, isLoading, callback }: MovieItemProps) => {
         </Box>
       </Box>
       <Link
-        href={`/thong-tin-phim/${item?.movie_slug}`}
+        href={`/thong-tin-phim/${item?.slug}`}
         style={{
           WebkitLineClamp: 2,
           display: "-webkit-box",
@@ -141,7 +136,7 @@ const MovieItem = ({ item, isLoading, callback }: MovieItemProps) => {
         }}
         className="text-gray-50 text-xs font-semibold group-hover:text-[#ffd875] lg:text-sm transition-all mt-2"
       >
-        <DecodeText text={movieData?.name} />
+        <DecodeText text={item?.name} />
       </Link>
     </Box>
   );

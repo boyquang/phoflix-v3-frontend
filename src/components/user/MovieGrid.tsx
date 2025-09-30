@@ -15,8 +15,7 @@ import { setTriggerRefresh } from "@/store/slices/system.slice";
 import { setPlaylistByKey } from "@/store/slices/user.slice";
 
 interface MovieGridProps {
-  items: MovieDB[];
-  userId: string;
+  items: Movie[];
   type: "favorite" | "playlist" | "history";
   colums?: {
     base: number;
@@ -27,7 +26,7 @@ interface MovieGridProps {
   };
 }
 
-const MovieGrid = ({ items, colums, userId, type }: MovieGridProps) => {
+const MovieGrid = ({ items, colums, type }: MovieGridProps) => {
   const router = useRouter();
   const searchParams = useSearchParams();
   const { selectedPlaylistId } = useSelector(
@@ -53,16 +52,14 @@ const MovieGrid = ({ items, colums, userId, type }: MovieGridProps) => {
     }
   }, [items, searchParams]);
 
-  const handleDeleteMovie = async (slug: string, id: string) => {
+  const handleDeleteMovie = async (movieId: string) => {
     try {
-      setIdDelete(id);
+      setIdDelete(movieId);
       const response = await deleteMovie({
-        userId,
-        movieSlug: slug,
         type,
         playlistId:
           pathname === "/nguoi-dung/danh-sach-phat" ? selectedPlaylistId : null,
-        movieId: type === "history" ? id : null,
+        movieId,
         accessToken: session?.user?.accessToken as string,
       });
 
@@ -118,7 +115,7 @@ const MovieGrid = ({ items, colums, userId, type }: MovieGridProps) => {
           key={index}
           item={item}
           callback={handleDeleteMovie}
-          isLoading={idDelete === item.id}
+          isLoading={idDelete === item?._id}
         />
       ))}
     </SimpleGrid>

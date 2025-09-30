@@ -2,6 +2,7 @@ import {
   NEXT_PUBLIC_API_VERSION,
   NEXT_PUBLIC_BACKEND_URL,
   ENV,
+  NEXT_PUBLIC_CRAWL_MOVIES_URL,
 } from "@/constants/env.contant";
 import { createAsyncThunk } from "@reduxjs/toolkit";
 
@@ -149,10 +150,10 @@ export const deleteAllUserSearchHistory = createAsyncThunk(
 
 export const getPlaylists = createAsyncThunk(
   "user/getPlaylists",
-  async ({ userId, accessToken }: GetUserPlaylists) => {
+  async ({ accessToken }: { accessToken: string }) => {
     try {
       const response = await fetch(
-        `${NEXT_PUBLIC_BACKEND_URL}/api/${NEXT_PUBLIC_API_VERSION}/user/playlists?userId=${userId}`,
+        `${NEXT_PUBLIC_CRAWL_MOVIES_URL}/api/${NEXT_PUBLIC_API_VERSION}/playlists`,
         {
           method: "GET",
           headers: {
@@ -179,22 +180,22 @@ export const getPlaylists = createAsyncThunk(
 
 export const getPlaylistsContainingMovie = createAsyncThunk(
   "user/getPlaylistsContainingMovie",
-  async ({ userId, movieSlug, accessToken }: GetPlaylistsContainingMovie) => {
+  async ({
+    accessToken,
+    movieId,
+  }: {
+    accessToken: string;
+    movieId: string;
+  }) => {
     try {
-      const params = new URLSearchParams({
-        userId,
-        movieSlug,
-      });
+      const url = `${NEXT_PUBLIC_CRAWL_MOVIES_URL}/api/${NEXT_PUBLIC_API_VERSION}/user-movies/${movieId}/playlists`;
 
-      const response = await fetch(
-        `${NEXT_PUBLIC_BACKEND_URL}/api/${NEXT_PUBLIC_API_VERSION}/user/playlists/listByMovie?${params.toString()}`,
-        {
-          method: "GET",
-          headers: {
-            Authorization: `Bearer ${accessToken}`,
-          },
-        }
-      );
+      const response = await fetch(url, {
+        method: "GET",
+        headers: {
+          Authorization: `Bearer ${accessToken}`,
+        },
+      });
 
       if (!response.ok) {
         throw new Error("Failed to fetch playlists containing movie");

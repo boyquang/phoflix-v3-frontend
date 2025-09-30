@@ -6,7 +6,7 @@ import PaginationCustom from "@/components/shared/PaginationCustom";
 import { useSession } from "next-auth/react";
 
 interface MovieSectionProps {
-  movies: MovieDB[];
+  movies: Movie[];
   totalItems: number;
   totalItemsPerPage: number;
   currentPage: number;
@@ -22,8 +22,6 @@ const MovieSection = ({
   limit,
   type,
 }: MovieSectionProps) => {
-  const { data: sesstion } = useSession();
-
   return (
     <Box className="mt-6">
       <MovieGrid
@@ -35,7 +33,6 @@ const MovieSection = ({
           "2xl": 6,
         }}
         items={movies}
-        userId={sesstion?.user?.id as string}
         type={type}
       />
 

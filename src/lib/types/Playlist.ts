@@ -4,20 +4,17 @@ type GetUserPlaylists = {
 }
 
 type CreateNewPlaylist = {
-  userId: string;
   playlistName: string;
   accessToken: string;
 };
 
 type UpdatePlaylist = {
-  userId: string;
   playlistId: string;
   playlistName: string;
   accessToken: string;
 };
 
 type DeletePlaylist = {
-  userId: string;
   playlistId: string;
   accessToken: string;
 };
@@ -37,10 +34,10 @@ type GetUserMoviesFromPlaylist = {
 }
 
 type Playlist = {
-  id: string;
+  _id: string;
   user_id: string;
   name: string;
-  totalMovie: number;
+  totalItems: number;
   created_at: string;
   updated_at: string;
 };

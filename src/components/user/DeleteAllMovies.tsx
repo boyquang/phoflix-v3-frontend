@@ -3,6 +3,7 @@
 import AlertDialog from "@/components/shared/AlertDialog";
 import { deleteAllMovies } from "@/lib/actions/user-movie.action";
 import { setTriggerRefresh } from "@/store/slices/system.slice";
+import { setPlaylistByKey } from "@/store/slices/user.slice";
 import { AppDispatch, RootState } from "@/store/store";
 import { Button } from "@chakra-ui/react";
 import { useSession } from "next-auth/react";
@@ -28,29 +29,26 @@ const DeleteAllMovies = ({ type, playlistId }: DeleteAllMoviesProps) => {
   const dispatch: AppDispatch = useDispatch();
 
   useEffect(() => {
-    switch (type) {
-      case "favorite":
-        setTitle("Xóa tất cả phim yêu thích");
-        setContent("Bạn có chắc chắn muốn xóa tất cả phim yêu thích không?");
-        break;
-      case "history":
-        setTitle("Xóa tất cả lịch sử xem phim");
-        setContent("Bạn có chắc chắn muốn xóa tất cả lịch sử xem phim không?");
-        break;
-      case "playlist":
-        setTitle("Xóa tất cả danh sách phát");
-        setContent("Bạn có chắc chắn muốn xóa tất cả danh sách phát không?");
-        break;
-      default:
-        break;
-    }
+    const titleMapping = {
+      favorite: "Xóa tất cả phim yêu thích",
+      history: "Xóa tất cả lịch sử xem phim",
+      playlist: "Xóa tất cả danh sách phát",
+    };
+
+    const contentMapping = {
+      favorite: "Bạn có chắc chắn muốn xóa tất cả phim yêu thích không?",
+      history: "Bạn có chắc chắn muốn xóa tất cả lịch sử xem phim không?",
+      playlist: "Bạn có chắc chắn muốn xóa tất cả danh sách phát không?",
+    };
+
+    setTitle(titleMapping[type] || "");
+    setContent(contentMapping[type] || "");
   }, [type]);
 
   const handleDeleteAllMovies = async () => {
     try {
       setLoading(true);
       const response = await deleteAllMovies({
-        userId: session?.user?.id as string,
         type,
         playlistId: playlistId || null,
         accessToken: session?.user?.accessToken as string,
@@ -58,7 +56,7 @@ const DeleteAllMovies = ({ type, playlistId }: DeleteAllMoviesProps) => {
 
       if (response?.status) {
         toast.success(response?.message);
-        dispatch(setTriggerRefresh()); // làm mới lại danh sách phim
+        dispatch(setPlaylistByKey({ key: "refreshMovies" }));
       } else {
         toast.error(response?.message);
       }

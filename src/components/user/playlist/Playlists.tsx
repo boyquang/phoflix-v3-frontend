@@ -24,11 +24,11 @@ const Playlists = ({ playlists, loading }: PlaylistsProps) => {
   );
 
   const handleChangePlaylist = (playlist: Playlist) => {
-    if (playlist?.id === selectedPlaylistId) return;
+    if (playlist?._id === selectedPlaylistId) return;
 
     const params = new URLSearchParams(window.location.search);
 
-    params.set("playlistId", playlist?.id.toString());
+    params.set("playlistId", playlist?._id.toString());
     params.set("playlistName", playlist?.name.toString());
 
     startTransition(() => {
@@ -38,7 +38,7 @@ const Playlists = ({ playlists, loading }: PlaylistsProps) => {
     });
 
     dispatch(
-      setPlaylistByKey({ key: "selectedPlaylistId", value: playlist?.id })
+      setPlaylistByKey({ key: "selectedPlaylistId", value: playlist?._id })
     );
   };
 
@@ -71,12 +71,12 @@ const Playlists = ({ playlists, loading }: PlaylistsProps) => {
                 transition-all
                 bg-transparent
                 ${
-                  pending && selectedPlaylistId !== playlist?.id
+                  pending && selectedPlaylistId !== playlist?._id
                     ? "opacity-50 pointer-events-none"
                     : ""
                 }
                 ${
-                  selectedPlaylistId === playlist?.id
+                  selectedPlaylistId === playlist?._id
                     ? "border-[#ffd875]"
                     : "border-[#ffffff10] hover:bg-[#25272f]"
                 }
@@ -86,13 +86,13 @@ const Playlists = ({ playlists, loading }: PlaylistsProps) => {
             <Box className="flex justify-between items-center">
               <Box className="flex flex-1 gap-1 items-center text-gray-200">
                 <IoPlayCircleOutline />
-                <span className="text-xs">{playlist?.totalMovie} phim</span>
+                <span className="text-xs">{playlist?.totalItems} phim</span>
               </Box>
 
               <ActionsPlaylist
                 action="update"
                 value={playlist?.name}
-                playlistId={playlist?.id}
+                playlistId={playlist?._id}
               >
                 <span className="text-gray-200 text-xs underline">Sửa</span>
               </ActionsPlaylist>
@@ -100,13 +100,6 @@ const Playlists = ({ playlists, loading }: PlaylistsProps) => {
           </Box>
         ))}
       </Box>
-      {/* 
-      {pending && (
-        <Box className="flex items-center gap-1.5 text-primary">
-          <Spinner size="xs" />
-          <h4 className="text-sm">Đang tải dữ liệu mới</h4>
-        </Box>
-      )} */}
     </>
   );
 };

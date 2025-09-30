@@ -6,6 +6,9 @@ import { useEffect, useRef, useState } from "react";
 import { useSelector } from "react-redux";
 import Image from "../shared/Image";
 import { deniedGif } from "@/constants/image.contant";
+import dynamic from "next/dynamic";
+
+const ArtPlayer = dynamic(() => import("../shared/ArtPlayer"), { ssr: false });
 
 const SectionVideo = () => {
   const { currentEpisode, isValidEpisodes, movie } = useSelector(
@@ -18,7 +21,7 @@ const SectionVideo = () => {
 
   useEffect(() => {
     if (isValidEpisodes && currentEpisode?.link_embed) {
-      setSource(currentEpisode.link_embed);
+      setSource(currentEpisode.link_m3u8);
       setTitle(currentEpisode.name || "Tập phim");
     } else if (movie?.trailer_url) {
       const trailerEmbed = movie.trailer_url.replace("/watch?v=", "/embed/");
@@ -35,7 +38,7 @@ const SectionVideo = () => {
       <Box className="relative h-0 pt-[56.25%]">
         {source ? (
           <>
-            <Box
+            {/* <Box
               className={`absolute bg-[#08080a] w-full h-full inset-0 md:rounded-t-2xl rounded-t-none items-center justify-center ${
                 loading ? "flex" : "hidden"
               }`}
@@ -44,9 +47,11 @@ const SectionVideo = () => {
                 src={movie?.thumb_url as string}
                 alt={movie?.name || "Poster phim"}
               />
-            </Box>
+            </Box> */}
 
-            <iframe
+            <ArtPlayer url={source} poster={movie?.thumb_url as string} />
+
+            {/* <iframe
               src={source}
               title={title}
               ref={iframeRef}
@@ -58,7 +63,7 @@ const SectionVideo = () => {
               className={`absolute w-full h-full inset-0 md:rounded-t-2xl rounded-t-none ${
                 loading ? "hidden" : "block"
               }`}
-            ></iframe>
+            ></iframe> */}
           </>
         ) : (
           <Box className="absolute w-full h-full inset-0 flex items-center justify-center bg-[#08080a]">

@@ -30,7 +30,6 @@ const ClientWrapper = () => {
       try {
         setLoading(true);
         const response = await getUserMovies({
-          userId: session?.user?.id as string,
           type: "history",
           page: page,
           limit,

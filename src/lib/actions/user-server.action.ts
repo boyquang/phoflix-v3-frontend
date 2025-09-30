@@ -74,7 +74,6 @@ export const getUserProfile = async ({
  */
 
 export const getUserMovies = async ({
-  userId,
   type,
   page,
   limit,
@@ -82,7 +81,6 @@ export const getUserMovies = async ({
 }: GetUserMovies): Promise<any> => {
   try {
     const params = new URLSearchParams({
-      userId,
       type,
       page: page.toString(),
       limit: limit.toString(),
@@ -134,14 +132,10 @@ export const getUserMovies = async ({
  */
 
 export const deleteMovie = async ({
-  userId,
-  movieSlug,
   type,
 }: DeleteMovie): Promise<any> => {
   try {
     const params = new URLSearchParams({
-      userId,
-      movieSlug,
       type,
     });
 

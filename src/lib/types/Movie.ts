@@ -91,6 +91,8 @@ type Movie = {
   };
   type: "hoathinh" | "single" | "series" | "tvshows" | null;
   content: string | null;
+  createAt?: string | null;
+  updatedAt?: string | null;
 };
 
 type Movies = {

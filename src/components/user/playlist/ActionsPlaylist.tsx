@@ -65,7 +65,6 @@ const ActionsPlaylist = ({
 
   const handleCreateNewPlaylist = async () => {
     const response = await createNewPlaylist({
-      userId: session?.user?.id as string,
       playlistName: playlistName as string,
       accessToken: session?.user?.accessToken as string,
     });
@@ -75,7 +74,6 @@ const ActionsPlaylist = ({
 
   const handleUpdatePlaylist = async () => {
     const response = await updatePlaylist({
-      userId: session?.user?.id as string,
       playlistId: playlistId as string,
       playlistName: playlistName as string,
       accessToken: session?.user?.accessToken as string,
@@ -86,7 +84,6 @@ const ActionsPlaylist = ({
 
   const handleDeletePlaylist = async () => {
     const response = await deletePlaylist({
-      userId: session?.user?.id as string,
       playlistId: playlistId as string,
       accessToken: session?.user?.accessToken as string,
     });

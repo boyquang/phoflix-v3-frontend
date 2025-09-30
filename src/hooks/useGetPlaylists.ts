@@ -14,7 +14,6 @@ const useGetPlaylists = () => {
     if (status === "authenticated") {
       dispatch(
         getPlaylists({
-          userId: session?.user?.id as string,
           accessToken: session?.user?.accessToken as string,
         })
       );

@@ -3,7 +3,10 @@
 import AlertDialog from "@/components/shared/AlertDialog";
 import { deleteSelectedMovies } from "@/lib/actions/user-movie.action";
 import { setTriggerRefresh } from "@/store/slices/system.slice";
-import { setSelectedDeleteMode } from "@/store/slices/user.slice";
+import {
+  setPlaylistByKey,
+  setSelectedDeleteMode,
+} from "@/store/slices/user.slice";
 import { AppDispatch, RootState } from "@/store/store";
 import { Box, Button } from "@chakra-ui/react";
 import { useSession } from "next-auth/react";
@@ -34,7 +37,6 @@ const DeleteSelectedMovies = ({
     try {
       setLoading(true);
       const response = await deleteSelectedMovies({
-        userId: session?.user?.id as string,
         movieIds: selectedMovieIds || [],
         type,
         playlistId: playlistId || null,
@@ -43,7 +45,7 @@ const DeleteSelectedMovies = ({
 
       if (response?.status) {
         dispatch(setSelectedDeleteMode(false));
-        dispatch(setTriggerRefresh()); // làm mới lại danh sách phim
+        dispatch(setPlaylistByKey({ key: "refreshMovies" }));
         toast.success(response?.message);
       } else {
         toast.error(response?.message);

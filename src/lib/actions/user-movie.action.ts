@@ -2,9 +2,11 @@ import {
   ENV,
   NEXT_PUBLIC_API_VERSION,
   NEXT_PUBLIC_BACKEND_URL,
+  NEXT_PUBLIC_CRAWL_MOVIES_URL,
 } from "../../constants/env.contant";
 
-const BASE_URL = `${NEXT_PUBLIC_BACKEND_URL}/api/${NEXT_PUBLIC_API_VERSION}/user`;
+// const BASE_URL = `${NEXT_PUBLIC_BACKEND_URL}/api/${NEXT_PUBLIC_API_VERSION}/user`;
+const BASE_URL = `${NEXT_PUBLIC_CRAWL_MOVIES_URL}/api/${NEXT_PUBLIC_API_VERSION}/user-movies`;
 
 /**
  *
@@ -17,21 +19,24 @@ const BASE_URL = `${NEXT_PUBLIC_BACKEND_URL}/api/${NEXT_PUBLIC_API_VERSION}/user
  */
 
 export const getUserMovies = async ({
-  userId,
   type,
   page,
   limit,
   accessToken,
+  playlistId = null,
 }: GetUserMovies): Promise<any> => {
   try {
     const params = new URLSearchParams({
-      userId,
       type,
       page: page.toString(),
       limit: limit.toString(),
     });
 
-    const url = `${BASE_URL}/movies?${params.toString()}`;
+    if (playlistId) {
+      params.append("playlistId", playlistId);
+    }
+
+    const url = `${BASE_URL}?${params.toString()}`;
 
     const response = await fetch(url, {
       method: "GET",
@@ -76,13 +81,12 @@ export const getUserMovies = async ({
  */
 
 export const checkMovieExists = async ({
-  userId,
-  movieSlug,
+  movieId,
   type,
   accessToken,
 }: CheckMovieExists): Promise<any> => {
   try {
-    const url = `${BASE_URL}/checkMovie`;
+    const url = `${BASE_URL}/is-existed`;
 
     const response = await fetch(url, {
       method: "POST",
@@ -91,8 +95,7 @@ export const checkMovieExists = async ({
         Authorization: `Bearer ${accessToken}`,
       },
       body: JSON.stringify({
-        userId,
-        movieSlug,
+        id: movieId, // id of the movie
         type,
       }),
     });
@@ -135,14 +138,17 @@ export const checkMovieExists = async ({
  */
 
 export const addNewMovie = async ({
-  userId,
-  movieData,
+  movieId,
   type,
   playlistId,
   accessToken,
 }: AddNewMovie): Promise<any> => {
   try {
-    const url = `${BASE_URL}/movie`;
+    console.log("movieId", movieId);
+    console.log("type", type);
+    console.log("playlistId", playlistId);
+
+    const url = `${BASE_URL}/add`;
 
     const response = await fetch(url, {
       method: "POST",
@@ -151,8 +157,7 @@ export const addNewMovie = async ({
         Authorization: `Bearer ${accessToken}`,
       },
       body: JSON.stringify({
-        userId,
-        movieData,
+        id: movieId, // id of the movie
         type,
         playlistId,
       }),
@@ -195,29 +200,13 @@ export const addNewMovie = async ({
  */
 
 export const deleteMovie = async ({
-  userId,
-  movieSlug,
+  movieId,
   type,
   accessToken,
   playlistId = null,
-  movieId = null,
 }: DeleteMovie): Promise<any> => {
   try {
-    const params = new URLSearchParams({
-      userId,
-      movieSlug,
-      type,
-    });
-
-    if (playlistId) {
-      params.append("playlistId", playlistId);
-    }
-
-    if (movieId) {
-      params.append("movieId", movieId);
-    }
-
-    const url = `${BASE_URL}/movie?${params.toString()}`;
+    const url = `${BASE_URL}/delete`;
 
     const response = await fetch(url, {
       method: "DELETE",
@@ -225,6 +214,11 @@ export const deleteMovie = async ({
         "Content-Type": "application/json",
         Authorization: `Bearer ${accessToken}`,
       },
+      body: JSON.stringify({
+        id: movieId, // id of the movie
+        type,
+        playlistId: playlistId || null,
+      }),
     });
 
     const data = await response.json();
@@ -253,22 +247,12 @@ export const deleteMovie = async ({
 };
 
 export const deleteAllMovies = async ({
-  userId,
   type,
   accessToken,
   playlistId = null,
 }: DeleteAllMovies): Promise<any> => {
   try {
-    const params = new URLSearchParams({
-      userId,
-      type,
-    });
-
-    if (playlistId) {
-      params.append("playlistId", playlistId);
-    }
-
-    const url = `${BASE_URL}/deleteAllMovies?${params.toString()}`;
+    const url = `${BASE_URL}/delete-all`;
 
     const response = await fetch(url, {
       method: "DELETE",
@@ -276,6 +260,10 @@ export const deleteAllMovies = async ({
         "Content-Type": "application/json",
         Authorization: `Bearer ${accessToken}`,
       },
+      body: JSON.stringify({
+        type,
+        playlistId: playlistId || null,
+      }),
     });
 
     const data = await response.json();
@@ -304,7 +292,6 @@ export const deleteAllMovies = async ({
 };
 
 interface DeleteSelectedMovies {
-  userId: string;
   movieIds: string[];
   type: "history" | "favorite" | "playlist";
   accessToken: string;
@@ -312,14 +299,13 @@ interface DeleteSelectedMovies {
 }
 
 export const deleteSelectedMovies = async ({
-  userId,
   movieIds,
   type,
   playlistId,
   accessToken,
 }: DeleteSelectedMovies) => {
   try {
-    const url = `${BASE_URL}/deleteSelectedMovies`;
+    const url = `${BASE_URL}/delete-selected-movies`;
 
     const response = await fetch(url, {
       method: "DELETE",
@@ -328,7 +314,6 @@ export const deleteSelectedMovies = async ({
         Authorization: `Bearer ${accessToken}`,
       },
       body: JSON.stringify({
-        userId,
         movieIds,
         type,
         playlistId: playlistId || null,

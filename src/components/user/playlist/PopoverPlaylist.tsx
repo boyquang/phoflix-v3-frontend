@@ -4,7 +4,6 @@ import { addNewMovie, deleteMovie } from "@/lib/actions/user-movie.action";
 import { AppDispatch, RootState } from "@/store/store";
 import { Box, Button, Popover, Portal } from "@chakra-ui/react";
 import { useSession } from "next-auth/react";
-import { useParams } from "next/navigation";
 import { useState } from "react";
 import { FaPlus } from "react-icons/fa6";
 import { useDispatch, useSelector } from "react-redux";
@@ -28,7 +27,6 @@ const PopoverPlaylist = ({
   responsiveText = false,
 }: PlaylistPopoverProps) => {
   const { data: session } = useSession();
-  const params = useParams();
   const dispatch: AppDispatch = useDispatch();
   const { items: playlists, playlistIds } = useSelector(
     (state: RootState) => state.user.playlist
@@ -39,7 +37,6 @@ const PopoverPlaylist = ({
   const handleGetPlaylist = () => {
     dispatch(
       getPlaylists({
-        userId: session?.user?.id as string,
         accessToken: session?.user?.accessToken as string,
       })
     );
@@ -48,8 +45,7 @@ const PopoverPlaylist = ({
   const handleGetPlaylistContainingMovie = () => {
     dispatch(
       getPlaylistsContainingMovie({
-        userId: session?.user?.id as string,
-        movieSlug: (params?.slug as string) || "",
+        movieId: movie?._id as string,
         accessToken: session?.user?.accessToken as string,
       })
     );
@@ -59,21 +55,8 @@ const PopoverPlaylist = ({
     if (!movie) return;
 
     const response = await addNewMovie({
-      userId: session?.user?.id as string,
       type: "playlist",
-      movieData: {
-        name: movie?.name,
-        lang: movie?.lang,
-        quality: movie?.quality,
-        slug: movie?.slug,
-        year: movie?.year,
-        time: movie?.time,
-        episodeCurrent: movie?.episode_current,
-        originName: movie?.origin_name,
-        posterUrl: movie?.poster_url,
-        thumbUrl: movie?.thumb_url,
-        category: movie?.categories,
-      },
+      movieId: movie?._id as string,
       playlistId,
       accessToken: session?.user?.accessToken as string,
     });
@@ -85,8 +68,7 @@ const PopoverPlaylist = ({
     if (!movie) return;
 
     const response = await deleteMovie({
-      userId: session?.user?.id as string,
-      movieSlug: movie?.slug,
+      movieId: movie?._id as string,
       type: "playlist",
       playlistId,
       accessToken: session?.user?.accessToken as string,

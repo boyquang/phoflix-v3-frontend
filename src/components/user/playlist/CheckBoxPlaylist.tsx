@@ -17,7 +17,7 @@ const CheckboxPlaylist = ({
   callback,
 }: CheckboxPlaylistProps) => {
   // Tạo hiệu ứng loading cho checkbox
-  if (playlist.id === idCheckbox) {
+  if (playlist._id === idCheckbox) {
     return (
       <Box className="flex gap-2 items-center">
         <Spinner size="sm" />
@@ -28,9 +28,9 @@ const CheckboxPlaylist = ({
 
   return (
     <CheckboxCustom
-      checked={playlistIds?.includes(playlist.id)}
+      checked={playlistIds?.includes(playlist._id)}
       onChange={(e) => {
-        callback(playlist.id, e.target.checked);
+        callback(playlist._id, e.target.checked);
       }}
       color="primary"
       size="medium"

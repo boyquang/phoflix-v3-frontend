@@ -2,9 +2,10 @@ import {
   ENV,
   NEXT_PUBLIC_API_VERSION,
   NEXT_PUBLIC_BACKEND_URL,
+  NEXT_PUBLIC_CRAWL_MOVIES_URL,
 } from "../../constants/env.contant";
 
-const BASE_URL = `${NEXT_PUBLIC_BACKEND_URL}/api/${NEXT_PUBLIC_API_VERSION}/user`;
+const BASE_URL = `${NEXT_PUBLIC_CRAWL_MOVIES_URL}/api/${NEXT_PUBLIC_API_VERSION}/playlists`;
 
 /**
  *
@@ -13,18 +14,9 @@ const BASE_URL = `${NEXT_PUBLIC_BACKEND_URL}/api/${NEXT_PUBLIC_API_VERSION}/user
  * @returns { status: boolean; message: string; result: any; }
  */
 
-export const getPlaylists = async ({
-  userId,
-  accessToken,
-}: GetUserPlaylists): Promise<any> => {
+export const getPlaylists = async (accessToken: string): Promise<any> => {
   try {
-    const params = new URLSearchParams({
-      userId,
-    });
-
-    const url = `${BASE_URL}/playlists?${params.toString()}`;
-
-    const response = await fetch(url, {
+    const response = await fetch(BASE_URL, {
       method: "GET",
       headers: {
         Authorization: `Bearer ${accessToken}`,
@@ -67,12 +59,11 @@ export const getPlaylists = async ({
  */
 
 export const createNewPlaylist = async ({
-  userId,
   playlistName,
   accessToken,
 }: CreateNewPlaylist): Promise<any> => {
   try {
-    const url = `${BASE_URL}/playlist`;
+    const url = `${BASE_URL}/new-playlist`;
 
     const response = await fetch(url, {
       method: "POST",
@@ -81,8 +72,7 @@ export const createNewPlaylist = async ({
         Authorization: `Bearer ${accessToken}`,
       },
       body: JSON.stringify({
-        userId,
-        playlistName,
+        name: playlistName,
       }),
     });
 
@@ -121,24 +111,21 @@ export const createNewPlaylist = async ({
  */
 
 export const updatePlaylist = async ({
-  userId,
   playlistId,
   playlistName,
   accessToken,
 }: UpdatePlaylist): Promise<any> => {
   try {
-    const url = `${BASE_URL}/playlist`;
+    const url = `${BASE_URL}/${playlistId}`;
 
     const response = await fetch(url, {
-      method: "PUT",
+      method: "PATCH",
       headers: {
         "Content-Type": "application/json",
         Authorization: `Bearer ${accessToken}`,
       },
       body: JSON.stringify({
-        userId,
-        playlistId,
-        playlistName,
+        name: playlistName,
       }),
     });
 
@@ -176,12 +163,11 @@ export const updatePlaylist = async ({
  */
 
 export const deletePlaylist = async ({
-  userId,
   playlistId,
   accessToken,
 }: DeletePlaylist): Promise<any> => {
   try {
-    const url = `${BASE_URL}/playlist`;
+    const url = `${BASE_URL}/${playlistId}`;
 
     const response = await fetch(url, {
       method: "DELETE",
@@ -190,8 +176,7 @@ export const deletePlaylist = async ({
         Authorization: `Bearer ${accessToken}`,
       },
       body: JSON.stringify({
-        userId,
-        playlistId,
+        id: playlistId,
       }),
     });
 

@@ -44,20 +44,7 @@ const MainPage = () => {
   useEffect(() => {
     if (movie && session && movie.slug === params?.slug) {
       addNewMovie({
-        userId: session?.user?.id as string,
-        movieData: {
-          name: movie.name,
-          lang: movie.lang,
-          quality: movie.quality,
-          slug: movie.slug,
-          year: movie.year,
-          time: movie.time,
-          episodeCurrent: movie.episode_current,
-          originName: movie.origin_name,
-          posterUrl: movie.poster_url,
-          thumbUrl: movie.thumb_url,
-          category: movie.categories,
-        },
+        movieId: movie._id,
         type: "history",
         accessToken: session?.user?.accessToken as string,
       });

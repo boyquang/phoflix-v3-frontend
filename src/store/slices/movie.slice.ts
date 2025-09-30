@@ -139,7 +139,13 @@ const movieSlice = createSlice({
 
       const { movie, episodes } = action.payload || {};
 
-      state.movieInfo.movie = movie;
+      state.movieInfo.movie = {
+        actors: movie?.actors || movie?.actor || [],
+        categories: movie?.categories || movie?.category || [],
+        countries: movie?.countries || movie?.country || [],
+        directors: movie?.directors || movie?.director || [],
+        ...movie,
+      };
       state.movieInfo.episodes = episodes || null;
 
       const isValidEpisodes = hasValidEpisode(episodes);
