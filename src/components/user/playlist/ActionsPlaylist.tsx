@@ -17,6 +17,7 @@ import {
   IconButton,
   Input,
   Portal,
+  Spinner,
 } from "@chakra-ui/react";
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
@@ -211,12 +212,13 @@ const ActionsPlaylist = ({
                 </Button>
               </Dialog.ActionTrigger>
               <Button
-                loading={loading[action]}
+                disabled={loading[action]}
                 onClick={() => handleActionPlaylist(action)}
                 size="xs"
                 className="min-w-24 bg-primary text-gray-800 shadow-primary"
               >
                 {action === "create" ? "Thêm" : "Lưu"}
+                {loading[action] && <Spinner size="xs" />}
               </Button>
             </Dialog.Footer>
           </Dialog.Content>

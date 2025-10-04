@@ -26,14 +26,13 @@ const TabEpisodes = () => {
           language={selectedLanguage}
           currentEpisode={currentEpisode}
           setCurrentEpisode={(item) => dispatch(setCurrentEpisode(item))}
-          colums={{
+          columns={{
             base: 3,
             md: 5,
             lg: 6,
             xl: 6,
           }}
           redirect
-          showToaster={false}
           isScroll={false}
         />
       )}

@@ -18,7 +18,6 @@ import FavoriteButton from "../shared/FavoriteButton";
 import PopoverPlaylist from "../user/playlist/PopoverPlaylist";
 import ShareButton from "../shared/ShareButton";
 import ReportDialog from "../movie-report/ReportDialog";
-import DownloadFilmButton from "../shared/DownloadFilmButton";
 import WatchingTogetherButton from "../watch-together/WatchingTogetherButton";
 import CinemaMode from "../shared/CinemaMode";
 import SectionInfo from "./SectionInfo";
@@ -27,6 +26,11 @@ import EpisodesList from "../episode/EpisodeList";
 import MovieVersionList from "../movie-version/MovieVersionList";
 import FeedbackSection from "../feedback/FeedbackSection";
 import MovieSuggesstions from "../shared/MovieSuggestions";
+import useProgressMovieHistory from "@/hooks/useProgressMovieHistory";
+import ToggleButton from "../shared/ToggleButton";
+import { setAutoNextEpisode } from "@/store/slices/user.slice";
+import { toast } from "sonner";
+import AutoNextEpisodeButton from "./AutoNextEpisodeButton";
 
 interface ClientWrapperProps {
   movie: Movie;
@@ -35,8 +39,8 @@ interface ClientWrapperProps {
 
 const ClientWrapper = ({ movie, episodes }: ClientWrapperProps) => {
   const dispatch: AppDispatch = useDispatch();
-  const { data: session } = useSession();
   const params = useParams();
+  const { data: session, status } = useSession();
   const {
     currentEpisode,
     isLongSeries,
@@ -54,14 +58,21 @@ const ClientWrapper = ({ movie, episodes }: ClientWrapperProps) => {
 
   // Thêm phim vào lịch sử xem
   useEffect(() => {
-    if (movie && session && movie.slug === params?.slug) {
+    if (
+      movie?.id &&
+      status === "authenticated" &&
+      movie.slug === params?.slug
+    ) {
       addNewMovie({
         movieId: movie._id,
         type: "history",
         accessToken: session?.user?.accessToken as string,
       });
     }
-  }, [movie, session]);
+  }, [movie?._id, status]);
+
+  // Lấy tiến trình xem phim
+  useProgressMovieHistory();
 
   // Lấy danh sách phim trong danh sách phát
   useGetPlaylistContainingMovie();
@@ -88,16 +99,16 @@ const ClientWrapper = ({ movie, episodes }: ClientWrapperProps) => {
 
         <div className="flex flex-col relative watch-player md:-mx-0 -mx-4">
           <SectionVideo />
-          <div className="lg:p-4 p-2 bg-[#08080a] md:rounded-b-xl rounded-b-none flex gap-2 justify-between flex-wrap items-center">
+          <div className="lg:p-4 p-2 bg-[#08080a] md:rounded-b-xl rounded-b-none">
             <div className="flex lg:gap-x-4 gap-x-2 gap-y-2 items-center flex-wrap">
               <FavoriteButton placement="horizontal" responsiveText />
               <PopoverPlaylist placement="horizontal" responsiveText />
               <ShareButton placement="horizontal" responsiveText />
               <ReportDialog />
-              <DownloadFilmButton placement="horizontal" responsiveText />
+              {isLongSeries && <AutoNextEpisodeButton />}
+              <CinemaMode />
               <WatchingTogetherButton placement="horizontal" responsiveText />
             </div>
-            <CinemaMode />
           </div>
         </div>
       </div>
@@ -118,7 +129,7 @@ const ClientWrapper = ({ movie, episodes }: ClientWrapperProps) => {
                         setCurrentEpisode={(item) =>
                           dispatch(setCurrentEpisode(item))
                         }
-                        colums={{
+                        columns={{
                           base: 3,
                           md: 5,
                           lg: 3,

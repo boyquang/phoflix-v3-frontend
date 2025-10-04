@@ -423,10 +423,12 @@ export const getIdFromLinkEmbed = (link: string, position: number) => {
  */
 
 export const changeQuery = <T>(arr: T[]) => {
-  const params = new URLSearchParams(window.location.search);
+  const params = new URLSearchParams();
 
   arr.forEach((item: any) => {
-    params.set(item?.key, item?.value);
+    if (item?.key && item?.value !== undefined) {
+      params.set(item.key, item.value);
+    }
   });
 
   window.history.replaceState({}, "", `?${params.toString()}`);
@@ -664,16 +666,6 @@ export const formatString = (str: string) => {
     .replace(/\s+/g, "-") // Thay khoảng trắng bằng dấu gạch ngang
     .replace(/-+/g, "-") // Gộp nhiều dấu gạch ngang liên tiếp
     .replace(/^-+|-+$/g, ""); // Xóa dấu gạch ngang đầu/cuối nếu có
-};
-
-/**
- * @param text - Chuỗi văn bản cần giải mã các ký tự HTML entities
- * @description - Hàm này sẽ chuyển đổi các ký tự HTML entities (ví dụ: &amp;, &lt;, &gt;) thành ký tự tương ứng của nó.
- * @returns - Chuỗi đã được giải mã
- */
-
-export const decodeHtmlEntities = (text: string) => {
-  return decode(text);
 };
 
 interface GeneratePagination {
@@ -1028,4 +1020,52 @@ export function generateSlug(name: string) {
     strict: true, // bỏ ký tự đặc biệt
     locale: "vi", // hỗ trợ tiếng Việt
   });
+}
+
+/**
+ *
+ * @param totalSeconds - Tổng số giây cần định dạng
+ * @description - Hàm này sẽ định dạng tổng số giây thành chuỗi thời gian theo định dạng "HH:MM:SS" hoặc "MM:SS".
+ *                Nếu tổng số giây lớn hơn hoặc bằng 3600 (1 giờ), sẽ hiển thị định dạng "HH:MM:SS".
+ *                Nếu tổng số giây nhỏ hơn 3600, sẽ hiển thị định dạng "MM:SS".
+ * @returns - Chuỗi thời gian đã được định dạng
+ */
+
+export function formatClockTime(totalSeconds: number) {
+  const hours = Math.floor(totalSeconds / 3600);
+  const minutes = Math.floor((totalSeconds % 3600) / 60);
+  const seconds = totalSeconds % 60;
+
+  // Nếu có giờ, hiển thị định dạng HH:MM:SS
+  if (hours > 0) {
+    return [hours, minutes, seconds]
+      .map((unit) => String(unit).padStart(2, "0"))
+      .join(":");
+  }
+
+  // Nếu không có giờ, hiển thị định dạng MM:SS
+  return [minutes, seconds]
+    .map((unit) => String(unit).padStart(2, "0"))
+    .join(":");
+}
+
+/**
+ *
+ * @param totalSeconds - Tổng số giây cần định dạng
+ * @description - Hàm này sẽ định dạng tổng số giây thành chuỗi thời gian theo định dạng "XhYm" hoặc "Xm".
+ *                Nếu tổng số giây lớn hơn hoặc bằng 3600 (1 giờ), sẽ hiển thị định dạng "XhYm" (giờ và phút).
+ *                Nếu tổng số giây nhỏ hơn 3600, sẽ hiển thị định dạng "Xm" (chỉ phút).
+ *                Nếu tổng số giây nhỏ hơn 60, sẽ trả về "1m" để đảm bảo có ít nhất 1 phút.
+ * @returns - Chuỗi thời gian đã được định dạng
+ */
+
+export function formatDuration(totalSeconds: number) {
+  const hours = Math.floor(totalSeconds / 3600);
+  const minutes = Math.floor((totalSeconds % 3600) / 60);
+
+  if (hours > 0) {
+    return minutes > 0 ? `${hours}h${minutes}m` : `${hours}h`;
+  }
+
+  return minutes > 0 ? `${minutes}m` : "1m";
 }

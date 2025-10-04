@@ -5,10 +5,19 @@ import {
   NEXT_PUBLIC_CRAWL_MOVIES_URL,
 } from "@/constants/env.contant";
 import { fetcher, IS_SUCCESS, REVALIDATE_TIME } from "../fetcher";
+import { RESPONSE_MOVIE } from "@/constants/response-movie-api.contant";
+import { normalizeMovieInfo } from "../normalizers/movie-info";
 
 const BASE_URL = `${NEXT_PUBLIC_SITE_URL}/api/movie`;
 const BACKEND_URL = `${NEXT_PUBLIC_BACKEND_URL}/api/${NEXT_PUBLIC_API_VERSION}`;
 const CRAWL_MOVIES_URL = `${NEXT_PUBLIC_CRAWL_MOVIES_URL}/api/${NEXT_PUBLIC_API_VERSION}`;
+
+/**
+ *  Lấy thông tin chi tiết của một bộ phim dựa trên slug.
+ * @param slug slug của phim
+ * @param force cờ để buộc lấy dữ liệu mới từ server, bỏ qua cache (mặc định là false).
+ * @returns   Thông tin chi tiết của bộ phim, bao gồm movie, episodes và status.
+ */
 
 export async function fetchMovieInfo(slug: string, force: boolean = false) {
   try {
@@ -21,21 +30,29 @@ export async function fetchMovieInfo(slug: string, force: boolean = false) {
     });
 
     if (!response.ok) {
-      throw new Error(`Error fetching movie info: ${response.statusText}`);
+      return RESPONSE_MOVIE.INFO;
     }
 
     const data = await response.json();
 
     return {
-      movie: data?.movie || {},
+      movie: normalizeMovieInfo(data?.movie || {}),
       episodes: data?.episodes || [],
       status: data?.status === true || data?.status === IS_SUCCESS,
     };
   } catch (error) {
     console.error("Failed to fetch movie info:", error);
-    return { status: false, movie: {}, episodes: [] };
+    return RESPONSE_MOVIE.INFO;
   }
 }
+
+/**
+ * Lấy danh sách phim dựa trên từ khóa tìm kiếm.
+ * @param keyword từ khóa tìm kiếm
+ * @param page số trang (mặc định là 1)
+ * @param limit số lượng phim trên mỗi trang (mặc định là 24)
+ * @returns danh sách phim và thông tin phân trang
+ */
 
 export async function fetchSearchMovies(
   keyword: string,
@@ -56,7 +73,7 @@ export async function fetchSearchMovies(
     });
 
     if (!response.ok) {
-      throw new Error(`Error fetching search results: ${response.statusText}`);
+      return RESPONSE_MOVIE.SEARCH;
     }
 
     const dataJson = await response.json();
@@ -69,12 +86,7 @@ export async function fetchSearchMovies(
     };
   } catch (error) {
     console.error("Failed to fetch search movies:", error);
-    return {
-      movies: [],
-      seoOnPage: {},
-      pagination: {},
-      status: false,
-    };
+    return RESPONSE_MOVIE.SEARCH;
   }
 }
 
@@ -102,7 +114,7 @@ export async function fetchMovieDetail(
     });
 
     if (!response.ok) {
-      throw new Error(`Error fetching movie detail: ${response.statusText}`);
+      return RESPONSE_MOVIE.DETAIL;
     }
 
     const dataJson = await response.json();
@@ -116,13 +128,7 @@ export async function fetchMovieDetail(
     };
   } catch (error) {
     console.error("Failed to fetch movie detail:", error);
-    return {
-      items: [],
-      pagination: {},
-      titlePage: "Danh sách phim",
-      seoOnPage: {},
-      status: false,
-    };
+    return RESPONSE_MOVIE.DETAIL;
   }
 }
 
@@ -164,9 +170,7 @@ export async function fetchAdvanceFilterMovies({
     });
 
     if (!response.ok) {
-      throw new Error(
-        `Error fetching advanced filter movies: ${response.statusText}`
-      );
+      return RESPONSE_MOVIE.FILTER_MOVIES;
     }
 
     const dataJson = await response.json();
@@ -179,12 +183,7 @@ export async function fetchAdvanceFilterMovies({
     };
   } catch (error) {
     console.error("Failed to fetch advanced filter movies:", error);
-    return {
-      items: [],
-      titlePage: "Danh sách phim",
-      pagination: {},
-      status: false,
-    };
+    return RESPONSE_MOVIE.FILTER_MOVIES;
   }
 }
 
@@ -211,9 +210,7 @@ export async function fetchNewlyUpdatedMovies(
     });
 
     if (!response.ok) {
-      throw new Error(
-        `Error fetching newly updated movies: ${response.statusText}`
-      );
+      return RESPONSE_MOVIE.NEWLY_UPDATED;
     }
 
     const dataJson = await response.json();
@@ -228,11 +225,7 @@ export async function fetchNewlyUpdatedMovies(
     };
   } catch (error) {
     console.error("Failed to fetch newly updated movies:", error);
-    return {
-      items: [],
-      pagination: {},
-      status: false,
-    };
+    return RESPONSE_MOVIE.NEWLY_UPDATED;
   }
 }
 
@@ -249,7 +242,7 @@ export async function fetchMoviePopular(page: number) {
     });
 
     if (!response.ok) {
-      throw new Error(`Error fetching popular movies: ${response.statusText}`);
+      return RESPONSE_MOVIE.POPULAR_MOVIES;
     }
 
     const dataJson = await response.json();
@@ -264,11 +257,7 @@ export async function fetchMoviePopular(page: number) {
     };
   } catch (error) {
     console.error("Failed to fetch popular movies:", error);
-    return {
-      items: [],
-      pagination: {},
-      status: false,
-    };
+    return RESPONSE_MOVIE.POPULAR_MOVIES;
   }
 }
 
@@ -293,7 +282,7 @@ export async function fetchActorsByMovie(
     });
 
     if (!response.ok) {
-      throw new Error(`Error fetching actors by movie: ${response.statusText}`);
+      return RESPONSE_MOVIE.ACTORS_BY_MOVIE;
     }
 
     const dataJson = await response.json();
@@ -307,10 +296,7 @@ export async function fetchActorsByMovie(
     };
   } catch (error) {
     console.error("Failed to fetch actors by movie:", error);
-    return {
-      actor: { cast: [], crew: [] },
-      status: false,
-    };
+    return RESPONSE_MOVIE.ACTORS_BY_MOVIE;
   }
 }
 
@@ -328,7 +314,7 @@ export async function fetchActors(page: number, language: string = "vi") {
     });
 
     if (!response.ok) {
-      throw new Error(`Error fetching actors: ${response.statusText}`);
+      return RESPONSE_MOVIE.ACTORS;
     }
 
     const dataJson = await response.json();
@@ -343,11 +329,7 @@ export async function fetchActors(page: number, language: string = "vi") {
     };
   } catch (error) {
     console.error("Failed to fetch actors:", error);
-    return {
-      actors: [],
-      pagination: {},
-      status: false,
-    };
+    return RESPONSE_MOVIE.ACTORS;
   }
 }
 
@@ -364,7 +346,7 @@ export async function fetchActorDetail(id: number, language: string = "vi") {
     });
 
     if (!response.ok) {
-      throw new Error(`Error fetching actor detail: ${response.statusText}`);
+      return RESPONSE_MOVIE.ACTOR_DETAIL;
     }
 
     const dataJson = await response.json();
@@ -375,10 +357,7 @@ export async function fetchActorDetail(id: number, language: string = "vi") {
     };
   } catch (error) {
     console.error("Failed to fetch actor detail:", error);
-    return {
-      actor: {},
-      status: false,
-    };
+    return RESPONSE_MOVIE.ACTOR_DETAIL;
   }
 }
 
@@ -395,7 +374,7 @@ export async function fetchMoviesByActor(id: number, language: string = "vi") {
     });
 
     if (!response.ok) {
-      throw new Error(`Error fetching movies by actor: ${response.statusText}`);
+      return RESPONSE_MOVIE.MOVIES_BY_ACTOR;
     }
 
     const dataJson = await response.json();
@@ -409,10 +388,7 @@ export async function fetchMoviesByActor(id: number, language: string = "vi") {
     };
   } catch (error) {
     console.error("Failed to fetch movies by actor:", error);
-    return {
-      movies: [],
-      status: false,
-    };
+    return RESPONSE_MOVIE.MOVIES_BY_ACTOR;
   }
 }
 
@@ -537,13 +513,7 @@ export const createNewMovie = async (
       };
     }
 
-    return {
-      status: true,
-      message: "Tạo phim mới thành công.",
-      result: {
-        movie: data,
-      },
-    };
+    return data;
   } catch (error) {
     console.error("Failed to create new movie:", error);
     return {
@@ -587,13 +557,7 @@ export const updateMovie = async ({
       };
     }
 
-    return {
-      status: true,
-      message: "Cập nhật phim thành công.",
-      result: {
-        movie: data,
-      },
-    };
+    return data;
   } catch (error) {
     console.error("Failed to update movie:", error);
     return {
@@ -627,13 +591,7 @@ export const deleteMovie = async (ids: string, accessToken: string) => {
       };
     }
 
-    return {
-      status: true,
-      message: "Xoá phim thành công.",
-      result: {
-        movie: data,
-      },
-    };
+    return data;
   } catch (error) {
     console.error("Failed to delete movie:", error);
     return {
@@ -643,3 +601,4 @@ export const deleteMovie = async (ids: string, accessToken: string) => {
     };
   }
 };
+

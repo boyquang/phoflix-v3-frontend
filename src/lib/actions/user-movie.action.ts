@@ -1,11 +1,10 @@
 import {
   ENV,
   NEXT_PUBLIC_API_VERSION,
-  NEXT_PUBLIC_BACKEND_URL,
   NEXT_PUBLIC_CRAWL_MOVIES_URL,
 } from "../../constants/env.contant";
+import { fetcher } from "../fetcher";
 
-// const BASE_URL = `${NEXT_PUBLIC_BACKEND_URL}/api/${NEXT_PUBLIC_API_VERSION}/user`;
 const BASE_URL = `${NEXT_PUBLIC_CRAWL_MOVIES_URL}/api/${NEXT_PUBLIC_API_VERSION}/user-movies`;
 
 /**
@@ -38,7 +37,7 @@ export const getUserMovies = async ({
 
     const url = `${BASE_URL}?${params.toString()}`;
 
-    const response = await fetch(url, {
+    const response = await fetcher(url, {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
@@ -88,7 +87,7 @@ export const checkMovieExists = async ({
   try {
     const url = `${BASE_URL}/is-existed`;
 
-    const response = await fetch(url, {
+    const response = await fetcher(url, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -144,13 +143,9 @@ export const addNewMovie = async ({
   accessToken,
 }: AddNewMovie): Promise<any> => {
   try {
-    console.log("movieId", movieId);
-    console.log("type", type);
-    console.log("playlistId", playlistId);
-
     const url = `${BASE_URL}/add`;
 
-    const response = await fetch(url, {
+    const response = await fetcher(url, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -208,7 +203,7 @@ export const deleteMovie = async ({
   try {
     const url = `${BASE_URL}/delete`;
 
-    const response = await fetch(url, {
+    const response = await fetcher(url, {
       method: "DELETE",
       headers: {
         "Content-Type": "application/json",
@@ -254,7 +249,7 @@ export const deleteAllMovies = async ({
   try {
     const url = `${BASE_URL}/delete-all`;
 
-    const response = await fetch(url, {
+    const response = await fetcher(url, {
       method: "DELETE",
       headers: {
         "Content-Type": "application/json",
@@ -307,7 +302,7 @@ export const deleteSelectedMovies = async ({
   try {
     const url = `${BASE_URL}/delete-selected-movies`;
 
-    const response = await fetch(url, {
+    const response = await fetcher(url, {
       method: "DELETE",
       headers: {
         "Content-Type": "application/json",
@@ -337,6 +332,88 @@ export const deleteSelectedMovies = async ({
     if (ENV === "development") {
       console.error("Error deleting selected movies:", error);
     }
+    return {
+      status: false,
+      message: "Lỗi server! Vui lòng thử lại sau.",
+      result: null,
+    };
+  }
+};
+
+export const updateProgressMovieHistory = async (
+  movieId: string,
+  accessToken: string,
+  options?: {
+    currentTime?: number;
+    duration?: number;
+    finished?: boolean;
+    currentEpisode?: {
+      episodeId?: string;
+      name?: string;
+    }
+  }
+) => {
+  try {
+    const url = `${BASE_URL}/update-progress`;
+
+    const response = await fetcher(url, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${accessToken}`,
+      },
+      body: JSON.stringify({ id: movieId, ...options }),
+    });
+
+    const data = await response.json();
+
+    if (!response.ok) {
+      return {
+        status: false,
+        message: data?.message || "Lỗi server! Vui lòng thử lại sau.",
+        result: null,
+      };
+    }
+
+    return data;
+  } catch (error) {
+    console.error("Failed to update progress movie history:", error);
+    return {
+      status: false,
+      message: "Lỗi server! Vui lòng thử lại sau.",
+      result: null,
+    };
+  }
+};
+
+export const fetchProgressMovieHistory = async (
+  movieId: string,
+  accessToken: string
+) => {
+  try {
+    const url = `${BASE_URL}/progress/${movieId}`;
+
+    const response = await fetcher(url, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${accessToken}`,
+      },
+    });
+
+    const data = await response.json();
+
+    if (!response.ok) {
+      return {
+        status: false,
+        message: data?.message || "Lỗi server! Vui lòng thử lại sau.",
+        result: null,
+      };
+    }
+
+    return data;
+  } catch (error) {
+    console.error("Failed to fetcher progress movie history:", error);
     return {
       status: false,
       message: "Lỗi server! Vui lòng thử lại sau.",

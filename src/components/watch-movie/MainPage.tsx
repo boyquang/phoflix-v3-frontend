@@ -128,7 +128,7 @@ const MainPage = () => {
                     setCurrentEpisode={(item) =>
                       dispatch(setCurrentEpisode(item))
                     }
-                    colums={{
+                    columns={{
                       base: 3,
                       md: 5,
                       lg: 3,
@@ -137,8 +137,7 @@ const MainPage = () => {
                     redirect={false}
                     episodes={groups[selectedLanguage]?.items || []}
                     language={selectedLanguage}
-                    showToaster={false}
-                  />
+                   />
                 )}
               </>
             ) : (

@@ -22,14 +22,13 @@ interface EpisodesListProps {
   currentEpisode: EpisodeMerged | null;
   setCurrentEpisode: (item: EpisodeMerged) => void;
   callbackSocket?: (item: EpisodeMerged) => void;
-  colums?: {
+  columns?: {
     base: number;
     md: number;
     lg: number;
     xl: number;
   };
   redirect?: boolean;
-  showToaster?: boolean;
   isScroll?: boolean;
   elementScrollName?: string;
 }
@@ -42,14 +41,13 @@ const EpisodesList = ({
   currentEpisode,
   setCurrentEpisode,
   callbackSocket,
-  colums = {
+  columns = {
     base: 2,
     md: 4,
     lg: 6,
     xl: 8,
   },
   redirect = false,
-  showToaster = true,
   isScroll = false,
   elementScrollName = "movie-main",
 }: EpisodesListProps) => {
@@ -90,28 +88,17 @@ const EpisodesList = ({
 
       const newQuery = [
         { key: "id", value: id },
-        { key: "episode", value: item.slug },
+        { key: "ep", value: item.slug },
         { key: "language", value: language },
       ];
-
       // Cập nhật url query
       changeQuery(newQuery);
-
       // Cập nhật tập phim hiện tại
       setCurrentEpisode(item);
-
       // Cuộn lên đầu trang
       scrollToTop();
-
       // Gọi callback nếu có
-      if (callbackSocket) {
-        callbackSocket(item);
-      }
-
-      // Hiển thị toaster nếu cần
-      if (showToaster) {
-        toast.info(`Bạn đang xem ${item?.filename}`);
-      }
+      if (callbackSocket) callbackSocket(item);
     }
   };
 
@@ -129,10 +116,10 @@ const EpisodesList = ({
     <>
       <Box
         className={`grid mt-4
-              grid-cols-${colums.base ?? 2} 
-              md:grid-cols-${colums.md ?? 4} 
-              lg:grid-cols-${colums.lg ?? 6} 
-              xl:grid-cols-${colums.xl ?? 8} 
+              grid-cols-${columns.base ?? 2} 
+              md:grid-cols-${columns.md ?? 4} 
+              lg:grid-cols-${columns.lg ?? 6} 
+              xl:grid-cols-${columns.xl ?? 8} 
               gap-3
             `}
       >

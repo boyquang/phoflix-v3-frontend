@@ -32,7 +32,7 @@ export const fetcher = async (
     if (error.name === "AbortError") {
       throw new Error(`Request to ${url} timed out after ${timeout}ms`);
     }
-    throw error;
+    return new Response(null, { status: 500, statusText: error.message });
   } finally {
     clearTimeout(id);
   }

@@ -19,9 +19,16 @@ interface MovieTooltipProps {
     width: number;
     height: number;
   };
+  enabled?: boolean;
 }
 
-const MovieTooltip = ({ data, position }: MovieTooltipProps) => {
+const MovieTooltip = ({
+  data,
+  position,
+  enabled = true,
+}: MovieTooltipProps) => {
+  if (!enabled) return null;
+
   return createPortal(
     <div
       style={{

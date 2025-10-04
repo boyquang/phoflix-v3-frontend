@@ -26,7 +26,7 @@ export const updateUserProfile = async ({
   avatar,
   typeAccount,
   accessToken,
-}: UpdateUserProflie): Promise<any> => {
+}: UpdateUserProfile): Promise<any> => {
   try {
     const url = `${BASE_URL}/profile`;
 

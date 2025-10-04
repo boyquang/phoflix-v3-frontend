@@ -20,6 +20,7 @@ import {
 } from "@/store/slices/movie.slice";
 import MovieTopicList from "./MovieTopicList";
 import CommunityHighlights from "../community-hightlights/CommunityHighlights";
+import ContinueWatchingMovies from "./ContinueWatchingMovies";
 
 const ClientWrapper = () => {
   const dispatch: AppDispatch = useDispatch();
@@ -142,7 +143,13 @@ const ClientWrapper = () => {
       <Box className="overflow-hidden">
         <TopicCards />
       </Box>
-      <EventContainer />
+      <Box className="overflow-hidden">
+        <RootLayout>
+          <EventContainer />
+          <ContinueWatchingMovies />
+        </RootLayout>
+      </Box>
+
       <RootLayout>
         <Box className="2xl:mx-0 -mx-4">
           <Box className="flex flex-col gap-12 overflow-hidden">

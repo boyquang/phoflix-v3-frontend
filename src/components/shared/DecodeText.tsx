@@ -1,6 +1,6 @@
 "use client";
 
-import { decodeHtmlEntities } from "@/lib/utils";
+import { decode } from "he";
 import { JSX } from "react";
 
 interface DecodeTextProps {
@@ -9,8 +9,12 @@ interface DecodeTextProps {
   as?: keyof JSX.IntrinsicElements;
 }
 
-const DecodeText = ({ text, className, as: Tag = "span" }: DecodeTextProps) => {
-  return <Tag className={className}>{decodeHtmlEntities(text)}</Tag>;
+const DecodeText = ({
+  text = "",
+  className,
+  as: Tag = "span",
+}: DecodeTextProps) => {
+  return <Tag className={className}>{decode(text)}</Tag>;
 };
 
 export default DecodeText;

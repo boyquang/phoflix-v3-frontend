@@ -89,7 +89,15 @@ const ClientWrapper = () => {
 
   // Lấy danh sách phim khi thay đổi playlistId hoặc page
   useEffect(() => {
-    if (status !== "authenticated" || !selectedPlaylistId) return;
+    if (
+      status !== "authenticated" ||
+      !selectedPlaylistId ||
+      playlists?.length === 0
+    ) {
+      return;
+    }
+
+    console.log("Fetch movies for playlistId:", selectedPlaylistId, "Page:", page);
 
     const fetchMovies = async () => {
       try {

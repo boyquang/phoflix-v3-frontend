@@ -43,6 +43,8 @@ const PopoverPlaylist = ({
   };
 
   const handleGetPlaylistContainingMovie = () => {
+    if (!movie) return;
+
     dispatch(
       getPlaylistsContainingMovie({
         movieId: movie?._id as string,

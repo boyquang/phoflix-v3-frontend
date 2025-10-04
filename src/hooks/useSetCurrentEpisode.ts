@@ -7,7 +7,7 @@ import { useEffect } from "react";
 interface UseSetCurrenEpisodeProps {
   episodes: Episode[];
   enabled?: boolean;
-  callback: (episode: EpisodeMerged) => void;
+  callback: (episode: EpisodeMerged | null) => void;
 }
 
 const useSetCurrentEpisode = ({
@@ -34,7 +34,7 @@ const useSetCurrentEpisode = ({
         callback(data?.[0]);
       }
     }
-  }, [episodes]);
+  }, [episodes, id, enabled]);
 };
 
 export default useSetCurrentEpisode;

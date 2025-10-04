@@ -61,7 +61,7 @@ export const appConfig: AppConfig = {
   appName: "PHOFLIX-V3",
   feature: {
     watchingTogether: {
-      status: FeatureStatus.ACTIVE,
+      status: FeatureStatus.MAINTENANCE,
     },
     advancedFilter: {
       status: FeatureStatus.ACTIVE,
@@ -74,7 +74,7 @@ export const appConfig: AppConfig = {
   },
   pages: {
     "/phong-xem-chung": {
-      status: FeatureStatus.ACTIVE,
+      status: FeatureStatus.MAINTENANCE,
     },
     "/nguoi-dung/thong-bao": {
       status: FeatureStatus.ACTIVE,

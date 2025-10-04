@@ -70,9 +70,21 @@ type UserSlice = {
     refreshPlaylists: boolean;
     selectedPlaylistId: string | null;
   };
+  movieViewingStatus: {
+    fetched: boolean;
+    currentTime: number;
+    duration: number;
+    finished: boolean;
+    currentEpisode: {
+      episodeId: string;
+      name: string;
+    } | null;
+  };
+  autoNextEpisode: boolean;
+  cinemaMode: boolean;
 };
 
-type UpdateUserProflie = {
+type UpdateUserProfile = {
   userId: string;
   username: string;
   gender: "other" | "female" | "male";

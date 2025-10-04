@@ -12,7 +12,6 @@ import useScrollIntoView from "@/hooks/useScrollIntoView";
 import { FaFilter } from "react-icons/fa6";
 
 const options = {
-  charactor: "a",
   country: "",
   category: "",
   year: "",
@@ -20,8 +19,10 @@ const options = {
   sort_type: "desc",
 };
 
+type FilterOptions = typeof options;
+
 const FilterBox = () => {
-  const [filter, setFilter] = useState<any>(options);
+  const [filter, setFilter] = useState<FilterOptions>(options);
   const [showFilter, setShowFilter] = useState(true);
   const [pending, startTransition] = useTransition();
   const searchParams = useSearchParams();
@@ -36,13 +37,13 @@ const FilterBox = () => {
     sort_type: searchParams.get("sort_type") || "desc",
   };
 
-  // Sync filter state with URL search params
+  // đồng bộ filter với searchParams
   useEffect(() => {
     setFilter(objSearchParams);
   }, [searchParams]);
 
-  const handleSetFilter = (key: string, value: any) => {
-    setFilter((prev: any) => ({
+  const handleSetFilter = (key: string, value: string) => {
+    setFilter((prev: FilterOptions) => ({
       ...prev,
       [key]: value,
     }));
@@ -56,7 +57,7 @@ const FilterBox = () => {
     const notChange = isEqual(filter, objSearchParams);
 
     if (!notChange) {
-      const newQuery = updateSearchParams({ page: 1, ...filter });
+      const newQuery = updateSearchParams({ page: "1", ...filter });
 
       startTransition(() => {
         router.replace(`?${newQuery}`, { scroll: false });

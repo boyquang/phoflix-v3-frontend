@@ -7,10 +7,10 @@ import Loading from "@/app/loading";
 import SwiperContainer from "./SwipperContainer";
 
 interface MovieThumbProps {
-  items: Movie[];
   loading: boolean;
   error: boolean;
-  orientation: "horizontal" | "vertical";
+  orientation?: "horizontal" | "vertical";
+  items?: Movie[];
   showNavigation?: boolean;
   breakpoints?: {
     [key: number]: {
@@ -18,18 +18,20 @@ interface MovieThumbProps {
       spaceBetween: number;
     };
   };
+  children?: React.ReactNode;
 }
 
 const MovieSwiper = ({
   items,
   loading,
   error,
-  orientation,
+  orientation = "horizontal",
   breakpoints,
   showNavigation = true,
+  children,
 }: MovieThumbProps) => {
   if (loading) return <Loading height="h-36" />;
-  if (error || !items || items?.length === 0) return <Error />;
+  if (!children && (error || !items || items?.length === 0)) return <Error />;
 
   return (
     <SwiperContainer
@@ -64,11 +66,17 @@ const MovieSwiper = ({
         }
       }
     >
-      {items?.map((item, index: number) => (
-        <SwiperSlide key={index} className="relative">
-          <MovieCard data={item} orientation={orientation} />
-        </SwiperSlide>
-      ))}
+      {!children ? (
+        <>
+          {items?.map((item, index: number) => (
+            <SwiperSlide key={index} className="relative">
+              <MovieCard data={item} orientation={orientation} />
+            </SwiperSlide>
+          ))}
+        </>
+      ) : (
+        children
+      )}
     </SwiperContainer>
   );
 };

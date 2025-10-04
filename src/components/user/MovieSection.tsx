@@ -25,7 +25,7 @@ const MovieSection = ({
   return (
     <Box className="mt-6">
       <MovieGrid
-        colums={{
+        columns={{
           base: 2,
           md: 4,
           lg: 4,

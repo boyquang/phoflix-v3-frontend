@@ -43,7 +43,7 @@ const EpisodeWrapper = () => {
               callbackSocket={(item) => debounceChangeEpisode(item)}
               key={index}
               redirect={false}
-              colums={{
+              columns={{
                 base: 3,
                 md: 5,
                 lg: 6,

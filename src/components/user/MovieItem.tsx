@@ -19,6 +19,8 @@ import CheckboxCustom from "@/components/shared/CheckboxCustom";
 import HoverOutlineWrapper from "@/components/shared/HoverOutlineWrapper";
 import MovieTooltip from "@/components/shared/MovieTooltip";
 import DecodeText from "../shared/DecodeText";
+import { usePathname } from "next/navigation";
+import MovieProgress from "./MovieProgress";
 
 interface MovieItemProps {
   item: Movie;
@@ -34,8 +36,11 @@ interface Tooltip {
   visible: boolean;
 }
 
+const pathsWithProgress = ["/", "/nguoi-dung/lich-su-xem"];
+
 const MovieItem = ({ item, isLoading, callback }: MovieItemProps) => {
   const dispatch: AppDispatch = useDispatch();
+  const pathname = usePathname();
   const [tooltip, setTooltip] = useState<Tooltip | null>(null);
   const currentElementRef = useRef<HTMLImageElement | null>(null);
   const tooltipTimeout = useRef<NodeJS.Timeout | null>(null);
@@ -54,7 +59,16 @@ const MovieItem = ({ item, isLoading, callback }: MovieItemProps) => {
     onMouseLeaveHideTooltip(tooltipTimeout, setTooltip);
   };
 
+  const showProgress = pathsWithProgress.includes(pathname);
   const Tag = selectedDeleteMode ? "div" : Link;
+  let href: string | null = null;
+
+  if (showProgress) {
+    const id = item?.currentEpisode?.episodeId || "error-episode-id";
+    href = `/dang-xem/${item?.slug}?id=${id}&ref=continue`;
+  } else {
+    href = `/thong-tin-phim/${item?.slug}`;
+  }
 
   return (
     <Box
@@ -78,7 +92,7 @@ const MovieItem = ({ item, isLoading, callback }: MovieItemProps) => {
         >
           <HoverOutlineWrapper rounded="lg" ringSize="2">
             <Tag
-              href={!selectedDeleteMode ? `/thong-tin-phim/${item?.slug}` : "#"}
+              href={!selectedDeleteMode ? href : "#"}
               className="flex flex-col gap-2 group"
             >
               <Box className="h-0 overflow-hidden pb-[150%] relative">
@@ -126,17 +140,16 @@ const MovieItem = ({ item, isLoading, callback }: MovieItemProps) => {
           )}
         </Box>
       </Box>
-      <Link
-        href={`/thong-tin-phim/${item?.slug}`}
-        style={{
-          WebkitLineClamp: 2,
-          display: "-webkit-box",
-          WebkitBoxOrient: "vertical",
-          overflow: "hidden",
-        }}
-        className="text-gray-50 text-xs font-semibold group-hover:text-[#ffd875] lg:text-sm transition-all mt-2"
-      >
-        <DecodeText text={item?.name} />
+
+      {showProgress && <MovieProgress item={item} />}
+
+      <Link href={`/thong-tin-phim/${item?.slug}`} className="mt-2 block text-center">
+        <Box className="text-gray-50 line-clamp-1 text-xs font-semibold group-hover:text-[#ffd875] lg:text-sm transition-all">
+          <DecodeText text={item?.name} />
+          <span className="text-xs text-gray-300 truncate block mt-1">
+            <DecodeText text={item?.origin_name} />
+          </span>
+        </Box>
       </Link>
     </Box>
   );

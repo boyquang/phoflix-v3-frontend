@@ -12,15 +12,18 @@ import { fetcher } from "./fetcher";
  */
 
 export async function fetchWithFallback(
-    primaryUrl: string,
-    fallbackUrl: string,
-    options?: RequestInit
+  primaryUrl: string,
+  fallbackUrl: string,
+  options?: RequestInit
 ) {
-    const res = await fetcher(primaryUrl, options);
-    if (res.ok) return res;
+  const res = await fetcher(primaryUrl, options);
+  if (res.ok) return res;
 
-    const fallbackRes = await fetcher(fallbackUrl, options);
-    if (fallbackRes.ok) return fallbackRes;
+  const fallbackRes = await fetcher(fallbackUrl, options);
+  if (fallbackRes.ok) return fallbackRes;
 
-    throw new Error("Both primary and fallback API failed");
+  return new Response(null, {
+    status: 500,
+    statusText: "Đã có lỗi xảy ra.Vui lòng liên hệ quản trị viên.",
+  });
 }

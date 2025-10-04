@@ -86,7 +86,9 @@ const Playlists = ({ playlists, loading }: PlaylistsProps) => {
             <Box className="flex justify-between items-center">
               <Box className="flex flex-1 gap-1 items-center text-gray-200">
                 <IoPlayCircleOutline />
-                <span className="text-xs">{playlist?.totalItems} phim</span>
+                <span className="text-xs">
+                  {playlist?.movieCount || 0} phim
+                </span>
               </Box>
 
               <ActionsPlaylist

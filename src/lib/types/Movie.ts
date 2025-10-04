@@ -78,7 +78,7 @@ type Movie = {
   quality: string;
   time: string;
   trailer_url: string | null;
-  year: number;
+  year: number | string;
   _id: string;
   id: string;
   sub_docquyen: boolean;
@@ -91,8 +91,13 @@ type Movie = {
   };
   type: "hoathinh" | "single" | "series" | "tvshows" | null;
   content: string | null;
-  createAt?: string | null;
-  updatedAt?: string | null;
+  currentTime?: number;
+  duration?: number;
+  createAt?: string;
+  currentEpisode?: {
+    episodeId?: string;
+    name?: string;
+  };
 };
 
 type Movies = {

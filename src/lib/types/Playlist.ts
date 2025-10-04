@@ -35,9 +35,9 @@ type GetUserMoviesFromPlaylist = {
 
 type Playlist = {
   _id: string;
-  user_id: string;
+  userId: string;
   name: string;
-  totalItems: number;
-  created_at: string;
-  updated_at: string;
+  movieCount: number;
+  createdAt: string;
+  updatedAt: string;
 };

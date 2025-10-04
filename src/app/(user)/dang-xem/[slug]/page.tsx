@@ -37,7 +37,7 @@ export async function generateMetadata({
       robots: "index, follow",
       openGraph: {
         title: `${name} | PHOFLIX-V3`,
-        description: content,
+        description: content || "",
         url: `${NEXT_PUBLIC_SITE_URL}/dang-xem/${slug}`,
         siteName: "PHOFLIX-V3",
         locale: "vi_VN",
@@ -56,7 +56,7 @@ export async function generateMetadata({
       twitter: {
         card: "summary_large_image",
         title: `${name} | PHOFLIX-V3`,
-        description: content,
+        description: content || "",
         images: [
           poster_url.startsWith("http")
             ? poster_url

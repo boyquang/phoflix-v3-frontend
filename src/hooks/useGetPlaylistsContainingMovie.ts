@@ -14,14 +14,14 @@ const useGetPlaylistContainingMovie = () => {
   const { movie } = useSelector((state: RootState) => state.movie.movieInfo);
 
   useEffect(() => {
-    if (status === "authenticated") {
-      dispatch(
-        getPlaylistsContainingMovie({
-          movieId: movie?._id as string,
-          accessToken: session?.user?.accessToken as string,
-        })
-      );
-    }
+    if (!movie?._id || status !== "authenticated") return;
+
+    dispatch(
+      getPlaylistsContainingMovie({
+        movieId: movie?._id as string,
+        accessToken: session?.user?.accessToken as string,
+      })
+    );
   }, [movie?._id, params.slug, status]);
 };
 

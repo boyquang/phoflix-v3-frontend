@@ -94,45 +94,57 @@ const MovieDetail = ({ data }: MovieDetailProps) => {
           <span className="text-gray-50 font-semibold whitespace-nowrap">
             Đạo diễn:
           </span>
-          <ul className="flex flex-wrap gap-2">
-            {data?.directors?.map((director, index: number) => (
-              <li key={index} className="text-gray-400">
-                <DecodeText text={director} />
-                {index < data?.directors?.length - 1 && <span>,</span>}
-              </li>
-            ))}
-          </ul>
+          {data?.actors?.length > 0 ? (
+            <ul className="flex flex-wrap gap-2">
+              {data?.directors?.map((director, index: number) => (
+                <li key={index} className="text-gray-400">
+                  <DecodeText text={director} />
+                  {index < data?.directors?.length - 1 && <span>,</span>}
+                </li>
+              ))}
+            </ul>
+          ) : (
+            <span className="text-gray-400">Không xác định</span>
+          )}
         </Box>
         <Box className="flex text-sm gap-2">
           <span className="text-gray-50 font-semibold whitespace-nowrap">
             Quốc gia:
           </span>
-          <ul className="flex gap-2">
-            {data?.countries?.map((country, index: number) => (
-              <li
-                key={index}
-                className="text-gray-400 hover:text-[#ffd875] transition-all"
-              >
-                <Link href={`/chi-tiet/quoc-gia/${country?.slug}`}>
-                  <DecodeText text={country?.name} />
-                  {index < data?.countries?.length - 1 && <span>,</span>}
-                </Link>
-              </li>
-            ))}
-          </ul>
+          {data?.countries?.length > 0 ? (
+            <ul className="flex gap-2">
+              {data?.countries?.map((country, index: number) => (
+                <li
+                  key={index}
+                  className="text-gray-400 hover:text-[#ffd875] transition-all"
+                >
+                  <Link href={`/chi-tiet/quoc-gia/${country?.slug}`}>
+                    <DecodeText text={country?.name} />
+                    {index < data?.countries?.length - 1 && <span>,</span>}
+                  </Link>
+                </li>
+              ))}
+            </ul>
+          ) : (
+            <span className="text-gray-400">Không xác định</span>
+          )}
         </Box>
         <Box className="flex text-sm gap-2">
           <span className="text-gray-50 font-semibold whitespace-nowrap">
             Diễn viên:
           </span>
-          <ul className="flex flex-wrap gap-2">
-            {data?.actors?.map((actor, index: number) => (
-              <li key={index} className="text-gray-400">
-                <DecodeText text={actor} />
-                {index < data?.actors?.length - 1 && <span>,</span>}
-              </li>
-            ))}
-          </ul>
+          {data?.actors?.length > 0 ? (
+            <ul className="flex flex-wrap gap-2">
+              {data?.actors?.map((actor, index: number) => (
+                <li key={index} className="text-gray-400">
+                  <DecodeText text={actor} />
+                  {index < data?.actors?.length - 1 && <span>,</span>}
+                </li>
+              ))}
+            </ul>
+          ) : (
+            <span className="text-gray-400">Không xác định</span>
+          )}
         </Box>
       </Box>
 

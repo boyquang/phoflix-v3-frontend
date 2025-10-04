@@ -1,4 +1,4 @@
-import { createSlice } from "@reduxjs/toolkit";
+import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import {
   createUserSearchHistory,
   deleteAllUserSearchHistory,
@@ -51,6 +51,15 @@ const initialState: UserSlice = {
     selectedDeleteMode: false,
     selectedMovieIds: [],
   },
+  movieViewingStatus: {
+    fetched: false,
+    currentTime: 0,
+    duration: 0,
+    finished: false,
+    currentEpisode: null,
+  },
+  autoNextEpisode: false,
+  cinemaMode: false,
 };
 
 const userSlice = createSlice({
@@ -114,6 +123,21 @@ const userSlice = createSlice({
         state.userMovies.selectedMovieIds.push(movieId);
       }
     },
+    setMovieViewingStatus: (state, action) => {
+      state.movieViewingStatus = {
+        ...state.movieViewingStatus,
+        ...action.payload,
+      };
+    },
+
+    setAutoNextEpisode: (state, action: PayloadAction<boolean>) => {
+      state.autoNextEpisode = action.payload;
+      localStorage.setItem("auto_next_episode", action.payload ? "1" : "0");
+    },
+    setCinemaMode: (state, action: PayloadAction<boolean>) => {
+      state.cinemaMode = action.payload;
+      localStorage.setItem("cinema_mode", action.payload ? "1" : "0");
+    }
   },
   extraReducers: (builder) => {
     builder.addCase(getUserSearchHistory.pending, (state) => {
@@ -184,6 +208,9 @@ export const {
   setFetched,
   setSelectedMovieIds,
   setPlaylistByKey,
+  setMovieViewingStatus,
+  setAutoNextEpisode,
+  setCinemaMode,
 } = userSlice.actions;
 
 export default userSlice.reducer;

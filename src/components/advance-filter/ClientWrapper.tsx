@@ -16,7 +16,7 @@ import { RiMovieFill } from "react-icons/ri";
 import MovieGrid from "@/components/shared/MovieGrid";
 import { scrollToTop } from "@/lib/utils";
 
-const MainPage = () => {
+const ClientWrapper = () => {
   const dispatch: AppDispatch = useDispatch();
   const { items, loading, pagination } = useSelector(
     (state: RootState) => state.movie.searchMovie
@@ -116,4 +116,4 @@ const MainPage = () => {
   );
 };
 
-export default MainPage;
+export default ClientWrapper;

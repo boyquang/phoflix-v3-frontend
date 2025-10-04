@@ -139,14 +139,8 @@ const movieSlice = createSlice({
 
       const { movie, episodes } = action.payload || {};
 
-      state.movieInfo.movie = {
-        actors: movie?.actors || movie?.actor || [],
-        categories: movie?.categories || movie?.category || [],
-        countries: movie?.countries || movie?.country || [],
-        directors: movie?.directors || movie?.director || [],
-        ...movie,
-      };
-      state.movieInfo.episodes = episodes || null;
+      state.movieInfo.movie = movie;
+      state.movieInfo.episodes = episodes;
 
       const isValidEpisodes = hasValidEpisode(episodes);
 
@@ -386,9 +380,9 @@ const movieSlice = createSlice({
       state.moviePopular.items = action.payload?.items || [];
       state.moviePopular.error = false;
       state.moviePopular.totalPages =
-        action.payload?.pagination.totalPages || 0;
+        action.payload?.pagination?.totalPages || 0;
       state.moviePopular.totalResults =
-        action.payload?.pagination.totalResults || 0;
+        action.payload?.pagination?.totalResults || 0;
     });
 
     builder.addCase(fetchDataMoviePopular.rejected, (state, action) => {
