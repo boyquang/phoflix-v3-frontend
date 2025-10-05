@@ -1,6 +1,6 @@
 "use client";
 
-import { Box, Button, useMediaQuery } from "@chakra-ui/react";
+import { Badge, Box, Button, useMediaQuery } from "@chakra-ui/react";
 import Link from "next/link";
 import { generateUrlImage } from "@/lib/utils";
 import PlayIcon from "@/components/icons/PlayIcon";
@@ -10,6 +10,8 @@ import Image from "@/components/shared/Image";
 import { TagClassic } from "@/components/shared/TagClassic";
 import { useRouter } from "next/navigation";
 import DecodeText from "../shared/DecodeText";
+import TmdbRatingBadge from "../shared/TmdbRatingBadge";
+import BadgeCustom from "../shared/BadgeCustom";
 
 interface SlideItemProps {
   item: Movie;
@@ -57,28 +59,28 @@ const SlideItem = ({ item }: SlideItemProps) => {
           className="text-primary lg:text-left text-center text-sm truncate"
         />
         <Box className="flex gap-2 items-center flex-wrap lg:justify-start justify-center mt-4">
-          {item?.tmdb?.vote_average && item?.tmdb?.vote_average > 0 ? (
-            <Box className="inline-flex items-center justify-center gap-1 rounded-md h-6 px-1 border border-primary">
-              <span className="text-[0.625rem] text-primary">TMDb</span>
-              <span className="text-xs text-white">
-                {item?.tmdb?.vote_average.toFixed(1)}
-              </span>
-            </Box>
-          ) : null}
-          <Box className="text-xs font-semibold inline-flex items-center justify-center h-6 px-1 bg-primary linear-gradient text-black rounded-md">
-            {item?.quality || "Unknown"}
-          </Box>
-          <TagClassic text={item?.year || "Unknown"} />
-          <TagClassic text={item?.time || "Unknown"} />
-          <TagClassic text={item?.episode_current || "Unknown"} />
-          <TagClassic text={item?.lang || "Unknown"} />
+          <TmdbRatingBadge rating={item?.tmdb?.vote_average} />
+          <BadgeCustom
+            className="bg-primary linear-gradient text-black"
+            text={item?.quality || "Quality: N/A"}
+          />
+
+          <BadgeCustom
+            size="xs"
+            text={item?.episode_current || "Episode: N/A"}
+          />
+          <BadgeCustom size="xs" text={item?.year || "Year: N/A"} />
+          <BadgeCustom size="xs" text={item?.time || "Time: N/A"} />
+          {item?.lang?.split("+")?.map((lang, index) => (
+            <BadgeCustom key={index} size="xs" text={lang} />
+          ))}
         </Box>
 
-        <Box className="lg:flex hidden flex-wrap gap-2 mt-2">
+        <Box className="lg:flex hidden flex-wrap gap-2 mt-2.5">
           {item?.categories?.map((caterogy, index: number) => (
             <TagClassic
               key={index}
-              text={caterogy?.name || "Unknown"}
+              text={caterogy?.name || "Thể loại: N/A"}
               isRedirect
               href={`/chi-tiet/the-loai/${caterogy?.slug}`}
             />
@@ -87,7 +89,7 @@ const SlideItem = ({ item }: SlideItemProps) => {
 
         <DecodeText
           as="p"
-          text={item?.content || "Không có mô tả cho phim này."}
+          text={item?.content || "Nội dung: N/A"}
           className="text-sm hidden text-white leading-6 lg:text-left text-center mt-6 my-4 lg:line-clamp-3"
         />
 

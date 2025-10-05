@@ -11,7 +11,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { toast } from "sonner";
 
 interface UseUserMovieProps {
-  items: Movie[];
+  items?: Movie[];
 }
 
 const useUserMovie = ({ items }: UseUserMovieProps) => {
@@ -39,6 +39,15 @@ const useUserMovie = ({ items }: UseUserMovieProps) => {
     }
   }, [items, searchParams]);
 
+  const handleRefreshByPathname = () => {
+    // Nếu đang ở trang danh sách phát thì làm mới lại danh sách phát
+    if (pathname === "/nguoi-dung/danh-sach-phat") {
+      dispatch(setPlaylistByKey({ key: "refreshMovies" }));
+    } else {
+      dispatch(setTriggerRefresh()); // ở trang favorite hoặc history thì làm mới lại danh sách phim
+    }
+  };
+
   const handleDeleteMovie = async (
     movieId: string,
     type: "favorite" | "playlist" | "history",
@@ -55,13 +64,7 @@ const useUserMovie = ({ items }: UseUserMovieProps) => {
       });
 
       if (response?.status) {
-        if (pathname === "/nguoi-dung/danh-sach-phat") {
-          // Nếu đang ở trang danh sách phát thì làm mới lại danh sách phát
-          dispatch(setPlaylistByKey({ key: "refreshMovies" }));
-        } else {
-          dispatch(setTriggerRefresh()); // làm mới lại danh sách phim
-        }
-
+        handleRefreshByPathname();
         toast.success(response?.message);
       } else {
         toast.error(response?.message);
@@ -73,7 +76,7 @@ const useUserMovie = ({ items }: UseUserMovieProps) => {
     }
   };
 
-  return { handleDeleteMovie };
+  return { handleDeleteMovie, handleRefreshByPathname };
 };
 
 export default useUserMovie;

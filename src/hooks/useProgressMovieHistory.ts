@@ -5,7 +5,7 @@ import { getIdFromLinkEmbed } from "@/lib/utils";
 import { setMovieViewingStatus } from "@/store/slices/user.slice";
 import { AppDispatch, RootState } from "@/store/store";
 import { useSession } from "next-auth/react";
-import { useSearchParams } from "next/navigation";
+import { useParams, useSearchParams } from "next/navigation";
 import { useEffect, useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
 
@@ -16,10 +16,15 @@ const useProgressMovieHistory = () => {
     (state: RootState) => state.movie.movieInfo
   );
   const searchParams = useSearchParams();
+  const params = useParams();
   const fetchedRef = useRef<boolean>(false);
+  const idFromSearchParams = searchParams.get("id");
+  const refFromSearchParams = searchParams.get("ref");
 
   // khi chuyển tập phim thì reset lại
   useEffect(() => {
+    fetchedRef.current = false;
+
     dispatch(
       setMovieViewingStatus({
         currentTime: 0,
@@ -27,15 +32,14 @@ const useProgressMovieHistory = () => {
         finished: false,
       })
     );
-    fetchedRef.current = false;
-  }, [searchParams.get("id")]);
+  }, [params?.slug, idFromSearchParams]);
 
   useEffect(() => {
-    if (searchParams.get("ref") !== "continue") return;
-    if (!currentEpisode || !movie?._id || status !== "authenticated") return;
-    if (fetchedRef.current) return;
-
-    fetchedRef.current = true;
+    if (refFromSearchParams !== "continue") return; // không phải ref=continue
+    if (fetchedRef.current) return; // đã fetch rồi, không cần nữa
+    if (params?.slug !== movie?.slug) return; // slug không khớp
+    if (!currentEpisode || !movie?._id) return; // thiếu dữ liệu phim/tập
+    if (status !== "authenticated") return; // chưa đăng nhập
 
     const currentEpisodeId = getIdFromLinkEmbed(currentEpisode.link_embed, 8);
 
@@ -52,6 +56,8 @@ const useProgressMovieHistory = () => {
 
           if (currentEpisode?.episodeId !== currentEpisodeId) return;
 
+          fetchedRef.current = true;
+
           dispatch(
             setMovieViewingStatus({
               currentTime: currentTime || 0,
@@ -67,7 +73,7 @@ const useProgressMovieHistory = () => {
     };
 
     getProgressMovieHistory();
-  }, [movie?._id, status, currentEpisode?.link_embed, searchParams.get("ref")]);
+  }, [movie?._id, status, currentEpisode?.link_embed, refFromSearchParams]);
 };
 
 export default useProgressMovieHistory;

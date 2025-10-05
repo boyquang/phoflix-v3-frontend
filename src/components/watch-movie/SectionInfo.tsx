@@ -7,6 +7,9 @@ import { generateUrlImage } from "@/lib/utils";
 import { Box } from "@chakra-ui/react";
 import Link from "next/link";
 import { RiArrowRightWideFill } from "react-icons/ri";
+import TmdbRatingBadge from "../shared/TmdbRatingBadge";
+import BadgeCustom from "../shared/BadgeCustom";
+import DecodeText from "../shared/DecodeText";
 
 interface SectionInfoProps {
   data: Movie | null;
@@ -22,37 +25,36 @@ const SectionInfo = ({ data }: SectionInfoProps) => {
           <Box className="flex-shrink-0 w-28 sm:block hidden">
             <Box className="h-0 pt-[150%] relative">
               <Image
-                className="rounded-xl"
+                className="rounded-md"
                 src={generateUrlImage(data?.poster_url)}
                 alt={data?.name || "Không xác định"}
               />
             </Box>
           </Box>
           <Box className="flex flex-col gap-2">
-            <h4 className="lg:text-2xl truncate-lines three text-lg text-gray-50 font-semibold">
-              {data?.name || "Không xác định"}
-            </h4>
-            <p className="text-[#ffd875] text-sm">
-              {data?.origin_name || "Không xác định"}
-            </p>
+            <DecodeText
+              as="h4"
+              text={data?.name || "Tên phim: N/A"}
+              className="lg:text-2xl line-clamp-2 text-lg text-gray-50"
+            />
+            <DecodeText
+              as="p"
+              text={data?.origin_name || "Tên gốc: N/A"}
+              className="text-[#ffd875] text-sm line-clamp-1"
+            />
             <Box className="flex flex-wrap gap-2 items-center">
-              <span className="bg-transparent border border-[#ffd875] h-6 justify-center p-1 rounded-md inline-flex items-center">
-                <span className="text-[#ffd875] text-xs">TMDb</span>
-                <span className="text-gray-50 text-sm ml-1">
-                  {Number(data?.tmdb?.vote_average).toFixed(2) || 0}
-                </span>
-              </span>
-              <TagClassic text={data?.quality || "Không xác định"} />
-              <TagClassic text={data?.year || "Không xác định"} />
-              <TagClassic text={data?.lang || "Không xác định"} />
-              <TagClassic text={data?.time || "Không xác định"} />
-              <TagClassic text={data?.episode_current || "Không xác định"} />
+              <TmdbRatingBadge rating={data?.tmdb?.vote_average} />
+              <BadgeCustom text={data?.quality || "N/A"} />
+              <BadgeCustom text={data?.year || "N/A"} />
+              <BadgeCustom text={data?.time || "N/A"} />
+              <BadgeCustom text={data?.episode_current || "N/A"} />
             </Box>
             <Box className="flex flex-wrap gap-2 items-center mt-1">
               {data?.categories?.map((category, index: number) => (
                 <TagClassic
+                  bordered={false}
                   key={index}
-                  text={category?.name || "Không xác định"}
+                  text={category?.name || "Thể loại: N/A"}
                   isRedirect
                   href={`/chi-tiet/the-loai/${category?.slug}`}
                 />

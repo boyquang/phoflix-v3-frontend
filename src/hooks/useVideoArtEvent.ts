@@ -10,6 +10,7 @@ import { useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import useAutoNextEpisode from "./useAutoNextEpisode";
 import { setMovieViewingStatus } from "@/store/slices/user.slice";
+import { toast } from "sonner";
 
 const useVideoArtEvent = () => {
   const { currentTime, fetched } = useSelector(
@@ -78,6 +79,12 @@ const useVideoArtEvent = () => {
     if (cbFunction) cbFunction();
   };
 
+  const handleCanplayThrough = (art: Artplayer) => {
+    art.play().catch(() => {
+      console.log("Autoplay was prevented");
+    });
+  };
+
   const handlePlay = (art: Artplayer) => {};
 
   const handleEnded = (art: Artplayer) => {
@@ -137,6 +144,7 @@ const useVideoArtEvent = () => {
     onSeeked: handleSeeked,
     onTimeUpdate: handleTimeUpdate,
     onLoadedData: handleLoaded,
+    onCanplayThrough: handleCanplayThrough,
   };
 
   return videoEvents;

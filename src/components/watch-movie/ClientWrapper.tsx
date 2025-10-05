@@ -27,9 +27,6 @@ import MovieVersionList from "../movie-version/MovieVersionList";
 import FeedbackSection from "../feedback/FeedbackSection";
 import MovieSuggesstions from "../shared/MovieSuggestions";
 import useProgressMovieHistory from "@/hooks/useProgressMovieHistory";
-import ToggleButton from "../shared/ToggleButton";
-import { setAutoNextEpisode } from "@/store/slices/user.slice";
-import { toast } from "sonner";
 import AutoNextEpisodeButton from "./AutoNextEpisodeButton";
 
 interface ClientWrapperProps {
@@ -59,7 +56,7 @@ const ClientWrapper = ({ movie, episodes }: ClientWrapperProps) => {
   // Thêm phim vào lịch sử xem
   useEffect(() => {
     if (
-      movie?.id &&
+      movie?._id &&
       status === "authenticated" &&
       movie.slug === params?.slug
     ) {

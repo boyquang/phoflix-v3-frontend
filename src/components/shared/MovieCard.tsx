@@ -15,6 +15,7 @@ import MovieTooltip from "./MovieTooltip";
 import Image from "../shared/Image";
 import HoverOutlineWrapper from "../shared/HoverOutlineWrapper";
 import DecodeText from "./DecodeText";
+import BadgeCustom from "./BadgeCustom";
 
 interface MovieItemProps {
   data: Movie;
@@ -89,29 +90,18 @@ const MovieCard = ({ data, orientation }: MovieItemProps) => {
               alt={data?.name || "Không xác định"}
             />
             <Box className="absolute xs:right-2 top-2 left-2 xs:inline-flex hidden flex-wrap items-center gap-1">
-              <Badge
-                className="uppercase bg-gray-900 text-white shadow-sm"
-                size="xs"
-              >
-                {data?.quality}
-              </Badge>
+              <BadgeCustom size="xs" text={data?.quality || "N/A"} />
+
               {data?.lang?.split("+")?.map((lang, index) => (
-                <Badge
-                  key={index}
-                  size="xs"
-                  className="uppercase bg-white text-gray-900 shadow-sm"
-                >
-                  {lang}
-                </Badge>
+                <BadgeCustom key={index} size="xs" text={lang || "N/A"} />
               ))}
             </Box>
             <Box className="absolute left-1.5 inline-flex top-1.5 xs:left-1/2 xs:bottom-1.5 xs:top-auto xs:-translate-x-1/2 overflow-hidden transform">
-              <Badge
+              <BadgeCustom
                 className="bg-primary uppercase linear-gradient text-black"
                 size="xs"
-              >
-                {episodeText}
-              </Badge>
+                text={episodeText || "N/A"}
+              />
             </Box>
           </Box>
         </HoverOutlineWrapper>

@@ -1,6 +1,7 @@
 "use client";
 
 import AlertDialog from "@/components/shared/AlertDialog";
+import useUserMovie from "@/hooks/useUserMovie";
 import { deleteAllMovies } from "@/lib/actions/user-movie.action";
 import { setTriggerRefresh } from "@/store/slices/system.slice";
 import { setPlaylistByKey } from "@/store/slices/user.slice";
@@ -27,6 +28,7 @@ const DeleteAllMovies = ({ type, playlistId }: DeleteAllMoviesProps) => {
     (state: RootState) => state.user.userMovies
   );
   const dispatch: AppDispatch = useDispatch();
+  const { handleRefreshByPathname } = useUserMovie({});
 
   useEffect(() => {
     const titleMapping = {
@@ -56,7 +58,7 @@ const DeleteAllMovies = ({ type, playlistId }: DeleteAllMoviesProps) => {
 
       if (response?.status) {
         toast.success(response?.message);
-        dispatch(setPlaylistByKey({ key: "refreshMovies" }));
+        handleRefreshByPathname();
       } else {
         toast.error(response?.message);
       }
@@ -80,7 +82,7 @@ const DeleteAllMovies = ({ type, playlistId }: DeleteAllMoviesProps) => {
       trigger={
         <Button
           size="xs"
-          className="bg-red-500 text-gray-50 rounded-full xs:text-xs text-[10px] hover:opacity-80"
+          className="bg-red-500 text-gray-50 rounded-md xs:text-xs text-[10px] hover:opacity-80"
         >
           <MdDelete />
           <span>Xóa tất cả</span>

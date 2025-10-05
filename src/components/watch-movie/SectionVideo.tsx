@@ -45,6 +45,7 @@ const SectionVideo = () => {
                 "video:ended": (art) => videoEvents.onEnded(art),
                 "video:seeked": (art) => videoEvents.onSeeked(art),
                 "video:timeupdate": (art) => videoEvents.onTimeUpdate(art),
+                "video:canplaythrough": (art) => videoEvents.onCanplayThrough(art),
               }}
             />
           ) : (

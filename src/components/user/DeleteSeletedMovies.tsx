@@ -1,6 +1,7 @@
 "use client";
 
 import AlertDialog from "@/components/shared/AlertDialog";
+import useUserMovie from "@/hooks/useUserMovie";
 import { deleteSelectedMovies } from "@/lib/actions/user-movie.action";
 import { setTriggerRefresh } from "@/store/slices/system.slice";
 import {
@@ -32,6 +33,7 @@ const DeleteSelectedMovies = ({
     (state: RootState) => state.user.userMovies
   );
   const [loading, setLoading] = useState(false);
+  const { handleRefreshByPathname } = useUserMovie({});
 
   const handleDeleteSeletedMovies = async () => {
     try {
@@ -45,7 +47,7 @@ const DeleteSelectedMovies = ({
 
       if (response?.status) {
         dispatch(setSelectedDeleteMode(false));
-        dispatch(setPlaylistByKey({ key: "refreshMovies" }));
+        handleRefreshByPathname();
         toast.success(response?.message);
       } else {
         toast.error(response?.message);
@@ -58,12 +60,12 @@ const DeleteSelectedMovies = ({
   };
 
   return (
-    <Box className="flex items-center border border-gray-400 rounded-full">
+    <Box className="flex items-center border border-gray-400 rounded-md">
       <Button
         onClick={() => dispatch(setSelectedDeleteMode(!selectedDeleteMode))}
         size="xs"
         className={`text-xs text-gray-200 bg-transparent xs:text-xs text-[10px] hover:bg-[#25272f]
-           ${selectedMovieIds?.length > 0 ? "rounded-l-full" : "rounded-full"} 
+           ${selectedMovieIds?.length > 0 ? "rounded-l-md" : "rounded-md"} 
           `}
       >
         <FaSquareCheck />
@@ -77,9 +79,9 @@ const DeleteSelectedMovies = ({
           trigger={
             <Button
               size="xs"
-              className={`bg-transparent relative hover:bg-[#25272f] text-gray-50 xs:text-xs text-[10px] ${
+              className={`bg-transparent relative hover:bg-[#25272f] text-red-500 xs:text-xs text-[10px] ${
                 selectedMovieIds?.length > 0
-                  ? "rounded-r-full before:absolute before:left-0 before:top-0 before:bottom-0 before:w-[1px] before:bg-[#ffffff10]"
+                  ? "rounded-r-md before:absolute before:left-0 before:top-0 before:bottom-0 before:w-[1px] before:bg-[#ffffff10]"
                   : ""
               }`}
             >

@@ -1,7 +1,7 @@
 "use client";
 
 import { createPortal } from "react-dom";
-import { Box, Button } from "@chakra-ui/react";
+import { Badge, Box, Button } from "@chakra-ui/react";
 import { generateUrlImage } from "@/lib/utils";
 import { TagClassic } from "./TagClassic";
 import Link from "next/link";
@@ -11,6 +11,8 @@ import Image from "./Image";
 
 import "@/assets/css/animation.css";
 import DecodeText from "./DecodeText";
+import TmdbRatingBadge from "./TmdbRatingBadge";
+import BadgeCustom from "./BadgeCustom";
 interface MovieTooltipProps {
   data: Movie;
   position: {
@@ -83,17 +85,20 @@ const MovieTooltip = ({
           </Link>
         </Box>
         <Box className="flex flex-wrap gap-2 items-center">
-          <TagClassic text={data?.quality || "Không xác định"} />
-          <TagClassic text={data?.year || "Không xác định"} />
-          <TagClassic text={data?.lang || "Không xác định"} />
-          <TagClassic text={data?.time || "Không xác định"} />
-          <TagClassic text={data?.episode_current || "Không xác định"} />
+          <TmdbRatingBadge rating={data?.tmdb?.vote_average} />
+          <BadgeCustom size="xs" text={data?.quality || "Chất lượng: N/A"} />
+          <BadgeCustom size="xs" text={data?.year || "Năm: N/A"} />
+          {data?.lang?.split("+").map((item, index) => (
+            <BadgeCustom size="xs" key={index} text={item || "Ngôn ngữ: N/A"} />
+          ))}
+          <BadgeCustom size="xs" text={data?.episode_current || "Tập: N/A"} />
         </Box>
         <Box className="flex flex-wrap gap-2 items-center mt-3">
           {data?.categories?.map((category, index: number) => (
             <TagClassic
+              bordered={false}
               key={index}
-              text={category?.name || "Không xác định"}
+              text={category?.name || "Thể loại: N/A"}
               isRedirect
               href={`/chi-tiet/the-loai/${category?.slug}`}
             />

@@ -39,14 +39,19 @@ const FavoriteButton = ({
   }, [movie, params?.slug, status]);
 
   const handleCheckMovieExists = async () => {
-    setLoading(true);
-    const response = await checkMovieExists({
-      movieId: movie?._id as string,
-      type: "favorite",
-      accessToken: session?.user?.accessToken as string,
-    });
-    setLoading(false);
-    setFavorite(response?.result?.existed ?? false);
+    try {
+      setLoading(true);
+      const response = await checkMovieExists({
+        movieId: movie?._id as string,
+        type: "favorite",
+        accessToken: session?.user?.accessToken as string,
+      });
+      setFavorite(response?.result?.existed ?? false);
+    } catch (error) {
+      setFavorite(false);
+    } finally {
+      setLoading(false);
+    }
   };
 
   const handleAddNewMovie = async () => {
@@ -81,7 +86,6 @@ const FavoriteButton = ({
 
     try {
       let response = null;
-
       setLoading(true);
 
       if (!favorite) {
@@ -90,13 +94,8 @@ const FavoriteButton = ({
         response = await handleDeleteMovie();
       }
 
-      setLoading(false);
-
       if (response?.status) {
         handleCheckMovieExists();
-      }
-
-      if (response?.status) {
         toast.success(response.message);
       } else {
         toast.error("Đã xảy ra lỗi khi thực hiện thao tác yêu thích.");

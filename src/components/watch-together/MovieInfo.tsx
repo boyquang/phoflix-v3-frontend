@@ -36,12 +36,12 @@ const MovieInfo = () => {
               {Number(movieData?.voteAverage).toFixed(1) || 0}
             </span>
           </span>
-          <TagClassic text={movieData?.movieQuality || "Không xác định"} />
-          <TagClassic text={movieData?.movieYear || "Không xác định"} />
-          <TagClassic text={movieData?.movieLang || "Không xác định"} />
-          <TagClassic text={movieData?.movieTime || "Không xác định"} />
+          <TagClassic text={movieData?.movieQuality || "Chất lượng: N/A"} />
+          <TagClassic text={movieData?.movieYear || "Năm: N/A"} />
+          <TagClassic text={movieData?.movieLang || "Ngôn ngữ: N/A"} />
+          <TagClassic text={movieData?.movieTime || "Thời gian: N/A"} />
           <TagClassic
-            text={movieData?.movieEpisodeCurrent || "Không xác định"}
+            text={movieData?.movieEpisodeCurrent || "Tập: N/A"}
           />
         </Box>
       </Box>

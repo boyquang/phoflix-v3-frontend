@@ -12,6 +12,8 @@ import Link from "next/link";
 import { useSelector } from "react-redux";
 import HighlightText from "../shared/HightlightText";
 import { TagClassic } from "@/components/shared/TagClassic";
+import BadgeCustom from "../shared/BadgeCustom";
+import TmdbRatingBadge from "../shared/TmdbRatingBadge";
 
 interface SearchPreviewItemProps {
   item: Movie;
@@ -56,11 +58,11 @@ const SearchPreviewItem = ({ item, callback }: SearchPreviewItemProps) => {
               )}
             </p>
             <Box className="flex flex-wrap gap-2 items-center mt-2">
-              <TagClassic text={item?.quality || "Không xác định"} />
-              <TagClassic text={item?.lang || "Không xác định"} />
-              <TagClassic text={item?.year || "Không xác định"} />
-              <TagClassic text={item?.time || "Không xác định"} />
-              <TagClassic text={item?.episode_current || "Không xác định"} />
+              <TmdbRatingBadge rating={item?.tmdb?.vote_average} />
+              <BadgeCustom text={item?.quality || "N/A"} />
+              <BadgeCustom text={item?.year || "N/A"} />
+              <BadgeCustom text={item?.time || "N/A"} />
+              <BadgeCustom text={item?.episode_current || "N/A"} />
             </Box>
           </Box>
         </Box>

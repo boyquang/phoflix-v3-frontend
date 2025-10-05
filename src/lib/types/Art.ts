@@ -15,4 +15,5 @@ type ArtPlayerEvent =
   | "setCurrentTime" // tua bằng code
   | "setPlaybackRate" // thay đổi tốc độ phát
   | "destroy" // player bị hủy
-  | "mounted"; // player được khởi tạo xong
+  | "mounted" // player được khởi tạo xong
+  | "video:canplaythrough"; // video có thể phát mà không bị gián đoạn

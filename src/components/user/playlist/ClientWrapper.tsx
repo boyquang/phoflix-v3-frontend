@@ -97,8 +97,6 @@ const ClientWrapper = () => {
       return;
     }
 
-    console.log("Fetch movies for playlistId:", selectedPlaylistId, "Page:", page);
-
     const fetchMovies = async () => {
       try {
         setLoading(true);
