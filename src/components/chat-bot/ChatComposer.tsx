@@ -9,7 +9,7 @@ import {
 import { AppDispatch, RootState } from "@/store/store";
 import { Box, IconButton, Textarea } from "@chakra-ui/react";
 import { useSession } from "next-auth/react";
-import { useState } from "react";
+import { useRef, useState } from "react";
 import { IoArrowUp } from "react-icons/io5";
 import { useDispatch, useSelector } from "react-redux";
 import ClearChat from "./ClearChat";
@@ -24,6 +24,7 @@ const ChatComposer = () => {
   const [prompt, setPrompt] = useState("");
   const { data: session } = useSession();
   const dispatch: AppDispatch = useDispatch();
+  const textareaRef = useRef<HTMLTextAreaElement | null>(null);
 
   const handlSendQuestion = async (prompt: string) => {
     if (!prompt.trim()) return;
@@ -54,7 +55,10 @@ const ChatComposer = () => {
       if (status) {
         dispatch(
           setGroupedChatByDate({
-            date: formatTimestamp(result?.message?.createdAt, "DD/MM/YYYY"),
+            date: formatTimestamp(
+              result?.message?.createdAt || new Date().getTime(),
+              "DD/MM/YYYY"
+            ),
             message: result?.message,
           })
         );
@@ -74,8 +78,12 @@ const ChatComposer = () => {
   };
 
   return (
-    <Box className="w-full border p-4 focus-within:border-white border-[#ffffff10] rounded-2xl focus:border-gray-50">
+    <Box
+      onClick={() => textareaRef.current?.focus()}
+      className="w-full border p-4 focus-within:border-white border-[#ffffff10] rounded-2xl focus:border-gray-50"
+    >
       <Textarea
+        ref={textareaRef}
         placeholder="Bạn có gì muốn hỏi tôi không?"
         rows={1}
         autoFocus

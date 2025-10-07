@@ -100,7 +100,7 @@ const ChatBotDialog = () => {
             >
               {!session ? (
                 <h4 className="text-base text-gray-400 font-semibold p-4 text-center">
-                  Bạn cần đăng nhập để trò chuyện với Bot.
+                  Bạn cần đăng nhập để trò chuyện với trợ lý ảo.
                 </h4>
               ) : (
                 <ChatHistoryBox />
