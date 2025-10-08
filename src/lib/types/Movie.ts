@@ -1,3 +1,11 @@
+type TMovieRanking = {
+  name: string;
+  slug: string;
+  thumb: string;
+  poster: string;
+  total: number;
+};
+
 type SlideItem = {
   modified: {
     time: string;

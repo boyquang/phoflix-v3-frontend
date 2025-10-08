@@ -4,19 +4,25 @@ import CollapseElement from "@/components/shared/CollapseElement";
 import { socketCrawlMovies } from "@/configs/socket.config";
 import { Button } from "@chakra-ui/react";
 import { useEffect, useRef, useState } from "react";
+// import { FixedSizeList as List } from "react-window";
+
+type LogMessage = {
+  message: string;
+  timeStamp: string;
+};
 
 const LogInfo = () => {
-  const [logs, setLogs] = useState<string[]>([]);
+  const [logs, setLogs] = useState<LogMessage[]>([]);
   const refScroll = useRef<HTMLDivElement | null>(null);
   const [isUserScrolling, setIsUserScrolling] = useState<boolean>(false);
   const scrollTimeout = useRef<NodeJS.Timeout | null>(null);
 
   useEffect(() => {
-    socketCrawlMovies.on("crawlProgress", (message) => {
-      setLogs((prevLogs) => [...prevLogs, message].slice(-100));
+    socketCrawlMovies.on("crawlProgress", (data) => {
+      setLogs((prevLogs) => [...prevLogs, data].slice(-50));
 
       if (!isUserScrolling) {
-        setTimeout(() => {
+        scrollTimeout.current = setTimeout(() => {
           refScroll.current?.scrollTo({
             top: refScroll.current.scrollHeight,
             behavior: "smooth",
@@ -26,6 +32,7 @@ const LogInfo = () => {
     });
 
     return () => {
+      if (scrollTimeout.current) clearTimeout(scrollTimeout.current);
       socketCrawlMovies.off("crawlProgress");
     };
   }, [isUserScrolling]);
@@ -64,9 +71,10 @@ const LogInfo = () => {
             {logs?.map((log, index) => (
               <div
                 key={index}
-                className="p-4 border-b border-[#ffffff10] hover:bg-[#ffffff10] last:border-0 text-sm"
+                className="flex items-center gap-1 p-4 border-b border-[#ffffff10] hover:bg-[#ffffff10] last:border-0 text-sm"
               >
-                {log}
+                <div className="text-green-400">{log.timeStamp}</div>
+                {log.message}
               </div>
             ))}
           </div>

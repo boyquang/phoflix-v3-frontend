@@ -14,20 +14,19 @@ import EditFeedback from "./EditFeedback";
 import useScrollToFeedbackCid from "@/hooks/useScrollToFeedbackCid";
 import { anonymousAvatar } from "@/constants/image.contant";
 import CommentUserBadge from "../shared/CommentUserBadge";
+import useFeedbackAuthor from "@/hooks/useFeedbackAuthor";
 
 const FeedbackItem = ({ feedback }: FeedbackItemProps) => {
   const { cid } = useScrollToFeedbackCid({ id: feedback?._id });
+  const { username, avatar, isAnonymous } = useFeedbackAuthor({
+    author: feedback.author,
+  });
   const { feedbackType, feedbackData, idEditFeedback } = useSelector(
     (state: RootState) => state.feedback
   );
   const showFeedbackId = feedbackData.showFeedbackId;
   const feedbackId = feedback?._id;
   const isEditing = idEditFeedback === feedbackId;
-
-  // Kiểm tra người dùng có phải là ẩn danh hay không
-  const isAnonymous = Number(feedback?.is_anonymous) === 1;
-  const name = isAnonymous ? "Ẩn danh" : feedback?.author?.name;
-  const avatar = isAnonymous ? anonymousAvatar : feedback?.author?.avatar;
 
   return (
     <Box
@@ -37,7 +36,7 @@ const FeedbackItem = ({ feedback }: FeedbackItemProps) => {
       }`}
     >
       <Avatar
-        name={name}
+        name={username}
         src={avatar}
         className="w-10 h-10"
         fallback={<Box className="w-10 h-10 bg-gray-200 rounded-full"></Box>}
@@ -51,9 +50,9 @@ const FeedbackItem = ({ feedback }: FeedbackItemProps) => {
           <CommentUserBadge
             isAnonymous={isAnonymous}
             author={{
-              gender: feedback?.author?.gender,
-              name: name,
-              role: feedback?.author?.role,
+              ...feedback?.author,
+              username: username,
+              is_anonymous: feedback.is_anonymous,
             }}
           />
 

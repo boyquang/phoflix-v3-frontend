@@ -7,29 +7,25 @@ import FeedbackActions from "../FeedbackActions";
 import { RootState } from "@/store/store";
 import { useSelector } from "react-redux";
 import FeedbackInput from "../FeedbackInput";
-import GenderIcon from "../GenderIcon";
-import StatusTag from "@/components/shared/StatusTag";
 import EditFeedback from "../EditFeedback";
 import useScrollToFeedbackCid from "@/hooks/useScrollToFeedbackCid";
 import CommentUserBadge from "@/components/shared/CommentUserBadge";
+import useFeedbackAuthor from "@/hooks/useFeedbackAuthor";
 
 const ReplyItem = ({ reply }: ReplyItemProps) => {
   const { cid } = useScrollToFeedbackCid({ id: reply?._id });
   const { repliesData, idEditFeedback } = useSelector(
     (state: RootState) => state.feedback
   );
+  const { avatar, username, mentionUsername, isAnonymous } = useFeedbackAuthor({
+    author: {
+      ...reply?.author,
+      is_anonymous: reply?.is_anonymous,
+    },
+    mentionUser: reply?.mention_user,
+  });
   const { showReplyId } = repliesData;
   const isEditing = idEditFeedback === reply?._id;
-
-  // Kiểm tra người dùng có phải là ẩn danh hay không
-  const isAnonymous = Number(reply?.is_anonymous) === 1;
-  const name = isAnonymous ? "Người đăng ẩn danh" : reply?.author?.name;
-  const isMentionAnonymous = Number(reply?.mention_user?.is_anonymous) === 1;
-  const mentionUsername = isMentionAnonymous
-    ? "Người đăng ẩn danh"
-    : reply?.mention_user?.name;
-  const avatar = isAnonymous ? "/images/anonymous.jpg" : reply?.author?.avatar;
-  const showAdminInfo = reply?.author?.role === "admin" && !isAnonymous;
 
   return (
     <Box
@@ -37,7 +33,7 @@ const ReplyItem = ({ reply }: ReplyItemProps) => {
       id={reply?._id}
     >
       <Avatar
-        name={name}
+        name={username}
         src={avatar}
         className="sm:w-10 sm:h-10 w-8 h-8"
         fallback={
@@ -49,9 +45,8 @@ const ReplyItem = ({ reply }: ReplyItemProps) => {
           <CommentUserBadge
             isAnonymous={isAnonymous}
             author={{
-              gender: reply?.author?.gender,
-              name: name,
-              role: reply?.author?.role,
+              ...reply?.author,
+              is_anonymous: reply?.is_anonymous,
             }}
           />
 

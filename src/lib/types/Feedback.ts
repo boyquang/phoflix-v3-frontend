@@ -5,12 +5,7 @@ type Feedback = {
   is_spam: number;
   is_anonymous: boolean;
   mention_id: string | null;
-  mention_user: {
-    _id: string;
-    name: string;
-    avatar: string;
-    is_anonymous: boolean;
-  } | null;
+  mention_user: Author | null;
   movie_slug: string;
   parent_id: string | null;
   reviews: {
@@ -39,10 +34,11 @@ type FeedbackTable = {
 
 type Author = {
   _id: string;
-  name: string;
+  username: string;
   avatar: string;
-  role: "member" | "admin";
-  gender: "other" | "male" | "female";
+  role: Role;
+  gender: Gender;
+  is_anonymous: boolean;
 };
 
 type FeedbackSlice = {
@@ -81,11 +77,35 @@ type FeedbackSlice = {
   idEditFeedback: string | null;
 };
 
+type TLatestComment = {
+  _id: string;
+  content: string;
+  name: string;
+  slug: string;
+  author: Author;
+  created_at: string;
+};
+
 type EditableFeedbackProps = {
   children: React.ReactNode;
   feedbackId: string;
   defaultValue?: string;
   readonly?: boolean;
+};
+
+type TTopComment = {
+  _id: string;
+  parent_id: string | null;
+  author: Author;
+  movie_slug: string;
+  movie_thumb: string;
+  movie_poster: string;
+  content: string;
+  is_anonymous: boolean;
+  created_at: number;
+  total_children: number;
+  total_dislike: number;
+  total_like: number;
 };
 
 type FeedbackItemProps = {

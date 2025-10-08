@@ -49,8 +49,8 @@ const ResetCrawlStatus = () => {
       onClick={handleReset}
       loading={loading}
       disabled={loading || isOtherProcessRunning}
-      className="bg-white text-black"
-      size="xs"
+      className="bg-white text-black hover:opacity-75 flex-1 lg:h-12 h-10"
+      rounded="lg"
     >
       <IoMdRefresh />
       Làm mới

@@ -5,11 +5,7 @@ import StatusTag from "./StatusTag";
 import GenderIcon from "../feedback/GenderIcon";
 
 interface CommentUserBadgeProps {
-  author: {
-    gender: "male" | "female" | "other";
-    name: string;
-    role: "admin" | "member";
-  };
+  author: Author;
   isAnonymous: boolean | number;
 }
 
@@ -25,7 +21,7 @@ const CommentUserBadge = ({ author, isAnonymous }: CommentUserBadgeProps) => {
           showAdminInfo ? "text-gradient-primary font-bold" : "text-white"
         } break-words truncate`}
       >
-        {isAnonymous ? "Ẩn danh" : author.name}
+        {isAnonymous ? "Người dùng ẩn danh" : author.username}
       </span>
       <GenderIcon gender={author.gender} />
     </Box>

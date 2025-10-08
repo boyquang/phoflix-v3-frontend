@@ -50,7 +50,7 @@ const RunCrawlMovies = ({ action }: RunCrawlMoviesProps) => {
   const { isOtherProcessRunning, actionCrawl } = useSelector(
     (state: RootState) => state.crawlMovies
   );
-  const { data: session } = useSession();
+  const { data: session, status } = useSession();
 
   useEffect(() => {
     socketCrawlMovies.on("notifyCrawlStatus", (isCrawling) => {
@@ -64,7 +64,7 @@ const RunCrawlMovies = ({ action }: RunCrawlMoviesProps) => {
   }, []);
 
   useEffect(() => {
-    if (!session?.user?.accessToken) return;
+    if (status !== "authenticated") return;
 
     const checkCrawlingStatus = async () => {
       const result = await checkIsCrawling(session.user.accessToken as string);
@@ -75,7 +75,7 @@ const RunCrawlMovies = ({ action }: RunCrawlMoviesProps) => {
     };
 
     checkCrawlingStatus();
-  }, []);
+  }, [status]);
 
   const handleCrawl = async () => {
     if (!session?.user?.accessToken) {
@@ -125,15 +125,15 @@ const RunCrawlMovies = ({ action }: RunCrawlMoviesProps) => {
     <Button
       onClick={handleCrawl}
       loading={loading}
+      rounded="lg"
       disabled={
         loading ||
         (isCrawling && actionCrawl !== action) ||
         (isOtherProcessRunning && !isCrawling)
       }
-      size="xs"
-      className={
+      className={` ${
         isCrawling && actionCrawl === action ? styleIsCrawling : styleDefault
-      }
+      } hover:opacity-75 flex-1 lg:h-12 h-10`}
     >
       {icon && <Icon as={icon} />}
       {isCrawling && actionCrawl === action ? textIsCrawling : textDefault}

@@ -24,17 +24,29 @@ const CrawlStatusBox = () => {
     totalDubbedMovies: 0, // phim thuyết minh
     totalSubtitledMovies: 0, // phim phụ đề
     totalVoiceDubbedMovies: 0, // phim lồng tiếng
+    currentPage: 0,
+    totalPages: 0,
   });
   const { data: session, status } = useSession();
 
   useEffect(() => {
-    socketCrawlMovies.on("refreshTotalMovies", (movieStats) => {
+    socketCrawlMovies.on("refreshInfoCrawlMovie", (movieStats) => {
       setStats((prevStats) => ({ ...prevStats, ...movieStats }));
-      toast.success("Đã cập nhật thống kê phim mới!");
+      toast.success("Thông tin vừa được làm mới!");
+    });
+
+    socketCrawlMovies.on("refreshPageInfo", (pageInfo) => {
+      setStats((prevStats) => ({ ...prevStats, ...pageInfo }));
+    });
+
+    socketCrawlMovies.on("refreshTotalUpdatedMovies", (totalUpdatedMovies) => {
+      setStats((prev) => ({ ...prev, totalUpdatedMovies }));
     });
 
     return () => {
-      socketCrawlMovies.off("refreshTotalMovies");
+      socketCrawlMovies.off("refreshInfoCrawlMovie");
+      socketCrawlMovies.off("refreshPageInfo");
+      socketCrawlMovies.off("refreshTotalUpdatedMovies");
     };
   }, []);
 
@@ -61,7 +73,7 @@ const CrawlStatusBox = () => {
   return (
     <div className="mt-8">
       <div className="grid grid-cols-12 gap-6">
-        <div className="bg-[#ffffff0f] p-4 lg:col-span-6 col-span-12 rounded-2xl items-center shadow-md">
+        <div className="bg-[#ffffff0f] p-4 xl:col-span-6 col-span-12 rounded-2xl items-center shadow-md">
           <div className="flex items-center gap-2 text-xl font-bold text-white mb-2">
             <IoIosStats className="text-xl" />
             <h6>Thống kê phim</h6>
@@ -114,15 +126,21 @@ const CrawlStatusBox = () => {
             </div>
           </div>
 
-          <div className="text-sm text-green-400 mt-4 text-left flex items-center gap-1">
-            <RxUpdate />
-            <span>
-              Đã cập nhật: {stats.totalUpdatedMovies}/{stats.totalMovies} phim
-            </span>
+          <div className="flex items-center justify-between mt-4">
+            <div className="text-sm text-green-400 flex items-center gap-1">
+              <RxUpdate />
+              <span>
+                Đã cập nhật: {stats.totalUpdatedMovies}/{stats.totalMovies} phim
+              </span>
+            </div>
+            <div className="text-sm text-gray-300">
+              Trang hiện tại: {stats.currentPage}/
+              <span className="text-gray-50">{stats.totalPages}</span>
+            </div>
           </div>
         </div>
 
-        <div className="lg:col-span-6 col-span-12 bg-[#ffffff0f] p-4 rounded-2xl flex flex-col justify-between items-start shadow-md">
+        <div className="xl:col-span-6 col-span-12 bg-[#ffffff0f] p-4 rounded-2xl flex flex-col justify-between items-start shadow-md">
           <div>
             <div className="flex items-center gap-1 text-xl font-semibold">
               <BsCupHotFill />
@@ -143,18 +161,13 @@ const CrawlStatusBox = () => {
                 sẽ tự động cào slugs trước khi cập nhật phim.
               </p>
               <p className="text-sm text-gray-400">
-                <span className="font-bold text-primary">Làm mới:</span> hệ
-                thống sẽ đặt lại trạng thái cào. Sau đó bạn có thể bắt đầu một
-                quá trình cào mới từ đầu.
-              </p>
-              <p className="text-sm text-green-400">
-                <span className="font-semibold">Tip:</span> Không tắt trình
-                duyệt hoặc đóng tab trong khi quá trình đang diễn ra để tránh bị
-                gián đoạn.
+                <span className="font-bold text-primary">Làm mới:</span> thao
+                tác này sẽ reset toàn bộ tiến trình cào phim, bao gồm các số
+                liệu thống kê và trạng thái đang cào.
               </p>
             </div>
           </div>
-          <div className="flex items-center gap-2 justify-end mt-4 flex-wrap">
+          <div className="flex items-center lg:gap-4 gap-2 justify-end mt-4 flex-wrap w-full">
             <RunCrawlMovies action="create" />
             <RunCrawlMovies action="update" />
             <ResetCrawlStatus />
