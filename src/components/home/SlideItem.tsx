@@ -46,7 +46,7 @@ const SlideItem = ({ item }: SlideItemProps) => {
             router.push(`/thong-tin-phim/${item?.slug}`);
           }
         }}
-        className="absolute bottom-4 left-0 right-0 2xl:px-12 py-16 p-4 z-6 lg:w-[50%] overflow-hidden"
+        className="absolute bottom-4 left-0 right-0 2xl:px-12 2xl:py-16 p-4 z-6 lg:w-[50%] overflow-hidden"
       >
         <DecodeText
           as="h4"

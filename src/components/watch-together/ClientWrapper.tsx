@@ -96,7 +96,7 @@ const ClientWrapper = () => {
           </Box>
 
           <Box>
-            <Box className="flex items-center gap-4 text-white">
+            <Box className="flex items-center gap-4 text-white mb-8">
               <h3 className="inline-block lg:text-2xl text-xl text-white font-semibold">
                 Xem chung
               </h3>
