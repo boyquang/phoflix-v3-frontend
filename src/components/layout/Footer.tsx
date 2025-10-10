@@ -13,12 +13,12 @@ const Footer = () => {
   if (pathname.includes("/dashboard")) return null;
 
   return (
-    <footer className="mt-16 bg-[#282b3a] xl:rounded-t-3xl">
+    <footer className="lg:mt-32 mt-16 bg-[#282b3a]">
       <RootLayout>
         <div className="grid py-12 grid-cols-12 gap-x-6 gap-y-6 lg:gap-x-12 lg:gap-y-4">
           <div className="col-span-12 md:col-span-12 lg:col-span-6 xl:col-span-4">
             <h3 className="text-xl font-bold text-primary">Giới thiệu</h3>
-            <p className="text-gray-100 mt-3 text-justify break-words">
+            <p className="text-gray-100 text-base mt-3 text-justify break-words">
               Chào mừng bạn đến với PHOFLIX-V3 – nền tảng xem phim trực tuyến
               hiện đại, nơi hội tụ của hàng ngàn bộ phim hấp dẫn từ khắp nơi
               trên thế giới. Tại PHOFLIX-V3, bạn sẽ dễ dàng khám phá kho nội
@@ -32,7 +32,7 @@ const Footer = () => {
 
           <div className="col-span-12 md:col-span-12 lg:col-span-6 xl:col-span-4">
             <h3 className="text-xl font-bold text-primary">Bản quyền</h3>
-            <p className="text-gray-100 mt-3 text-justify break-words">
+            <p className="text-gray-100 text-base mt-3 text-justify break-words">
               Tất cả nội dung trên trang web được thu thập từ các nguồn phát
               video trực tuyến công khai trên Internet. Chúng tôi không lưu trữ
               hay phát trực tiếp bất kỳ nội dung bản quyền nào. Nếu bạn là chủ

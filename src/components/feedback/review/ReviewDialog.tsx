@@ -134,7 +134,7 @@ const ReviewDialog = ({ trigger }: ReviewDialogProps) => {
               <CloseButton size="sm" />
             </Dialog.CloseTrigger>
 
-            <Dialog.Header>
+            <Dialog.Header className="flex flex-col gap-0">
               <Dialog.Title className="text-center">{movie?.name}</Dialog.Title>
               <ReviewSummary
                 averagePoint={statsByMovie?.averagePoint}

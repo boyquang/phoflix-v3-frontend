@@ -4,6 +4,7 @@ import CollapseElement from "@/components/shared/CollapseElement";
 import { socketCrawlMovies } from "@/configs/socket.config";
 import { Button } from "@chakra-ui/react";
 import { useEffect, useRef, useState } from "react";
+import { PiBroomBold } from "react-icons/pi";
 // import { FixedSizeList as List } from "react-window";
 
 type LogMessage = {
@@ -50,14 +51,15 @@ const LogInfo = () => {
   return (
     <div className="my-12">
       <div className="flex items-center gap-6 text-xl text-white mb-6">
-        <h4>Tiến trình cào phim</h4>
+        <h4>Nhật ký cào phim</h4>
         {logs.length > 0 && (
           <Button
             onClick={() => setLogs([])}
-            className="bg-red-500 rounded-full hover:opacity-70"
+            className="bg-white rounded-full hover:opacity-75 text-black"
             size="xs"
           >
-            Dọn dẹp tiến trình
+            <PiBroomBold />
+            Dọn dẹp
           </Button>
         )}
       </div>
@@ -71,9 +73,11 @@ const LogInfo = () => {
             {logs?.map((log, index) => (
               <div
                 key={index}
-                className="flex items-center gap-1 p-4 border-b border-[#ffffff10] hover:bg-[#ffffff10] last:border-0 text-sm"
+                className="p-4 border-b border-[#ffffff10] hover:bg-[#ffffff10] last:border-0 text-sm"
               >
-                <div className="text-green-400">{log.timeStamp}</div>
+                <span className="text-green-400 inline-block mr-1">
+                  {log.timeStamp}
+                </span>
                 {log.message}
               </div>
             ))}

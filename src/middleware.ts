@@ -38,7 +38,7 @@ export async function middleware(request: NextRequest) {
   const pathsCheck = [...userPaths, ...protectedPaths];
 
   // Kiểm tra xem pathname có bắt đầu bằng một trong các đường dẫn trong pathsCheck
-  const matchedPath = pathsCheck.find((path) => pathname.startsWith(path));
+  const matchedPath = pathsCheck.find((path) => path === pathname);
 
   if (matchedPath) {
     // Kiểm tra trạng thái của trang trong appConfig
@@ -79,7 +79,7 @@ export const config = {
   matcher: [
     "/dashboard/:path*",
     "/nguoi-dung/:path*",
-    "/phong-xem-chung/:path*",
+    "/xem-chung/:path*",
     "/dien-vien/:path*",
     "/tim-kiem/:path*",
     "/thong-tin-phim/:path*",

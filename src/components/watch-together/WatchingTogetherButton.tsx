@@ -11,6 +11,7 @@ import { createRoomWatchingTogether } from "@/store/async-thunks/watching-togeth
 import { appConfig, FeatureStatus } from "@/configs/app.config";
 import StatusTag from "@/components/shared/StatusTag";
 import { toast } from "sonner";
+import { FaPodcast } from "react-icons/fa6";
 
 interface WatchingTogetherButtonProps {
   placement?: "vertical" | "horizontal";
@@ -72,7 +73,7 @@ const WatchingTogetherButton = ({
 
       if (roomStatus) {
         toast.success(message);
-        router.push(`/phong-xem-chung/${result?.roomId}`);
+        router.push(`/xem-chung/${result?.roomId}`);
       } else {
         toast.error(message);
       }
@@ -88,7 +89,7 @@ const WatchingTogetherButton = ({
         placement === "vertical" ? "flex-col" : "flex-row"
       }`}
     >
-      <SiAirplayaudio />
+      <FaPodcast />
       <span
         className={`text-xs whitespace-nowrap ${
           !responsiveText ? "block" : "hidden xs:block"

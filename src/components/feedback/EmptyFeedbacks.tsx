@@ -6,6 +6,7 @@ import { RootState } from "@/store/store";
 import { useSelector } from "react-redux";
 import { BiSolidMessageDetail } from "react-icons/bi";
 import { MdReviews } from "react-icons/md";
+import { FaStarOfDavid } from "react-icons/fa6";
 
 const EmptyFeedbacks = () => {
   const { feedbackType } = useSelector((state: RootState) => state.feedback);
@@ -24,7 +25,11 @@ const EmptyFeedbacks = () => {
             : "Hãy là người đầu tiên đánh giá về bộ phim này"
         }
         icon={
-          feedbackType === "comment" ? <BiSolidMessageDetail /> : <MdReviews />
+          feedbackType === "comment" ? (
+            <BiSolidMessageDetail />
+          ) : (
+            <FaStarOfDavid />
+          )
         }
       />
     </Box>

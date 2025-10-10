@@ -72,7 +72,7 @@ const App = ({ children }: { children: React.ReactNode }) => {
 
   useEffect(() => {
     // Làm mới lại trạng thái khi người dùng rời khỏi phòng
-    if (!pathname.includes("/phong-xem-chung")) {
+    if (!pathname.includes("/xem-chung")) {
       dispatch(setHasLeftRoom(false));
     }
 

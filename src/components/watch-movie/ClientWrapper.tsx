@@ -28,6 +28,7 @@ import FeedbackSection from "../feedback/FeedbackSection";
 import MovieSuggesstions from "../shared/MovieSuggestions";
 import useProgressMovieHistory from "@/hooks/useProgressMovieHistory";
 import AutoNextEpisodeButton from "./AutoNextEpisodeButton";
+import BackButton from "../shared/BackButton";
 
 interface ClientWrapperProps {
   movie: Movie;
@@ -88,11 +89,14 @@ const ClientWrapper = ({ movie, episodes }: ClientWrapperProps) => {
   }
 
   return (
-    <div className="flex flex-col gap-12 max-w-[1620px] mx-auto 2xl:px-12 px-4">
-      <div className="lg:mt-32 md:mt-24 mt-14">
-        <h3 className="xl:text-4xl lg:text-3xl md:text-2xl text-xl text-gradient-primary font-bold mb-6 sm:inline-block hidden">
-          {currentEpisode ? movie?.name : "Trailer"}
-        </h3>
+    <div className="flex flex-col gap-12 max-w-[1620px] mx-auto 2xl:px-12 px-4 ">
+      <div className="lg:mt-32 md:mt-24 mt-14 flex md:flex-col flex-col-reverse">
+        <div className="md:flex hidden items-center gap-2 lg:px-8 mb-8">
+          <BackButton href={`/thong-tin-phim/${movie?.slug || ""}`} />
+          <h3 className="lg:text-xl md:text-base text-sm text-white">
+            {currentEpisode ? `Xem phim ${movie?.name}` : "Trailer"}
+          </h3>
+        </div>
 
         <div className="flex flex-col relative watch-player md:-mx-0 -mx-4">
           <SectionVideo />

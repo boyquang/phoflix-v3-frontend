@@ -11,7 +11,6 @@ export const adminPaths = [
 
 export const userPaths = [
   "/dien-vien",
-  "/phong-xem-chung",
   "/tim-kiem",
   "/thong-tin-phim",
   "/nguoi-dung/thong-bao",
@@ -27,6 +26,7 @@ export const protectedPaths = [
   "/nguoi-dung/ung-ho",
   "/nguoi-dung/yeu-cau-phim",
   "/nguoi-dung/phong-cua-toi",
-  "/phong-xem-chung",
+  "/xem-chung",
+  "/xem-chung/quan-ly",
   ...adminPaths,
 ];

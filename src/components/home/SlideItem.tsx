@@ -46,7 +46,7 @@ const SlideItem = ({ item }: SlideItemProps) => {
             router.push(`/thong-tin-phim/${item?.slug}`);
           }
         }}
-        className="absolute bottom-4 left-0 right-0 2xl:px-12 2xl:pb-6 p-4 z-6 lg:w-[50%] overflow-hidden"
+        className="absolute bottom-4 left-0 right-0 2xl:px-12 py-16 p-4 z-6 lg:w-[50%] overflow-hidden"
       >
         <DecodeText
           as="h4"
@@ -97,7 +97,7 @@ const SlideItem = ({ item }: SlideItemProps) => {
           <Link href={`/dang-xem/${item?.slug}`}>
             <Button
               size="lg"
-              className="relative border-none duration-300 transition-all overflow-hidden shadow-primary bg-primary linear-gradient text-gray-900"
+              className="relative border-none duration-300 transition-all hover:scale-105 overflow-hidden rounded-lg bg-primary linear-gradient text-gray-900"
             >
               <PlayIcon />
               Xem ngay
@@ -106,10 +106,7 @@ const SlideItem = ({ item }: SlideItemProps) => {
           <Link href={`/thong-tin-phim/${item?.slug}`}>
             <Button
               size="lg"
-              colorPalette="gray"
-              colorScheme="gray"
-              variant="subtle"
-              className="transition-all shadow-sub"
+              className="transition-all hover:scale-105 overflow-hidden bg-white text-black rounded-lg"
             >
               <InfoIcon />
               Chi tiết

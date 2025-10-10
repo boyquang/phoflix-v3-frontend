@@ -34,11 +34,12 @@ export const FeatureStatus = {
   INACTIVE: "inactive",
   DEVELOPING: "developing",
   COMINGSOON: "coming soon",
+  BUILDING: "building",
 } as const;
 
 type ErrorFeatureStatus = Extract<
   FeatureStatusType,
-  "maintenance" | "inactive"
+  "maintenance" | "inactive" | "building"
 >;
 
 type ResponseStatusType = Record<
@@ -55,13 +56,17 @@ export const ResponseStatus: ResponseStatusType = {
     status: "error",
     message: "Trang này không còn hoạt động!",
   },
+  building: {
+    status: "error",
+    message: "Trang này đang được xây dựng!",
+  },
 };
 
 export const appConfig: AppConfig = {
   appName: "PHOFLIX-V3",
   feature: {
     watchingTogether: {
-      status: FeatureStatus.MAINTENANCE,
+      status: FeatureStatus.ACTIVE,
     },
     advancedFilter: {
       status: FeatureStatus.ACTIVE,
@@ -69,12 +74,15 @@ export const appConfig: AppConfig = {
   },
   chakra: {
     dialog: {
-      motionPresetDefault: "slide-in-bottom",
+      motionPresetDefault: "scale",
     },
   },
   pages: {
-    "/phong-xem-chung": {
-      status: FeatureStatus.MAINTENANCE,
+    "/xem-chung/quan-ly": {
+      status: FeatureStatus.ACTIVE,
+    },
+    "/xem-chung": {
+      status: FeatureStatus.ACTIVE,
     },
     "/nguoi-dung/thong-bao": {
       status: FeatureStatus.ACTIVE,

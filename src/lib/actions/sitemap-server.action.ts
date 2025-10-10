@@ -1,5 +1,5 @@
 import { auth } from "@/auth";
-import { getListRooms } from "./watching-together-server.action";
+import { getListRooms } from "./watch-together.action";
 
 export const getRoomsList = async () => {
   const sesstion = await auth();

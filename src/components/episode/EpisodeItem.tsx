@@ -33,11 +33,11 @@ const EpisodeItem = ({
   // Tạo đường dẫn href dựa trên segment và params
   let href = "";
 
-  if (segment === "thong-tin-phim") { 
+  if (segment === "thong-tin-phim") {
     const updatedFlag = searchParams?.get("updated") ? "&updated=true" : "";
     href = `/dang-xem/${params?.slug}?${queryParams}${updatedFlag}`;
-  } else if (segment === "phong-xem-chung") {
-    href = `/phong-xem-chung/${params?.roomId}?${queryParams}`;
+  } else if (segment === "xem-chung") {
+    href = `/xem-chung/${params?.roomId}?${queryParams}`;
   }
 
   const classNameEpisode = `flex w-full items-center justify-center flex-wrap rounded-md gap-x-1 min-h-[50px] max-h-[64px] px-2 shadow break-words transition-all ${

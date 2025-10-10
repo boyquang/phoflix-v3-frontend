@@ -1,6 +1,5 @@
 "use client";
 
-import SearchIcon from "@/components/icons/SearchIcon";
 import { InputGroup } from "@/components/ui/input-group";
 import { fetchDataMoviePreview } from "@/store/async-thunks/movie.thunk";
 import { AppDispatch, RootState } from "@/store/store";
@@ -9,7 +8,7 @@ import React, { useCallback } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useRouter } from "next/navigation";
 import SearchHistory from "./SearchHistory";
-import { IoSearch } from "react-icons/io5";
+import { IoSearch, IoSearchOutline } from "react-icons/io5";
 import { setIsShowModalSearch } from "@/store/slices/system.slice";
 import VoiceButton from "../shared/VoiceButton";
 import { debounce, delay } from "lodash";
@@ -111,7 +110,7 @@ const SearchDialog = () => {
             <Dialog.Header p={4}>
               <Dialog.Title className="w-full">
                 <InputGroup
-                  startElement={<SearchIcon />}
+                  startElement={<IoSearchOutline className="text-white"/>}
                   endElement={
                     <VoiceButton
                       callback={(keyword: string) =>
@@ -132,8 +131,8 @@ const SearchDialog = () => {
                         outline: "none",
                       },
                     }}
-                    className="font-normal text-gray-50 rounded-md truncate bg-transparent border border-[#ffffff10] focus:border-gray-500"
-                    placeholder="Nhập tên phim cần tìm..."
+                    className="font-normal text-gray-50 rounded-md truncate bg-transparent border-2 border-[#ffffff10] focus:border-white/50"
+                    placeholder="Tìm kiếm phim..."
                   />
                 </InputGroup>
               </Dialog.Title>

@@ -8,8 +8,7 @@ import { AppDispatch, RootState } from "@/store/store";
 import { Box } from "@chakra-ui/react";
 import { debounce } from "lodash";
 import { useDispatch, useSelector } from "react-redux";
-import LanguageIcon from "../episode/LanguageIcon";
-import { useEffect } from "react";
+import LanguageIcon from "../../episode/LanguageIcon";
 
 const EpisodeWrapper = () => {
   const { movieData, currentEpisode } = useSelector(

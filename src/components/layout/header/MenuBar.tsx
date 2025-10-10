@@ -21,8 +21,8 @@ export const menu = [
     status: advancedFilter.status,
   },
   {
-    name: "Phòng xem chung",
-    path: "/phong-xem-chung",
+    name: "Xem chung",
+    path: "/xem-chung",
     status: watchingTogether.status,
   },
   { name: "Diễn viên", path: "/dien-vien", status: "active" },
@@ -37,7 +37,7 @@ const MenuBar = () => {
   return (
     <ul className="text-gray-50 gap-2 items-center xl:flex hidden relative z-50">
       {menu.map((item, index) => {
-        if (item.path === "/phong-xem-chung" && !isAuthenticated) return null;
+        if (item.path === "/xem-chung" && !isAuthenticated) return null;
 
         return (
           <li

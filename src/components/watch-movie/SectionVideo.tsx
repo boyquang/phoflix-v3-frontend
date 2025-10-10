@@ -27,7 +27,7 @@ const SectionVideo = () => {
   }, [isValidEpisodes, currentEpisode, movie]);
 
   return (
-    <Box className="md:rounded-t-xl rounded-t-none overflow-hidden">
+    <Box className="md:rounded-t-xl rounded-t-none overflow-hidden shadow-2xl">
       <Box className="relative h-0 pt-[56.25%]">
         <Box className={`transition-all duration-500 ${videoLoaded ? "opacity-100 visible" : "opacity-0 invisible"}`}>
           {source ? (

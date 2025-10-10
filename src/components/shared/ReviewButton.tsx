@@ -5,6 +5,7 @@ import { showDialogSinInWhenNotLogin } from "@/store/slices/system.slice";
 import { AppDispatch } from "@/store/store";
 import { Button } from "@chakra-ui/react";
 import { useSession } from "next-auth/react";
+import { FaStarOfDavid } from "react-icons/fa6";
 import { MdReviews } from "react-icons/md";
 import { useDispatch } from "react-redux";
 
@@ -16,9 +17,9 @@ const ReviewButton = () => {
     return (
       <Button
         onClick={() => dispatch(showDialogSinInWhenNotLogin())}
-        className="px-4 py-2 md:min-w-32 shadow-review-button text-gray-50 rounded-full bg-[#3556b6]"
+        className="px-4 py-2 md:min-w-32 hover:opacity-75 text-gray-50 rounded-full bg-[#3556b6]"
       >
-        <MdReviews />
+        <FaStarOfDavid />
         <span className="md:texts-sm text-xs block">Đánh giá</span>
       </Button>
     );
@@ -27,8 +28,8 @@ const ReviewButton = () => {
   return (
     <ReviewDialog
       trigger={
-        <Button className="px-4 py-2 shadow-review-button md:min-w-32 text-gray-50 rounded-full bg-[#3556b6]">
-          <MdReviews />
+        <Button className="px-4 py-2 hover:opacity-75 md:min-w-32 text-gray-50 rounded-full bg-[#3556b6]">
+          <FaStarOfDavid />
           <span className="md:texts-sm text-xs block">Đánh giá</span>
         </Button>
       }
