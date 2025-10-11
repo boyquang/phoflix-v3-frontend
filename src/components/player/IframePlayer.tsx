@@ -17,7 +17,7 @@ const IframePlayer = ({ source, onLoaded, className }: IframePlayerProps) => {
       onLoad={() => {
         if (onLoaded) onLoaded();
       }}
-      className={`absolute w-full h-full inset-0 ${className}`}
+      className={`absolute w-full h-full inset-0 z-[102] cinema-player ${className}`}
     ></iframe>
   );
 };

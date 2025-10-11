@@ -177,7 +177,7 @@ export default function ArtPlayer({
     <div
       key={error ? "error" : "normal"} // xóa bỏ player khi error = true
       ref={artRef}
-      className={`absolute w-full h-full inset-0`}
+      className={`absolute w-full h-full inset-0 z-[102] cinema-player`}
     />
   );
 }

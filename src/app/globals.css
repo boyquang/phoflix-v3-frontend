@@ -55,6 +55,7 @@ body.cinema-mode .focus-backdrop {
 
 body.cinema-mode .watch-player {
   z-index: 101;
+  position: relative;
 }
 
 body.repose-user {

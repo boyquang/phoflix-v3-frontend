@@ -85,7 +85,7 @@ const App = ({ children }: { children: React.ReactNode }) => {
   return (
     <Box>
       <NavBar />
-      <Box>{children}</Box>
+      {children}
       <Footer />
 
       <NotificationSound />
@@ -110,8 +110,6 @@ const App = ({ children }: { children: React.ReactNode }) => {
       <Toaster />
 
       <SnowEffect />
-
-      <Box className="focus-backdrop" />
 
       <div className="fixed z-[99] flex flex-col gap-4 right-4 bottom-4">
         <ScrollToTopButton />

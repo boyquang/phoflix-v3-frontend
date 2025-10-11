@@ -90,6 +90,8 @@ const ClientWrapper = ({ movie, episodes }: ClientWrapperProps) => {
 
   return (
     <div className="flex flex-col gap-12 max-w-[1620px] mx-auto 2xl:px-12 px-4">
+      <div className="focus-backdrop" />
+
       <div className="lg:mt-32 md:mt-24 mt-16 flex md:flex-col flex-col-reverse">
         <div className="md:flex hidden items-center gap-2 lg:px-8 mb-8">
           <BackButton href={`/thong-tin-phim/${movie?.slug || ""}`} />
