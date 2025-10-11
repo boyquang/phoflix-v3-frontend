@@ -10,6 +10,7 @@ import {
   fetchMoviesByActor,
 } from "@/lib/actions/movie.action";
 import { PageProps } from "@/app/page";
+import AnimateWrapper from "@/components/shared/AnimateWrapper";
 
 export async function generateMetadata({
   params,
@@ -70,12 +71,14 @@ const Page = async ({ params }: PageProps) => {
 
   return (
     <Suspense fallback={<Loading type="text" />}>
-      <div className="max-w-[1620px] mx-auto 2xl:px-12 px-4 lg:pt-28 pt-24">
-        <div className="flex lg:flex-row flex-col">
-          <ActorDetail data={resActorDetail.data} />
-          <MoviesByActor data={moviesByActorSorted} />
+      <AnimateWrapper>
+        <div className="max-w-[1620px] mx-auto 2xl:px-12 px-4 lg:pt-28 pt-24">
+          <div className="flex lg:flex-row flex-col">
+            <ActorDetail data={resActorDetail.data} />
+            <MoviesByActor data={moviesByActorSorted} />
+          </div>
         </div>
-      </div>
+      </AnimateWrapper>
     </Suspense>
   );
 };

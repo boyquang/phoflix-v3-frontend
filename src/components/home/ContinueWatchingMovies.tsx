@@ -8,7 +8,6 @@ import Link from "next/link";
 import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { FaChevronRight } from "react-icons/fa";
-import { LuHistory } from "react-icons/lu";
 import MovieSwiper from "../shared/MovieSwiper";
 import MovieItem from "../user/MovieItem";
 import { SwiperSlide } from "swiper/react";

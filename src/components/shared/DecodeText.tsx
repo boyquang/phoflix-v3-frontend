@@ -2,6 +2,7 @@
 
 import { decode } from "he";
 import { JSX } from "react";
+import striptags from "striptags";
 
 interface DecodeTextProps {
   text: string;
@@ -14,7 +15,7 @@ const DecodeText = ({
   className,
   as: Tag = "span",
 }: DecodeTextProps) => {
-  return <Tag className={className}>{decode(text)}</Tag>;
+  return <Tag className={className}>{striptags(decode(text))}</Tag>;
 };
 
 export default DecodeText;

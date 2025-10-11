@@ -11,6 +11,7 @@ import { Metadata } from "next";
 import { Suspense } from "react";
 import { IoSearch } from "react-icons/io5";
 import { RiMovieFill } from "react-icons/ri";
+import AnimateWrapper from "@/components/shared/AnimateWrapper";
 
 export async function generateMetadata(): Promise<Metadata> {
   return {
@@ -70,51 +71,53 @@ const Page = async ({ params, searchParams }: PageProps) => {
 
   return (
     <Suspense fallback={<Loading type="text" />}>
-      <RootLayout>
-        <div className="lg:pt-28 pt-24">
-          <h3 className="inline-block text-gradient-primary font-bold xl:text-3xl lg:text-2xl text-xl">
-            Lọc nâng cao
-          </h3>
+      <AnimateWrapper>
+        <RootLayout>
+          <div className="lg:pt-28 pt-24">
+            <h3 className="inline-block text-gradient-primary font-bold xl:text-3xl lg:text-2xl text-xl">
+              Lọc nâng cao
+            </h3>
 
-          <FilterBox />
+            <FilterBox />
 
-          <div className="filter-result" />
+            <div className="filter-result" />
 
-          <div className="flex items-center gap-2 my-4 text-gray-100 font-bold lg:text-xl text-sm">
-            <IoSearch />
-            <h3>Tìm thấy {totalItems} kết quả</h3>
+            <div className="flex items-center gap-2 my-4 text-gray-100 font-bold lg:text-xl text-sm">
+              <IoSearch />
+              <h3>Tìm thấy {totalItems} kết quả</h3>
+            </div>
+
+            <div className="mt-12">
+              <>
+                {items?.length > 0 ? (
+                  <MovieGrid
+                    items={items}
+                    classNameGrids="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 2xl:grid-cols-8 lg:gap-x-4 gap-x-2 gap-y-6"
+                    orientation="vertical"
+                  />
+                ) : (
+                  <EmptyData
+                    className="bg-[#0003] rounded-2xl"
+                    icon={<RiMovieFill />}
+                    title="Không tìm thấy dữ liệu"
+                    description="Không có bộ phim nào trong danh sách này"
+                  />
+                )}
+              </>
+            </div>
+
+            {totalItems >= limit && (
+              <PaginationCustom
+                currentPage={Number(currentPage)}
+                totalItems={totalItems}
+                itemsPerPage={limit}
+                isScroll={true}
+                showToaster={false}
+              />
+            )}
           </div>
-
-          <div className="mt-12">
-            <>
-              {items?.length > 0 ? (
-                <MovieGrid
-                  items={items}
-                  classNameGrids="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 2xl:grid-cols-8 lg:gap-x-4 gap-x-2 gap-y-6"
-                  orientation="vertical"
-                />
-              ) : (
-                <EmptyData
-                  className="bg-[#0003] rounded-2xl"
-                  icon={<RiMovieFill />}
-                  title="Không tìm thấy dữ liệu"
-                  description="Không có bộ phim nào trong danh sách này"
-                />
-              )}
-            </>
-          </div>
-
-          {totalItems >= limit && (
-            <PaginationCustom
-              currentPage={Number(currentPage)}
-              totalItems={totalItems}
-              itemsPerPage={limit}
-              isScroll={true}
-              showToaster={false}
-            />
-          )}
-        </div>
-      </RootLayout>
+        </RootLayout>
+      </AnimateWrapper>
     </Suspense>
   );
 };

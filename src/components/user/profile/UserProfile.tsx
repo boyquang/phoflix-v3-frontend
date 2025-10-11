@@ -24,7 +24,7 @@ type Values = {
 const UserProfile = () => {
   const { data: session, update } = useSession();
   const [values, setValues] = useState<Values | null>(null);
-  const [pending, startTransition] = useTransition();
+  const [loading, setLoading] = useState(false);
 
   const optionGender = [
     { label: "Nam", value: "male" },
@@ -41,7 +41,7 @@ const UserProfile = () => {
     }
   }, [session]);
 
-  const handleUpdateUserProfile = () => {
+  const handleUpdateUserProfile = async () => {
     if (!values?.name?.trim()) {
       toast.error("Tên hiển thị không được để trống!");
       return;
@@ -52,38 +52,39 @@ const UserProfile = () => {
 
     if (name === values?.name && gender === values?.gender) return;
 
-    startTransition(async () => {
-      try {
-        const response = await updateUserProfile({
-          userId: session?.user?.id as string,
-          username: values?.name as string,
-          gender: values?.gender as Gender,
-          avatar: session?.user?.image as string,
-          typeAccount: session?.user?.typeAccount as TypeAcccount,
-          accessToken: session?.user?.accessToken as string,
-        });
+    try {
+      setLoading(true);
 
-        if (response?.status) {
-          toast.success(response?.message);
-          await update();
-        } else {
-          toast.error(response?.message);
-        }
-      } catch (error) {
-        toast.error("Đã xảy ra lỗi. Vui lòng thử lại sau.");
+      const response = await updateUserProfile({
+        userId: session?.user?.id as string,
+        username: values?.name as string,
+        gender: values?.gender as Gender,
+        avatar: session?.user?.image as string,
+        typeAccount: session?.user?.typeAccount as TypeAcccount,
+        accessToken: session?.user?.accessToken as string,
+      });
+
+      if (response?.status) {
+        toast.success(response?.message);
+        await update();
+      } else {
+        toast.error(response?.message);
       }
-    });
+    } catch (error) {
+      toast.error("Đã xảy ra lỗi. Vui lòng thử lại sau.");
+    } finally {
+      setLoading(false);
+    }
   };
 
   if (!session) return null;
 
   return (
-    <Box className="flex flex-col gap-2 lg:p-10 xl:max-w-[640px] lg:max-w-[560px] md:max-w-[420px] max-w-full lg:mx-0 mx-auto">
+    <Box className="flex flex-col gap-2 xl:max-w-[640px] lg:max-w-[560px] md:max-w-[420px] max-w-full lg:mx-0 mx-auto">
       <Box className="flex-1 mb-3">
         <h3 className="text-lg text-gray-50">Tài khoản</h3>
         <span className="text-xs text-gray-400">
-          Tại đây bạn có thể chỉnh sửa thông tin tài khoản và đổi mật khẩu tài
-          khoản.
+          Cập nhật thông tin cá nhân của bạn
         </span>
       </Box>
       <Box className="flex gap-8 sm:items-start items-center sm:flex-row flex-col">
@@ -97,6 +98,7 @@ const UserProfile = () => {
               }}
               disabled
               value={session.user?.email ?? ""}
+              className="rounded-lg"
               variant="outline"
             />
           </Field.Root>
@@ -110,7 +112,7 @@ const UserProfile = () => {
                   name: e.target.value,
                 })
               }
-              className="border border-[#2e313a] focus:border-gray-50"
+              className="border border-[#2e313a] rounded-lg focus:border-gray-50"
               value={values?.name ?? ""}
               variant="outline"
             />
@@ -142,12 +144,12 @@ const UserProfile = () => {
           <Box className="md:max-w-24 max-w-full mt-6">
             <Button
               onClick={handleUpdateUserProfile}
-              className="w-full shadow-primary bg-[#ffda7d] text-[#1e2939]"
+              className="w-full rounded-lg shadow-primary bg-[#ffda7d] text-[#1e2939]"
               size="sm"
-              disabled={pending}
+              disabled={loading}
             >
               Cập nhật
-              {pending && <Spinner size="sm" />}
+              {loading && <Spinner size="sm" />}
             </Button>
           </Box>
 

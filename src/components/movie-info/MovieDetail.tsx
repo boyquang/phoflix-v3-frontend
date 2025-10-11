@@ -79,10 +79,6 @@ const MovieDetail = ({ data }: MovieDetailProps) => {
         <Box className="flex flex-col text-sm gap-1">
           <Box className="flex items-center justify-between">
             <span className="text-gray-50 font-semibold">Giới thiệu:</span>
-            <TextToSpeech
-              lang="vi-VN"
-              text={data?.content || "Không có mô tả"}
-            />
           </Box>
           <ShowMoreText
             text={data?.content || "Không có mô tả"}

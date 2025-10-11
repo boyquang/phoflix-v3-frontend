@@ -2,7 +2,6 @@ import dayjs from "dayjs";
 import { Lunar } from "lunar-javascript";
 import relativeTime from "dayjs/plugin/relativeTime";
 import { toaster } from "@/components/ui/toaster";
-import { decode } from "he";
 import "dayjs/locale/vi";
 import { delay } from "lodash";
 import { DateEvent } from "@/configs/event.config";

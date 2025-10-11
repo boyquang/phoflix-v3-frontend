@@ -14,6 +14,7 @@ import { appConfig, FeatureStatus } from "@/configs/app.config";
 import StatusTag from "@/components/shared/StatusTag";
 import { SiGoogleforms } from "react-icons/si";
 import { RiPlayListAddLine } from "react-icons/ri";
+import { usePathname } from "next/navigation";
 
 let menu = [
   {
@@ -46,21 +47,6 @@ let menu = [
     status:
       appConfig.pages["/nguoi-dung/tai-khoan"]?.status || FeatureStatus.ACTIVE,
   },
-  // {
-  //   icon: <FaDonate />,
-  //   title: "Ủng hộ tôi",
-  //   link: "/nguoi-dung/ung-ho",
-  //   status:
-  //     appConfig.pages["/nguoi-dung/ung-ho"]?.status || FeatureStatus.INACTIVE,
-  // },
-  // {
-  //   icon: <RiMovieAiFill />,
-  //   title: "Phòng của tôi",
-  //   link: "/nguoi-dung/phong-cua-toi",
-  //   status:
-  //     appConfig.pages["/nguoi-dung/phong-cua-toi"]?.status ||
-  //     FeatureStatus.ACTIVE,
-  // },
   {
     icon: <SiGoogleforms />,
     title: "Yêu cầu phim",
@@ -80,6 +66,7 @@ let menu = [
 ];
 
 const PopoverUser = () => {
+  const pathname = usePathname();
   const { data: session } = useSession();
   const [open, setOpen] = useState(false);
 
@@ -120,12 +107,20 @@ const PopoverUser = () => {
               p={0}
               className="max-h-[50vh] overflow-y-auto overscroll-contain"
             >
-              <ul className="py-2 flex flex-col gap-1">
+              <ul className="py-2 flex flex-col">
                 {menu.map((item, index) => (
-                  <li key={index} onClick={() => setOpen(false)}>
+                  <li
+                    className={`${
+                      item.link === pathname
+                        ? "bg-[#ffffff05] text-primary"
+                        : "text-white"
+                    }`}
+                    key={index}
+                    onClick={() => setOpen(false)}
+                  >
                     <Link
                       href={item.link}
-                      className="px-4 py-2 flex-1 transition-all hover:bg-[#ffffff05] flex gap-2 items-center truncate"
+                      className="px-4 py-2.5 flex-1 transition-all hover:bg-[#ffffff05] flex gap-2 items-center truncate"
                     >
                       {item.icon}
                       {item.title}

@@ -1,7 +1,7 @@
 "use client";
 
 import { appConfig } from "@/configs/app.config";
-import { Button, CloseButton, Dialog, Portal } from "@chakra-ui/react";
+import { Button, CloseButton, Dialog, Portal, Spinner } from "@chakra-ui/react";
 import React from "react";
 
 const { dialog } = appConfig.chakra;
@@ -72,13 +72,13 @@ const DialogRoot = ({
                   </Button>
                 </Dialog.ActionTrigger>
                 <Button
-                  loading={loading}
                   type={onClickSubmit ? "button" : "submit"}
                   onClick={onClickSubmit ?? (() => {})}
                   size="xs"
                   className="min-w-24 shadow-primary bg-primary text-gray-900"
                 >
                   Hoàn tất
+                  {loading && <Spinner size="xs" />}
                 </Button>
               </Dialog.Footer>
             </form>

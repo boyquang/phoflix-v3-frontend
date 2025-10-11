@@ -17,7 +17,7 @@ const SwitchSnowEffect = () => {
 
   return (
     <SwitchCustom
-      disabled={!events["chiristmas"].status}
+      // disabled={!events["chiristmas"].status}
       defaultChecked={showSnowEffect ? showSnowEffect : false}
       callback={(checked: boolean) => {
         dispatch(setShowSnowEffect(checked));

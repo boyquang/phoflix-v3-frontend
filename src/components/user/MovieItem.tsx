@@ -21,6 +21,7 @@ import MovieTooltip from "@/components/shared/MovieTooltip";
 import DecodeText from "../shared/DecodeText";
 import { usePathname } from "next/navigation";
 import MovieProgress from "./MovieProgress";
+import { FaTimes } from "react-icons/fa";
 
 interface MovieItemProps {
   item: Movie;
@@ -133,9 +134,9 @@ const MovieItem = ({ item, isLoading, callback }: MovieItemProps) => {
               loading={isLoading}
               onClick={() => callback(item?._id)}
               aria-label="Xóa"
-              className="bg-transparent border border-[#ffffffb0] hover:bg-[#ffffff10] rounded-full"
+              className="rounded-lg bg-white text-black hover:opacity-75"
             >
-              <MdDelete />
+              <FaTimes />
             </IconButton>
           )}
         </Box>
@@ -143,7 +144,10 @@ const MovieItem = ({ item, isLoading, callback }: MovieItemProps) => {
 
       {showProgress && <MovieProgress item={item} />}
 
-      <Link href={`/thong-tin-phim/${item?.slug}`} className="mt-2 block text-center">
+      <Link
+        href={`/thong-tin-phim/${item?.slug}`}
+        className="mt-2 block text-center"
+      >
         <Box className="text-gray-50 line-clamp-1 text-xs font-semibold group-hover:text-[#ffd875] lg:text-sm transition-all">
           <DecodeText text={item?.name} />
           <span className="text-xs text-gray-300 truncate block mt-1">

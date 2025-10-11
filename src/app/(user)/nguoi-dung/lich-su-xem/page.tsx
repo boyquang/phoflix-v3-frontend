@@ -1,12 +1,6 @@
 import Loading from "@/app/loading";
-import { auth } from "@/auth";
-import { getUserMovies } from "@/lib/actions/user-server.action";
 import { Suspense } from "react";
-import MovieSection from "@/components/user/MovieSection";
-import { Box } from "@chakra-ui/react";
-import DeleteAllMovies from "@/components/user/DeleteAllMovies";
 import { NEXT_PUBLIC_SITE_URL } from "@/constants/env.contant";
-import DeleteSelectedMovies from "@/components/user/DeleteSeletedMovies";
 import { PageProps } from "@/app/page";
 import ClientWrapper from "@/components/user/viewing-history/ClientWrapper";
 
@@ -43,37 +37,8 @@ export async function generateMetadata() {
 }
 
 const Page = async ({ searchParams }: PageProps) => {
-  // const sesstion = await auth();
-  // const params = await searchParams;
-  // const currentPage = params?.page ? Number(params?.page) : 1;
-  // const limit = 18;
-
-  // const response = await getUserMovies({
-  //   userId: sesstion?.user?.id as string,
-  //   type: "history",
-  //   page: currentPage,
-  //   limit,
-  //   accessToken: sesstion?.user?.accessToken as string,
-  // });
-  // const { movies, totalItems, totalItemsPerPage } = response?.result || {};
-
   return (
     <Suspense fallback={<Loading type="bars" height="h-96" />}>
-      {/* <Box className="flex items-center justify-between gap-2">
-        <h3 className="text-lg text-gray-50">Lịch sử xem</h3>
-        <Box className="flex items-center gap-2">
-          {movies?.length >= 2 && <DeleteSelectedMovies type="history" />}
-          {movies?.length >= 3 && <DeleteAllMovies type="history" />}
-        </Box>
-      </Box>
-      <MovieSection
-        movies={movies}
-        totalItems={totalItems}
-        totalItemsPerPage={totalItemsPerPage}
-        currentPage={currentPage}
-        limit={limit}
-        type="history"
-      /> */}
       <ClientWrapper />
     </Suspense>
   );

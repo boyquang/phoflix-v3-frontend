@@ -1,13 +1,9 @@
 import Loading from "@/app/loading";
 import { PageProps } from "@/app/page";
-import { auth } from "@/auth";
-import TableUsers from "@/components/admin/dashboard/user-management/TableUsers";
-import PaginationCustom from "@/components/shared/PaginationCustom";
-import { getUsers } from "@/lib/actions/admin-server.action";
 import { NEXT_PUBLIC_SITE_URL } from "@/constants/env.contant";
-import { Box } from "@chakra-ui/react";
 import { Suspense } from "react";
 import ClientWrapper from "@/components/admin/dashboard/user-management/ClientWrapper";
+import AnimateWrapper from "@/components/shared/AnimateWrapper";
 
 export const generateMetadata = async () => {
   return {
@@ -42,49 +38,11 @@ export const generateMetadata = async () => {
 };
 
 const Page = ({ searchParams }: PageProps) => {
-  // const params = await searchParams;
-  // const page = params.page ? Number(params.page) : 1;
-  // const session = await auth();
-  // const limit = 20;
-
-  // const response = await getUsers({
-  //   page: page,
-  //   limit,
-  //   accessToken: session?.user?.accessToken as string,
-  // });
-
-  // const items = response?.result?.users || [];
-  // const totalItems = response?.result?.totalItems || 0;
-  // const errorType = response?.errorType;
-  // const message = response?.message || "Lỗi hệ thống. Vui lòng thử lại sau!";
-
   return (
     <Suspense fallback={<Loading type="bars" height="h-96" />}>
-      <ClientWrapper />
-      {/* <Box className="text-gray-50">
-        <h1 className="lg:text-3xl text-xl">Quản lý người dùng</h1>
-
-        {errorType === "ServerError" || errorType === "InvalidToken" ? (
-          <p className="text-red-500 text-base mt-4">
-            {errorType === "InvalidToken"
-              ? "Phiên đăng nhập không hợp lệ. Vui lòng đăng nhập lại."
-              : message}
-          </p>
-        ) : (
-          <>
-            <TableUsers items={items} offset={(page - 1) * limit} />
-            {totalItems >= limit && (
-              <PaginationCustom
-                currentPage={page}
-                totalItems={totalItems}
-                itemsPerPage={limit}
-                isScroll={true}
-                showToaster={false}
-              />
-            )}
-          </>
-        )}
-      </Box> */}
+      <AnimateWrapper>
+        <ClientWrapper />
+      </AnimateWrapper>
     </Suspense>
   );
 };

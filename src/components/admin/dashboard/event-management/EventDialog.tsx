@@ -9,12 +9,12 @@ import {
   Field,
   Input,
   Portal,
+  Spinner,
 } from "@chakra-ui/react";
 import { useEffect, useState } from "react";
 import { useForm, Controller } from "react-hook-form";
 import { categories, countries } from "@/constants/movie.contant";
 import { createEvent, updateEvent } from "@/lib/actions/event.action";
-import { useRouter } from "next/navigation";
 import { validateDate } from "@/lib/utils";
 import { useSession } from "next-auth/react";
 const MdEditor = dynamic(() => import("react-markdown-editor-lite"), {
@@ -273,8 +273,7 @@ const EventDialog = ({ action, data, trigger }: EventDialogProps) => {
                 <Button
                   onClick={() => setFullScreen(!fullscreen)}
                   size="xs"
-                  variant="solid"
-                  className="bg-gray-50 lg:inline-flex hidden text-gray-900 min-w-24"
+                  className="bg-white lg:inline-flex hidden text-gray-900 min-w-24"
                 >
                   {!fullscreen ? "Mở rộng" : "Thu gọn"}
                 </Button>
@@ -282,19 +281,18 @@ const EventDialog = ({ action, data, trigger }: EventDialogProps) => {
                   <Dialog.ActionTrigger asChild>
                     <Button
                       size="xs"
-                      variant="solid"
-                      className="bg-gray-50 text-gray-900 min-w-24"
+                      className="bg-white text-gray-900 min-w-24"
                     >
                       Đóng
                     </Button>
                   </Dialog.ActionTrigger>
                   <Button
-                    loading={loading}
                     type="submit"
                     size="xs"
                     className="min-w-24 shadow-primary bg-primary text-gray-900"
                   >
                     Hoàn tất
+                    {loading && <Spinner size="xs" />}
                   </Button>
                 </Box>
               </Dialog.Footer>

@@ -81,6 +81,9 @@ export const appConfig: AppConfig = {
     "/xem-chung/quan-ly": {
       status: FeatureStatus.ACTIVE,
     },
+    "/test": {
+      status: FeatureStatus.ACTIVE,
+    },
     "/xem-chung": {
       status: FeatureStatus.ACTIVE,
     },

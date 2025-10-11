@@ -1,7 +1,14 @@
 "use client";
 
 import { AppDispatch, RootState } from "@/store/store";
-import { Box, Button, CloseButton, Dialog, Portal } from "@chakra-ui/react";
+import {
+  Box,
+  Button,
+  CloseButton,
+  Dialog,
+  Portal,
+  Spinner,
+} from "@chakra-ui/react";
 import { useDispatch, useSelector } from "react-redux";
 import ReviewSummary from "./ReviewSummary";
 import ReviewEmo from "./ReviewEmo";
@@ -158,12 +165,12 @@ const ReviewDialog = ({ trigger }: ReviewDialogProps) => {
                 </Button>
               </Dialog.ActionTrigger>
               <Button
-                loading={pending}
                 onClick={handleAddNewReview}
                 size="xs"
                 className="min-w-24 shadow-primary bg-primary text-gray-900"
               >
                 Gửi đánh giá
+                {pending && <Spinner size="xs" />}
               </Button>
             </Dialog.Footer>
           </Dialog.Content>

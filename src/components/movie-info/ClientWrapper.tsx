@@ -57,7 +57,7 @@ const ClientWrapper = ({ movie, episodes }: ClientWrapperProps) => {
   }
 
   return (
-    <>
+    <div>
       <BackgroundMovie url={movie?.thumb_url as string} />
       <div className="max-w-[1620px] mx-auto 2xl:px-12 lg:px-4">
         <div className="mt-[-100px]">
@@ -75,7 +75,9 @@ const ClientWrapper = ({ movie, episodes }: ClientWrapperProps) => {
                 <Box className="flex flex-col gap-8">
                   <Box className="flex gap-6 md:flex-row flex-col md:justify-start justify-center md:items-start items-center">
                     <Link
-                      href={`/dang-xem/${movieInfo?.slug}${searchParams?.get("updated") ? "?updated=true" : ""}`}
+                      href={`/dang-xem/${movieInfo?.slug}${
+                        searchParams?.get("updated") ? "?updated=true" : ""
+                      }`}
                       className="min-w-[160px] block xs:w-auto w-full"
                     >
                       <Button
@@ -105,7 +107,7 @@ const ClientWrapper = ({ movie, episodes }: ClientWrapperProps) => {
           </div>
         </div>
       </div>
-    </>
+    </div>
   );
 };
 

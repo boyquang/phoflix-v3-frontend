@@ -9,6 +9,7 @@ import {
   Field,
   Input,
   Portal,
+  Spinner,
   Textarea,
 } from "@chakra-ui/react";
 import { useSession } from "next-auth/react";
@@ -112,7 +113,7 @@ const NotificationDialog = ({ trigger }: NotificationDialogProps) => {
                   </Field.Root>
                   <Field.Root>
                     <Field.Label>Hình ảnh minh họa</Field.Label>
-                    <UploadFile callback={setImage} />
+                    <UploadFile onUpload={(file) => setImage(file)} />
                   </Field.Root>
                 </Box>
               </Dialog.Body>
@@ -127,12 +128,12 @@ const NotificationDialog = ({ trigger }: NotificationDialogProps) => {
                   </Button>
                 </Dialog.ActionTrigger>
                 <Button
-                  loading={loading}
                   size="xs"
                   type="submit"
                   className="min-w-24 shadow-primary bg-primary text-gray-900"
                 >
                   Xác nhận
+                  {loading && <Spinner size="xs" />}
                 </Button>
               </Dialog.Footer>
             </form>

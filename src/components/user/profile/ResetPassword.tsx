@@ -2,7 +2,7 @@
 
 import { PasswordInput } from "@/components/ui/password-input";
 import { resetPassword } from "@/lib/actions/user-client.action";
-import { Button, Dialog, Portal, Field, CloseButton } from "@chakra-ui/react";
+import { Button, Dialog, Portal, Field, CloseButton, Spinner } from "@chakra-ui/react";
 import { useSession } from "next-auth/react";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
@@ -145,12 +145,12 @@ const ResetPassword = () => {
                   </Button>
                 </Dialog.ActionTrigger>
                 <Button
-                  loading={loading}
                   type="submit"
                   size="xs"
                   className="shadow-primary bg-primary text-gray-900 min-w-24"
                 >
                   Xác nhận
+                  {loading && <Spinner size="xs" />}
                 </Button>
               </Dialog.Footer>
               <Dialog.CloseTrigger

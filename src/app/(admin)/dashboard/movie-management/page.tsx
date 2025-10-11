@@ -1,11 +1,14 @@
 import Loading from "@/app/loading";
 import ClientWrapper from "@/components/admin/dashboard/movie-management/ClientWrapper";
+import AnimateWrapper from "@/components/shared/AnimateWrapper";
 import { Suspense } from "react";
 
 const Page = () => {
   return (
     <Suspense fallback={<Loading type="bars" height="h-96" />}>
-      <ClientWrapper />
+      <AnimateWrapper>
+        <ClientWrapper />
+      </AnimateWrapper>
     </Suspense>
   );
 };

@@ -18,9 +18,10 @@ const Loading = ({ height = "h-screen", type = "bars" }: LoadingProps) => {
       ) : type === "bars" ? (
         <div className="bars-loading"></div>
       ) : (
-        <h1 className="text-gradient lg:text-4xl text-3xl font-semibold logo-load">
+        <div className="flex flex-col text-gradient lg:text-4xl text-3xl font-semibold logo-load">
           PHOFLIX-V3
-        </h1>
+          <span className="text-xs text-gray-400 text-center">by phohoccode</span>
+        </div>
       )}
     </div>
   );

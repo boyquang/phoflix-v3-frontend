@@ -28,5 +28,6 @@ export const protectedPaths = [
   "/nguoi-dung/phong-cua-toi",
   "/xem-chung",
   "/xem-chung/quan-ly",
+  "/test",
   ...adminPaths,
 ];

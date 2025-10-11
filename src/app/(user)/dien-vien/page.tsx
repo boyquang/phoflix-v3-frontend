@@ -7,6 +7,7 @@ import { Metadata } from "next";
 import { Suspense } from "react";
 import { fetchActors } from "@/lib/actions/movie.action";
 import { PageProps } from "@/app/page";
+import AnimateWrapper from "@/components/shared/AnimateWrapper";
 
 export async function generateMetadata(): Promise<Metadata> {
   return {
@@ -53,31 +54,33 @@ const Page = async ({ searchParams }: PageProps) => {
 
   return (
     <Suspense fallback={<Loading type="text" />}>
-      <RootLayout>
-        <div className="lg:pt-28 pt-24">
-          <h3 className="inline-block xl:text-3xl lg:text-2xl text-xl text-gradient-primary font-bold mb-12">
-            Diễn viên nổi bật
-          </h3>
+      <AnimateWrapper>
+        <RootLayout>
+          <div className="lg:pt-28 pt-24">
+            <h3 className="inline-block xl:text-3xl lg:text-2xl text-xl text-gradient-primary font-bold mb-12">
+              Diễn viên nổi bật
+            </h3>
 
-          <ActorsList
-            items={actors}
-            loading={false}
-            classNameEmpty="mt-32"
-            classNameGrids="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 2xl:grid-cols-8 lg:gap-x-4 gap-x-2 gap-y-6"
-            showTitle={false}
-          />
-
-          {totalItems > totalItemsPerPage && (
-            <PaginationCustom
-              showToaster={false}
-              currentPage={currentPage}
-              totalItems={10000}
-              itemsPerPage={totalItemsPerPage}
-              isScroll={true}
+            <ActorsList
+              items={actors}
+              loading={false}
+              classNameEmpty="mt-32"
+              classNameGrids="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 2xl:grid-cols-8 lg:gap-x-4 gap-x-2 gap-y-6"
+              showTitle={false}
             />
-          )}
-        </div>
-      </RootLayout>
+
+            {totalItems > totalItemsPerPage && (
+              <PaginationCustom
+                showToaster={false}
+                currentPage={currentPage}
+                totalItems={10000}
+                itemsPerPage={totalItemsPerPage}
+                isScroll={true}
+              />
+            )}
+          </div>
+        </RootLayout>
+      </AnimateWrapper>
     </Suspense>
   );
 };

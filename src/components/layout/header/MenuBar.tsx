@@ -42,13 +42,7 @@ const MenuBar = () => {
         return (
           <li
             key={index}
-            className=" items-center relative inline-flex text-white 
-                after:content-[''] after:absolute after:left-1/2 after:bottom-0 
-                after:h-[2px] after:w-0 after:bg-[#ffd875]
-                after:transition-all after:duration-300 hover:text-[#ffd875]
-                after:-translate-x-1/2 
-                hover:after:w-full"
-          >
+            className="items-center relative inline-flex text-white hover:text-[#ffd875]">
             <Link
               href={item.path}
               className={`p-2 text-sm relative ${

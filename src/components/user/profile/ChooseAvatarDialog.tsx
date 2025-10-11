@@ -1,9 +1,16 @@
 "use client";
 
 import { updateUserProfile } from "@/lib/actions/user-client.action";
-import { Box, Button, CloseButton, Dialog, Portal } from "@chakra-ui/react";
+import {
+  Box,
+  Button,
+  CloseButton,
+  Dialog,
+  Portal,
+  Spinner,
+} from "@chakra-ui/react";
 import { useSession } from "next-auth/react";
-import { useState, useTransition } from "react";
+import { use, useState } from "react";
 import AvatarItem from "./AvatarItem";
 import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "@/store/store";
@@ -26,39 +33,42 @@ const ChooseAvatarDialog = () => {
   const [selectedAvatar, setSelectedAvatar] = useState<string | null>(
     avatars[selectedFilterTabsAvatar].images[0]
   );
-  const [pending, startTransition] = useTransition();
   const [isOpen, setIsOpen] = useState(false);
+  const [loading, setLoading] = useState(false);
+  const [uploading, setUploading] = useState(false);
 
-  const handleUpdateUserProfile = () => {
+  const handleUpdateUserProfile = async () => {
     if (!selectedAvatar) {
       toast.error("Vui lòng chọn ảnh đại diện");
       return;
     }
 
-    startTransition(async () => {
-      try {
-        const response = await updateUserProfile({
-          userId: session?.user?.id as string,
-          username: session?.user?.name as string,
-          gender: session?.user?.gender as Gender,
-          avatar: selectedAvatar as string,
-          typeAccount: session?.user?.typeAccount as TypeAcccount,
-          accessToken: session?.user?.accessToken as string,
-        });
+    try {
+      setLoading(true);
 
-        if (response?.status) {
-          await update();
-          setIsOpen(false);
-          toast.success(response?.message);
-          dispatch(setSelectedFilterTabsAvatar("hoat-hinh"));
-          setSelectedAvatar(avatars["hoat-hinh"].images[0]);
-        } else {
-          toast.error(response?.message);
-        }
-      } catch (error) {
-        toast.error("Đã xảy ra lỗi. Vui lòng thử lại sau.");
+      const response = await updateUserProfile({
+        userId: session?.user?.id as string,
+        username: session?.user?.name as string,
+        gender: session?.user?.gender as Gender,
+        avatar: selectedAvatar as string,
+        typeAccount: session?.user?.typeAccount as TypeAcccount,
+        accessToken: session?.user?.accessToken as string,
+      });
+
+      if (response?.status) {
+        await update();
+        setIsOpen(false);
+        toast.success(response?.message);
+        dispatch(setSelectedFilterTabsAvatar("hoat-hinh"));
+        setSelectedAvatar(avatars["hoat-hinh"].images[0]);
+      } else {
+        toast.error(response?.message);
       }
-    });
+    } catch (error) {
+      toast.error("Đã xảy ra lỗi. Vui lòng thử lại sau.");
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
@@ -72,7 +82,7 @@ const ChooseAvatarDialog = () => {
       <Dialog.Trigger asChild>
         <Button
           size="xs"
-          className="text-xs text-gray-200 bg-transparent hover:bg-[#25272f] transition-all"
+          className="text-xs bg-white text-black hover:opacity-75 rounded-lg"
         >
           Đổi ảnh đại diện
         </Button>
@@ -102,7 +112,12 @@ const ChooseAvatarDialog = () => {
                       )}
                     </Box>
                   ) : (
-                    <UploadFile callback={(url) => setSelectedAvatar(url)} />
+                    <UploadFile
+                      onUpload={(url, loading) => {
+                        setSelectedAvatar(url);
+                        setUploading(loading);
+                      }}
+                    />
                   )}
                 </>
               </Box>
@@ -113,17 +128,19 @@ const ChooseAvatarDialog = () => {
                   size="xs"
                   variant="solid"
                   className="bg-gray-50 text-gray-900 min-w-24"
+                  disabled={loading || uploading}
                 >
                   Đóng
                 </Button>
               </Dialog.ActionTrigger>
               <Button
-                loading={pending}
                 onClick={handleUpdateUserProfile}
                 size="xs"
                 className="min-w-24 bg-[#ffda7d] text-gray-800 shadow-primary"
+                disabled={loading || uploading}
               >
                 Lưu lại
+                {loading && <Spinner size="xs" />}
               </Button>
             </Dialog.Footer>
             <Dialog.CloseTrigger

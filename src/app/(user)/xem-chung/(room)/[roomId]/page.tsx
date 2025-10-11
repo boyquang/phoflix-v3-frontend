@@ -1,11 +1,14 @@
 import Loading from "@/app/loading";
-import MainPage from "@/components/watch-together/room/ClientWrapper";
+import AnimateWrapper from "@/components/shared/AnimateWrapper";
+import ClientWrapper from "@/components/watch-together/room/ClientWrapper";
 import { Suspense } from "react";
 
 const Page = () => {
   return (
     <Suspense fallback={<Loading type="text" />}>
-      <MainPage />
+      <AnimateWrapper>
+        <ClientWrapper />
+      </AnimateWrapper>
     </Suspense>
   );
 };

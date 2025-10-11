@@ -4,7 +4,6 @@ import { RootState } from "@/store/store";
 import { CSSProperties, useEffect, useRef, useState } from "react";
 import { FaAngleDown, FaAngleUp } from "react-icons/fa6";
 import { useSelector } from "react-redux";
-import striptags from "striptags";
 import DecodeText from "./DecodeText";
 
 interface ShowMoreTextProps {
@@ -66,7 +65,7 @@ const ShowMoreText = ({ text, className = "", row = 3 }: ShowMoreTextProps) => {
         }`}
         ref={pRef}
       >
-        <DecodeText text={striptags(text)} />
+        <DecodeText text={text} />
       </p>
 
       {isTruncated && (

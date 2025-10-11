@@ -1,7 +1,14 @@
 "use client";
 
 import { AppDispatch, RootState } from "@/store/store";
-import { Box, Button, CloseButton, Dialog, Portal } from "@chakra-ui/react";
+import {
+  Box,
+  Button,
+  CloseButton,
+  Dialog,
+  Portal,
+  Spinner,
+} from "@chakra-ui/react";
 import { useDispatch, useSelector } from "react-redux";
 import ErrorReportSelect from "./ErrorReportSelect";
 import { useState, useTransition } from "react";
@@ -115,12 +122,12 @@ const ReportDialog = () => {
                 </Button>
               </Dialog.ActionTrigger>
               <Button
-                loading={pending}
                 onClick={handleCreateReport}
                 size="xs"
                 className="min-w-24 shadow-primary bg-primary text-gray-900"
               >
                 Xác nhận
+                {pending && <Spinner size="xs" />}
               </Button>
             </Dialog.Footer>
             <Dialog.CloseTrigger

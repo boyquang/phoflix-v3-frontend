@@ -36,7 +36,7 @@ export default async function RootLayout({
 }>) {
   return (
     <html suppressHydrationWarning lang="vi">
-      <body className={`${inter.className} antialiased`}>
+      <body className={` antialiased`}>
         <NextTopLoader color="#ffd875" showSpinner={false} height={2} />
 
         <StoreProvider>

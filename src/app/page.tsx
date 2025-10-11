@@ -5,6 +5,7 @@ import { Metadata } from "next";
 import { NEXT_PUBLIC_SITE_URL } from "@/constants/env.contant";
 import { fetchNewlyUpdatedMovies } from "@/lib/actions/movie.action";
 import SlideShow from "@/components/home/SlideShow";
+import AnimateWrapper from "@/components/shared/AnimateWrapper";
 
 export interface PageProps {
   searchParams: Promise<{ [key: string]: string | string[] | undefined }>;
@@ -42,14 +43,21 @@ export const metadata: Metadata = {
 
 const Page = async ({ params, searchParams }: PageProps) => {
   const { updated } = await searchParams;
-  const response = await fetchNewlyUpdatedMovies("v3",10,1,updated === "true");
+  const response = await fetchNewlyUpdatedMovies(
+    "v3",
+    10,
+    1,
+    updated === "true"
+  );
   const { items } = response;
   const totalItems = 7;
 
   return (
     <Suspense fallback={<Loading type="text" />}>
-      <SlideShow items={items.slice(0, totalItems)} />
-      <ClientWrapper />
+      <AnimateWrapper>
+        <SlideShow items={items.slice(0, totalItems)} />
+        <ClientWrapper />
+      </AnimateWrapper>
     </Suspense>
   );
 };

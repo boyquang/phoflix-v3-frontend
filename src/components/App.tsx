@@ -85,7 +85,7 @@ const App = ({ children }: { children: React.ReactNode }) => {
   return (
     <Box>
       <NavBar />
-      {children}
+      <Box>{children}</Box>
       <Footer />
 
       <NotificationSound />

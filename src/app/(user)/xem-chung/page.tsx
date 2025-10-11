@@ -4,6 +4,7 @@ import { Suspense } from "react";
 import { NEXT_PUBLIC_SITE_URL } from "@/constants/env.contant";
 import { PageProps } from "@/app/page";
 import ClientWrapper from "@/components/watch-together/ClientWrapper";
+import AnimateWrapper from "@/components/shared/AnimateWrapper";
 
 export function generateMetadata(): Metadata {
   return {
@@ -41,7 +42,9 @@ export function generateMetadata(): Metadata {
 const CommunityRoom = async ({ searchParams }: PageProps) => {
   return (
     <Suspense fallback={<Loading type="text" />}>
-      <ClientWrapper />
+      <AnimateWrapper>
+        <ClientWrapper />
+      </AnimateWrapper>
     </Suspense>
   );
 };

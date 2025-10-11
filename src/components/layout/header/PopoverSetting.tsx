@@ -52,7 +52,7 @@ const PopoverSetting = () => {
               <div className="flex flex-col gap-4">
                 <SettingItem
                   label="Hiệu ứng tuyết rơi"
-                  description="Bạn chỉ có thể tùy chỉnh vào dịp Giáng sinh"
+                  description="Hiệu ứng tuyết rơi trong dịp Giáng sinh"
                   control={<SwitchSnowEffect />}
                 />
                 <SettingItem

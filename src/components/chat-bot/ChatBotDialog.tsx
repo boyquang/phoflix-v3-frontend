@@ -46,19 +46,19 @@ const ChatBotDialog = () => {
           <IconButton
             onClick={() => dispatch(setOpenDialog(true))}
             size="sm"
-            className="bg-transparent overflow-hidden relative hover:shadow-[0_5px_10px_10px_rgba(255,255,255,.15)] transition-all duration-300 w-12 h-12 rounded-[25%] shadow-[0_0_10px_0_rgba(0,0,0,0.2)] flex flex-col justify-center items-center gap-1"
+            className="bg-transparent overflow-hidden relative w-12 h-12 rounded-[25%] shadow-[0_0_10px_0_rgba(0,0,0,0.2)] flex flex-col justify-center items-center gap-1"
           >
-            <Image src={botAvatar} alt="Bot Avatar" className="rounded-[25%]" />
+            <Image src={botAvatar} alt="Trợ lý ảo" className="rounded-[25%]" />
           </IconButton>
 
           <Box
             className={`
-              lg:block hidden absolute right-full top-0 mr-1 bg-white text-black w-36 text-xs px-2 py-1 
+              lg:block hidden absolute right-full top-0 mr-1 bg-white text-black w-40 text-xs px-2 py-1 
               transition-opacity duration-300 rounded-md shadow-lg ${
                 showText ? "opacity-100" : "opacity-0 pointer-events-none"
               }`}
           >
-            Bạn muốn trò chuyện với trợ lý ảo?
+            Nhấn vào đây để bắt đầu trò chuyện cùng trợ lý ảo!
           </Box>
         </div>
       </Dialog.Trigger>

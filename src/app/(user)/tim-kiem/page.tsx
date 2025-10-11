@@ -9,6 +9,7 @@ import { NEXT_PUBLIC_SITE_URL } from "@/constants/env.contant";
 import { Metadata } from "next";
 import { Suspense } from "react";
 import { BsEmojiTearFill } from "react-icons/bs";
+import AnimateWrapper from "@/components/shared/AnimateWrapper";
 
 export async function generateMetadata({
   params,
@@ -96,31 +97,33 @@ const Page = async ({ params, searchParams }: PageProps) => {
 
   return (
     <Suspense fallback={<Loading type="text" />}>
-      <RootLayout>
-        <div className="lg:pt-28 pt-24">
-          <h3 className="inline-block xl:text-3xl lg:text-2xl text-xl text-gradient-primary font-bold">
-            Tìm thấy {totalItems} kết quả cho từ khóa &quot;
-            {keyword}
-            &quot;
-          </h3>
+      <AnimateWrapper>
+        <RootLayout>
+          <div className="lg:pt-28 pt-24">
+            <h3 className="inline-block xl:text-3xl lg:text-2xl text-xl text-gradient-primary font-bold">
+              Tìm thấy {totalItems} kết quả cho từ khóa &quot;
+              {keyword}
+              &quot;
+            </h3>
 
-          <div className="mt-12">
-            <MovieGrid
-              items={items}
-              classNameGrids="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 2xl:grid-cols-8 lg:gap-x-4 gap-x-2 gap-y-6"
-            />
+            <div className="mt-12">
+              <MovieGrid
+                items={items}
+                classNameGrids="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 2xl:grid-cols-8 lg:gap-x-4 gap-x-2 gap-y-6"
+              />
+            </div>
+
+            {(totalItems as number) >= limit && (
+              <PaginationCustom
+                totalItems={totalItems as number}
+                itemsPerPage={limit}
+                showToaster={false}
+                currentPage={currentPage}
+              />
+            )}
           </div>
-
-          {(totalItems as number) >= limit && (
-            <PaginationCustom
-              totalItems={totalItems as number}
-              itemsPerPage={limit}
-              showToaster={false}
-              currentPage={currentPage}
-            />
-          )}
-        </div>
-      </RootLayout>
+        </RootLayout>
+      </AnimateWrapper>
     </Suspense>
   );
 };

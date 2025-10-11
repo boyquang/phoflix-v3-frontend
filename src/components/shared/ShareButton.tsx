@@ -1,8 +1,8 @@
 "use client";
 
-import SendIcon from "@/components/icons/SendIcon";
 import { handleShare } from "@/lib/utils";
 import { Box } from "@chakra-ui/react";
+import { FaShare } from "react-icons/fa6";
 
 interface ShareButtonProps {
   placement?: "vertical" | "horizontal";
@@ -20,7 +20,7 @@ const ShareButton = ({
         placement === "vertical" ? "flex-col" : "flex-row"
       }`}
     >
-      <SendIcon />
+      <FaShare />
       <span
         className={`text-xs whitespace-nowrap ${
           !responsiveText ? "block" : "hidden xs:block"

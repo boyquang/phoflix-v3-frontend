@@ -8,14 +8,14 @@ import PreviewImage from "./PreviewImage";
 import { toast } from "sonner";
 
 interface UploadFileProps {
-  callback: (image: string) => void;
+  onUpload: (image: string, loading: boolean) => void;
   type?: "image" | "video";
   maxFileSize?: number;
   accept?: string[];
 }
 
 const UploadFile = ({
-  callback,
+  onUpload,
   type = "image",
   maxFileSize = 5,
   accept = ["/images/*"],
@@ -43,13 +43,12 @@ const UploadFile = ({
       return;
     }
 
-    setLoading(true);
-
     try {
+      setLoading(true);
+      onUpload("", true);
       const url = await uploadFileToCloundinary(file, type);
-
       toast.success("Tải file thành công");
-      callback(url);
+      onUpload(url, false);
       setImages([file]);
     } catch (err) {
       toast.error("Tải file thất bại");
@@ -60,7 +59,7 @@ const UploadFile = ({
 
   const handleDeleteImage = (fileName: string) => {
     setImages((prev) => prev.filter((file) => file.name !== fileName));
-    callback("");
+    onUpload("", false);
     toast.success("Xóa file thành công");
   };
   return (

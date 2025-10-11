@@ -70,8 +70,8 @@ const AlertDialog = ({
                   loading ? "opacity-50 cursor-not-allowed" : ""
                 }`}
               >
-                {loading && <Spinner size="xs" />}
                 Xác nhận
+                {loading && <Spinner size="xs" />}
               </Button>
             </Dialog.Footer>
 

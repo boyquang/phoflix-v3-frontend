@@ -89,8 +89,8 @@ const ClientWrapper = ({ movie, episodes }: ClientWrapperProps) => {
   }
 
   return (
-    <div className="flex flex-col gap-12 max-w-[1620px] mx-auto 2xl:px-12 px-4 ">
-      <div className="lg:mt-32 md:mt-24 mt-14 flex md:flex-col flex-col-reverse">
+    <div className="flex flex-col gap-12 max-w-[1620px] mx-auto 2xl:px-12 px-4">
+      <div className="lg:mt-32 md:mt-24 mt-16 flex md:flex-col flex-col-reverse">
         <div className="md:flex hidden items-center gap-2 lg:px-8 mb-8">
           <BackButton href={`/thong-tin-phim/${movie?.slug || ""}`} />
           <h3 className="lg:text-xl md:text-base text-sm text-white">
@@ -106,9 +106,9 @@ const ClientWrapper = ({ movie, episodes }: ClientWrapperProps) => {
               <PopoverPlaylist placement="horizontal" responsiveText />
               <ShareButton placement="horizontal" responsiveText />
               <ReportDialog />
+              <WatchingTogetherButton placement="horizontal" responsiveText />
               {isLongSeries && <AutoNextEpisodeButton />}
               <CinemaMode />
-              <WatchingTogetherButton placement="horizontal" responsiveText />
             </div>
           </div>
         </div>

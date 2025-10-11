@@ -5,6 +5,7 @@ import { RootState } from "@/store/store";
 import { Box } from "@chakra-ui/react";
 import { IoLogoYoutube } from "react-icons/io";
 import { useSelector } from "react-redux";
+import IframePlayer from "../player/IframePlayer";
 
 const TabTrailer = () => {
   const { movie } = useSelector((state: RootState) => state.movie.movieInfo);
@@ -24,14 +25,10 @@ const TabTrailer = () => {
     <Box className="flex flex-col gap-4">
       <h4 className="lg:text-2xl text-lg text-gray-50">Trailer</h4>
       <Box className="w-full h-0 relative lg:pt-[35%] md:pt-[50%] pt-[70%]">
-        <iframe
-          className="w-full h-full absolute inset-0 rounded-2xl"
-          frameBorder="0"
-          allowFullScreen
-          allow="accelerometer"
-          referrerPolicy="strict-origin-when-cross-origin"
-          src={movie?.trailer_url?.replace("/watch?v=", "/embed/")}
-        ></iframe>
+        <IframePlayer
+          source={movie?.trailer_url?.replace("/watch?v=", "/embed/") || ""}
+          className="rounded-2xl"
+        />
       </Box>
     </Box>
   );

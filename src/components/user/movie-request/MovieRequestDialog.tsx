@@ -11,6 +11,7 @@ import {
   Field,
   Input,
   Portal,
+  Spinner,
   Textarea,
 } from "@chakra-ui/react";
 import { useSession } from "next-auth/react";
@@ -227,12 +228,12 @@ const MovieRequestDialog = () => {
                   </Button>
                 </Dialog.ActionTrigger>
                 <Button
-                  loading={loading}
                   type="submit"
                   size="xs"
                   className="min-w-24 shadow-primary bg-primary text-gray-900"
                 >
                   Gửi yêu cầu
+                  {loading && <Spinner size="xs" />}
                 </Button>
               </Dialog.Footer>
             </form>

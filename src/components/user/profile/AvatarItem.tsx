@@ -25,7 +25,7 @@ const AvatarItem = ({
     >
       <Box className="relative pb-[100%]">
         <Image
-          className={`${isSelectedAvatar ? "opacity-100" : "opacity-60"}`}
+          className={`${isSelectedAvatar ? "opacity-100" : "opacity-60 hover:opacity-100"}`}
           src={avatar}
           alt={avatar}
         />

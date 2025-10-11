@@ -7,71 +7,15 @@ import { NEXT_PUBLIC_SITE_URL } from "@/constants/env.contant";
 import { Metadata } from "next";
 import { Suspense } from "react";
 import { FaPhotoFilm } from "react-icons/fa6";
+import AnimateWrapper from "@/components/shared/AnimateWrapper";
+import { buildWatchMovieMetadata } from "@/lib/seo";
 
 export async function generateMetadata({
   params,
 }: PageProps): Promise<Metadata> {
   const { slug } = await params;
 
-  try {
-    const { movie } = await fetchMovieInfo(slug as string);
-
-    const {
-      name = "PHOFLIX-V3 - Xem phim online miễn phí",
-      origin_name = "",
-      content = "Xem phim chất lượng cao, miễn phí, cập nhật nhanh nhất tại PHOFLIX-V3.",
-      poster_url = "/default-poster.jpg",
-    } = movie;
-
-    return {
-      title: `Đang xem ${name} | PHOFLIX-V3`,
-      description: content,
-      keywords: [
-        name,
-        origin_name,
-        "xem phim online",
-        "phim miễn phí",
-        "phim chất lượng cao",
-        "PHOFLIX",
-      ],
-      robots: "index, follow",
-      openGraph: {
-        title: `${name} | PHOFLIX-V3`,
-        description: content || "",
-        url: `${NEXT_PUBLIC_SITE_URL}/dang-xem/${slug}`,
-        siteName: "PHOFLIX-V3",
-        locale: "vi_VN",
-        type: "video.movie",
-        images: [
-          {
-            url: poster_url.startsWith("http")
-              ? poster_url
-              : `${NEXT_PUBLIC_SITE_URL}${poster_url}`,
-            width: 800,
-            height: 1200,
-            alt: name,
-          },
-        ],
-      },
-      twitter: {
-        card: "summary_large_image",
-        title: `${name} | PHOFLIX-V3`,
-        description: content || "",
-        images: [
-          poster_url.startsWith("http")
-            ? poster_url
-            : `${NEXT_PUBLIC_SITE_URL}${poster_url}`,
-        ],
-      },
-    };
-  } catch (error) {
-    console.error("Metadata fetch error:", error);
-    return {
-      title: "PHOFLIX-V3 - Xem phim online miễn phí",
-      description:
-        "Xem phim chất lượng cao, miễn phí, cập nhật nhanh nhất tại PHOFLIX-V3.",
-    };
-  }
+  return await buildWatchMovieMetadata(slug as string);
 }
 
 const Page = async ({ params, searchParams }: PageProps) => {
@@ -98,7 +42,9 @@ const Page = async ({ params, searchParams }: PageProps) => {
 
   return (
     <Suspense fallback={<Loading type="text" />}>
-      <ClientWrapper movie={movie} episodes={episodes} />
+      <AnimateWrapper>
+        <ClientWrapper movie={movie} episodes={episodes} />
+      </AnimateWrapper>
     </Suspense>
   );
 };
