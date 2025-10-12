@@ -89,13 +89,9 @@ const ClientWrapper = () => {
 
   // Lấy danh sách phim khi thay đổi playlistId hoặc page
   useEffect(() => {
-    if (
-      status !== "authenticated" ||
-      !selectedPlaylistId ||
-      playlists?.length === 0
-    ) {
-      return;
-    }
+    if (status !== "authenticated") return;
+    if (playlists?.length === 0) return;
+    if (!selectedPlaylistId) return;
 
     const fetchMovies = async () => {
       try {
@@ -112,14 +108,14 @@ const ClientWrapper = () => {
           setResponse(response);
         }
       } catch (error) {
-        toast.error("Lỗi khi tải phim trong danh sách phát.");
+        toast.error("Đã xảy ra lỗi khi tải phim trong playlist.");
       } finally {
         setLoading(false);
       }
     };
 
     fetchMovies();
-  }, [selectedPlaylistId, page, status, refreshMovies]);
+  }, [selectedPlaylistId, page, status, refreshMovies, playlists]);
 
   return (
     <div>
