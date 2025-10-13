@@ -12,6 +12,7 @@ import { appConfig, FeatureStatus } from "@/configs/app.config";
 import StatusTag from "@/components/shared/StatusTag";
 import { toast } from "sonner";
 import { FaPodcast } from "react-icons/fa6";
+import Link from "next/link";
 
 interface WatchingTogetherButtonProps {
   placement?: "vertical" | "horizontal";
@@ -83,8 +84,9 @@ const WatchingTogetherButton = ({
   };
 
   return (
-    <Box
-      onClick={handleCreateRoomWatchingTogether}
+    <Link
+      href={`/xem-chung/tao-phong/${movie?.slug}`}
+      // onClick={handleCreateRoomWatchingTogether}
       className={`p-2 select-none sm:min-w-16 cursor-pointer rounded-lg flex justify-center items-center gap-2 text-gray-50 transition-all hover:bg-[#ffffff05] ${
         placement === "vertical" ? "flex-col" : "flex-row"
       }`}
@@ -99,7 +101,7 @@ const WatchingTogetherButton = ({
       </span>
       {status === FeatureStatus.MAINTENANCE && <StatusTag text="Bảo trì" />}
       {loading && <Spinner size="sm" />}
-    </Box>
+    </Link>
   );
 };
 
