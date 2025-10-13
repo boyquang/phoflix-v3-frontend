@@ -54,7 +54,7 @@ const CommunityHighlights = () => {
   }, []);
 
   return (
-    <Box className="2xl:border border-y  2xl:rounded-2xl rounded-none border-[#fff2] flex flex-col">
+    <Box className="2xl:border border-y 2xl:rounded-2xl rounded-none border-[#fff2] flex flex-col">
       <TopComments comments={data?.topComments || []} />
       <Box
         className="flex items-stretch xl:overflow-hidden overflow-auto"

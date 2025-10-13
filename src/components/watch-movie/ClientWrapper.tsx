@@ -103,7 +103,12 @@ const ClientWrapper = ({ movie, episodes }: ClientWrapperProps) => {
         <div className="flex flex-col relative watch-player md:-mx-0 -mx-4">
           <SectionVideo />
           <div className="lg:p-4 p-2 bg-[#08080a] md:rounded-b-xl rounded-b-none">
-            <div className="flex lg:gap-x-4 gap-x-2 gap-y-2 items-center flex-wrap">
+            <div
+              style={{
+                scrollbarWidth: "none",
+              }}
+              className="sm:overflow-hidden overflow-auto flex lg:gap-x-4 gap-x-2 gap-y-2 items-center"
+            >
               <FavoriteButton placement="horizontal" responsiveText />
               <PopoverPlaylist placement="horizontal" responsiveText />
               <ShareButton placement="horizontal" responsiveText />
@@ -113,6 +118,7 @@ const ClientWrapper = ({ movie, episodes }: ClientWrapperProps) => {
               <CinemaMode />
             </div>
           </div>
+          <div className="pointer-events-none absolute top-0 right-0 h-full w-12 bg-gradient-to-l from-[#08080a]/100 to-[#08080a]/0" />
         </div>
       </div>
 

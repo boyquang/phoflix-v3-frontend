@@ -78,7 +78,7 @@ const ClientWrapper = ({ movie, episodes }: ClientWrapperProps) => {
                       href={`/dang-xem/${movieInfo?.slug}${
                         searchParams?.get("updated") ? "?updated=true" : ""
                       }`}
-                      className="min-w-[160px] block xs:w-auto w-full"
+                      className="md:min-w-[160px] min-w-[60%] block xs:w-auto w-full"
                     >
                       <Button
                         className="w-full h-14 text-lg shadow-lg shadow-primary bg-primary linear-gradient border-none text-gray-800"
