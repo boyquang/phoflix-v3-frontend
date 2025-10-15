@@ -1,5 +1,4 @@
 import Loading from "@/app/loading";
-import { PageProps } from "@/app/page";
 import RootLayout from "@/components/layout/RootLayout";
 import AnimateWrapper from "@/components/shared/AnimateWrapper";
 import BackButton from "@/components/shared/BackButton";

@@ -2,27 +2,32 @@
 
 import RootLayout from "@/components/layout/RootLayout";
 import { Box, Button } from "@chakra-ui/react";
-import Link from "next/link";
-import { FaChevronLeft } from "react-icons/fa6";
 import GuideCreateRoom from "../GuideCreateRoom";
 import { GoPlus } from "react-icons/go";
 import FilterOptions from "@/components/shared/FilterOptions";
-import ListRooms from "../room/ListRooms";
-import { useSearchParams } from "next/navigation";
+import ListRooms from "../ListRooms";
 import { useSession } from "next-auth/react";
 import { useEffect, useState } from "react";
-import { getListRoomsByUser } from "@/lib/actions/watch-together.action";
+import { getListRoomsByUser } from "@/lib/actions/watch-together-v2.action";
 import PaginationCustom from "@/components/shared/PaginationCustom";
 import Loading from "@/app/loading";
 import BackButton from "@/components/shared/BackButton";
+import { ROOM_DATA_DEFAULT } from "@/constants/watch-together.contant";
+import { AppDispatch, RootState } from "@/store/store";
+import { useDispatch, useSelector } from "react-redux";
+import { setWatchTogetherByKey } from "@/store/slices/watch-together-v2.slice";
 
-const ClientWrapper = () => {
-  const searchParams = useSearchParams();
-  const page = searchParams.get("page") ? Number(searchParams.get("page")) : 1;
-  const limit = 12;
+interface ClientWrapperProps {
+  page: number;
+  limit: number;
+}
+
+const ClientWrapper = ({ page, limit }: ClientWrapperProps) => {
   const { data: session, status } = useSession();
-  const [data, setData] = useState<any>(null);
+  const [data, setData] = useState<ListRoomsByUserResponse>(ROOM_DATA_DEFAULT);
   const [loading, setLoading] = useState<boolean>(false);
+  const { filter } = useSelector((state: RootState) => state.watchTogetherV2);
+  const dispatch: AppDispatch = useDispatch();
 
   useEffect(() => {
     if (status !== "authenticated") return;
@@ -31,7 +36,7 @@ const ClientWrapper = () => {
       try {
         setLoading(true);
         const response = await getListRoomsByUser({
-          userId: session?.user?.id as string,
+          status: filter || "all",
           page,
           limit,
           accessToken: session?.user?.accessToken as string,
@@ -48,7 +53,7 @@ const ClientWrapper = () => {
     };
 
     fetchData();
-  }, [status, page]);
+  }, [status, page, filter]);
 
   if (status !== "authenticated") return <Box className="min-h-screen" />;
 
@@ -71,18 +76,23 @@ const ClientWrapper = () => {
           <FilterOptions
             options={[
               { label: "Tất cả", value: "all" },
+              { label: "Đang chiếu", value: "active" },
+              { label: "Đang chờ", value: "pending" },
               { label: "Đã kết thúc", value: "ended" },
             ]}
-            onChange={(value) => console.log(value)}
+            onChange={(value) => {
+              dispatch(setWatchTogetherByKey({ key: "filter", value }));
+            }}
           />
         </Box>
 
         {loading ? (
-          <Loading type="bars" height="h-[360px]"/>
+          <Loading type="bars" height="h-[360px]" />
         ) : (
           <ListRooms
+            scope="user"
             rooms={data?.rooms}
-            classNameGrid="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-4 gap-4"
+            classNameGrid="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-4 3xl:grid-cols-5 lg:gap-4 gap-6"
           />
         )}
 

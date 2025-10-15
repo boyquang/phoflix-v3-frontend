@@ -1,7 +1,6 @@
 import Loading from "@/app/loading";
 import { Suspense } from "react";
 import { NEXT_PUBLIC_SITE_URL } from "@/constants/env.contant";
-import { PageProps } from "@/app/page";
 import ClientWrapper from "@/components/user/viewing-history/ClientWrapper";
 
 export async function generateMetadata() {

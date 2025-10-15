@@ -9,7 +9,6 @@ import {
   fetchActorDetail,
   fetchMoviesByActor,
 } from "@/lib/actions/movie.action";
-import { PageProps } from "@/app/page";
 import AnimateWrapper from "@/components/shared/AnimateWrapper";
 
 export async function generateMetadata({

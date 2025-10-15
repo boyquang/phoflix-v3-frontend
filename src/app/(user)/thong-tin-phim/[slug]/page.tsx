@@ -1,12 +1,11 @@
 import Loading from "@/app/loading";
-import { PageProps } from "@/app/page";
-import ClientWrapper from "@/components/movie-info/ClientWrapper";
 import { fetchMovieInfo } from "@/lib/actions/movie.action";
 import { Metadata } from "next";
 import { Suspense } from "react";
 import NotFound from "@/app/not-found";
 import AnimateWrapper from "@/components/shared/AnimateWrapper";
 import { buildMovieInfoMetadata } from "@/lib/seo";
+import ClientWrapper from "@/components/movie-info/ClientWrapper";
 
 export async function generateMetadata({
   params,

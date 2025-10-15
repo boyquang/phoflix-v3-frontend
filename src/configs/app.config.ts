@@ -79,13 +79,13 @@ export const appConfig: AppConfig = {
   },
   pages: {
     "/xem-chung/quan-ly": {
-      status: FeatureStatus.MAINTENANCE,
-    },
-    "/test": {
       status: FeatureStatus.ACTIVE,
     },
     "/xem-chung": {
-      status: FeatureStatus.MAINTENANCE,
+      status: FeatureStatus.ACTIVE,
+    },
+    "/test": {
+      status: FeatureStatus.ACTIVE,
     },
     "/nguoi-dung/thong-bao": {
       status: FeatureStatus.ACTIVE,

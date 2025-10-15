@@ -2,27 +2,40 @@
 
 import { Box, Button } from "@chakra-ui/react";
 import { useSession } from "next-auth/react";
-import { useSearchParams } from "next/navigation";
 import { useEffect, useState } from "react";
 import Image from "../shared/Image";
 import RootLayout from "../layout/RootLayout";
 import Link from "next/link";
 import { FaPodcast } from "react-icons/fa";
-import ListRooms from "./room/ListRooms";
+import ListRooms from "./ListRooms";
 import PaginationCustom from "../shared/PaginationCustom";
-import { getListRooms } from "@/lib/actions/watch-together.action";
 import Loading from "@/app/loading";
 import GuideCreateRoom from "./GuideCreateRoom";
 import { AiFillPlusCircle } from "react-icons/ai";
 import FilterOptions from "../shared/FilterOptions";
+import { useDispatch, useSelector } from "react-redux";
+import { AppDispatch, RootState } from "@/store/store";
+import { setWatchTogetherByKey } from "@/store/slices/watch-together-v2.slice";
+import { getListRooms } from "@/lib/actions/watch-together-v2.action";
 
-const ClientWrapper = () => {
-  const searchParams = useSearchParams();
-  const page = searchParams.get("page") ? Number(searchParams.get("page")) : 1;
-  const limit = 12;
+interface ClientWrapperProps {
+  page: number;
+  limit: number;
+}
+
+const dataDefault = {
+  rooms: [],
+  totalItems: 0,
+  totalPages: 0,
+  currentPage: 1,
+};
+
+const ClientWrapper = ({ page, limit }: ClientWrapperProps) => {
   const { data: session, status } = useSession();
-  const [data, setData] = useState<any>(null);
+  const [data, setData] = useState<ListRoomsByUserResponse>(dataDefault);
   const [loading, setLoading] = useState<boolean>(false);
+  const { filter } = useSelector((state: RootState) => state.watchTogetherV2);
+  const dispatch: AppDispatch = useDispatch();
 
   useEffect(() => {
     if (status !== "authenticated") return;
@@ -31,23 +44,21 @@ const ClientWrapper = () => {
       try {
         setLoading(true);
         const response = await getListRooms({
-          page: page,
+          accessToken: session?.user.accessToken || "",
+          page,
           limit,
-          accessToken: session?.user?.accessToken as string,
+          status: filter || "all",
         });
 
-        if (response?.status) {
-          setData(response?.result || null);
-        }
+        if (response.status) setData(response.result);
       } catch (error) {
-        console.log(error);
       } finally {
         setLoading(false);
       }
     };
 
     fetchData();
-  }, [status, page]);
+  }, [status, page, filter]);
 
   if (status !== "authenticated") return <Box className="min-h-screen" />;
 
@@ -103,26 +114,31 @@ const ClientWrapper = () => {
               <FilterOptions
                 options={[
                   { label: "Tất cả", value: "all" },
+                  { label: "Đang chiếu", value: "active" },
+                  { label: "Đang chờ", value: "pending" },
                   { label: "Đã kết thúc", value: "ended" },
                 ]}
-                onChange={(value) => console.log(value)}
+                onChange={(value) => {
+                  dispatch(setWatchTogetherByKey({ key: "filter", value }));
+                }}
               />
             </Box>
 
             {loading ? (
-              <Loading type="bars" height="h-[360px]"/>
+              <Loading type="bars" height="h-[360px]" />
             ) : (
               <ListRooms
-                rooms={data?.rooms}
-                classNameGrid="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 2xl:grid-cols-4 3xl:grid-cols-5 gap-4"
+                scope="all"
+                rooms={data.rooms}
+                classNameGrid="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-4 3xl:grid-cols-5 lg:gap-4 gap-6"
               />
             )}
 
-            {data?.totalItems >= limit && (
+            {data.totalItems >= limit && (
               <PaginationCustom
                 showToaster={false}
                 currentPage={page}
-                totalItems={data?.totalItems}
+                totalItems={data.totalItems}
                 itemsPerPage={limit}
                 isScroll={true}
               />

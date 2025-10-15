@@ -1,5 +1,4 @@
 import Loading from "@/app/loading";
-import { PageProps } from "@/app/page";
 import RootLayout from "@/components/layout/RootLayout";
 import MovieGrid from "@/components/shared/MovieGrid";
 import PaginationCustom from "@/components/shared/PaginationCustom";

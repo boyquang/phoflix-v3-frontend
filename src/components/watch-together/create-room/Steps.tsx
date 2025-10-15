@@ -2,16 +2,47 @@
 
 import Image from "@/components/shared/Image";
 import SwitchCustom from "@/components/shared/SwitchCustom";
-import { Button, Input } from "@chakra-ui/react";
+import useWatchTogetherV2 from "@/hooks/useWatchTogetherV2";
+import { createRoom } from "@/store/async-thunks/watch-together-v2.thunk";
+import { AppDispatch } from "@/store/store";
+import { Button, Input, Spinner } from "@chakra-ui/react";
+import { useSession } from "next-auth/react";
 import Link from "next/link";
+import { useEffect, useState } from "react";
+import { useDispatch } from "react-redux";
 import { toast } from "sonner";
 
 interface StepsProps {
   movie: Movie;
 }
 
+const stepClasses = "lg:p-8 p-4 rounded-2xl bg-[#282b3a] w-full";
+
 const Steps = ({ movie }: StepsProps) => {
-  const stepClasses = "lg:p-8 p-4 rounded-2xl bg-[#282b3a] w-full";
+  const [form, setForm] = useState<FormNewRoom>({
+    movieId: "",
+    roomName: "",
+    isPrivate: false,
+    maxParticipants: 10,
+  });
+  const { handleCreateRoom } = useWatchTogetherV2();
+  const [loading, setLoading] = useState(false);
+
+  useEffect(() => {
+    if (movie) {
+      setForm({
+        movieId: movie._id,
+        roomName: `Cùng xem ${movie?.name || "phim"} nhé`,
+        maxParticipants: 10,
+        isPrivate: false,
+      });
+    }
+  }, [movie]);
+
+  const onCreateRoom = async () => {
+    if (!form) return;
+    handleCreateRoom(form, setLoading);
+  };
 
   return (
     <div className="flex-grow-1 flex flex-col gap-4">
@@ -19,7 +50,10 @@ const Steps = ({ movie }: StepsProps) => {
         <h4 className="lg:text-base text-sm text-white mb-3">1. Tên phòng</h4>
         <Input
           size="lg"
-          placeholder={`Cùng xem ${movie?.name || "phim"} nhé`}
+          value={form.roomName}
+          onChange={(e) =>
+            setForm((prev) => ({ ...prev, roomName: e.target.value }))
+          }
           className="border border-[#fff2] focus:border-white text-white outline-0 transition-colors duration-300 rounded-md"
         />
       </div>
@@ -50,7 +84,14 @@ const Steps = ({ movie }: StepsProps) => {
         <div className="flex-grow-1">
           <Input
             size="lg"
-            placeholder="10"
+            type="number"
+            value={form.maxParticipants}
+            onChange={(e) =>
+              setForm((prev) => ({
+                ...prev,
+                maxParticipants: Math.min(20, e.target.valueAsNumber),
+              }))
+            }
             className="border border-[#fff2] focus:border-white text-white outline-0 transition-colors duration-300 rounded-md w-24 ml-4"
           />
         </div>
@@ -64,16 +105,22 @@ const Steps = ({ movie }: StepsProps) => {
             Nếu bật, chỉ có thành viên có link mới xem được phòng này.
           </p>
         </div>
-        <SwitchCustom callback={() => {}} />
+        <SwitchCustom
+          callback={() => {
+            setForm((prev) => ({ ...prev, isPrivate: !prev.isPrivate }));
+          }}
+          defaultChecked={form.isPrivate}
+        />
       </div>
       <div className="flex lg:flex-row flex-col items-center gap-4 mt-6">
         <Button
           size="2xl"
           rounded="lg"
-          onClick={() => toast.info("Chức năng đang được phát triển!")}
+          onClick={onCreateRoom}
           className="bg-primary text-lg text-black hover:opacity-75 lg:flex-grow-1 lg:w-auto w-full"
         >
           Tạo phòng
+          {loading && <Spinner size="sm" className="ml-1" />}
         </Button>
         <Button
           size="2xl"

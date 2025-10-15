@@ -9,11 +9,18 @@ interface FilterOptionsProps {
   options: {
     label: string;
     value: string;
+    icon?: React.ReactNode;
+    color?: TextColor;
   }[];
+  selectedBackground?: boolean;
   onChange: (value: string) => void;
 }
 
-const FilterOptions = ({ options, onChange }: FilterOptionsProps) => {
+const FilterOptions = ({
+  options,
+  selectedBackground = true,
+  onChange,
+}: FilterOptionsProps) => {
   const [open, setOpen] = useState(false);
   const [selectedOption, setSelectedOption] = useState<string>(
     options[0].value
@@ -32,22 +39,27 @@ const FilterOptions = ({ options, onChange }: FilterOptionsProps) => {
     <Box ref={menuRef} className="relative">
       <Box
         onClick={() => setOpen(!open)}
-        className="w-[30px] cursor-pointer h-[30px] flex items-center justify-center border rounded-full border-[#ffffff80] hover:border-white"
+        className="w-[30px] cursor-pointer text-white h-[30px] flex items-center justify-center border rounded-full border-[#ffffff80] hover:border-white"
       >
-       <LuEllipsisVertical />
+        <LuEllipsisVertical />
       </Box>
       {open && (
-        <ul className="py-2 mt-1 bg-white w-[150px] rounded-md absolute z-[123] top-full left-0">
+        <ul className="py-2 mt-1 bg-white w-[150px] rounded-md absolute z-[123] top-[32px] md:left-0 right-0">
           {options.map((option, index) => (
             <li
               key={index}
-              className={`flex cursor-pointer text-black items-center px-4 text-xs py-2 ${
+              className={`flex cursor-pointer font-semibold items-center px-4 text-xs py-2 ${
                 selectedOption === option.value
-                  ? "bg-primary"
-                  : "bg-white hover:bg-[#f8f9fa] text-black"
+                  ? `${option.color || "text-black"} ${
+                      selectedBackground ? "bg-primary" : ""
+                    }`
+                  : `${
+                      option.color || "text-black"
+                    } bg-white hover:bg-[#f8f9fa]`
               }`}
               onClick={() => handleSelectOption(option.value)}
             >
+              {option.icon && <span className="mr-2">{option.icon}</span>}
               {option.label}
             </li>
           ))}

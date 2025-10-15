@@ -8,6 +8,7 @@ import watchingTogetherReducer from "./slices/watching-together.slice";
 import roomUsersReducer from "./slices/room-users.slice";
 import chatBotReducer from "./slices/chat-bot.slice";
 import crawlMoviesReducer from "./slices/crawl-movies.slice";
+import watchTogetherV2Reducer from "./slices/watch-together-v2.slice";
 
 export const store = configureStore({
   reducer: {
@@ -20,6 +21,7 @@ export const store = configureStore({
     chatBot: chatBotReducer,
     crawlMovies: crawlMoviesReducer,
     watchingTogether: watchingTogetherReducer,
+    watchTogetherV2: watchTogetherV2Reducer,
   },
 });
 

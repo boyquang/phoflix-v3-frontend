@@ -1,5 +1,4 @@
 import Loading from "@/app/loading";
-import { PageProps } from "@/app/page";
 import { auth } from "@/auth";
 import MovieRequestDialog from "@/components/user/movie-request/MovieRequestDialog";
 import MovieRequests from "@/components/user/movie-request/MovieRequests";

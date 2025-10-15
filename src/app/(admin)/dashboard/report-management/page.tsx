@@ -1,5 +1,4 @@
 import Loading from "@/app/loading";
-import { PageProps } from "@/app/page";
 import { NEXT_PUBLIC_SITE_URL } from "@/constants/env.contant";
 import { Suspense } from "react";
 import ClientWrapper from "@/components/admin/dashboard/report-management/ClientWrapper";

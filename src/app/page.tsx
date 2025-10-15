@@ -7,11 +7,6 @@ import { fetchNewlyUpdatedMovies } from "@/lib/actions/movie.action";
 import SlideShow from "@/components/home/SlideShow";
 import AnimateWrapper from "@/components/shared/AnimateWrapper";
 
-export interface PageProps {
-  searchParams: Promise<{ [key: string]: string | string[] | undefined }>;
-  params: Promise<{ [key: string]: string | string[] | undefined }>;
-}
-
 export const metadata: Metadata = {
   title: "PHOFLIX-V3 | Xem Phim Online Miễn Phí, Chất Lượng Cao Full HD",
   description:
