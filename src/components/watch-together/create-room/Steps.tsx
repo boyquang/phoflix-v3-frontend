@@ -4,12 +4,12 @@ import Image from "@/components/shared/Image";
 import SwitchCustom from "@/components/shared/SwitchCustom";
 import useWatchTogetherV2 from "@/hooks/useWatchTogetherV2";
 import { createRoom } from "@/store/async-thunks/watch-together-v2.thunk";
-import { AppDispatch } from "@/store/store";
+import { AppDispatch, RootState } from "@/store/store";
 import { Button, Input, Spinner } from "@chakra-ui/react";
 import { useSession } from "next-auth/react";
 import Link from "next/link";
 import { useEffect, useState } from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { toast } from "sonner";
 
 interface StepsProps {
@@ -26,7 +26,7 @@ const Steps = ({ movie }: StepsProps) => {
     maxParticipants: 10,
   });
   const { handleCreateRoom } = useWatchTogetherV2();
-  const [loading, setLoading] = useState(false);
+  const { loading } = useSelector((state: RootState) => state.watchTogetherV2);
 
   useEffect(() => {
     if (movie) {
@@ -41,7 +41,7 @@ const Steps = ({ movie }: StepsProps) => {
 
   const onCreateRoom = async () => {
     if (!form) return;
-    handleCreateRoom(form, setLoading);
+    handleCreateRoom(form);
   };
 
   return (
@@ -120,7 +120,7 @@ const Steps = ({ movie }: StepsProps) => {
           className="bg-primary text-lg text-black hover:opacity-75 lg:flex-grow-1 lg:w-auto w-full"
         >
           Tạo phòng
-          {loading && <Spinner size="sm" className="ml-1" />}
+          {loading.createRoom && <Spinner size="sm" className="ml-1" />}
         </Button>
         <Button
           size="2xl"

@@ -1,7 +1,7 @@
 import Loading from "@/app/loading";
 import NotFound from "@/app/not-found";
 import AnimateWrapper from "@/components/shared/AnimateWrapper";
-import ClientWrapperV2 from "@/components/watch-together/room/ClientWrapperV2";
+import ClientWrapper from "@/components/watch-together/room-v2/ClientWrapper";
 import { Suspense } from "react";
 
 const Page = async ({ params }: PageProps) => {
@@ -12,7 +12,7 @@ const Page = async ({ params }: PageProps) => {
   return (
     <Suspense fallback={<Loading type="text" />}>
       <AnimateWrapper>
-        <ClientWrapperV2 roomId={roomId as string} />
+        <ClientWrapper roomId={roomId as string} />
       </AnimateWrapper>
     </Suspense>
   );

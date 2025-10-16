@@ -155,3 +155,4 @@ export const appConfig: AppConfig = {
     },
   },
 };
+

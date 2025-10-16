@@ -7,15 +7,14 @@ import { GoPlus } from "react-icons/go";
 import FilterOptions from "@/components/shared/FilterOptions";
 import ListRooms from "../ListRooms";
 import { useSession } from "next-auth/react";
-import { useEffect, useState } from "react";
-import { getListRoomsByUser } from "@/lib/actions/watch-together-v2.action";
+import { useEffect } from "react";
 import PaginationCustom from "@/components/shared/PaginationCustom";
 import Loading from "@/app/loading";
 import BackButton from "@/components/shared/BackButton";
-import { ROOM_DATA_DEFAULT } from "@/constants/watch-together.contant";
 import { AppDispatch, RootState } from "@/store/store";
 import { useDispatch, useSelector } from "react-redux";
 import { setWatchTogetherByKey } from "@/store/slices/watch-together-v2.slice";
+import { getListRooms } from "@/store/async-thunks/watch-together-v2.thunk";
 
 interface ClientWrapperProps {
   page: number;
@@ -24,35 +23,23 @@ interface ClientWrapperProps {
 
 const ClientWrapper = ({ page, limit }: ClientWrapperProps) => {
   const { data: session, status } = useSession();
-  const [data, setData] = useState<ListRoomsByUserResponse>(ROOM_DATA_DEFAULT);
-  const [loading, setLoading] = useState<boolean>(false);
-  const { filter } = useSelector((state: RootState) => state.watchTogetherV2);
+  const { filter, listRooms, loading } = useSelector(
+    (state: RootState) => state.watchTogetherV2
+  );
   const dispatch: AppDispatch = useDispatch();
 
   useEffect(() => {
     if (status !== "authenticated") return;
 
-    const fetchData = async () => {
-      try {
-        setLoading(true);
-        const response = await getListRoomsByUser({
-          status: filter || "all",
-          page,
-          limit,
-          accessToken: session?.user?.accessToken as string,
-        });
-
-        if (response?.status) {
-          setData(response?.result || null);
-        }
-      } catch (error) {
-        console.log(error);
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    fetchData();
+    dispatch(
+      getListRooms({
+        accessToken: session?.user?.accessToken as string,
+        page,
+        limit,
+        status: filter,
+        scope: "user",
+      })
+    );
   }, [status, page, filter]);
 
   if (status !== "authenticated") return <Box className="min-h-screen" />;
@@ -86,19 +73,19 @@ const ClientWrapper = ({ page, limit }: ClientWrapperProps) => {
           />
         </Box>
 
-        {loading ? (
+        {loading.fetchRooms ? (
           <Loading type="bars" height="h-[360px]" />
         ) : (
           <ListRooms
             scope="user"
-            rooms={data?.rooms}
+            rooms={listRooms.rooms}
             classNameGrid="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-4 3xl:grid-cols-5 lg:gap-4 gap-6"
           />
         )}
 
-        {data?.totalItems >= limit && (
+        {listRooms.totalItems >= limit && (
           <PaginationCustom
-            totalItems={data?.totalItems}
+            totalItems={listRooms.totalItems}
             itemsPerPage={limit}
             currentPage={page}
             showToaster={false}

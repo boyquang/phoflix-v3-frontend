@@ -31,13 +31,16 @@ interface Room {
   updatedAt: string;
 }
 
-interface GetRoomDataResponse {
-  status: boolean;
-  message: string;
-  result: {
-    room: (Room & Movie & Episode) | null;
-  };
-}
+type RoomResponse = {
+  room: (Room & Movie & Episode) | null;
+};
+
+type GetListRoomsResponse = {
+  rooms: Room[];
+  totalItems: number;
+  totalPages: number;
+  currentPage: number;
+};
 
 interface GetListRoomsByUserParams {
   page?: number;
@@ -45,9 +48,17 @@ interface GetListRoomsByUserParams {
   status?: StatusFilter;
 }
 
-interface ListRoomsByUserResponse {
-  rooms: Room[];
-  totalItems: number;
-  totalPages: number;
-  currentPage: number;
-}
+type LiveActionResponse = {
+  room: {
+    roomId: string;
+    status: StatusFilter;
+  };
+};
+
+type DeleteRoomResponse = {
+  room: {
+    roomId: string;
+  };
+};
+
+type ValueOptionRoom = "end" | "start" | "delete";

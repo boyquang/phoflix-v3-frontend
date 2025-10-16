@@ -12,14 +12,16 @@ interface FilterOptionsProps {
     icon?: React.ReactNode;
     color?: TextColor;
   }[];
-  selectedBackground?: boolean;
   onChange: (value: string) => void;
+  selectedBackground?: boolean;
+  isLastItem?: boolean;
 }
 
 const FilterOptions = ({
   options,
   selectedBackground = true,
   onChange,
+  isLastItem = false,
 }: FilterOptionsProps) => {
   const [open, setOpen] = useState(false);
   const [selectedOption, setSelectedOption] = useState<string>(
@@ -44,7 +46,11 @@ const FilterOptions = ({
         <LuEllipsisVertical />
       </Box>
       {open && (
-        <ul className="py-2 mt-1 bg-white w-[150px] rounded-md absolute z-[123] top-[32px] md:left-0 right-0">
+        <ul
+          className={`py-2 mt-1 bg-white w-[150px] rounded-md absolute z-[123] top-[32px] right-0 ${
+            isLastItem ? "md:right-0" : "md:left-0"
+          }`}
+        >
           {options.map((option, index) => (
             <li
               key={index}

@@ -14,7 +14,7 @@ export const callApi = async <T>({
   method = "GET",
   body,
   accessToken,
-}: ApiRequestParams): Promise<ResponseApi<T>> => {
+}: ApiRequestParams): Promise<ApiResponse<T>> => {
   try {
     const response = await fetch(url, {
       method,
@@ -25,7 +25,7 @@ export const callApi = async <T>({
       body: body ? JSON.stringify(body) : undefined,
     });
 
-    const data: ResponseApi<T> = await response.json();
+    const data: ApiResponse<T> = await response.json();
 
     if (!response.ok) {
       return {

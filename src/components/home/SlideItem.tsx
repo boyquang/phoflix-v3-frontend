@@ -64,7 +64,6 @@ const SlideItem = ({ item }: SlideItemProps) => {
             className="bg-primary linear-gradient text-black"
             text={item?.quality || "Quality: N/A"}
           />
-
           <BadgeCustom
             size="xs"
             text={item?.episode_current || "Episode: N/A"}

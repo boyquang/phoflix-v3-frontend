@@ -19,7 +19,7 @@ const useSetCurrentEpisode = ({
   const id = searchParams.get("id");
 
   useEffect(() => {
-    if (!enabled || !episodes || episodes.length === 0) return;
+    if (!enabled || !episodes || episodes?.length === 0) return;
 
     if (episodes?.length >= 0) {
       // Gộp các server lại với nhau

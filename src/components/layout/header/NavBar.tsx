@@ -18,6 +18,8 @@ import PopoverSetting from "./PopoverSetting";
 
 const { appName } = appConfig;
 
+const hiddenPaths = ["/dashboard"];
+
 const NavBar = () => {
   const { isVisiable, lastScrollY } = useSelector(
     (state: RootState) => state.system
@@ -25,7 +27,13 @@ const NavBar = () => {
   const { status } = useSession();
   const pathname = usePathname();
 
-  if (pathname.includes("/dashboard")) return null;
+  // Ẩn NavBar nếu đang ở trang dashboard hoặc xem-chung/roomId
+  if (
+    hiddenPaths.some((path) => pathname.includes(path)) ||
+    (pathname.startsWith("/xem-chung/") && !pathname.includes("/xem-chung/quan-ly"))
+  ) {
+    return null;
+  }
 
   return (
     <header

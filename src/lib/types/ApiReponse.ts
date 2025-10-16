@@ -1,4 +1,4 @@
-type ResponseApi<T> = {
+type ApiResponse<T> = {
   status: boolean;
   message: string;
   result: T | null;

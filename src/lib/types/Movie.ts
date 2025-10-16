@@ -99,6 +99,7 @@ type Movie = {
   };
   type: "hoathinh" | "single" | "series" | "tvshows" | null;
   content: string | null;
+  episodes?: Episode[];
   currentTime?: number;
   duration?: number;
   createAt?: string;

@@ -7,10 +7,18 @@ import GithubIcon from "../icons/GithubIcon";
 import TelegramIcon from "../icons/TelegramIcon";
 import { usePathname } from "next/navigation";
 
+const hiddenPaths = ["/dashboard"];
+
 const Footer = () => {
   const pathname = usePathname();
 
-  if (pathname.includes("/dashboard")) return null;
+  if (
+    hiddenPaths.some((path) => pathname.includes(path)) ||
+    (pathname.startsWith("/xem-chung/") &&
+      !pathname.includes("/xem-chung/quan-ly"))
+  ) {
+    return null;
+  }
 
   return (
     <footer className="lg:mt-32 mt-16 bg-[#282b3a]">

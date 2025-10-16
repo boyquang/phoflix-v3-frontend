@@ -2,15 +2,16 @@
 
 import EmptyData from "@/components/shared/EmptyData";
 import { formatDate } from "@/lib/utils";
-import Link from "next/link";
-import { FaEye, FaPodcast, FaVideoSlash } from "react-icons/fa6";
+import { FaEye, FaPodcast } from "react-icons/fa6";
 import Image from "../shared/Image";
 import AvatarCustom from "../shared/AvatarCustom";
 import RoomStatus from "./RoomStatus";
 import FilterOptions from "../shared/FilterOptions";
 import useWatchTogetherV2 from "@/hooks/useWatchTogetherV2";
-import { useState } from "react";
 import { Spinner } from "@chakra-ui/react";
+import { RootState } from "@/store/store";
+import { useSelector } from "react-redux";
+import LiveBadge from "./room-v2/LiveBadge";
 
 interface ListRoomsProps {
   rooms: Room[];
@@ -19,8 +20,28 @@ interface ListRoomsProps {
 }
 
 const ListRooms = ({ scope = "all", rooms, classNameGrid }: ListRoomsProps) => {
-  const { generateOptionsRoomByStatus, handleJoinRoom } = useWatchTogetherV2();
-  const [roomId, setRoomId] = useState<string>("");
+  const {
+    generateOptionsRoomByStatus,
+    handleJoinRoom,
+    handleStartLive,
+    handleDeleteRoom,
+    handleEndLive,
+  } = useWatchTogetherV2();
+  const { joinRoomId } = useSelector(
+    (state: RootState) => state.watchTogetherV2.loading
+  );
+
+  const handleOptionsChange = (value: ValueOptionRoom, roomId: string) => {
+    const actionMapping = {
+      end: handleEndLive,
+      start: handleStartLive,
+      delete: handleDeleteRoom,
+    };
+
+    if (actionMapping[value]) {
+      actionMapping[value](roomId);
+    }
+  };
 
   if (!rooms || rooms?.length === 0) {
     return (
@@ -37,21 +58,21 @@ const ListRooms = ({ scope = "all", rooms, classNameGrid }: ListRoomsProps) => {
     <ul className={`${classNameGrid} mt-6`}>
       {rooms?.map((room) => (
         <li key={room?._id} className="relative">
-          {roomId === room?._id && (
+          {joinRoomId === room?._id && (
             <div className="absolute text-primary gap-2 top-2 left-2 z-20">
               <Spinner size="sm" />
             </div>
           )}
           <div
             className={`flex relative flex-col gap-3 transition-all group ${
-              roomId === room?._id ? "opacity-50 pointer-events-none" : ""
+              joinRoomId === room?._id ? "opacity-50 pointer-events-none" : ""
             }`}
           >
             <div className="relative">
               <div
                 title={room?.movie?.name}
                 onClick={() => {
-                  handleJoinRoom(room?._id, setRoomId);
+                  handleJoinRoom(room?._id);
                 }}
                 className="relative h-0 pt-[56.25%] cursor-pointer"
               >
@@ -63,10 +84,7 @@ const ListRooms = ({ scope = "all", rooms, classNameGrid }: ListRoomsProps) => {
               </div>
               {room?.status === "active" && (
                 <>
-                  <div className="shadow-2xl rounded-md px-2 items-center py-1 text-xs bg-red-500 flex gap-1 text-gray-50 absolute left-2 top-2">
-                    <div className="w-1.5 h-1.5 rounded-full bg-white live-flash"></div>
-                    LIVE
-                  </div>
+                  <LiveBadge />
                   <div className="absolute rounded-md text-white px-2.5 py-1.5 bottom-2 left-2 border text-xs border-white backdrop-blur-sm bg-[#000000c0] flex items-center gap-2">
                     <FaEye />
                     <span>{room?.currentParticipants || 0} đang xem</span>
@@ -90,7 +108,7 @@ const ListRooms = ({ scope = "all", rooms, classNameGrid }: ListRoomsProps) => {
                   <div
                     title={room?.roomName}
                     onClick={() => {
-                      handleJoinRoom(room?._id, setRoomId);
+                      handleJoinRoom(room?._id);
                     }}
                     className="text-white cursor-pointer font-semibold hover:text-[#FFD875] line-clamp-2 transition-all duration-300"
                   >
@@ -109,9 +127,14 @@ const ListRooms = ({ scope = "all", rooms, classNameGrid }: ListRoomsProps) => {
               </div>
               {scope === "user" && (
                 <FilterOptions
+                  isLastItem={
+                    rooms[rooms.length - 1]._id === room._id && rooms.length > 1
+                  }
                   selectedBackground={false}
                   options={generateOptionsRoomByStatus(room?.status)}
-                  onChange={() => {}}
+                  onChange={(value) =>
+                    handleOptionsChange(value as ValueOptionRoom, room?._id)
+                  }
                 />
               )}
             </div>
