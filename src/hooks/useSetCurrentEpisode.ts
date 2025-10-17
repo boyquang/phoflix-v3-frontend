@@ -1,22 +1,21 @@
 "use client";
 
 import { findEpisodeById } from "@/lib/utils";
+import { setCurrentEpisode } from "@/store/slices/episode.slice";
+import { AppDispatch, RootState } from "@/store/store";
 import { useSearchParams } from "next/navigation";
 import { useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
 
 interface UseSetCurrenEpisodeProps {
-  episodes: Episode[];
   enabled?: boolean;
-  callback: (episode: EpisodeMerged | null) => void;
 }
 
-const useSetCurrentEpisode = ({
-  episodes,
-  enabled = true,
-  callback,
-}: UseSetCurrenEpisodeProps) => {
+const useSetCurrentEpisode = ({ enabled = true }: UseSetCurrenEpisodeProps) => {
   const searchParams = useSearchParams();
   const id = searchParams.get("id");
+  const { episodes } = useSelector((state: RootState) => state.episode);
+  const dispatch: AppDispatch = useDispatch();
 
   useEffect(() => {
     if (!enabled || !episodes || episodes?.length === 0) return;
@@ -24,15 +23,9 @@ const useSetCurrentEpisode = ({
     if (episodes?.length >= 0) {
       // Gộp các server lại với nhau
       const data = episodes.flatMap((item) => item?.server_data || []);
-
       // Tìm episode tương ứng với id
       const currentEpisode = findEpisodeById(data, id as string);
-
-      if (currentEpisode) {
-        callback(currentEpisode);
-      } else {
-        callback(data?.[0]);
-      }
+      dispatch(setCurrentEpisode(currentEpisode || data?.[0] || null));
     }
   }, [episodes, id, enabled]);
 };

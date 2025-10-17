@@ -1,30 +1,33 @@
 "use client";
 
 import { AppDispatch, RootState } from "@/store/store";
-import { useDispatch, useSelector } from "react-redux";
 import LanguageIcon from "./LanguageIcon";
-import {
-  setCurrentEpisode,
-  setSelectedLanguage,
-} from "@/store/slices/movie.slice";
 import { useParams, useSearchParams } from "next/navigation";
 import { useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { setSelectedLanguage } from "@/store/slices/episode.slice";
 
-const EpisodeTabs = () => {
-  const { selectedLanguage, groups } = useSelector(
-    (state: RootState) => state.movie.episode
-  );
-  const { movie } = useSelector((state: RootState) => state.movie.movieInfo);
+interface EpisodeTabsProps {
+  // selectedLanguage: string | null;
+  // groups: Partial<Record<string, { items: EpisodeMerged[]; label: string }>>;
+  // setSelectedLanguage: (language: string | null) => void;
+  slug: string;
+}
+
+const EpisodeTabs = ({
+  slug,
+}: EpisodeTabsProps) => {
   const searchParams = useSearchParams();
-  const dispatch: AppDispatch = useDispatch();
   const params = useParams();
+  const dispatch: AppDispatch = useDispatch();
+  const { selectedLanguage, groups } = useSelector((state: RootState) => state.episode);
 
   // Làm mới khi chuyển sang phim khác
   useEffect(() => {
-    if (params.slug !== movie?.slug) {
+    if (params.slug !== slug) {
       dispatch(setSelectedLanguage(null));
     }
-  }, [params.slug, movie?.slug]);
+  }, [params.slug, slug]);
 
   // Set lại selectedLanguage
   useEffect(() => {
@@ -40,7 +43,6 @@ const EpisodeTabs = () => {
     if (!selectedLanguage) {
       const tabs = Object.keys(groups);
       dispatch(setSelectedLanguage(tabs?.length > 0 ? tabs[0] : null));
-      return;
     }
   }, [groups, searchParams]);
 
@@ -50,9 +52,11 @@ const EpisodeTabs = () => {
     }
   };
 
+  if (Object.keys(groups)?.length === 0) return null;
+
   return (
     <div className="flex items-center gap-2 mb-6 flex-wrap">
-      {(Object.keys(groups) as LanguageType[])?.map((key) => (
+      {(Object.keys(groups)).map((key) => (
         <div
           id={key}
           key={key}

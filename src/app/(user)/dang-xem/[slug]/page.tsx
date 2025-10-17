@@ -41,7 +41,7 @@ const Page = async ({ params, searchParams }: PageProps) => {
   return (
     <Suspense fallback={<Loading type="text" />}>
       <AnimateWrapper>
-        <ClientWrapper movie={movie} episodes={episodes} />
+        <ClientWrapper movie={movie as Movie} episodes={episodes} />
       </AnimateWrapper>
     </Suspense>
   );

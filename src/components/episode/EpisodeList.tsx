@@ -3,8 +3,8 @@
 import { Box, HStack } from "@chakra-ui/react";
 import { useEffect, useState } from "react";
 import { PaginationItems, PaginationRoot } from "@/components/ui/pagination";
-import { useSelector } from "react-redux";
-import { RootState } from "@/store/store";
+import { useDispatch, useSelector } from "react-redux";
+import { AppDispatch, RootState } from "@/store/store";
 import {
   changeQuery,
   getIdFromLinkEmbed,
@@ -14,32 +14,19 @@ import {
 import EpisodeItem from "./EpisodeItem";
 import HoverOutlineWrapper from "@/components/shared/HoverOutlineWrapper";
 import EmptyData from "../shared/EmptyData";
-import { toast } from "sonner";
+import { setCurrentEpisode } from "@/store/slices/episode.slice";
 
 interface EpisodesListProps {
-  language: LanguageType;
   episodes: EpisodeMerged[];
-  currentEpisode: EpisodeMerged | null;
-  setCurrentEpisode: (item: EpisodeMerged) => void;
   callbackSocket?: (item: EpisodeMerged) => void;
-  columns?: {
-    base: number;
-    md: number;
-    lg: number;
-    xl: number;
-  };
+  columns?: Record<string, number>;
   redirect?: boolean;
-  isScroll?: boolean;
-  elementScrollName?: string;
 }
 
 const limitDisplay = 24;
 
 const EpisodesList = ({
-  episodes: episodes,
-  language,
-  currentEpisode,
-  setCurrentEpisode,
+  episodes,
   callbackSocket,
   columns = {
     base: 2,
@@ -48,12 +35,14 @@ const EpisodesList = ({
     xl: 8,
   },
   redirect = false,
-  isScroll = false,
-  elementScrollName = "movie-main",
 }: EpisodesListProps) => {
   const [episodeDisplay, setEpisodeDisplay] = useState<EpisodeMerged[]>([]);
   const { windowWidth } = useSelector((state: RootState) => state.system);
+  const { selectedLanguage, currentEpisode } = useSelector(
+    (state: RootState) => state.episode
+  );
   const [page, setPage] = useState(1);
+  const dispatch: AppDispatch = useDispatch();
 
   useEffect(() => {
     setEpisodeDisplay(episodes.slice(0, limitDisplay));
@@ -61,7 +50,7 @@ const EpisodesList = ({
 
   useEffect(() => {
     setPage(1);
-  }, [language]);
+  }, [selectedLanguage]);
 
   const handleChangePage = (page: number) => {
     const start = (page - 1) * limitDisplay;
@@ -69,15 +58,6 @@ const EpisodesList = ({
 
     setEpisodeDisplay(episodes.slice(start, end));
     setPage(page);
-
-    if (isScroll) {
-      scrollToElement({
-        name: elementScrollName,
-        type: "class",
-        ms: 200,
-        block: "start",
-      });
-    }
   };
 
   const handleSetCurrentEpisode = (item: EpisodeMerged) => {
@@ -89,12 +69,12 @@ const EpisodesList = ({
       const newQuery = [
         { key: "id", value: id },
         { key: "ep", value: item.slug },
-        { key: "language", value: language },
+        { key: "language", value: selectedLanguage },
       ];
       // Cập nhật url query
       changeQuery(newQuery);
       // Cập nhật tập phim hiện tại
-      setCurrentEpisode(item);
+      dispatch(setCurrentEpisode(item));
       // Cuộn lên đầu trang
       scrollToTop();
       // Gọi callback nếu có
@@ -102,7 +82,7 @@ const EpisodesList = ({
     }
   };
 
-  if (!episodes || episodes.length === 0) {
+  if (!episodes || episodes?.length === 0) {
     return (
       <EmptyData
         title="Không có tập phim nào"
@@ -128,7 +108,7 @@ const EpisodesList = ({
             <EpisodeItem
               item={item}
               currentEpisode={currentEpisode}
-              language={language}
+              language={selectedLanguage || "default"}
               redirect={redirect}
               handleSetCurrentEpisode={handleSetCurrentEpisode}
             />

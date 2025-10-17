@@ -4,10 +4,7 @@ import useGetPlaylists from "@/hooks/useGetPlaylists";
 import useGetPlaylistContainingMovie from "@/hooks/useGetPlaylistsContainingMovie";
 import useSetCurrentEpisode from "@/hooks/useSetCurrentEpisode";
 import { addNewMovie } from "@/lib/actions/user-movie.action";
-import {
-  setCurrentEpisode,
-  setDataMovieInfo,
-} from "@/store/slices/movie.slice";
+import { setDataMovieInfo } from "@/store/slices/movie.slice";
 import { AppDispatch, RootState } from "@/store/store";
 import { useSession } from "next-auth/react";
 import { useParams } from "next/navigation";
@@ -23,12 +20,13 @@ import CinemaMode from "../shared/CinemaMode";
 import SectionInfo from "./SectionInfo";
 import EpisodeTabs from "../episode/EpisodeTabs";
 import EpisodesList from "../episode/EpisodeList";
-import MovieVersionList from "../movie-version/MovieVersionList";
+import MovieVersionList from "../episode/MovieVersionList";
 import FeedbackSection from "../feedback/FeedbackSection";
 import MovieSuggesstions from "../shared/MovieSuggestions";
 import useProgressMovieHistory from "@/hooks/useProgressMovieHistory";
 import AutoNextEpisodeButton from "./AutoNextEpisodeButton";
 import BackButton from "../shared/BackButton";
+import { setEpisode } from "@/store/slices/episode.slice";
 
 interface ClientWrapperProps {
   movie: Movie;
@@ -39,35 +37,36 @@ const ClientWrapper = ({ movie, episodes }: ClientWrapperProps) => {
   const dispatch: AppDispatch = useDispatch();
   const params = useParams();
   const { data: session, status } = useSession();
-  const {
-    currentEpisode,
-    isLongSeries,
-    episodes: episodesStore,
-    movie: movieInfo,
-    isValidEpisodes,
-  } = useSelector((state: RootState) => state.movie.movieInfo);
-  const { groups, selectedLanguage } = useSelector(
-    (state: RootState) => state.movie.episode
+  const slug: string = String(params?.slug) || "";
+  const { movie: movieInfo } = useSelector(
+    (state: RootState) => state.movie.movieInfo
   );
+  const {
+    groups,
+    selectedLanguage,
+    isLongSeries,
+    isValidEpisodes,
+    currentEpisode,
+  } = useSelector((state: RootState) => state.episode);
 
   useEffect(() => {
+    if (movie.slug !== slug) return;
+    dispatch(setEpisode({ episodes, movie }));
     dispatch(setDataMovieInfo({ movie, episodes }));
-  }, [movie, episodes]);
+  }, [movie, episodes, slug]);
 
   // Thêm phim vào lịch sử xem
   useEffect(() => {
-    if (
-      movie?._id &&
-      status === "authenticated" &&
-      movie.slug === params?.slug
-    ) {
-      addNewMovie({
-        movieId: movie._id,
-        type: "history",
-        accessToken: session?.user?.accessToken as string,
-      });
-    }
-  }, [movie?._id, status]);
+    if (status !== "authenticated") return;
+    if (!movie?._id) return;
+    if (movie.slug !== slug) return;
+
+    addNewMovie({
+      movieId: movie._id,
+      type: "history",
+      accessToken: session?.user?.accessToken as string,
+    });
+  }, [movie, status, slug]);
 
   // Lấy tiến trình xem phim
   useProgressMovieHistory();
@@ -78,10 +77,9 @@ const ClientWrapper = ({ movie, episodes }: ClientWrapperProps) => {
   // Lấy danh sách phát của người dùng
   useGetPlaylists();
 
-  // Lấy dữ liệu tập phim hiện tại từ id
+  // Thiết lập tập phim hiện tại
   useSetCurrentEpisode({
-    episodes: episodesStore || [],
-    callback: (item) => dispatch(setCurrentEpisode(item)),
+    enabled: true,
   });
 
   if (!movieInfo || Object.keys(movieInfo).length === 0) {
@@ -102,7 +100,7 @@ const ClientWrapper = ({ movie, episodes }: ClientWrapperProps) => {
 
         <div className="flex flex-col relative watch-player md:-mx-0 -mx-4">
           <SectionVideo />
-          <div className="lg:p-4 p-2 bg-[#08080a] md:rounded-b-xl rounded-b-none">
+          <div className="lg:p-4 p-2 bg-[#08080a] md:rounded-b-xl overflow-hidden rounded-b-none">
             <div
               style={{
                 scrollbarWidth: "none",
@@ -131,13 +129,9 @@ const ClientWrapper = ({ movie, episodes }: ClientWrapperProps) => {
               <div className="xl:flex-2 flex-1">
                 {isLongSeries ? (
                   <>
-                    <EpisodeTabs />
+                    <EpisodeTabs slug={movieInfo?.slug} />
                     {Object.keys(groups)?.length > 0 && selectedLanguage && (
                       <EpisodesList
-                        currentEpisode={currentEpisode}
-                        setCurrentEpisode={(item) =>
-                          dispatch(setCurrentEpisode(item))
-                        }
                         columns={{
                           base: 3,
                           md: 5,
@@ -146,12 +140,12 @@ const ClientWrapper = ({ movie, episodes }: ClientWrapperProps) => {
                         }}
                         redirect={false}
                         episodes={groups[selectedLanguage]?.items || []}
-                        language={selectedLanguage}
                       />
                     )}
                   </>
                 ) : (
                   <MovieVersionList
+                    movie={movieInfo as Movie}
                     redirect={false}
                     classNameGrid="lg:grid-cols-3 md:grid-cols-3 xs:grid-cols-2 grid-cols-1"
                   />

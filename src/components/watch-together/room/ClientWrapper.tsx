@@ -38,9 +38,7 @@ const ClientWrapper = () => {
 
   // Chạy để lấy dữ liệu tập phim cho chủ phòng
   useSetCurrenEpisode({
-    episodes: movieData?.episodes || [],
     enabled: session?.user?.id === roomOwnerId,
-    callback: (item) => dispatch(setCurrentEpisode(item)),
   });
 
   // Chạy khi người dùng tham gia phòng

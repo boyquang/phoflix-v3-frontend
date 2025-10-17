@@ -6,8 +6,9 @@ import {
   getListRooms,
   getRoomData,
   joinRoom,
+  kickUser,
   startLive,
-} from "../async-thunks/watch-together-v2.thunk";
+} from "@/store/async-thunks/watch-together-v2.thunk";
 import { ROOM_DATA_DEFAULT } from "@/constants/watch-together.contant";
 
 interface WatchTogetherV2Slice {
@@ -17,7 +18,9 @@ interface WatchTogetherV2Slice {
     totalPages: number;
     currentPage: number;
   };
-  currentEpisode: EpisodeMerged | null;
+  videoPlayer: {
+    currentTime: number;
+  };
   filter: StatusFilter;
   roomData: (Room & Movie & Episode) | null;
   loading: {
@@ -28,6 +31,7 @@ interface WatchTogetherV2Slice {
     startLive: boolean;
     endLive: boolean;
     deleteRoomId: string;
+    kickUserId: string;
   };
   fetched: boolean;
 }
@@ -39,7 +43,9 @@ const initialState: WatchTogetherV2Slice = {
     totalPages: 0,
     currentPage: 1,
   },
-  currentEpisode: null,
+  videoPlayer: {
+    currentTime: 0,
+  },
   filter: "all",
   roomData: null,
   loading: {
@@ -50,6 +56,7 @@ const initialState: WatchTogetherV2Slice = {
     startLive: false,
     endLive: false,
     deleteRoomId: "",
+    kickUserId: "",
   },
   fetched: false,
 };
@@ -71,7 +78,9 @@ const watchTogetherV2Slice = createSlice({
     builder.addCase(
       getRoomData.fulfilled,
       (state, action: PayloadAction<ApiResponse<RoomResponse>>) => {
-        state.roomData = action.payload.result?.room || null;
+        const { room } = action.payload.result || {};
+
+        state.roomData = room || null;
         state.loading.fetchRoomData = false;
         state.fetched = true;
       }
@@ -209,6 +218,25 @@ const watchTogetherV2Slice = createSlice({
     );
     builder.addCase(deleteRoom.rejected, (state) => {
       state.loading.deleteRoomId = "";
+    });
+
+    // Kick user
+    builder.addCase(kickUser.pending, (state, action) => {
+      const kickUserId = (action.meta.arg as { userId: string }).userId;
+      state.loading.kickUserId = kickUserId;
+    });
+    builder.addCase(
+      kickUser.fulfilled,
+      (state, action: PayloadAction<ApiResponse<KickUserResponse>>) => {
+        const room = action.payload.result?.room;
+        if (room && state.roomData) {
+          state.roomData.participantUsers = room.participantUsers;
+        }
+        state.loading.kickUserId = "";
+      }
+    );
+    builder.addCase(kickUser.rejected, (state) => {
+      state.loading.kickUserId = "";
     });
   },
 });

@@ -12,8 +12,9 @@ import IframePlayer from "../player/IframePlayer";
 const ArtPlayer = dynamic(() => import("../player/ArtPlayer"), { ssr: false });
 
 const SectionVideo = () => {
-  const { currentEpisode, isValidEpisodes, movie } = useSelector(
-    (state: RootState) => state.movie.movieInfo
+  const { movie } = useSelector((state: RootState) => state.movie.movieInfo);
+  const { currentEpisode, isValidEpisodes } = useSelector(
+    (state: RootState) => state.episode
   );
   const { currentTime } = useSelector(
     (state: RootState) => state.user.movieViewingStatus

@@ -174,7 +174,7 @@ export const kickUser = createAsyncThunk(
   async (
     params: { roomId: string; userId: string; accessToken: string },
     thunkAPI
-  ): Promise<ApiResponse<null>> => {
+  ): Promise<ApiResponse<KickUserResponse>> => {
     const data = await callApi({
       url: `${BASE_URL}/room/${params.roomId}/kickUser`,
       method: "PATCH",
@@ -184,6 +184,6 @@ export const kickUser = createAsyncThunk(
       accessToken: params.accessToken,
     });
 
-    return data as ApiResponse<null>;
+    return data as ApiResponse<KickUserResponse>;
   }
 );

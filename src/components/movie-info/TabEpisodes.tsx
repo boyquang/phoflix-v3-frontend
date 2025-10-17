@@ -1,31 +1,24 @@
 "use client";
 
 import EpisodesList from "@/components/episode/EpisodeList";
-import { setCurrentEpisode } from "@/store/slices/movie.slice";
-import { AppDispatch, RootState } from "@/store/store";
-import { useDispatch, useSelector } from "react-redux";
+import { RootState } from "@/store/store";
+import { useSelector } from "react-redux";
 import EpisodeTabs from "../episode/EpisodeTabs";
 
 const TabEpisodes = () => {
-  const { currentEpisode } = useSelector(
-    (state: RootState) => state.movie.movieInfo
-  );
   const { groups, selectedLanguage } = useSelector(
-    (state: RootState) => state.movie.episode
+    (state: RootState) => state.episode
   );
-  const dispatch: AppDispatch = useDispatch();
+  const { movie } = useSelector((state: RootState) => state.movie.movieInfo);
 
   if (Object.keys(groups)?.length === 0) return null;
 
   return (
     <>
-      <EpisodeTabs />
+      <EpisodeTabs slug={movie?.slug || ""} />
       {Object.keys(groups)?.length > 0 && selectedLanguage && (
         <EpisodesList
           episodes={groups[selectedLanguage]?.items || []}
-          language={selectedLanguage}
-          currentEpisode={currentEpisode}
-          setCurrentEpisode={(item) => dispatch(setCurrentEpisode(item))}
           columns={{
             base: 3,
             md: 5,
@@ -33,7 +26,6 @@ const TabEpisodes = () => {
             xl: 6,
           }}
           redirect
-          isScroll={false}
         />
       )}
     </>

@@ -15,10 +15,9 @@ import SearchDialog from "@/components/search/SearchDialog";
 import { usePathname } from "next/navigation";
 import { appConfig } from "@/configs/app.config";
 import PopoverSetting from "./PopoverSetting";
+import { hiddenPaths } from "@/constants/path.contant";
 
 const { appName } = appConfig;
-
-const hiddenPaths = ["/dashboard"];
 
 const NavBar = () => {
   const { isVisiable, lastScrollY } = useSelector(
@@ -27,11 +26,7 @@ const NavBar = () => {
   const { status } = useSession();
   const pathname = usePathname();
 
-  // Ẩn NavBar nếu đang ở trang dashboard hoặc xem-chung/roomId
-  if (
-    hiddenPaths.some((path) => pathname.includes(path)) ||
-    (pathname.startsWith("/xem-chung/") && !pathname.includes("/xem-chung/quan-ly"))
-  ) {
+  if (hiddenPaths.some((path) => pathname.includes(path))) {
     return null;
   }
 

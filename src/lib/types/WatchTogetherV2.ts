@@ -61,4 +61,10 @@ type DeleteRoomResponse = {
   };
 };
 
+type KickUserResponse = {
+  room: {
+    participantUsers: ParticipantUser[];
+  };
+}
+
 type ValueOptionRoom = "end" | "start" | "delete";

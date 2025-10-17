@@ -90,6 +90,7 @@ type Movie = {
   _id: string;
   id: string;
   sub_docquyen: boolean;
+  is_cinema: boolean;
   tmdb: {
     id: null | number | string;
     season: null | string;

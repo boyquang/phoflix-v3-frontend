@@ -318,7 +318,7 @@ const movieSlice = createSlice({
       const { movie, episodes } = action.payload || {};
 
       state.movieInfo.loading = false;
-      state.movieInfo.movie = movie;
+      state.movieInfo.movie = movie as Movie;
       state.movieInfo.episodes = episodes || null;
       state.movieInfo.error = !movie;
 

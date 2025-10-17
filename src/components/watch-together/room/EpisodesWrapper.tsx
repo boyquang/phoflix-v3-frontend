@@ -37,8 +37,6 @@ const EpisodeWrapper = () => {
               </span>
             </Box>
             <EpisodesList
-              currentEpisode={currentEpisode}
-              setCurrentEpisode={(item) => dispatch(setCurrentEpisode(item))}
               callbackSocket={(item) => debounceChangeEpisode(item)}
               key={index}
               redirect={false}
@@ -48,9 +46,6 @@ const EpisodeWrapper = () => {
                 lg: 6,
                 xl: 6,
               }}
-              language={
-                formatTypeMovie(episode?.server_name).language as LanguageType
-              }
               episodes={episode?.server_data}
             />
           </Box>

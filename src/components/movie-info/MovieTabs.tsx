@@ -7,7 +7,7 @@ import { useSelector } from "react-redux";
 import { RootState } from "@/store/store";
 import ActorsList from "../actor/ActorsList";
 import MovieSuggesstions from "@/components/shared/MovieSuggestions";
-import MovieVersionList from "../movie-version/MovieVersionList";
+import MovieVersionList from "../episode/MovieVersionList";
 import { useEffect, useState } from "react";
 
 // CSS dùng chung
@@ -40,9 +40,11 @@ const MovieTabs = () => {
   const { items, loading } = useSelector(
     (state: RootState) => state.movie.actorsListByMovie
   );
+  const { movie } = useSelector((state: RootState) => state.movie.movieInfo);
   const { isLongSeries, isValidEpisodes } = useSelector(
-    (state: RootState) => state.movie.movieInfo
+    (state: RootState) => state.episode
   );
+
   const [tabsToShow, setTabsToShow] = useState(tabs);
   const [activeTab, setActiveTab] = useState("episodes");
 
@@ -82,7 +84,11 @@ const MovieTabs = () => {
           _closed={contentAnimClose}
         >
           <Box className="mt-6">
-            {isLongSeries ? <TabEpisodes /> : <MovieVersionList />}
+            {isLongSeries ? (
+              <TabEpisodes />
+            ) : (
+              <MovieVersionList movie={movie as Movie} />
+            )}
           </Box>
         </Tabs.Content>
       )}

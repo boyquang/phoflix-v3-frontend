@@ -1,5 +1,6 @@
 "use client";
 
+import useWatchTogetherV2 from "@/hooks/useWatchTogetherV2";
 import { Button } from "@chakra-ui/react";
 import { Session } from "next-auth";
 import Link from "next/link";
@@ -33,6 +34,8 @@ type CardStatusMapping = {
 };
 
 const StatusCard = ({ session, status, roomData }: StatusCardProps) => {
+  const { handleStartLive } = useWatchTogetherV2();
+
   const cardStatusMapping: CardStatusMapping = {
     pending: {
       title: "Buổi xem chung",
@@ -48,7 +51,9 @@ const StatusCard = ({ session, status, roomData }: StatusCardProps) => {
           isShow: roomData?.host?.userId === session?.user.id,
           label: "Bắt đầu",
           href: "#",
-          onclick: () => {},
+          onclick: () => {
+            handleStartLive(roomData._id);
+          },
           icon: <IoIosPlayCircle />,
           className: "bg-transparent border border-[rgba(255,255,255,.5)]",
         },

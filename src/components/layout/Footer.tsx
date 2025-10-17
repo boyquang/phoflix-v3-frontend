@@ -6,17 +6,12 @@ import Link from "next/link";
 import GithubIcon from "../icons/GithubIcon";
 import TelegramIcon from "../icons/TelegramIcon";
 import { usePathname } from "next/navigation";
-
-const hiddenPaths = ["/dashboard"];
+import { hiddenPaths } from "@/constants/path.contant";
 
 const Footer = () => {
   const pathname = usePathname();
 
-  if (
-    hiddenPaths.some((path) => pathname.includes(path)) ||
-    (pathname.startsWith("/xem-chung/") &&
-      !pathname.includes("/xem-chung/quan-ly"))
-  ) {
+  if (hiddenPaths.some((path) => pathname.includes(path))) {
     return null;
   }
 

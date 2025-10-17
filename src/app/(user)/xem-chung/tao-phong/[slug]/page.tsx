@@ -85,7 +85,7 @@ const Page = async ({ searchParams, params }: PageProps) => {
                   </div>
                 </div>
               </div>
-              <Steps movie={movie} />
+              <Steps movie={movie as Movie} />
             </div>
           </div>
         </RootLayout>

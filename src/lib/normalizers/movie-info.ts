@@ -4,6 +4,7 @@ export const normalizeMovieInfo = (
     category: Categories[];
     country: Countries[];
     director: string[];
+    chieurap: boolean;
   }
 ): Movie => {
   return {
@@ -26,6 +27,7 @@ export const normalizeMovieInfo = (
     year: data?.year || "N/A",
     _id: data?._id || "N/A",
     id: data?.id || "N/A",
+    is_cinema: data?.is_cinema || data?.chieurap || false,
     sub_docquyen: data?.sub_docquyen || false,
     tmdb: {
       id: data?.tmdb?.id || null,

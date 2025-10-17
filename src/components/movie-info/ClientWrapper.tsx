@@ -20,7 +20,8 @@ import FeedbackButton from "../shared/FeedbackButton";
 import ReviewButton from "../shared/ReviewButton";
 import MovieTabs from "./MovieTabs";
 import FeedbackSection from "../feedback/FeedbackSection";
-import { useSearchParams } from "next/navigation";
+import { useParams, useSearchParams } from "next/navigation";
+import { setEpisode } from "@/store/slices/episode.slice";
 
 interface ClientWrapperProps {
   movie: Movie;
@@ -33,10 +34,14 @@ const ClientWrapper = ({ movie, episodes }: ClientWrapperProps) => {
     (state: RootState) => state.movie.movieInfo
   );
   const searchParams = useSearchParams();
+  const params = useParams();
+  const slug: string = String(params?.slug) || "";
 
   useEffect(() => {
+    if (movie.slug !== slug) return;
     dispatch(setDataMovieInfo({ movie, episodes }));
-  }, [movie, episodes]);
+    dispatch(setEpisode({ episodes, movie }));
+  }, [movie, episodes, slug]);
 
   // Lấy danh sách diễn viên
   useFetchActorsList();
