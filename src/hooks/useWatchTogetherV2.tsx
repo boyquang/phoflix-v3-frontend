@@ -9,6 +9,7 @@ import {
   getRoomData,
   joinRoom,
   kickUser,
+  leaveRoom,
   startLive,
 } from "@/store/async-thunks/watch-together-v2.thunk";
 import { AppDispatch } from "@/store/store";
@@ -17,12 +18,22 @@ import { usePathname, useRouter } from "next/navigation";
 import { useDispatch } from "react-redux";
 import { toast } from "sonner";
 import { setEpisode } from "@/store/slices/episode.slice";
+import useSendSocketWatchTogetherV2 from "./useSendSocketWatchTogetherV2";
 
 const useWatchTogetherV2 = () => {
   const { data: session } = useSession();
   const dispatch: AppDispatch = useDispatch();
   const router = useRouter();
   const pathname = usePathname();
+  const {
+    sendSocketCreateRoom,
+    sendSocketJoinRoom,
+    sendSocketEndRoom,
+    sendSocketKickUser,
+    sendSocketLeaveRoom,
+    sendSocketStartRoom,
+    sendSocketDeleteRoom,
+  } = useSendSocketWatchTogetherV2();
 
   const handleGetRoomData = async (roomId: string) => {
     try {
@@ -67,6 +78,7 @@ const useWatchTogetherV2 = () => {
 
       if (response?.status) {
         const roomId = response?.result?.room?._id;
+
         toast.success(response?.message || "Tạo phòng thành công!");
         router.push(`/xem-chung/phong/${roomId}`);
         dispatch(
@@ -74,6 +86,11 @@ const useWatchTogetherV2 = () => {
             episodes: response?.result?.room?.movie?.episodes || [],
             movie: response?.result?.room?.movie as Movie,
           })
+        );
+
+        sendSocketCreateRoom(
+          response?.result?.room as Room,
+          session?.user.id || ""
         );
       } else {
         toast.error(
@@ -109,12 +126,200 @@ const useWatchTogetherV2 = () => {
             movie: response?.result?.room?.movie as Movie,
           })
         );
+
+        const newUser: ParticipantUser = {
+          userId: session?.user.id || "",
+          username: session?.user.name || "Người dùng ẩn danh",
+          avatar: session?.user.image || "",
+        };
+
+        sendSocketJoinRoom(
+          roomId,
+          newUser,
+          response?.result?.room?.host.userId || ""
+        );
       } else {
         toast.error(
           response?.message || "Đã có lỗi xảy ra! Vui lòng thử lại sau."
         );
       }
     } catch (error) {
+      toast.error("Đã có lỗi xảy ra! Vui lòng thử lại sau.");
+    }
+  };
+
+  const handleStartLive = async (roomId: string) => {
+    if (!session) {
+      toast.error("Vui lòng đăng nhập để sử dụng chức năng này.");
+      return;
+    }
+
+    const confirmStart = window.confirm(
+      "Bạn có chắc chắn muốn bắt đầu live không?"
+    );
+
+    if (!confirmStart) return;
+
+    try {
+      // dispatch start live
+      const response = await dispatch(
+        startLive({
+          accessToken: session?.user.accessToken || "",
+          roomId,
+        })
+      ).unwrap();
+
+      if (response?.status) {
+        toast.success(
+          response?.message || "Bắt đầu phát trực tiếp thành công!"
+        );
+
+        sendSocketStartRoom(roomId, session?.user.id || "");
+
+        if (pathname === "/xem-chung/quan-ly") {
+          router.replace(`/xem-chung/phong/${roomId}`);
+        }
+      } else {
+        toast.error(
+          response?.message || "Đã có lỗi xảy ra! Vui lòng thử lại sau."
+        );
+      }
+    } catch (error) {
+      toast.error("Đã có lỗi xảy ra! Vui lòng thử lại sau.");
+    }
+  };
+
+  const handleEndLive = async (roomId: string) => {
+    if (!session) {
+      toast.error("Vui lòng đăng nhập để sử dụng chức năng này.");
+      return;
+    }
+
+    const confirmStart = window.confirm(
+      "Bạn có chắc chắn muốn kết thúc live không?"
+    );
+
+    if (!confirmStart) return;
+
+    try {
+      const response = await dispatch(
+        endRoom({
+          accessToken: session?.user.accessToken || "",
+          roomId,
+        })
+      ).unwrap();
+
+      if (response?.status) {
+        toast.success(
+          response?.message || "Kết thúc buổi xem chung thành công!"
+        );
+        sendSocketEndRoom(roomId, session?.user.id || "");
+      } else {
+        toast.error(
+          response?.message || "Đã có lỗi xảy ra! Vui lòng thử lại sau."
+        );
+      }
+    } catch (error) {
+      toast.error("Đã có lỗi xảy ra! Vui lòng thử lại sau.");
+    }
+  };
+
+  const handleDeleteRoom = async (roomId: string) => {
+    if (!session) {
+      toast.error("Vui lòng đăng nhập để sử dụng chức năng này.");
+      return;
+    }
+
+    const confirmDelete = window.confirm(
+      "Bạn có chắc chắn muốn xóa phòng này không?"
+    );
+
+    if (!confirmDelete) return;
+
+    try {
+      const response = await dispatch(
+        deleteRoom({
+          roomId,
+          accessToken: session?.user.accessToken || "",
+        })
+      ).unwrap();
+
+      if (response?.status) {
+        toast.success(response?.message || "Xóa phòng thành công!");
+        sendSocketDeleteRoom(roomId, session?.user.id || "");
+      } else {
+        toast.error(
+          response?.message || "Đã có lỗi xảy ra! Vui lòng thử lại sau."
+        );
+      }
+    } catch (error) {
+      toast.error("Đã có lỗi xảy ra! Vui lòng thử lại sau.");
+    }
+  };
+
+  const handleKickViewer = async (roomId: string, userId: string) => {
+    if (!session) {
+      toast.error("Vui lòng đăng nhập để sử dụng chức năng này.");
+      return;
+    }
+
+    const confirmKick = window.confirm(
+      "Bạn có chắc chắn muốn kick người xem này không?"
+    );
+
+    if (!confirmKick) return;
+
+    try {
+      const response = await dispatch(
+        kickUser({
+          roomId,
+          userId,
+          accessToken: session?.user.accessToken || "",
+        })
+      ).unwrap();
+
+      if (response?.status) {
+        toast.success(response?.message || "Đã kick người xem thành công!");
+        sendSocketKickUser(roomId, session?.user.id || "", userId);
+      } else {
+        toast.error(
+          response?.message || "Đã có lỗi xảy ra! Vui lòng thử lại sau."
+        );
+      }
+    } catch (error) {
+      console.error("Error kicking viewer:", error);
+      toast.error("Đã có lỗi xảy ra! Vui lòng thử lại sau.");
+    }
+  };
+
+  const handleLeaveRoom = async (roomId: string) => {
+    if (!session) {
+      toast.error("Vui lòng đăng nhập để sử dụng chức năng này.");
+      return;
+    }
+
+    try {
+      const response = await dispatch(
+        leaveRoom({
+          roomId,
+          accessToken: session?.user.accessToken || "",
+        })
+      ).unwrap();
+
+      if (response?.status) {
+        toast.success(response?.message || "Rời phòng thành công!");
+        sendSocketLeaveRoom(roomId, {
+          userId: session?.user.id || "",
+          username: session?.user.name || "Người dùng ẩn danh",
+          avatar: session?.user.image || "",
+        });
+      } else {
+        toast.error(
+          response?.message || "Đã có lỗi xảy ra! Vui lòng thử lại sau."
+        );
+      }
+    } catch (error) {
+      console.error("Error leaving room:", error);
       toast.error("Đã có lỗi xảy ra! Vui lòng thử lại sau.");
     }
   };
@@ -166,145 +371,6 @@ const useWatchTogetherV2 = () => {
     }
   };
 
-  const handleStartLive = async (roomId: string) => {
-    if (!session) {
-      toast.error("Vui lòng đăng nhập để sử dụng chức năng này.");
-      return;
-    }
-
-    const confirmStart = window.confirm(
-      "Bạn có chắc chắn muốn bắt đầu live không?"
-    );
-
-    if (!confirmStart) return;
-
-    try {
-      // dispatch start live
-      const response = await dispatch(
-        startLive({
-          accessToken: session?.user.accessToken || "",
-          roomId,
-        })
-      ).unwrap();
-
-      if (response?.status) {
-        toast.success(
-          response?.message || "Bắt đầu phát trực tiếp thành công!"
-        );
-
-        if (pathname === "/xem-chung/quan-ly") {
-          router.replace(`/xem-chung/phong/${roomId}`);
-        }
-      } else {
-        toast.error(
-          response?.message || "Đã có lỗi xảy ra! Vui lòng thử lại sau."
-        );
-      }
-    } catch (error) {
-      toast.error("Đã có lỗi xảy ra! Vui lòng thử lại sau.");
-    }
-  };
-
-  const handleEndLive = async (roomId: string) => {
-    if (!session) {
-      toast.error("Vui lòng đăng nhập để sử dụng chức năng này.");
-      return;
-    }
-
-    const confirmStart = window.confirm(
-      "Bạn có chắc chắn muốn kết thúc live không?"
-    );
-
-    if (!confirmStart) return;
-
-    try {
-      const response = await dispatch(
-        endRoom({
-          accessToken: session?.user.accessToken || "",
-          roomId,
-        })
-      ).unwrap();
-
-      if (response?.status) {
-        toast.success(
-          response?.message || "Kết thúc buổi xem chung thành công!"
-        );
-      } else {
-        toast.error(
-          response?.message || "Đã có lỗi xảy ra! Vui lòng thử lại sau."
-        );
-      }
-    } catch (error) {
-      toast.error("Đã có lỗi xảy ra! Vui lòng thử lại sau.");
-    }
-  };
-
-  const handleDeleteRoom = async (roomId: string) => {
-    if (!session) {
-      toast.error("Vui lòng đăng nhập để sử dụng chức năng này.");
-      return;
-    }
-
-    const confirmDelete = window.confirm(
-      "Bạn có chắc chắn muốn xóa phòng này không?"
-    );
-
-    if (!confirmDelete) return;
-
-    try {
-      const response = await dispatch(
-        deleteRoom({
-          roomId,
-          accessToken: session?.user.accessToken || "",
-        })
-      ).unwrap();
-
-      if (response?.status) {
-        toast.success(response?.message || "Xóa phòng thành công!");
-      } else {
-        toast.error(
-          response?.message || "Đã có lỗi xảy ra! Vui lòng thử lại sau."
-        );
-      }
-    } catch (error) {
-      toast.error("Đã có lỗi xảy ra! Vui lòng thử lại sau.");
-    }
-  };
-
-  const handleKickViewer = async (roomId: string, userId: string) => {
-    if (!session) {
-      toast.error("Vui lòng đăng nhập để sử dụng chức năng này.");
-      return;
-    }
-
-    const confirmKick = window.confirm(
-      "Bạn có chắc chắn muốn kick người xem này không?"
-    );
-
-    if (!confirmKick) return;
-
-    try {
-      const response = await dispatch(
-        kickUser({
-          roomId,
-          userId,
-          accessToken: session?.user.accessToken || "",
-        })
-      ).unwrap();
-
-      if (response?.status) {
-        toast.success(response?.message || "Đã kick người xem thành công!");
-      } else {
-        toast.error(
-          response?.message || "Đã có lỗi xảy ra! Vui lòng thử lại sau."
-        );
-      }
-    } catch (error) {
-      console.error("Error kicking viewer:", error);
-      toast.error("Đã có lỗi xảy ra! Vui lòng thử lại sau.");
-    }
-  };
-
   return {
     handleCreateRoom,
     handleJoinRoom,
@@ -314,6 +380,7 @@ const useWatchTogetherV2 = () => {
     handleDeleteRoom,
     handleKickViewer,
     handleGetRoomData,
+    handleLeaveRoom,
   };
 };
 

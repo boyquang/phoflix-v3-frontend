@@ -1,6 +1,6 @@
 "use client";
 
-import { socketCrawlMovies } from "@/configs/socket.config";
+import { socketV2 } from "@/configs/socket.config";
 import {
   checkIsCrawling,
   crawlMovies,
@@ -53,13 +53,13 @@ const RunCrawlMovies = ({ action }: RunCrawlMoviesProps) => {
   const { data: session, status } = useSession();
 
   useEffect(() => {
-    socketCrawlMovies.on("notifyCrawlStatus", (isCrawling) => {
+    socketV2.on("notifyCrawlStatus", (isCrawling) => {
       setIsCrawling(isCrawling);
       dispatch(setIsRunning(isCrawling));
     });
 
     return () => {
-      socketCrawlMovies.off("notifyCrawlStatus");
+      socketV2.off("notifyCrawlStatus");
     };
   }, []);
 

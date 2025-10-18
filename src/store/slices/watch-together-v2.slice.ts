@@ -7,6 +7,7 @@ import {
   getRoomData,
   joinRoom,
   kickUser,
+  leaveRoom,
   startLive,
 } from "@/store/async-thunks/watch-together-v2.thunk";
 import { ROOM_DATA_DEFAULT } from "@/constants/watch-together.contant";
@@ -69,6 +70,166 @@ const watchTogetherV2Slice = createSlice({
       const { key, value } = action.payload;
       (state as any)[key] = value;
     },
+    setRoomData: (state, action: PayloadAction<Room & Movie & Episode>) => {
+      state.roomData = action.payload;
+    },
+
+    // socket room created
+    setRoomCreated: (state, action: PayloadAction<Room>) => {
+      const updatedRoom = action.payload;
+      state.listRooms.rooms = [updatedRoom, ...state.listRooms.rooms];
+    },
+
+    // socket user joined
+    setUserJoined: (
+      state,
+      action: PayloadAction<{ roomId: string; user: ParticipantUser }>
+    ) => {
+      const { roomId, user } = action.payload;
+
+      // cập nhật thông tin khi đang ở trong phòng
+      if (state.roomData && state.roomData._id === roomId) {
+        const exists = state.roomData.participantUsers.find(
+          (u) => u.userId === user.userId
+        );
+        if (!exists) {
+          state.roomData.participantUsers.push(user);
+          state.roomData.currentParticipants =
+            state.roomData.participantUsers.length;
+        }
+      }
+
+      // cập nhật thông tin khi đang ở /xem-chung
+      const roomIndex = state.listRooms.rooms.findIndex(
+        (room) => room._id === roomId
+      );
+
+      if (roomIndex !== -1) {
+        const exists = state.listRooms.rooms[roomIndex].participantUsers.find(
+          (u) => u.userId === user.userId
+        );
+        // nếu user chưa có trong phòng thì thêm vào
+        if (!exists) {
+          state.listRooms.rooms[roomIndex].participantUsers.push(user);
+          state.listRooms.rooms[roomIndex].currentParticipants =
+            state.listRooms.rooms[roomIndex].participantUsers.length;
+        }
+      }
+    },
+
+    // socket lived/ended room
+    setLiveRoomStatus: (
+      state,
+      action: PayloadAction<{ status: "active" | "ended"; roomId: string }>
+    ) => {
+      // cập nhật thông tin khi đang ở trong phòng
+      if (state.roomData) {
+        state.roomData.status = action.payload?.status;
+      }
+
+      // cập nhật thông tin khi đang ở /xem-chung
+      const roomIndex = state.listRooms.rooms.findIndex(
+        (room) => room._id === action.payload?.roomId
+      );
+      if (roomIndex !== -1) {
+        state.listRooms.rooms[roomIndex].status = action.payload?.status;
+      }
+    },
+
+    // socket deleted room
+    setDeletedRoom: (state, action: PayloadAction<string>) => {
+      const deletedRoomId = action.payload;
+      const roomExists = state.listRooms.rooms.some(
+        (room) => room._id === deletedRoomId
+      );
+
+      if (roomExists) {
+        state.listRooms.rooms = state.listRooms.rooms.filter(
+          (room) => room._id !== deletedRoomId
+        );
+        state.listRooms.totalItems = Math.max(
+          0,
+          state.listRooms.totalItems - 1
+        );
+      }
+
+      if (state.roomData?._id === deletedRoomId) {
+        state.roomData = null;
+      }
+    },
+
+    // socket user kicked
+    setUserKicked: (
+      state,
+      action: PayloadAction<{ roomId: string; targetUserId: string }>
+    ) => {
+      const { roomId, targetUserId } = action.payload;
+
+      // cập nhật thông tin khi đang ở trong phòng
+      if (state.roomData && state.roomData._id === roomId) {
+        state.roomData.participantUsers =
+          state.roomData.participantUsers?.filter(
+            (user) => user.userId !== targetUserId
+          );
+        state.roomData.currentParticipants =
+          state.roomData.participantUsers.length;
+      }
+
+      // cập nhật thông tin khi đang ở /xem-chung
+      const roomIndex = state.listRooms.rooms?.findIndex(
+        (room) => room._id === roomId
+      );
+
+      if (roomIndex !== -1) {
+        state.listRooms.rooms[roomIndex].participantUsers =
+          state.listRooms.rooms[roomIndex].participantUsers?.filter(
+            (user) => user.userId !== targetUserId
+          );
+        state.listRooms.rooms[roomIndex].currentParticipants =
+          state.listRooms.rooms[roomIndex].participantUsers?.length;
+      }
+    },
+
+    // socket video time synced
+    setVideoTimeSynced: (
+      state,
+      action: PayloadAction<{ currentTime: number; roomId: string }>
+    ) => {
+      // đồng bộ thời gian video đúng phòng
+      if (state.roomData && state.roomData._id === action.payload.roomId) {
+        state.videoPlayer.currentTime = action.payload.currentTime;
+      }
+    },
+
+    // socket user left room
+    setUserLeftRoom: (
+      state,
+      action: PayloadAction<{ roomId: string; userId: string }>
+    ) => {
+      const { roomId, userId } = action.payload;
+
+      if (state.roomData && state.roomData._id === roomId) {
+        state.roomData.participantUsers =
+          state.roomData.participantUsers.filter(
+            (user) => user.userId !== userId
+          );
+        state.roomData.currentParticipants =
+          state.roomData.participantUsers.length;
+      }
+
+      const roomIndex = state.listRooms.rooms?.findIndex(
+        (room) => room._id === roomId
+      );
+
+      if (roomIndex !== -1) {
+        state.listRooms.rooms[roomIndex].participantUsers =
+          state.listRooms.rooms[roomIndex].participantUsers?.filter(
+            (user) => user.userId !== userId
+          );
+        state.listRooms.rooms[roomIndex].currentParticipants =
+          state.listRooms.rooms[roomIndex].participantUsers.length;
+      }
+    },
   },
   extraReducers: (builder) => {
     // Get room data
@@ -79,7 +240,6 @@ const watchTogetherV2Slice = createSlice({
       getRoomData.fulfilled,
       (state, action: PayloadAction<ApiResponse<RoomResponse>>) => {
         const { room } = action.payload.result || {};
-
         state.roomData = room || null;
         state.loading.fetchRoomData = false;
         state.fetched = true;
@@ -231,6 +391,8 @@ const watchTogetherV2Slice = createSlice({
         const room = action.payload.result?.room;
         if (room && state.roomData) {
           state.roomData.participantUsers = room.participantUsers;
+          state.roomData.currentParticipants =
+            state.roomData.participantUsers.length;
         }
         state.loading.kickUserId = "";
       }
@@ -238,8 +400,30 @@ const watchTogetherV2Slice = createSlice({
     builder.addCase(kickUser.rejected, (state) => {
       state.loading.kickUserId = "";
     });
+
+    // leave room
+    builder.addCase(leaveRoom.pending, (state) => {});
+    builder.addCase(
+      leaveRoom.fulfilled,
+      (state, action: PayloadAction<ApiResponse<LeaveRoomResponse>>) => {
+        state.roomData = null;
+      }
+    );
+    builder.addCase(leaveRoom.rejected, (state) => {
+      // state.loading.leaveRoom = false;
+    });
   },
 });
 
 export default watchTogetherV2Slice.reducer;
-export const { setWatchTogetherByKey } = watchTogetherV2Slice.actions;
+export const {
+  setWatchTogetherByKey,
+  setRoomData,
+  setLiveRoomStatus,
+  setRoomCreated,
+  setUserJoined,
+  setDeletedRoom,
+  setUserKicked,
+  setVideoTimeSynced,
+  setUserLeftRoom,
+} = watchTogetherV2Slice.actions;

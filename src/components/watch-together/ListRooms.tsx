@@ -77,7 +77,7 @@ const ListRooms = ({ scope = "all", rooms, classNameGrid }: ListRoomsProps) => {
                 className="relative h-0 pt-[56.25%] cursor-pointer"
               >
                 <Image
-                  src={room?.movie?.thumb_url}
+                  src={room?.movie?.thumb_url || ""}
                   alt={room?.roomName}
                   className="rounded-xl brightness-90 group-hover:brightness-100 transition-all duration-300 object-cover absolute inset-0 w-full h-full"
                 />
@@ -98,8 +98,8 @@ const ListRooms = ({ scope = "all", rooms, classNameGrid }: ListRoomsProps) => {
             <div className="flex gap-4">
               <div className="live-avatar w-10 h-10 flex items-center justify-center rounded-full overflow-hidden flex-shrink-0 border-2 border-red-500 bg-[#282B3A]">
                 <AvatarCustom
-                  src={room?.host?.avatar}
-                  alt={room?.movie?.name}
+                  src={room?.host?.avatar || ""}
+                  alt={room?.movie?.name || "Avatar"}
                   size="small"
                 />
               </div>

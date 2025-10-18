@@ -1,7 +1,7 @@
 "use client";
 
 import CollapseElement from "@/components/shared/CollapseElement";
-import { socketCrawlMovies } from "@/configs/socket.config";
+import { socketV2 } from "@/configs/socket.config";
 import { Button } from "@chakra-ui/react";
 import { useEffect, useRef, useState } from "react";
 import { PiBroomBold } from "react-icons/pi";
@@ -19,7 +19,7 @@ const LogInfo = () => {
   const scrollTimeout = useRef<NodeJS.Timeout | null>(null);
 
   useEffect(() => {
-    socketCrawlMovies.on("crawlProgress", (data) => {
+    socketV2.on("crawlProgress", (data) => {
       setLogs((prevLogs) => [...prevLogs, data].slice(-50));
 
       if (!isUserScrolling) {
@@ -34,7 +34,7 @@ const LogInfo = () => {
 
     return () => {
       if (scrollTimeout.current) clearTimeout(scrollTimeout.current);
-      socketCrawlMovies.off("crawlProgress");
+      socketV2.off("crawlProgress");
     };
   }, [isUserScrolling]);
 

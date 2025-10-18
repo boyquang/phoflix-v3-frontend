@@ -20,6 +20,7 @@ import EpisodeWrapper from "./EpisodesWrapper";
 import VideoPlayerWrapper from "./VideoPlayerWrapper";
 import PopoverCopy from "@/components/shared/PopoverCopy";
 import ShareRoom from "./ShareRoom";
+import useReceiveSocketWatchTogetherV2 from "@/hooks/useReceiveSocketWatchTogetherV2";
 
 const ClientWrapper = () => {
   const params = useParams();
@@ -50,6 +51,9 @@ const ClientWrapper = () => {
   useSocketRoomUserEvents({
     roomId,
   });
+
+  // Receive socket sự kiện từ server
+  useReceiveSocketWatchTogetherV2();
 
   if (loading) {
     return <Loading type="bars" />;

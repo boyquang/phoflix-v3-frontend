@@ -126,14 +126,14 @@ export const leaveRoom = createAsyncThunk(
   async (
     params: { roomId: string; accessToken: string },
     thunkAPI
-  ): Promise<ApiResponse<null>> => {
+  ): Promise<ApiResponse<LeaveRoomResponse>> => {
     const data = await callApi({
       url: `${BASE_URL}/leaveRoom/${params.roomId}`,
       method: "PATCH",
       accessToken: params.accessToken,
     });
 
-    return data as ApiResponse<null>;
+    return data as ApiResponse<LeaveRoomResponse>;
   }
 );
 

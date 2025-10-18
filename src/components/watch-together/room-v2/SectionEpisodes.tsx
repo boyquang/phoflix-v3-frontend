@@ -3,6 +3,7 @@
 import EpisodesList from "@/components/episode/EpisodeList";
 import EpisodeTabs from "@/components/episode/EpisodeTabs";
 import MovieVersionList from "@/components/episode/MovieVersionList";
+import useSendSocketWatchTogetherV2 from "@/hooks/useSendSocketWatchTogetherV2";
 import { RootState } from "@/store/store";
 import { useSelector } from "react-redux";
 
@@ -10,6 +11,7 @@ const SectionEpisodes = () => {
   const { roomData } = useSelector((state: RootState) => state.watchTogetherV2);
   const { groups, selectedLanguage, isLongSeries, isValidEpisodes } =
     useSelector((state: RootState) => state.episode);
+  const { sendSocketSyncEpisode } = useSendSocketWatchTogetherV2();
 
   return (
     <div>
@@ -21,6 +23,14 @@ const SectionEpisodes = () => {
                 <EpisodeTabs slug={roomData?.movie?.slug || ""} />
                 {Object.keys(groups)?.length > 0 && selectedLanguage && (
                   <EpisodesList
+                    callbackSocket={(item: EpisodeMerged) => {
+                      sendSocketSyncEpisode({
+                        roomId: roomData?._id as string,
+                        episode: item,
+                        hostUserId: roomData?.host.userId as string,
+                        whoRequested: "host",
+                      });
+                    }}
                     columns={{
                       base: 3,
                       md: 5,

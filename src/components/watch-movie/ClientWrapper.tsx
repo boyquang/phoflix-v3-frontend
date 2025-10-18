@@ -98,7 +98,7 @@ const ClientWrapper = ({ movie, episodes }: ClientWrapperProps) => {
           </h3>
         </div>
 
-        <div className="flex flex-col relative watch-player md:-mx-0 -mx-4">
+        <div className="flex flex-col relative watch-player md:-mx-0 -mx-4 overflow-hidden">
           <SectionVideo />
           <div className="lg:p-4 p-2 bg-[#08080a] md:rounded-b-xl overflow-hidden rounded-b-none">
             <div

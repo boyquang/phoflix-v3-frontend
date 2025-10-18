@@ -10,10 +10,10 @@ interface FormNewRoom {
 interface ParticipantUser {
   userId: string;
   username: string;
-  email: string;
   avatar: string;
-  createdAt: string;
-  updatedAt: string;
+  email?: string;
+  createdAt?: string;
+  updatedAt?: string;
 }
 
 interface Room {
@@ -22,13 +22,13 @@ interface Room {
   hostUserId: string;
   participantUsers: ParticipantUser[];
   host: ParticipantUser;
-  movie: Movie;
   maxParticipants: number;
   currentParticipants: number;
   status: StatusFilter;
   isPrivate: boolean;
   createdAt: string;
   updatedAt: string;
+  movie?: Movie;
 }
 
 type RoomResponse = {
@@ -61,10 +61,27 @@ type DeleteRoomResponse = {
   };
 };
 
+type LeaveRoomResponse = {
+  room: {
+    roomId: string;
+    participantUsers: ParticipantUser[];
+  };
+};
+
 type KickUserResponse = {
   room: {
     participantUsers: ParticipantUser[];
   };
-}
+};
 
 type ValueOptionRoom = "end" | "start" | "delete";
+
+type SendSocketSyncEpisodeParams = {
+  roomId: string;
+  episode: EpisodeMerged;
+  hostUserId: string;
+  whoRequested: WhoRequested;
+  newUserId?: string;
+};
+
+type WhoRequested = "host" | "newUser";

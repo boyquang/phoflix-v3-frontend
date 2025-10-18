@@ -6,12 +6,11 @@ import BackButton from "@/components/shared/BackButton";
 import Image from "@/components/shared/Image";
 import PopoverCopy from "@/components/shared/PopoverCopy";
 import { formatDate } from "@/lib/utils";
-import { getRoomData } from "@/store/async-thunks/watch-together-v2.thunk";
 import { AppDispatch, RootState } from "@/store/store";
 import { Link } from "@chakra-ui/react";
 import { useSession } from "next-auth/react";
 import { useEffect } from "react";
-import { FaEye, FaLink } from "react-icons/fa6";
+import { FaLink } from "react-icons/fa6";
 import { useDispatch, useSelector } from "react-redux";
 import LiveBadge from "./LiveBadge";
 import { IoIosPlayCircle } from "react-icons/io";
@@ -25,6 +24,7 @@ import { setEpisode } from "@/store/slices/episode.slice";
 import useBeforeUnload from "@/hooks/useBeforeUnload";
 import ViewerList from "./ViewerList";
 import useWatchTogetherV2 from "@/hooks/useWatchTogetherV2";
+import useReceiveSocketWatchTogetherV2 from "@/hooks/useReceiveSocketWatchTogetherV2";
 
 interface ClientWrapperProps {
   roomId: string;
@@ -36,13 +36,14 @@ const ClientWrapper = ({ roomId }: ClientWrapperProps) => {
   );
   const { data: session, status } = useSession();
   const dispatch: AppDispatch = useDispatch();
-  const { handleGetRoomData } = useWatchTogetherV2();
+  const { handleGetRoomData, handleLeaveRoom } = useWatchTogetherV2();
 
   const isHost = roomData?.host.userId === session?.user.id;
   const isRoomInactive =
     roomData?.status === "ended" || roomData?.status === "pending";
   const isRoomActive =
     roomData?.status === "pending" || roomData?.status === "active";
+  const isHostInActiveRoom = isHost && roomData?.status === "active";
 
   // Load data khi reload page
   useEffect(() => {
@@ -70,11 +71,13 @@ const ClientWrapper = ({ roomId }: ClientWrapperProps) => {
     enabled: roomData?.status === "active",
   });
 
-  if (status === "loading") return <div className="min-h-screen" />;
+  // Receive socket
+  useReceiveSocketWatchTogetherV2();
+
   if (status === "unauthenticated") {
     return (
       <div className="min-h-screen flex items-center justify-center">
-        <p className="text-white">Vui lòng đăng nhập để tiếp tục.</p>
+        <p className="text-white text-lg">Vui lòng đăng nhập để tiếp tục.</p>
       </div>
     );
   }
@@ -85,13 +88,20 @@ const ClientWrapper = ({ roomId }: ClientWrapperProps) => {
     <div className="min-h-screen">
       <div className="relative">
         <div className="sticky top-0 w-full h-16 bg-[rgba(0,0,0,.7)] flex items-center lg:px-6 px-4 z-30 gap-4">
-          <BackButton href="/xem-chung" />
+          <BackButton
+            href="/xem-chung"
+            onClick={() => {
+              if (session?.user.id !== roomData.hostUserId) {
+                handleLeaveRoom(roomId);
+              }
+            }}
+          />
           <div className="flex-grow-1 overflow-hidden">
-            <div className="flex items-center gap-2">
+            <div className="flex items-center gap-2 mb-1">
               {roomData?.status === "active" && (
                 <LiveBadge position="relative" size="sm" rounded="rounded-sm" />
               )}
-              <h4 className="text-base text-white font-semibold line-clamp-1">
+              <h4 className="md:text-base text-sm text-white font-semibold line-clamp-1">
                 {roomData?.roomName || "Phòng xem chung"}
               </h4>
             </div>
@@ -108,7 +118,7 @@ const ClientWrapper = ({ roomId }: ClientWrapperProps) => {
             <div className="relative h-0 pb-[56.25%] z-10 w-full">
               <div className="opacity-50 select-none">
                 <Image
-                  src={roomData.movie?.thumb_url}
+                  src={roomData.movie?.thumb_url || ""}
                   alt={roomData?.movie?.name || "Poster"}
                   className="rounded-none"
                 />
@@ -116,7 +126,8 @@ const ClientWrapper = ({ roomId }: ClientWrapperProps) => {
             </div>
           ) : (
             <SectionVideo
-              movie={roomData?.movie}
+              session={session}
+              movie={roomData?.movie as Movie}
               status={roomData?.status as "active" | "pending" | "ended"}
             />
           )}
@@ -172,9 +183,9 @@ const ClientWrapper = ({ roomId }: ClientWrapperProps) => {
       </div>
       <div className="grid grid-cols-12 gap-8 py-8 border-t border-[#fff2] lg:px-6 px-4">
         <div className="xl:col-span-4 col-span-12">
-          <MovieInfo movie={roomData?.movie} />
+          <MovieInfo movie={roomData?.movie as Movie} />
         </div>
-        {roomData?.status === "active" && (
+        {isHostInActiveRoom && (
           <div className="xl:col-span-8 col-span-12 xl:pl-8 xl:border-l border-[#fff2]">
             <SectionEpisodes />
           </div>

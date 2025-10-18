@@ -1,6 +1,7 @@
 "use client";
 
 import { FaRegHourglassHalf, FaVideoSlash } from "react-icons/fa6";
+import { RiHourglassFill } from "react-icons/ri";
 
 interface RoomStatusProps {
   status: "pending" | "ended";
@@ -9,7 +10,7 @@ interface RoomStatusProps {
 const roomStatusMapping = {
   pending: {
     text: "Đang chờ",
-    icon: <FaRegHourglassHalf className="count-time" />,
+    icon: <RiHourglassFill className="count-time" />,
     className: "text-white border-while bg-[#000000c0]",
   },
   ended: {

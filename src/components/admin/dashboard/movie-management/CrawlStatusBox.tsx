@@ -3,7 +3,7 @@
 import { useEffect, useState } from "react";
 import RunCrawlMovies from "./RunCrawlMovies";
 import { fetchMovieStats } from "@/lib/actions/crawl-movies.action";
-import { socketCrawlMovies } from "@/configs/socket.config";
+import { socketV2 } from "@/configs/socket.config";
 import { IoIosStats } from "react-icons/io";
 import { BsCupHotFill } from "react-icons/bs";
 import { toast } from "sonner";
@@ -30,23 +30,23 @@ const CrawlStatusBox = () => {
   const { data: session, status } = useSession();
 
   useEffect(() => {
-    socketCrawlMovies.on("refreshInfoCrawlMovie", (movieStats) => {
+    socketV2.on("refreshInfoCrawlMovie", (movieStats) => {
       setStats((prevStats) => ({ ...prevStats, ...movieStats }));
       toast.success("Thông tin vừa được làm mới!");
     });
 
-    socketCrawlMovies.on("refreshPageInfo", (pageInfo) => {
+    socketV2.on("refreshPageInfo", (pageInfo) => {
       setStats((prevStats) => ({ ...prevStats, ...pageInfo }));
     });
 
-    socketCrawlMovies.on("refreshTotalUpdatedMovies", (totalUpdatedMovies) => {
+    socketV2.on("refreshTotalUpdatedMovies", (totalUpdatedMovies) => {
       setStats((prev) => ({ ...prev, totalUpdatedMovies }));
     });
 
     return () => {
-      socketCrawlMovies.off("refreshInfoCrawlMovie");
-      socketCrawlMovies.off("refreshPageInfo");
-      socketCrawlMovies.off("refreshTotalUpdatedMovies");
+      socketV2.off("refreshInfoCrawlMovie");
+      socketV2.off("refreshPageInfo");
+      socketV2.off("refreshTotalUpdatedMovies");
     };
   }, []);
 

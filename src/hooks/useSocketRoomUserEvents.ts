@@ -61,7 +61,7 @@ const useSocketRoomUserEvents = ({ roomId }: UseSocketRoomUserEventsProps) => {
   };
 
   // Xử lý khi người dùng tham gia phòng
-  const handleUserJoinedRoom = (data: any) => {
+  const handlesetUserJoined = (data: any) => {
     const { user, message, roomId: roomIdRes, users } = data;
 
     if (!user) return;
@@ -171,7 +171,7 @@ const useSocketRoomUserEvents = ({ roomId }: UseSocketRoomUserEventsProps) => {
 
     socket.on("userLeaveRoom", handleUserLeaveRoom);
     socket.on("kickUserOutOfRoom", handleKickUserOutOfRoom);
-    socket.on("userJoinedRoom", handleUserJoinedRoom);
+    socket.on("setUserJoined", handlesetUserJoined);
     socket.on("userCloseRoom", handleUserCloseRoom);
     socket.on("asyncEpisode", handleAsyncEpisode);
     socket.on("syncRoomState", handleSyncRoomState);
@@ -179,7 +179,7 @@ const useSocketRoomUserEvents = ({ roomId }: UseSocketRoomUserEventsProps) => {
 
     return () => {
       socket.off("userLeaveRoom", handleUserLeaveRoom);
-      socket.off("userJoinedRoom", handleUserJoinedRoom);
+      socket.off("setUserJoined", handlesetUserJoined);
       socket.off("syncRoomState", handleSyncRoomState);
       socket.off("kickUserOutOfRoom", handleKickUserOutOfRoom);
       socket.off("userCloseRoom", handleUserCloseRoom);

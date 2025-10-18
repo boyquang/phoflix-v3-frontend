@@ -4,8 +4,9 @@ import useWatchTogetherV2 from "@/hooks/useWatchTogetherV2";
 import { Button } from "@chakra-ui/react";
 import { Session } from "next-auth";
 import Link from "next/link";
-import { FaPodcast, FaRegHourglassHalf } from "react-icons/fa6";
+import { FaPodcast } from "react-icons/fa6";
 import { IoIosPlayCircle } from "react-icons/io";
+import { RiHourglassFill } from "react-icons/ri";
 
 interface StatusCardProps {
   status: "pending" | "ended";
@@ -44,8 +45,8 @@ const StatusCard = ({ session, status, roomData }: StatusCardProps) => {
           isShow: true,
           label: "Đang chờ",
           href: "#",
-          icon: <FaRegHourglassHalf className="count-time" />,
-          className: "bg-white text-black",
+          icon: <RiHourglassFill className="count-time" />,
+          className: "bg-white text-black cursor-progress",
         },
         {
           isShow: roomData?.host?.userId === session?.user.id,
@@ -55,7 +56,7 @@ const StatusCard = ({ session, status, roomData }: StatusCardProps) => {
             handleStartLive(roomData._id);
           },
           icon: <IoIosPlayCircle />,
-          className: "bg-transparent border border-[rgba(255,255,255,.5)]",
+          className: "bg-transparent text-white border hover:opacity-75 border-[rgba(255,255,255,.5)]",
         },
       ],
     },
@@ -67,14 +68,14 @@ const StatusCard = ({ session, status, roomData }: StatusCardProps) => {
           label: "Xem riêng",
           href: `/dang-xem/${roomData?.movie?.slug}`,
           icon: <IoIosPlayCircle />,
-          className: "bg-white text-black",
+          className: "bg-white text-black hover:opacity-75",
         },
         {
           isShow: true,
           label: "Live khác",
           href: "/xem-chung",
           icon: <FaPodcast />,
-          className: "bg-transparent border border-[rgba(255,255,255,.5)]",
+          className: "bg-transparent text-white border hover:opacity-75 border-[rgba(255,255,255,.5)]",
         },
       ],
     },
@@ -82,11 +83,11 @@ const StatusCard = ({ session, status, roomData }: StatusCardProps) => {
 
   return (
     <div className="absolute inset-0 flex items-center justify-center z-20">
-      <div className="lg:max-w-[440px] max-w-[80%] lg:border border-[rgba(255,255,255,.5)] flex flex-col gap-2 items-center justify-center w-full lg:bg-[rgba(0,0,0,.7)] lg:backdrop-blur-sm lg:p-6 rounded-2xl">
+      <div className="lg:max-w-[440px] max-w-[80%] text-center lg:border border-[rgba(255,255,255,.5)] flex flex-col gap-2 items-center justify-center w-full lg:bg-[rgba(0,0,0,.7)] lg:backdrop-blur-sm lg:p-6 rounded-2xl">
         <h6 className="text-base text-white">
           {cardStatusMapping[status].title}
         </h6>
-        <h4 className="lg:text-lg font-semibold text-base text-primary line-clamp-2">
+        <h4 className="lg:text-lg font-semibold text-center text-base text-primary line-clamp-2">
           {roomData?.movie?.name || "Phòng xem chung"}
         </h4>
         <div className="flex items-center gap-4 w-full lg:mt-6 justify-center">

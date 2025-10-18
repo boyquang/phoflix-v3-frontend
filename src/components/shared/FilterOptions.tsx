@@ -25,7 +25,7 @@ const FilterOptions = ({
 }: FilterOptionsProps) => {
   const [open, setOpen] = useState(false);
   const [selectedOption, setSelectedOption] = useState<string>(
-    options[0].value
+    options[0]?.value
   );
   const menuRef = useRef<HTMLUListElement | null>(null);
 

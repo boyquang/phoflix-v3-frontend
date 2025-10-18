@@ -17,6 +17,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "@/store/store";
 import { setWatchTogetherByKey } from "@/store/slices/watch-together-v2.slice";
 import { getListRooms } from "@/store/async-thunks/watch-together-v2.thunk";
+import useReceiveSocketWatchTogetherV2 from "@/hooks/useReceiveSocketWatchTogetherV2";
 
 interface ClientWrapperProps {
   page: number;
@@ -43,6 +44,9 @@ const ClientWrapper = ({ page, limit }: ClientWrapperProps) => {
       })
     );
   }, [status, page, filter]);
+
+  // Receive socket events
+  useReceiveSocketWatchTogetherV2();
 
   if (status !== "authenticated") return <Box className="min-h-screen" />;
 

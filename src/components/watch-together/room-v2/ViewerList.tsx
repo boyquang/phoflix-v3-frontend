@@ -68,7 +68,14 @@ const ViewerList = () => {
                     />
                   </div>
                   <div className="flex-grow-1 overflow-hidden">
-                    <p className="font-medium text-sm truncate">{user.username}</p>
+                    <div className="font-medium text-sm truncate">
+                      {user.username}
+                      {user.userId === session?.user.id && (
+                        <span className="ml-1 text-xs text-gray-300">
+                          (Bạn)
+                        </span>
+                      )}
+                    </div>
                     {roomData.hostUserId === user.userId ? (
                       <span className="text-xs text-primary">Chủ phòng</span>
                     ) : (
