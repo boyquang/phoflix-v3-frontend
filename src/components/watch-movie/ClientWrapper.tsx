@@ -89,7 +89,6 @@ const ClientWrapper = ({ movie, episodes }: ClientWrapperProps) => {
   return (
     <div className="flex flex-col gap-12 max-w-[1620px] mx-auto 2xl:px-12 px-4">
       <div className="focus-backdrop" />
-
       <div className="lg:mt-32 md:mt-24 mt-16 flex md:flex-col flex-col-reverse">
         <div className="md:flex hidden items-center gap-2 lg:px-8 mb-8">
           <BackButton href={`/thong-tin-phim/${movie?.slug || ""}`} />
@@ -107,16 +106,20 @@ const ClientWrapper = ({ movie, episodes }: ClientWrapperProps) => {
               }}
               className="sm:overflow-hidden overflow-auto flex lg:gap-x-4 gap-x-2 gap-y-2 items-center"
             >
-              <FavoriteButton placement="horizontal" responsiveText />
+              <FavoriteButton
+                movie={movie as Movie}
+                placement="horizontal"
+                responsiveText
+              />
               <PopoverPlaylist placement="horizontal" responsiveText />
               <ShareButton placement="horizontal" responsiveText />
               <ReportDialog />
               <WatchingTogetherButton placement="horizontal" responsiveText />
-              {isLongSeries && <AutoNextEpisodeButton />}
+              <AutoNextEpisodeButton />
               <CinemaMode />
             </div>
           </div>
-          <div className="pointer-events-none absolute top-0 right-0 h-full w-12 bg-gradient-to-l from-[#08080a]/100 to-[#08080a]/0" />
+          <div className="pointer-events-none sm:hidden block absolute top-0 right-0 h-full w-12 bg-gradient-to-l from-[#08080a]/100 to-[#08080a]/0" />
         </div>
       </div>
 

@@ -36,17 +36,15 @@ const PopoverCopy = ({ title, value, trigger }: PopoverCopyProps) => {
       <Popover.Trigger asChild>
         <Box>{trigger}</Box>
       </Popover.Trigger>
-
       <Portal>
         <Popover.Positioner
           css={{
             zIndex: "123 !important",
           }}
         >
-          <Popover.Arrow />
           <Popover.Content className="p-4 max-w-[240px] rounded-lg bg-white">
             {title && <p className="text-gray-900 text-xs">{title}</p>}
-            <Input value={valueCopy} readOnly className="my-2" size="xs" />
+            <Input value={valueCopy} readOnly className="my-2 text-black" size="xs" />
             <Button
               onClick={handleCopyLink}
               size="xs"

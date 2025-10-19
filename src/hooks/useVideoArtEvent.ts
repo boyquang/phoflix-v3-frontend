@@ -10,7 +10,6 @@ import { useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import useAutoNextEpisode from "./useAutoNextEpisode";
 import { setMovieViewingStatus } from "@/store/slices/user.slice";
-import { toast } from "sonner";
 
 const useVideoArtEvent = () => {
   const { currentTime, fetched } = useSelector(
@@ -19,7 +18,7 @@ const useVideoArtEvent = () => {
   const { currentEpisode, movie } = useSelector(
     (state: RootState) => state.movie.movieInfo
   );
-  const { autoNextEpisode, handleAutoNextEpisode } = useAutoNextEpisode();
+  const { autoNextEpisode, handleAutoNextEpisode } = useAutoNextEpisode({});
   const { data: session } = useSession();
   const dispatch: AppDispatch = useDispatch();
   const updatingRef = useRef<boolean>(false);

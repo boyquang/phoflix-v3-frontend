@@ -70,7 +70,7 @@ const ListRooms = ({ scope = "all", rooms, classNameGrid }: ListRoomsProps) => {
           >
             <div className="relative">
               <div
-                title={room?.movie?.name}
+                title={room?.roomName}
                 onClick={() => {
                   handleJoinRoom(room?._id);
                 }}

@@ -9,6 +9,7 @@ import { useEffect } from "react";
 const AutoNextEpisodeButton = () => {
   const dispatch: AppDispatch = useDispatch();
   const { autoNextEpisode } = useSelector((state: RootState) => state.user);
+  const { isLongSeries } = useSelector((state: RootState) => state.episode);
 
   useEffect(() => {
     const autoNextValue = JSON.parse(
@@ -19,6 +20,8 @@ const AutoNextEpisodeButton = () => {
       dispatch(setAutoNextEpisode(autoNextValue === 1));
     }
   }, []);
+
+  if (!isLongSeries) return null;
 
   return (
     <ToggleButton

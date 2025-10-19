@@ -5,13 +5,14 @@ import { RootState } from "@/store/store";
 import { useSearchParams } from "next/navigation";
 import { useSelector } from "react-redux";
 
-const useAutoNextEpisode = () => {
-  const { currentEpisode } = useSelector(
-    (state: RootState) => state.movie.movieInfo
-  );
+interface UseAutoNextEpisodeProps {
+  callbackSocket?: (episode: EpisodeMerged) => void;
+}
+
+const useAutoNextEpisode = ({ callbackSocket }: UseAutoNextEpisodeProps) => {
   const { autoNextEpisode } = useSelector((state: RootState) => state.user);
-  const { groups, selectedLanguage } = useSelector(
-    (state: RootState) => state.movie.episode
+  const { currentEpisode, groups, selectedLanguage } = useSelector(
+    (state: RootState) => state.episode
   );
   const searchParams = useSearchParams();
   const id: string | null = searchParams.get("id");
@@ -33,6 +34,9 @@ const useAutoNextEpisode = () => {
     // Nếu tập hiện tại không phải là tập cuối cùng, chuyển đến tập tiếp theo
     if (currentIndex !== -1 && currentIndex < episodes.length - 1) {
       const nextEpisode = episodes[currentIndex + 1];
+
+      // Gọi callback socket nếu có
+      if (callbackSocket) callbackSocket(nextEpisode);
 
       const newQuery = [
         { key: "id", value: getIdFromLinkEmbed(nextEpisode.link_embed, 8) },

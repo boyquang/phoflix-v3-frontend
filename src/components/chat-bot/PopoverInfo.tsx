@@ -27,7 +27,6 @@ const PopoverInfo = () => {
           }}
         >
           <Popover.Content>
-            <Popover.Arrow />
             <Popover.Body>
               <div className="max-w-xs p-4">
                 <h3 className="text-sm font-semibold mb-2">Thông tin</h3>

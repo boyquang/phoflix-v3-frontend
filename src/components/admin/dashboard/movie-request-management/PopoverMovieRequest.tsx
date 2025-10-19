@@ -80,7 +80,6 @@ const PopoverMovieRequest = ({
             zIndex: "123 !important",
           }}
         >
-          <Popover.Arrow />
           <Popover.Content className="p-4 max-w-[360px] rounded-lg bg-white">
             <Box className="flex flex-col gap-4">
               <Field.Root>

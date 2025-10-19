@@ -25,6 +25,9 @@ import useBeforeUnload from "@/hooks/useBeforeUnload";
 import ViewerList from "./ViewerList";
 import useWatchTogetherV2 from "@/hooks/useWatchTogetherV2";
 import useReceiveSocketWatchTogetherV2 from "@/hooks/useReceiveSocketWatchTogetherV2";
+import { Tooltip } from "@/components/ui/tooltip";
+import AutoNextEpisodeButton from "@/components/watch-movie/AutoNextEpisodeButton";
+import CinemaMode from "@/components/shared/CinemaMode";
 
 interface ClientWrapperProps {
   roomId: string;
@@ -36,14 +39,14 @@ const ClientWrapper = ({ roomId }: ClientWrapperProps) => {
   );
   const { data: session, status } = useSession();
   const dispatch: AppDispatch = useDispatch();
-  const { handleGetRoomData, handleLeaveRoom } = useWatchTogetherV2();
-
-  const isHost = roomData?.host.userId === session?.user.id;
-  const isRoomInactive =
-    roomData?.status === "ended" || roomData?.status === "pending";
-  const isRoomActive =
-    roomData?.status === "pending" || roomData?.status === "active";
-  const isHostInActiveRoom = isHost && roomData?.status === "active";
+  const {
+    handleGetRoomData,
+    handleLeaveRoom,
+    isHost,
+    isRoomInactive,
+    isRoomActive,
+    isHostInActiveRoom,
+  } = useWatchTogetherV2();
 
   // Load data khi reload page
   useEffect(() => {
@@ -74,6 +77,9 @@ const ClientWrapper = ({ roomId }: ClientWrapperProps) => {
   // Receive socket
   useReceiveSocketWatchTogetherV2();
 
+  if (status === "loading") {
+    return <div className="min-h-screen"></div>;
+  }
   if (status === "unauthenticated") {
     return (
       <div className="min-h-screen flex items-center justify-center">
@@ -85,23 +91,31 @@ const ClientWrapper = ({ roomId }: ClientWrapperProps) => {
   if (!roomData) return <NotFound />;
 
   return (
-    <div className="min-h-screen">
-      <div className="relative">
+    <div className="min-h-screen overflow-hidden">
+      <div className="focus-backdrop" />
+      <div className="relative watch-player">
         <div className="sticky top-0 w-full h-16 bg-[rgba(0,0,0,.7)] flex items-center lg:px-6 px-4 z-30 gap-4">
-          <BackButton
-            href="/xem-chung"
-            onClick={() => {
-              if (session?.user.id !== roomData.hostUserId) {
-                handleLeaveRoom(roomId);
-              }
+          <Tooltip
+            content="Thoát phòng"
+            contentProps={{
+              className: "bg-white text-black",
             }}
-          />
+          >
+            <BackButton
+              href="/xem-chung"
+              onClick={() => {
+                if (session?.user.id !== roomData.hostUserId) {
+                  handleLeaveRoom(roomId);
+                }
+              }}
+            />
+          </Tooltip>
           <div className="flex-grow-1 overflow-hidden">
             <div className="flex items-center gap-2 mb-1">
               {roomData?.status === "active" && (
                 <LiveBadge position="relative" size="sm" rounded="rounded-sm" />
               )}
-              <h4 className="md:text-base text-sm text-white font-semibold line-clamp-1">
+              <h4 className="md:text-base flex-grow-1 text-sm text-white font-semibold line-clamp-1">
                 {roomData?.roomName || "Phòng xem chung"}
               </h4>
             </div>
@@ -113,72 +127,86 @@ const ClientWrapper = ({ roomId }: ClientWrapperProps) => {
             <LiveToggleButton roomId={roomId as string} />
           )}
         </div>
-        <div className="relative flex items-center justify-center bg-black">
-          {isRoomInactive ? (
-            <div className="relative h-0 pb-[56.25%] z-10 w-full">
-              <div className="opacity-50 select-none">
-                <Image
-                  src={roomData.movie?.thumb_url || ""}
-                  alt={roomData?.movie?.name || "Poster"}
-                  className="rounded-none"
-                />
+        <div className="relative">
+          <div className="relative flex items-center justify-center bg-black">
+            {isRoomInactive ? (
+              <div className="relative h-0 pb-[56.25%] z-10 w-full">
+                <div className="opacity-50 select-none">
+                  <Image
+                    src={roomData.movie?.thumb_url || ""}
+                    alt={roomData?.movie?.name || "Poster"}
+                    className="rounded-none"
+                  />
+                </div>
               </div>
-            </div>
-          ) : (
-            <SectionVideo
-              session={session}
-              movie={roomData?.movie as Movie}
-              status={roomData?.status as "active" | "pending" | "ended"}
-            />
-          )}
-          {isRoomInactive && (
-            <StatusCard
-              status={roomData.status as "pending" | "ended"}
-              roomData={roomData}
-              session={session}
-            />
-          )}
-        </div>
-        <div className="h-20 flex items-center lg:px-6 px-4 bg-[#000000b0]">
-          <div className="flex-grow-1 flex items-center gap-3">
-            <div className="lg:w-10 w-9 h-9 lg:h-10 rounded-full relative">
-              <Image
-                src={roomData.host.avatar}
-                alt={roomData?.host.username || "Avatar"}
-                className="rounded-full"
+            ) : (
+              <SectionVideo
+                session={session}
+                movie={roomData?.movie as Movie}
+                status={roomData?.status as "active" | "pending" | "ended"}
               />
-            </div>
-            <div>
-              <div className="text-sm text-white">
-                {roomData?.host.username || "Host"}
+            )}
+            {isRoomInactive && (
+              <StatusCard
+                status={roomData.status as "pending" | "ended"}
+                roomData={roomData}
+                session={session}
+              />
+            )}
+          </div>
+          <div className="relative">
+            <div className="pointer-events-none sm:hidden block absolute top-0 right-0 h-full w-12 bg-gradient-to-l from-[#08080a]/100 to-[#08080a]/0 z-50" />
+            <div
+              style={{
+                scrollbarWidth: "none",
+              }}
+              className="sm:overflow-hidden relative h-20 flex items-center gap-4 justify-between overflow-auto lg:px-6 px-4 bg-[#000000b0]"
+            >
+              <div className="flex items-center gap-3 flex-shrink-0">
+                <div className="lg:w-10 w-9 h-9 lg:h-10 rounded-full relative  overflow-hidden">
+                  <Image
+                    src={roomData.host.avatar}
+                    alt={roomData?.host.username || "Avatar"}
+                    className="rounded-full"
+                  />
+                </div>
+                <div>
+                  <div className="text-sm text-white">
+                    {roomData?.host.username || "Host"}
+                  </div>
+                  <div className="text-xs text-gray-400">
+                    Tạo {formatDate(roomData.createAt || "N/a")}
+                  </div>
+                </div>
               </div>
-              <div className="text-xs text-gray-400">
-                Tạo {formatDate(roomData.createAt || "N/a")}
+              <div className="flex lg:gap-6 gap-4 items-center flex-shrink-0">
+                {isHostInActiveRoom && <AutoNextEpisodeButton />}
+                <CinemaMode />
               </div>
+              {isRoomActive && (
+                <div className="flex items-center gap-6 flex-shrink-0">
+                  <ViewerList />
+                  <PopoverCopy
+                    value={window.location.href}
+                    trigger={
+                      <div className="flex cursor-pointer items-center gap-1 text-sm text-gray-300 hover:text-white">
+                        <FaLink />
+                        Chia sẻ
+                      </div>
+                    }
+                  />
+                  <Link
+                    target="_blank"
+                    href={`/dang-xem/${roomData?.movie?.slug}`}
+                    className="text-sm md:inline-flex hidden text-white hover:text-[#ffd875] no-underline"
+                  >
+                    <IoIosPlayCircle />
+                    Xem riêng
+                  </Link>
+                </div>
+              )}
             </div>
           </div>
-          {isRoomActive && (
-            <div className="flex items-center gap-6">
-              <ViewerList />
-              <PopoverCopy
-                value={window.location.href}
-                trigger={
-                  <div className="flex cursor-pointer items-center gap-1 text-sm text-gray-300 hover:text-white">
-                    <FaLink />
-                    Chia sẻ
-                  </div>
-                }
-              />
-              <Link
-                target="_blank"
-                href={`/dang-xem/${roomData?.movie?.slug}`}
-                className="text-sm md:inline-flex hidden text-white hover:text-[#ffd875] no-underline"
-              >
-                <IoIosPlayCircle />
-                Xem riêng
-              </Link>
-            </div>
-          )}
         </div>
       </div>
       <div className="grid grid-cols-12 gap-8 py-8 border-t border-[#fff2] lg:px-6 px-4">

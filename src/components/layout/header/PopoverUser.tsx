@@ -97,7 +97,6 @@ const PopoverUser = () => {
             p={0}
             className="bg-[#0f111af2] text-gray-50 border border-[#ffffff10]"
           >
-            <Popover.Arrow />
             <Popover.Header p={0}>
               <Box className="p-4 border-b-[0.5px] border-[#ffffff10]">
                 <ProfileHeader />

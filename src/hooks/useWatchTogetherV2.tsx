@@ -12,10 +12,10 @@ import {
   leaveRoom,
   startLive,
 } from "@/store/async-thunks/watch-together-v2.thunk";
-import { AppDispatch } from "@/store/store";
+import { AppDispatch, RootState } from "@/store/store";
 import { useSession } from "next-auth/react";
 import { usePathname, useRouter } from "next/navigation";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { toast } from "sonner";
 import { setEpisode } from "@/store/slices/episode.slice";
 import useSendSocketWatchTogetherV2 from "./useSendSocketWatchTogetherV2";
@@ -25,6 +25,7 @@ const useWatchTogetherV2 = () => {
   const dispatch: AppDispatch = useDispatch();
   const router = useRouter();
   const pathname = usePathname();
+  const { roomData } = useSelector((state: RootState) => state.watchTogetherV2);
   const {
     sendSocketCreateRoom,
     sendSocketJoinRoom,
@@ -34,6 +35,13 @@ const useWatchTogetherV2 = () => {
     sendSocketStartRoom,
     sendSocketDeleteRoom,
   } = useSendSocketWatchTogetherV2();
+
+  const isHost = roomData?.host.userId === session?.user.id;
+  const isRoomInactive =
+    roomData?.status === "ended" || roomData?.status === "pending";
+  const isRoomActive =
+    roomData?.status === "pending" || roomData?.status === "active";
+  const isHostInActiveRoom = isHost && roomData?.status === "active";
 
   const handleGetRoomData = async (roomId: string) => {
     try {
@@ -381,6 +389,10 @@ const useWatchTogetherV2 = () => {
     handleKickViewer,
     handleGetRoomData,
     handleLeaveRoom,
+    isHost,
+    isRoomInactive,
+    isRoomActive,
+    isHostInActiveRoom,
   };
 };
 

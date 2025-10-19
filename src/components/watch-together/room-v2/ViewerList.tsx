@@ -12,6 +12,7 @@ import { IconButton } from "@chakra-ui/react";
 import { TiUserDelete } from "react-icons/ti";
 import { useSession } from "next-auth/react";
 import useWatchTogetherV2 from "@/hooks/useWatchTogetherV2";
+import { Tooltip } from "@/components/ui/tooltip";
 
 const ViewerList = () => {
   const { roomData, loading } = useSelector(
@@ -20,19 +21,27 @@ const ViewerList = () => {
   const [showViewers, setShowViewers] = useState(false);
   const menuRef = useRef<HTMLDivElement | null>(null);
   const { data: session } = useSession();
-  const { handleKickViewer } = useWatchTogetherV2();
+  const { handleKickViewer, isHost } = useWatchTogetherV2();
 
+  // xử lý click outside
   useClickOutside(menuRef, () => setShowViewers(false));
 
   return (
     <div ref={menuRef} className="relative ">
-      <div
-        className="text-sm cursor-pointer text-gray-300 flex items-center gap-1"
-        onClick={() => setShowViewers(!showViewers)}
+      <Tooltip
+        contentProps={{
+          className: "bg-white text-black",
+        }}
+        content="Xem người xem"
       >
-        <FaEye />
-        {roomData?.currentParticipants || 0}
-      </div>
+        <div
+          className="text-sm cursor-pointer text-gray-300 flex items-center gap-1"
+          onClick={() => setShowViewers(!showViewers)}
+        >
+          <FaEye />
+          {roomData?.currentParticipants || 0}
+        </div>
+      </Tooltip>
 
       <AnimatePresence>
         {showViewers && (
@@ -51,7 +60,8 @@ const ViewerList = () => {
             "
           >
             <div className="text-white text-lg font-semibold mb-3 flex items-center justify-between">
-              {roomData?.currentParticipants} người đang xem
+              {roomData?.currentParticipants} người{" "}
+              {roomData?.status === "active" ? "đang xem" : "đang chờ"}
               <CloseButton
                 className="ml-4 text-white hover:bg-transparent hover:opacity-75"
                 onClick={() => setShowViewers(false)}
@@ -67,11 +77,11 @@ const ViewerList = () => {
                       className="rounded-full"
                     />
                   </div>
-                  <div className="flex-grow-1 overflow-hidden">
+                  <div className="flex-grow-1 overflow-hidden flex flex-col">
                     <div className="font-medium text-sm truncate">
                       {user.username}
                       {user.userId === session?.user.id && (
-                        <span className="ml-1 text-xs text-gray-300">
+                        <span className="ml-1 text-xs text-gray-300 italic">
                           (Bạn)
                         </span>
                       )}
@@ -82,18 +92,24 @@ const ViewerList = () => {
                       <span className="text-xs text-gray-400">Người xem</span>
                     )}
                   </div>
-                  {roomData.hostUserId !== user.userId &&
-                    session?.user.id === roomData.hostUserId && (
+                  {roomData.hostUserId !== user.userId && isHost && (
+                    <Tooltip
+                      content={`Xóa ${user?.username} khỏi phòng`}
+                      contentProps={{
+                        className: "bg-white text-black",
+                      }}
+                    >
                       <IconButton
                         loading={loading.kickUserId === user.userId}
                         onClick={() =>
                           handleKickViewer(roomData._id, user.userId)
                         }
-                        className="text-white hover:text-red-500 bg-transparent"
+                        className="text-white rounded-md hover:bg-[#fff1] bg-transparent border border-[#fff2]"
                       >
                         <TiUserDelete />
                       </IconButton>
-                    )}
+                    </Tooltip>
+                  )}
                 </li>
               ))}
             </ul>

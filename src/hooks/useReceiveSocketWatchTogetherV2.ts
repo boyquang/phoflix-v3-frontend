@@ -93,8 +93,7 @@ const useReceiveSocketWatchTogetherV2 = () => {
     const handleUserJoined = (data: ResponseUserJoined) => {
       const { hostUserId, newUser, roomId } = data;
       if (newUser.userId === session?.user.id) return;
-      
-      toast.info(`${newUser.username} vừa vào phòng`);
+
       dispatch(setUserJoined({ roomId, user: newUser }));
 
       // Đồng bộ tập phim cho người dùng mới vào phòng
@@ -106,6 +105,12 @@ const useReceiveSocketWatchTogetherV2 = () => {
           hostUserId,
           whoRequested: "newUser", // người mới vào phòng yêu cầu đồng bộ
         });
+      }
+
+      const isSameRoom = roomData?._id === roomId;
+      const isSamePage = pathname === `/xem-chung/phong/${roomId}`;
+      if (isSameRoom && isSamePage) {
+        toast.info(`${newUser.username} vừa vào phòng`);
       }
     };
 
@@ -135,8 +140,11 @@ const useReceiveSocketWatchTogetherV2 = () => {
         setUserKicked({ roomId: data.roomId, targetUserId: data.targetUserId })
       );
 
+      const isSameRoom = roomData?._id === data.roomId;
+      const isSamePage = pathname === `/xem-chung/phong/${data.roomId}`;
+
       // user là người bị kick
-      if (data.targetUserId === session?.user.id) {
+      if (data.targetUserId === session?.user.id && isSameRoom && isSamePage) {
         toast.error("Bạn đã bị chủ phòng đá ra khỏi phòng.");
         if (pathname === `/xem-chung/phong/${data.roomId}`) {
           router.replace("/xem-chung");
@@ -190,7 +198,13 @@ const useReceiveSocketWatchTogetherV2 = () => {
       const { roomId, user } = data;
       if (user.userId === session?.user.id) return;
       dispatch(setUserLeftRoom({ roomId, userId: user.userId }));
-      toast.info(`${user.username} vừa rời khỏi phòng.`);
+
+      const isSameRoom = roomData?._id === roomId;
+      const isSamePage = pathname === `/xem-chung/phong/${roomId}`;
+
+      if (isSameRoom && isSamePage) {
+        toast.info(`${user.username} vừa rời khỏi phòng.`);
+      }
     };
 
     socketV2.on("roomCreated", handleRoomCreated);

@@ -9,6 +9,7 @@ import { useSession } from "next-auth/react";
 import { Session } from "next-auth";
 import { debounce } from "lodash";
 import useSendSocketWatchTogetherV2 from "@/hooks/useSendSocketWatchTogetherV2";
+import useAutoNextEpisode from "@/hooks/useAutoNextEpisode";
 
 const ArtPlayer = dynamic(() => import("@/components/player/ArtPlayer"), {
   ssr: false,
@@ -27,7 +28,18 @@ const SectionVideo = ({ movie, status, session }: SectionVideoProps) => {
   const { roomData, videoPlayer } = useSelector(
     (state: RootState) => state.watchTogetherV2
   );
-  const { sendSocketSyncVideoTime } = useSendSocketWatchTogetherV2();
+  const { sendSocketSyncVideoTime, sendSocketSyncEpisode } =
+    useSendSocketWatchTogetherV2();
+  const { autoNextEpisode, handleAutoNextEpisode } = useAutoNextEpisode({
+    callbackSocket: (episode: EpisodeMerged) => {
+      sendSocketSyncEpisode({
+        roomId: roomData?._id as string,
+        episode: episode,
+        hostUserId: roomData?.host.userId as string,
+        whoRequested: "host",
+      });
+    },
+  });
 
   useEffect(() => {
     setSource(currentEpisode?.link_m3u8 || null);
@@ -55,6 +67,9 @@ const SectionVideo = ({ movie, status, session }: SectionVideoProps) => {
           },
           "video:loadedmetadata": (art) => {
             setVideoLoaded(true);
+          },
+          "video:ended": (art) => {
+            if (autoNextEpisode) handleAutoNextEpisode();
           },
           "video:canplaythrough": (art) => {
             if (status === "active") {

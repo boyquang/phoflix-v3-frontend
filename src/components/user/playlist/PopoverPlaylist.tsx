@@ -131,7 +131,6 @@ const PopoverPlaylist = ({
             zIndex: "123 !important",
           }}
         >
-          <Popover.Arrow />
           <Popover.Content className="p-4 max-w-[260px] rounded-lg bg-[#2a314e] text-gray-50">
             {!playlists || playlists.length === 0 ? (
               <p className="text-sm text-gray-300 mb-3">

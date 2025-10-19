@@ -85,7 +85,6 @@ const PopoverNotification = () => {
             p={0}
             className="bg-[#0f111af2] text-gray-50 border border-[#ffffff10] max-w-[320px]"
           >
-            <Popover.Arrow />
             <Popover.Header p={0}>
               <Box className="flex items-center gap-4 p-4 border-b-[0.5px] border-[#ffffff10]">
                 {filteredTabs.map((tab) => (

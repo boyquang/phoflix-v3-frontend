@@ -12,10 +12,11 @@ import { useSession } from "next-auth/react";
 import { useParams } from "next/navigation";
 import { useEffect, useState } from "react";
 import { IoMdHeart, IoMdHeartDislike } from "react-icons/io";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { toast } from "sonner";
 
 interface FavoriteButtonProps {
+  movie: Movie;
   placement?: "vertical" | "horizontal";
   responsiveText?: boolean;
 }
@@ -23,9 +24,9 @@ interface FavoriteButtonProps {
 const FavoriteButton = ({
   placement = "horizontal",
   responsiveText = false,
+  movie,
 }: FavoriteButtonProps) => {
   const { data: session, status } = useSession();
-  const movie = useSelector((state: RootState) => state.movie.movieInfo.movie);
   const [favorite, setFavorite] = useState(false);
   const [loading, setLoading] = useState(false);
   const params = useParams();
