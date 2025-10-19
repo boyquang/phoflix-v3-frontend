@@ -95,7 +95,10 @@ const ClientWrapper = ({ movie, episodes }: ClientWrapperProps) => {
                     </Link>
                     <Box className="flex justify-between gap-6 flex-1 items-center xs:w-auto w-full">
                       <Box className="flex xs:gap-3 gap-2">
-                        <FavoriteButton placement="vertical" />
+                        <FavoriteButton
+                          placement="vertical"
+                          movie={movie as Movie}
+                        />
                         <PopoverPlaylist placement="vertical" />
                         <ShareButton placement="vertical" />
                         <FeedbackButton placement="vertical" />
