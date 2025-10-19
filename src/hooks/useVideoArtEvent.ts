@@ -15,9 +15,8 @@ const useVideoArtEvent = () => {
   const { currentTime, fetched } = useSelector(
     (state: RootState) => state.user.movieViewingStatus
   );
-  const { currentEpisode, movie } = useSelector(
-    (state: RootState) => state.movie.movieInfo
-  );
+  const { movie } = useSelector((state: RootState) => state.movie.movieInfo);
+  const { currentEpisode } = useSelector((state: RootState) => state.episode);
   const { autoNextEpisode, handleAutoNextEpisode } = useAutoNextEpisode({});
   const { data: session } = useSession();
   const dispatch: AppDispatch = useDispatch();

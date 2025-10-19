@@ -89,30 +89,31 @@ const watchTogetherV2Slice = createSlice({
 
       // cập nhật thông tin khi đang ở trong phòng
       if (state.roomData && state.roomData._id === roomId) {
-        const exists = state.roomData.participantUsers.find(
+        const exists = state.roomData?.participantUsers?.find(
           (u) => u.userId === user.userId
         );
+
         if (!exists) {
-          state.roomData.participantUsers.push(user);
+          state.roomData?.participantUsers?.push(user);
           state.roomData.currentParticipants =
-            state.roomData.participantUsers.length;
+            state.roomData?.participantUsers?.length;
         }
       }
 
       // cập nhật thông tin khi đang ở /xem-chung
-      const roomIndex = state.listRooms.rooms.findIndex(
-        (room) => room._id === roomId
+      const roomIndex = state.listRooms.rooms?.findIndex(
+        (room) => room?._id === roomId
       );
 
       if (roomIndex !== -1) {
-        const exists = state.listRooms.rooms[roomIndex].participantUsers.find(
-          (u) => u.userId === user.userId
+        const exists = state.listRooms.rooms[roomIndex].participantUsers?.find(
+          (u) => u?.userId === user?.userId
         );
         // nếu user chưa có trong phòng thì thêm vào
         if (!exists) {
-          state.listRooms.rooms[roomIndex].participantUsers.push(user);
+          state.listRooms.rooms[roomIndex].participantUsers?.push(user);
           state.listRooms.rooms[roomIndex].currentParticipants =
-            state.listRooms.rooms[roomIndex].participantUsers.length;
+            state.listRooms.rooms[roomIndex].participantUsers?.length;
         }
       }
     },
@@ -128,8 +129,8 @@ const watchTogetherV2Slice = createSlice({
       }
 
       // cập nhật thông tin khi đang ở /xem-chung
-      const roomIndex = state.listRooms.rooms.findIndex(
-        (room) => room._id === action.payload?.roomId
+      const roomIndex = state.listRooms.rooms?.findIndex(
+        (room) => room?._id === action.payload?.roomId
       );
       if (roomIndex !== -1) {
         state.listRooms.rooms[roomIndex].status = action.payload?.status;
@@ -139,13 +140,13 @@ const watchTogetherV2Slice = createSlice({
     // socket deleted room
     setDeletedRoom: (state, action: PayloadAction<string>) => {
       const deletedRoomId = action.payload;
-      const roomExists = state.listRooms.rooms.some(
-        (room) => room._id === deletedRoomId
+      const roomExists = state.listRooms.rooms?.some(
+        (room) => room?._id === deletedRoomId
       );
 
       if (roomExists) {
-        state.listRooms.rooms = state.listRooms.rooms.filter(
-          (room) => room._id !== deletedRoomId
+        state.listRooms.rooms = state.listRooms.rooms?.filter(
+          (room) => room?._id !== deletedRoomId
         );
         state.listRooms.totalItems = Math.max(
           0,
@@ -166,24 +167,24 @@ const watchTogetherV2Slice = createSlice({
       const { roomId, targetUserId } = action.payload;
 
       // cập nhật thông tin khi đang ở trong phòng
-      if (state.roomData && state.roomData._id === roomId) {
+      if (state.roomData && state.roomData?._id === roomId) {
         state.roomData.participantUsers =
           state.roomData.participantUsers?.filter(
             (user) => user.userId !== targetUserId
           );
         state.roomData.currentParticipants =
-          state.roomData.participantUsers.length;
+          state.roomData.participantUsers?.length;
       }
 
       // cập nhật thông tin khi đang ở /xem-chung
       const roomIndex = state.listRooms.rooms?.findIndex(
-        (room) => room._id === roomId
+        (room) => room?._id === roomId
       );
 
       if (roomIndex !== -1) {
         state.listRooms.rooms[roomIndex].participantUsers =
           state.listRooms.rooms[roomIndex].participantUsers?.filter(
-            (user) => user.userId !== targetUserId
+            (user) => user?.userId !== targetUserId
           );
         state.listRooms.rooms[roomIndex].currentParticipants =
           state.listRooms.rooms[roomIndex].participantUsers?.length;
@@ -195,9 +196,11 @@ const watchTogetherV2Slice = createSlice({
       state,
       action: PayloadAction<{ currentTime: number; roomId: string }>
     ) => {
+      const { currentTime, roomId } = action.payload || {};
+
       // đồng bộ thời gian video đúng phòng
-      if (state.roomData && state.roomData._id === action.payload.roomId) {
-        state.videoPlayer.currentTime = action.payload.currentTime;
+      if (state.roomData && state.roomData?._id === roomId) {
+        state.videoPlayer.currentTime = currentTime;
       }
     },
 
@@ -206,28 +209,28 @@ const watchTogetherV2Slice = createSlice({
       state,
       action: PayloadAction<{ roomId: string; userId: string }>
     ) => {
-      const { roomId, userId } = action.payload;
+      const { roomId, userId } = action.payload || {};
 
-      if (state.roomData && state.roomData._id === roomId) {
+      if (state.roomData && state.roomData?._id === roomId) {
         state.roomData.participantUsers =
-          state.roomData.participantUsers.filter(
-            (user) => user.userId !== userId
+          state.roomData.participantUsers?.filter(
+            (user) => user?.userId !== userId
           );
         state.roomData.currentParticipants =
-          state.roomData.participantUsers.length;
+          state.roomData.participantUsers?.length;
       }
 
       const roomIndex = state.listRooms.rooms?.findIndex(
-        (room) => room._id === roomId
+        (room) => room?._id === roomId
       );
 
       if (roomIndex !== -1) {
         state.listRooms.rooms[roomIndex].participantUsers =
           state.listRooms.rooms[roomIndex].participantUsers?.filter(
-            (user) => user.userId !== userId
+            (user) => user?.userId !== userId
           );
         state.listRooms.rooms[roomIndex].currentParticipants =
-          state.listRooms.rooms[roomIndex].participantUsers.length;
+          state.listRooms.rooms[roomIndex].participantUsers?.length;
       }
     },
   },
@@ -313,7 +316,7 @@ const watchTogetherV2Slice = createSlice({
         if (state.roomData) {
           state.roomData.status = status || "active";
 
-          state.listRooms.rooms = state.listRooms.rooms.map((room) => {
+          state.listRooms.rooms = state.listRooms.rooms?.map((room) => {
             if (room._id === roomId) {
               return { ...room, status: status || "active" };
             } else {
@@ -340,7 +343,7 @@ const watchTogetherV2Slice = createSlice({
         if (state.roomData) {
           state.roomData.status = status || "ended";
 
-          state.listRooms.rooms = state.listRooms.rooms.map((room) => {
+          state.listRooms.rooms = state.listRooms.rooms?.map((room) => {
             if (room._id === roomId) {
               return { ...room, status: status || "ended" };
             } else {
@@ -365,7 +368,7 @@ const watchTogetherV2Slice = createSlice({
       (state, action: PayloadAction<ApiResponse<DeleteRoomResponse>>) => {
         const deletedRoomId = action.payload.result?.room?.roomId;
         if (deletedRoomId) {
-          state.listRooms.rooms = state.listRooms.rooms.filter(
+          state.listRooms.rooms = state.listRooms.rooms?.filter(
             (room) => room._id !== deletedRoomId
           );
           // If the current room is deleted, reset roomData
@@ -392,7 +395,7 @@ const watchTogetherV2Slice = createSlice({
         if (room && state.roomData) {
           state.roomData.participantUsers = room.participantUsers;
           state.roomData.currentParticipants =
-            state.roomData.participantUsers.length;
+            state.roomData.participantUsers?.length;
         }
         state.loading.kickUserId = "";
       }
@@ -409,9 +412,7 @@ const watchTogetherV2Slice = createSlice({
         state.roomData = null;
       }
     );
-    builder.addCase(leaveRoom.rejected, (state) => {
-      // state.loading.leaveRoom = false;
-    });
+    builder.addCase(leaveRoom.rejected, (state) => {});
   },
 });
 

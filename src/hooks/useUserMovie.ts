@@ -1,6 +1,6 @@
 "use client";
 
-import { deleteMovie } from "@/lib/actions/user-movie.action";
+import { addNewMovie, deleteMovie } from "@/lib/actions/user-movie.action";
 import { setTriggerRefresh } from "@/store/slices/system.slice";
 import { setPlaylistByKey } from "@/store/slices/user.slice";
 import { AppDispatch, RootState } from "@/store/store";
@@ -48,6 +48,18 @@ const useUserMovie = ({ items }: UseUserMovieProps) => {
     }
   };
 
+  const handleAddMovieToHistory = async (movieId: string) => {
+    try {
+      await addNewMovie({
+        movieId,
+        type: "history",
+        accessToken: session?.user?.accessToken as string,
+      });
+    } catch (error) {
+      console.error("Đã xảy ra lỗi khi thêm phim vào lịch sử xem:", error);
+    }
+  };
+
   const handleDeleteMovie = async (
     movieId: string,
     type: "favorite" | "playlist" | "history",
@@ -76,7 +88,11 @@ const useUserMovie = ({ items }: UseUserMovieProps) => {
     }
   };
 
-  return { handleDeleteMovie, handleRefreshByPathname };
+  return {
+    handleDeleteMovie,
+    handleRefreshByPathname,
+    handleAddMovieToHistory,
+  };
 };
 
 export default useUserMovie;

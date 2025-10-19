@@ -8,7 +8,7 @@ import { setDataMovieInfo } from "@/store/slices/movie.slice";
 import { AppDispatch, RootState } from "@/store/store";
 import { useSession } from "next-auth/react";
 import { useParams } from "next/navigation";
-import { useEffect } from "react";
+import { useEffect, useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import SectionVideo from "./SectionVideo";
 import FavoriteButton from "../shared/FavoriteButton";
@@ -27,6 +27,7 @@ import useProgressMovieHistory from "@/hooks/useProgressMovieHistory";
 import AutoNextEpisodeButton from "./AutoNextEpisodeButton";
 import BackButton from "../shared/BackButton";
 import { setEpisode } from "@/store/slices/episode.slice";
+import useUserMovie from "@/hooks/useUserMovie";
 
 interface ClientWrapperProps {
   movie: Movie;
@@ -48,6 +49,7 @@ const ClientWrapper = ({ movie, episodes }: ClientWrapperProps) => {
     isValidEpisodes,
     currentEpisode,
   } = useSelector((state: RootState) => state.episode);
+  const { handleAddMovieToHistory } = useUserMovie({});
 
   useEffect(() => {
     if (movie.slug !== slug) return;
@@ -58,15 +60,11 @@ const ClientWrapper = ({ movie, episodes }: ClientWrapperProps) => {
   // Thêm phim vào lịch sử xem
   useEffect(() => {
     if (status !== "authenticated") return;
-    if (!movie?._id) return;
-    if (movie.slug !== slug) return;
+    if (!movieInfo?._id) return;
+    if (movieInfo.slug !== slug) return;
 
-    addNewMovie({
-      movieId: movie._id,
-      type: "history",
-      accessToken: session?.user?.accessToken as string,
-    });
-  }, [movie, status, slug]);
+    handleAddMovieToHistory(movieInfo._id);
+  }, [movieInfo, status, slug]);
 
   // Lấy tiến trình xem phim
   useProgressMovieHistory();

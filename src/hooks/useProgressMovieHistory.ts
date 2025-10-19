@@ -12,9 +12,8 @@ import { useDispatch, useSelector } from "react-redux";
 const useProgressMovieHistory = () => {
   const dispatch: AppDispatch = useDispatch();
   const { data: session, status } = useSession();
-  const { movie, currentEpisode } = useSelector(
-    (state: RootState) => state.movie.movieInfo
-  );
+  const { movie } = useSelector((state: RootState) => state.movie.movieInfo);
+  const { currentEpisode } = useSelector((state: RootState) => state.episode);
   const searchParams = useSearchParams();
   const params = useParams();
   const fetchedRef = useRef<boolean>(false);
