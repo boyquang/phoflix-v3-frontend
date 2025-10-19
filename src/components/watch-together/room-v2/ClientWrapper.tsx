@@ -104,7 +104,7 @@ const ClientWrapper = ({ roomId }: ClientWrapperProps) => {
             <BackButton
               href="/xem-chung"
               onClick={() => {
-                if (session?.user.id !== roomData.hostUserId) {
+                if (session?.user.id !== roomData?.hostUserId) {
                   handleLeaveRoom(roomId);
                 }
               }}
@@ -133,7 +133,7 @@ const ClientWrapper = ({ roomId }: ClientWrapperProps) => {
               <div className="relative h-0 pb-[56.25%] z-10 w-full">
                 <div className="opacity-50 select-none">
                   <Image
-                    src={roomData.movie?.thumb_url || ""}
+                    src={roomData?.movie?.thumb_url || ""}
                     alt={roomData?.movie?.name || "Poster"}
                     className="rounded-none"
                   />
@@ -148,7 +148,7 @@ const ClientWrapper = ({ roomId }: ClientWrapperProps) => {
             )}
             {isRoomInactive && (
               <StatusCard
-                status={roomData.status as "pending" | "ended"}
+                status={roomData?.status as "pending" | "ended"}
                 roomData={roomData}
                 session={session}
               />
@@ -165,17 +165,17 @@ const ClientWrapper = ({ roomId }: ClientWrapperProps) => {
               <div className="flex items-center gap-3 flex-shrink-0">
                 <div className="lg:w-10 w-9 h-9 lg:h-10 rounded-full relative  overflow-hidden">
                   <Image
-                    src={roomData.host.avatar}
-                    alt={roomData?.host.username || "Avatar"}
+                    src={roomData?.host?.avatar || ""}
+                    alt={roomData?.host?.username || "Avatar"}
                     className="rounded-full"
                   />
                 </div>
                 <div>
                   <div className="text-sm text-white">
-                    {roomData?.host.username || "Host"}
+                    {roomData?.host?.username || "Host"}
                   </div>
                   <div className="text-xs text-gray-400">
-                    Tạo {formatDate(roomData.createAt || "N/a")}
+                    Tạo {formatDate(roomData?.createAt || "N/a")}
                   </div>
                 </div>
               </div>

@@ -27,7 +27,7 @@ const SectionEpisodes = () => {
                       sendSocketSyncEpisode({
                         roomId: roomData?._id as string,
                         episode: item,
-                        hostUserId: roomData?.host.userId as string,
+                        hostUserId: roomData?.host?.userId as string,
                         whoRequested: "host",
                       });
                     }}

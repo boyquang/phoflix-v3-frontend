@@ -35,7 +35,7 @@ const SectionVideo = ({ movie, status, session }: SectionVideoProps) => {
       sendSocketSyncEpisode({
         roomId: roomData?._id as string,
         episode: episode,
-        hostUserId: roomData?.host.userId as string,
+        hostUserId: roomData?.host?.userId as string,
         whoRequested: "host",
       });
     },
@@ -47,7 +47,7 @@ const SectionVideo = ({ movie, status, session }: SectionVideoProps) => {
 
   const handleSeek = (time: number) => {
     if (!session?.user.id || !roomData?._id) return;
-    if (session.user.id !== roomData?.host.userId) return;
+    if (session.user.id !== roomData?.host?.userId) return;
     sendSocketSyncVideoTime(roomData._id, time, session.user.id);
   };
 

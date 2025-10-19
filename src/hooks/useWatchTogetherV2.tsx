@@ -144,7 +144,7 @@ const useWatchTogetherV2 = () => {
         sendSocketJoinRoom(
           roomId,
           newUser,
-          response?.result?.room?.host.userId || ""
+          response?.result?.room?.host?.userId || ""
         );
       } else {
         toast.error(

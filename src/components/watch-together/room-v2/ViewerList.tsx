@@ -69,30 +69,30 @@ const ViewerList = () => {
             </div>
             <ul className="space-y-2">
               {roomData?.participantUsers?.map((user) => (
-                <li key={user.userId} className="text-gray-200 flex gap-4">
+                <li key={user?.userId} className="text-gray-200 flex gap-4">
                   <div className="w-9 h-9 relative flex-shrink-0">
                     <Image
-                      src={user.avatar}
-                      alt={user.username}
+                      src={user?.avatar}
+                      alt={user?.username}
                       className="rounded-full"
                     />
                   </div>
                   <div className="flex-grow-1 overflow-hidden flex flex-col">
                     <div className="font-medium text-sm truncate">
-                      {user.username}
-                      {user.userId === session?.user.id && (
+                      {user?.username}
+                      {user?.userId === session?.user.id && (
                         <span className="ml-1 text-xs text-gray-300 italic">
                           (Bạn)
                         </span>
                       )}
                     </div>
-                    {roomData.hostUserId === user.userId ? (
+                    {roomData?.hostUserId === user?.userId ? (
                       <span className="text-xs text-primary">Chủ phòng</span>
                     ) : (
                       <span className="text-xs text-gray-400">Người xem</span>
                     )}
                   </div>
-                  {roomData.hostUserId !== user.userId && isHost && (
+                  {roomData?.hostUserId !== user?.userId && isHost && (
                     <Tooltip
                       content={`Xóa ${user?.username} khỏi phòng`}
                       contentProps={{
@@ -100,9 +100,9 @@ const ViewerList = () => {
                       }}
                     >
                       <IconButton
-                        loading={loading.kickUserId === user.userId}
+                        loading={loading.kickUserId === user?.userId}
                         onClick={() =>
-                          handleKickViewer(roomData._id, user.userId)
+                          handleKickViewer(roomData._id, user?.userId)
                         }
                         className="text-white rounded-md hover:bg-[#fff1] bg-transparent border border-[#fff2]"
                       >

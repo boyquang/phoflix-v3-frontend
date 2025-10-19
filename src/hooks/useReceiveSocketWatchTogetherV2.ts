@@ -86,13 +86,13 @@ const useReceiveSocketWatchTogetherV2 = () => {
     }
 
     const handleRoomCreated = (data: ResponseRoomCreated) => {
-      if (data.room.hostUserId === session?.user.id) return;
-      dispatch(setRoomCreated(data.room));
+      if (data?.room?.hostUserId === session?.user.id) return;
+      dispatch(setRoomCreated(data?.room));
     };
 
     const handleUserJoined = (data: ResponseUserJoined) => {
       const { hostUserId, newUser, roomId } = data;
-      if (newUser.userId === session?.user.id) return;
+      if (newUser?.userId === session?.user.id) return;
 
       dispatch(setUserJoined({ roomId, user: newUser }));
 
@@ -101,7 +101,7 @@ const useReceiveSocketWatchTogetherV2 = () => {
         sendSocketSyncEpisode({
           roomId,
           episode: currentEpisode,
-          newUserId: newUser.userId,
+          newUserId: newUser?.userId,
           hostUserId,
           whoRequested: "newUser", // người mới vào phòng yêu cầu đồng bộ
         });
@@ -110,41 +110,41 @@ const useReceiveSocketWatchTogetherV2 = () => {
       const isSameRoom = roomData?._id === roomId;
       const isSamePage = pathname === `/xem-chung/phong/${roomId}`;
       if (isSameRoom && isSamePage) {
-        toast.info(`${newUser.username} vừa vào phòng`);
+        toast.info(`${newUser?.username} vừa vào phòng`);
       }
     };
 
     const handleLiveRoomStarted = (data: ResponseLiveRoom) => {
-      if (data.hostUserId === session?.user.id) return;
+      if (data?.hostUserId === session?.user.id) return;
 
       dispatch(
-        setLiveRoomStatus({ status: data.roomStatus, roomId: data.roomId })
+        setLiveRoomStatus({ status: data?.roomStatus, roomId: data?.roomId })
       );
     };
 
     const handleLiveRoomEnded = (data: ResponseLiveRoom) => {
-      if (data.hostUserId === session?.user.id) return;
+      if (data?.hostUserId === session?.user.id) return;
       dispatch(
-        setLiveRoomStatus({ status: data.roomStatus, roomId: data.roomId })
+        setLiveRoomStatus({ status: data?.roomStatus, roomId: data?.roomId })
       );
     };
 
     const handleDeleteRoom = (data: ResponseDeleteRoom) => {
-      if (data.hostUserId === session?.user.id) return;
+      if (data?.hostUserId === session?.user.id) return;
       dispatch(setDeletedRoom(data.roomId));
     };
 
     const handleUserKicked = (data: ResponseUserKicked) => {
-      if (data.hostUserId === session?.user.id) return;
+      if (data?.hostUserId === session?.user.id) return;
       dispatch(
-        setUserKicked({ roomId: data.roomId, targetUserId: data.targetUserId })
+        setUserKicked({ roomId: data?.roomId, targetUserId: data?.targetUserId })
       );
 
-      const isSameRoom = roomData?._id === data.roomId;
-      const isSamePage = pathname === `/xem-chung/phong/${data.roomId}`;
+      const isSameRoom = roomData?._id === data?.roomId;
+      const isSamePage = pathname === `/xem-chung/phong/${data?.roomId}`;
 
       // user là người bị kick
-      if (data.targetUserId === session?.user.id && isSameRoom && isSamePage) {
+      if (data?.targetUserId === session?.user.id && isSameRoom && isSamePage) {
         toast.error("Bạn đã bị chủ phòng đá ra khỏi phòng.");
         if (pathname === `/xem-chung/phong/${data.roomId}`) {
           router.replace("/xem-chung");
@@ -172,7 +172,7 @@ const useReceiveSocketWatchTogetherV2 = () => {
 
     const handleEpisodeSynced = (data: ResponseEpisodeSynced) => {
       const { newUserId, hostUserId, whoRequested, roomId, episode } = data;
-      const id = getIdFromLinkEmbed(data.episode.link_embed, 8);
+      const id = getIdFromLinkEmbed(data?.episode?.link_embed, 8);
       const currentUserId = session?.user.id;
 
       const shouldSync =
@@ -196,14 +196,14 @@ const useReceiveSocketWatchTogetherV2 = () => {
 
     const handleUserLeft = (data: ResponseUserLeft) => {
       const { roomId, user } = data;
-      if (user.userId === session?.user.id) return;
-      dispatch(setUserLeftRoom({ roomId, userId: user.userId }));
+      if (user?.userId === session?.user.id) return;
+      dispatch(setUserLeftRoom({ roomId, userId: user?.userId }));
 
       const isSameRoom = roomData?._id === roomId;
       const isSamePage = pathname === `/xem-chung/phong/${roomId}`;
 
       if (isSameRoom && isSamePage) {
-        toast.info(`${user.username} vừa rời khỏi phòng.`);
+        toast.info(`${user?.username} vừa rời khỏi phòng.`);
       }
     };
 
