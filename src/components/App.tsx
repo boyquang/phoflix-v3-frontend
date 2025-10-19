@@ -28,6 +28,7 @@ import dynamic from "next/dynamic";
 import GoToSleepAnimation from "./warn-user/repose/GoToSleepAnimation";
 import ChatBotDialog from "./chat-bot/ChatBotDialog";
 import { ToasterConfig } from "@/configs/toaster.config";
+import useBeforeUnload from "@/hooks/useBeforeUnload";
 
 const ReposeUserAlert = dynamic(
   () => import("./warn-user/repose/ReposeUserAlert"),
@@ -56,13 +57,12 @@ const App = ({ children }: { children: React.ReactNode }) => {
 
   // Kiểm tra trạng thái phiên đăng nhập
   useCheckSessionStatus();
-
   // Xử lý khi người dùng resize lại cửa sổ
   useResize();
-
+  // Cảnh báo khi người dùng cố gắng rời khỏi trang
+  // useBeforeUnload();
   // Xử lý khi người dùng cuộn trang
   useScroll();
-
   // Hiển thị thông báo
   useSocketShowNotification();
 

@@ -21,13 +21,14 @@ import useSetCurrentEpisode from "@/hooks/useSetCurrentEpisode";
 import LiveToggleButton from "./LiveToggleButton";
 import SectionEpisodes from "./SectionEpisodes";
 import { setEpisode } from "@/store/slices/episode.slice";
-import useBeforeUnload from "@/hooks/useBeforeUnload";
 import ViewerList from "./ViewerList";
 import useWatchTogetherV2 from "@/hooks/useWatchTogetherV2";
 import useReceiveSocketWatchTogetherV2 from "@/hooks/useReceiveSocketWatchTogetherV2";
 import { Tooltip } from "@/components/ui/tooltip";
 import AutoNextEpisodeButton from "@/components/watch-movie/AutoNextEpisodeButton";
 import CinemaMode from "@/components/shared/CinemaMode";
+import SyncRoomDataButton from "./SyncRoomDataButton";
+import Unauthenticated from "@/components/shared/Unauthenticated";
 
 interface ClientWrapperProps {
   roomId: string;
@@ -51,12 +52,8 @@ const ClientWrapper = ({ roomId }: ClientWrapperProps) => {
   // Load data khi reload page
   useEffect(() => {
     if (status !== "authenticated" || !roomId || fetched) return;
-
     handleGetRoomData(roomId);
   }, [status, roomId, dispatch, fetched]);
-
-  // Cảnh báo khi người dùng cố gắng rời khỏi trang
-  useBeforeUnload({});
 
   useEffect(() => {
     if (roomData) {
@@ -77,15 +74,9 @@ const ClientWrapper = ({ roomId }: ClientWrapperProps) => {
   // Receive socket
   useReceiveSocketWatchTogetherV2();
 
-  if (status === "loading") {
-    return <div className="min-h-screen"></div>;
-  }
+  if (status === "loading") return <Loading type="bars" />;
   if (status === "unauthenticated") {
-    return (
-      <div className="min-h-screen flex items-center justify-center">
-        <p className="text-white text-lg">Vui lòng đăng nhập để tiếp tục.</p>
-      </div>
-    );
+    return <Unauthenticated title="Vui lòng đăng nhập để xem phòng này" />;
   }
   if (loading.fetchRoomData) return <Loading type="bars" />;
   if (!roomData) return <NotFound />;
@@ -178,9 +169,13 @@ const ClientWrapper = ({ roomId }: ClientWrapperProps) => {
                     Tạo {formatDate(roomData?.createAt || "N/a")}
                   </div>
                 </div>
+                <div className="w-[1px] h-10 bg-[#fff2] ml-4 sm:hidden block"></div>
               </div>
               <div className="flex lg:gap-6 gap-4 items-center flex-shrink-0">
                 {isHostInActiveRoom && <AutoNextEpisodeButton />}
+                {!isHost && roomData?.status === "active" && (
+                  <SyncRoomDataButton session={session} roomId={roomId} />
+                )}
                 <CinemaMode />
               </div>
               {isRoomActive && (

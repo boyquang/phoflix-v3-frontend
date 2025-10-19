@@ -1,33 +1,20 @@
 "use client";
 
-import { usePathname } from "next/navigation";
-import { useEffect, useRef } from "react";
+import { useEffect } from "react";
 
-interface UseBeforeUnloadProps {
-  cbFunc?: () => void;
-}
-
-/**
- * useBeforeUnload hook
- * @param param shouldWarn: Kích hoạt cảnh báo khi người dùng cố gắng rời khỏi trang.
- * @param param message: Thông điệp hiển thị trong cảnh báo.
- * @description Hook này thêm một sự kiện 'beforeunload' để cảnh báo người dùng khi họ cố gắng rời khỏi trang.
- */
-
-const useBeforeUnload = ({ cbFunc }: UseBeforeUnloadProps) => {
-  const pathname = usePathname();
-  const prevPathname = useRef<string | null>(null);
-
+const useBeforeUnload = () => {
   useEffect(() => {
-    const handleBeforeUnload = () => {
-      cbFunc?.();
+    const handleBeforeUnload = (event: BeforeUnloadEvent) => {
+      event.preventDefault();
+      event.returnValue = "";
     };
+
+    window.addEventListener("beforeunload", handleBeforeUnload);
 
     return () => {
-      handleBeforeUnload();
-      prevPathname.current = pathname;
+      window.removeEventListener("beforeunload", handleBeforeUnload);
     };
-  }, [pathname, cbFunc]);
+  }, []);
 };
 
 export default useBeforeUnload;

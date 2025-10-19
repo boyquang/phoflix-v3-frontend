@@ -68,7 +68,7 @@ const SignIn = () => {
     });
 
     await signIn("google", {
-      callbackUrl: "/",
+      callbackUrl: window.location.href,
     });
   };
 

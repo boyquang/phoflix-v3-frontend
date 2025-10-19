@@ -48,6 +48,7 @@ const ClientWrapper = ({ page, limit }: ClientWrapperProps) => {
   // Receive socket events
   useReceiveSocketWatchTogetherV2();
 
+  if (status === "loading") return <Loading type="bars" />;
   if (status !== "authenticated") return <Box className="min-h-screen" />;
 
   return (

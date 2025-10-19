@@ -67,7 +67,7 @@ const ViewerList = () => {
                 onClick={() => setShowViewers(false)}
               />
             </div>
-            <ul className="space-y-2">
+            <ul className="space-y-4">
               {roomData?.participantUsers?.map((user) => (
                 <li key={user?.userId} className="text-gray-200 flex gap-4">
                   <div className="w-9 h-9 relative flex-shrink-0">

@@ -6,13 +6,18 @@ import Hls from "hls.js";
 import Image from "../shared/Image";
 import { deniedGif } from "@/constants/image.contant";
 import { toast } from "sonner";
+import { socketV2 } from "@/configs/socket.config";
+import { Session } from "next-auth";
 
-interface ArtPlayerProps {
+interface ArtPlayerProps<T = any> {
   source: string | null; // URL nguồn video
   poster?: string;
   events?: { [event in ArtPlayerEvent]?: (art: Artplayer) => void }; // Sự kiện tùy chọn
   options?: {
     currentTime?: number; // Thời gian hiện tại để bắt đầu phát
+    session?: Session | null; // Thông tin phiên đăng nhập người dùng
+    roomId?: string;
+    callbackSocket?: (data: T) => void;
   };
 }
 
@@ -154,6 +159,34 @@ export default function ArtPlayer({
       });
     };
   }, [artInstance.current, events]);
+
+  useEffect(() => {
+    const handleVideoTimeSyncRequested = (data: ResponseVideoTimeRequested) => {
+      const { roomId: roomIdRes, userRequestedId, hostUserId } = data;
+
+      if (options?.session?.user.id !== hostUserId) return;
+      if (options?.roomId !== roomIdRes) return;
+
+      const currentTime = artInstance.current?.currentTime || 0;
+      options?.callbackSocket?.({
+        roomId: roomIdRes,
+        userRequestedId,
+        hostUserId,
+        currentTime,
+      });
+    };
+
+    socketV2.on("videoTimeSyncRequested", handleVideoTimeSyncRequested);
+
+    return () => {
+      socketV2.off("videoTimeSyncRequested");
+    };
+  }, [
+    artInstance.current,
+    options?.session,
+    options?.roomId,
+    options?.callbackSocket,
+  ]);
 
   if (error) {
     return (

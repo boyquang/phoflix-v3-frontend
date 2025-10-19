@@ -80,6 +80,34 @@ const watchTogetherV2Slice = createSlice({
       state.listRooms.rooms = [updatedRoom, ...state.listRooms.rooms];
     },
 
+    // socket user joined by link
+    setUserJoinedRoomByLink: (
+      state,
+      action: PayloadAction<{
+        roomId: string;
+        participantUsers: ParticipantUser[];
+        currentParticipants: number;
+      }>
+    ) => {
+      const { roomId, participantUsers, currentParticipants } =
+        action.payload || {};
+
+      if (state.roomData && state.roomData._id === roomId) {
+        state.roomData.participantUsers = participantUsers;
+        state.roomData.currentParticipants = currentParticipants;
+      }
+
+      const roomIndex = state.listRooms.rooms?.findIndex(
+        (room) => room?._id === roomId
+      );
+
+      if (roomIndex !== -1) {
+        state.listRooms.rooms[roomIndex].participantUsers = participantUsers;
+        state.listRooms.rooms[roomIndex].currentParticipants =
+          currentParticipants;
+      }
+    },
+
     // socket user joined
     setUserJoined: (
       state,
@@ -409,7 +437,7 @@ const watchTogetherV2Slice = createSlice({
     builder.addCase(
       leaveRoom.fulfilled,
       (state, action: PayloadAction<ApiResponse<LeaveRoomResponse>>) => {
-        state.roomData = null;
+        // state.roomData = null;
       }
     );
     builder.addCase(leaveRoom.rejected, (state) => {});
@@ -427,4 +455,5 @@ export const {
   setUserKicked,
   setVideoTimeSynced,
   setUserLeftRoom,
+  setUserJoinedRoomByLink,
 } = watchTogetherV2Slice.actions;

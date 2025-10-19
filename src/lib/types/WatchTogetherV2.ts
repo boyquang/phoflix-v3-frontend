@@ -84,4 +84,67 @@ type SendSocketSyncEpisodeParams = {
   newUserId?: string;
 };
 
-type WhoRequested = "host" | "newUser";
+type WhoRequested = "host" | "user";
+
+type ResponseRoomCreated = {
+  room: Room;
+  hostUserId: string;
+};
+
+type ResponseUserJoined = {
+  roomId: string;
+  newUser: ParticipantUser;
+  hostUserId: string;
+};
+
+type ResponseLiveRoom = {
+  roomId: string;
+  hostUserId: string;
+  roomStatus: "active" | "ended";
+};
+
+type ResponseDeleteRoom = {
+  hostUserId: string;
+  roomId: string;
+};
+
+type ResponseUserKicked = {
+  hostUserId: string;
+  roomId: string;
+  targetUserId: string;
+};
+
+type ResponseVideoTimeSynced = {
+  roomId: string;
+  hostUserId: string;
+  currentTime: number;
+  whoRequested: WhoRequested;
+  userRequestedId?: string;
+};
+
+type ResponseEpisodeSynced = {
+  roomId: string;
+  hostUserId: string;
+  newUserId: string;
+  whoRequested: WhoRequested;
+  episode: EpisodeMerged;
+};
+
+type ResponseUserLeft = {
+  roomId: string;
+  user: ParticipantUser;
+};
+
+type ResponseUserJoinedRoomByLink = {
+  roomId: string;
+  newUser: ParticipantUser;
+  hostUserId: string;
+  participantUsers: ParticipantUser[];
+  currentParticipants: number;
+};
+
+type ResponseVideoTimeRequested = {
+  roomId: string;
+  userRequestedId: string;
+  hostUserId: string;
+};

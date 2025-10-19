@@ -34,6 +34,7 @@ const useWatchTogetherV2 = () => {
     sendSocketLeaveRoom,
     sendSocketStartRoom,
     sendSocketDeleteRoom,
+    sendSocketUserJoinRoomByLink,
   } = useSendSocketWatchTogetherV2();
 
   const isHost = roomData?.host?.userId === session?.user.id;
@@ -58,6 +59,19 @@ const useWatchTogetherV2 = () => {
             episodes: response?.result?.room?.movie?.episodes || [],
             movie: response?.result?.room?.movie as Movie,
           })
+        );
+
+        const newUser: ParticipantUser = {
+          userId: session?.user.id || "",
+          username: session?.user.name || "Người dùng ẩn danh",
+          avatar: session?.user.image || "",
+          email: session?.user.email || "",
+        };
+
+        sendSocketUserJoinRoomByLink(
+          roomId,
+          newUser,
+          response?.result?.room?.host?.userId || ""
         );
       } else {
         toast.error(

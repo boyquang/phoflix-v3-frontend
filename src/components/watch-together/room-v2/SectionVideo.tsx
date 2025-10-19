@@ -5,7 +5,6 @@ import { RootState } from "@/store/store";
 import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import dynamic from "next/dynamic";
-import { useSession } from "next-auth/react";
 import { Session } from "next-auth";
 import { debounce } from "lodash";
 import useSendSocketWatchTogetherV2 from "@/hooks/useSendSocketWatchTogetherV2";
@@ -58,6 +57,21 @@ const SectionVideo = ({ movie, status, session }: SectionVideoProps) => {
       <ArtPlayer
         options={{
           currentTime: videoPlayer.currentTime || 0,
+          session: session,
+          roomId: roomData?._id as string,
+          callbackSocket: ({
+            roomId,
+            userRequestedId,
+            hostUserId,
+            currentTime,
+          }) => {
+            sendSocketSyncVideoTime(
+              roomId,
+              currentTime,
+              hostUserId,
+              userRequestedId
+            );
+          },
         }}
         source={source}
         poster={movie?.thumb_url as string}

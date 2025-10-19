@@ -15,6 +15,15 @@ const useSendSocketWatchTogetherV2 = () => {
     socketV2.emit("syncRoomData", { roomData });
   };
 
+  const sendSocketUserJoinRoomByLink = (
+    roomId: string,
+    newUser: ParticipantUser,
+    hostUserId: string
+  ) => {
+    ensureSocketConnected();
+    socketV2.emit("userJoinRoomByLink", { roomId, newUser, hostUserId });
+  };
+
   const sendSocketJoinRoom = (
     roomId: string,
     newUser: ParticipantUser,
@@ -22,6 +31,19 @@ const useSendSocketWatchTogetherV2 = () => {
   ) => {
     ensureSocketConnected();
     socketV2.emit("joinRoom", { roomId, newUser, hostUserId });
+  };
+
+  const sendSocketRequireSyncVideoTime = (
+    roomId: string,
+    userRequestedId: string,
+    hostUserId: string
+  ) => {
+    ensureSocketConnected();
+    socketV2.emit("requireSyncVideoTime", {
+      roomId,
+      userRequestedId,
+      hostUserId,
+    });
   };
 
   const sendSocketCreateRoom = (room: Room, userId: string) => {
@@ -70,10 +92,16 @@ const useSendSocketWatchTogetherV2 = () => {
   const sendSocketSyncVideoTime = (
     roomId: string,
     currentTime: number,
-    userId: string
+    userId: string, // host userId
+    userRequestedId?: string
   ) => {
     ensureSocketConnected();
-    socketV2.emit("syncVideoTime", { roomId, currentTime, userId });
+    socketV2.emit("syncVideoTime", {
+      roomId,
+      currentTime,
+      userId,
+      userRequestedId,
+    });
   };
 
   const sendSocketSyncEpisode = (params: SendSocketSyncEpisodeParams) => {
@@ -92,6 +120,8 @@ const useSendSocketWatchTogetherV2 = () => {
     sendSocketDeleteRoom,
     sendSocketSyncVideoTime,
     sendSocketSyncEpisode,
+    sendSocketUserJoinRoomByLink,
+    sendSocketRequireSyncVideoTime,
   };
 };
 

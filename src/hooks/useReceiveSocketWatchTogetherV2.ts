@@ -9,6 +9,7 @@ import {
   setUserKicked,
   setVideoTimeSynced,
   setUserLeftRoom,
+  setUserJoinedRoomByLink,
 } from "@/store/slices/watch-together-v2.slice";
 import { AppDispatch, RootState } from "@/store/store";
 import { useSession } from "next-auth/react";
@@ -20,59 +21,13 @@ import useSendSocketWatchTogetherV2 from "./useSendSocketWatchTogetherV2";
 import { setCurrentEpisode } from "@/store/slices/episode.slice";
 import { getIdFromLinkEmbed } from "@/lib/utils";
 
-type ResponseRoomCreated = {
-  room: Room;
-  hostUserId: string;
-};
-
-type ResponseUserJoined = {
-  roomId: string;
-  newUser: ParticipantUser;
-  hostUserId: string;
-};
-
-type ResponseLiveRoom = {
-  roomId: string;
-  hostUserId: string;
-  roomStatus: "active" | "ended";
-};
-
-type ResponseDeleteRoom = {
-  hostUserId: string;
-  roomId: string;
-};
-
-type ResponseUserKicked = {
-  hostUserId: string;
-  roomId: string;
-  targetUserId: string;
-};
-
-type ResponseVideoTimeSynced = {
-  roomId: string;
-  hostUserId: string;
-  currentTime: number;
-};
-
-type ResponseEpisodeSynced = {
-  roomId: string;
-  hostUserId: string;
-  newUserId: string;
-  whoRequested: WhoRequested;
-  episode: EpisodeMerged;
-};
-
-type ResponseUserLeft = {
-  roomId: string;
-  user: ParticipantUser;
-};
-
 const useReceiveSocketWatchTogetherV2 = () => {
   const dispatch: AppDispatch = useDispatch();
   const { data: session, status } = useSession();
   const pathname = usePathname();
   const router = useRouter();
-  const { sendSocketSyncEpisode } = useSendSocketWatchTogetherV2();
+  const { sendSocketSyncEpisode, sendSocketRequireSyncVideoTime } =
+    useSendSocketWatchTogetherV2();
   const { currentEpisode } = useSelector((state: RootState) => state.episode);
   const { roomData } = useSelector((state: RootState) => state.watchTogetherV2);
 
@@ -85,9 +40,60 @@ const useReceiveSocketWatchTogetherV2 = () => {
       socketV2.connect();
     }
 
+    const handleJoinRoomError = (data: ResponseUserJoined) => {
+      if (session?.user.id === data.newUser.userId) {
+        toast.error("Không thể tham gia phòng. Vui lòng thử lại sau.");
+        router.replace("/xem-chung");
+      }
+    };
+
     const handleRoomCreated = (data: ResponseRoomCreated) => {
       if (data?.room?.hostUserId === session?.user.id) return;
       dispatch(setRoomCreated(data?.room));
+    };
+
+    const handleUserJoinedRoomByLink = (data: ResponseUserJoinedRoomByLink) => {
+      const {
+        newUser,
+        roomId,
+        participantUsers,
+        currentParticipants,
+        hostUserId,
+      } = data;
+
+      const isSameRoom = roomData?._id === roomId;
+      const isSamePage = pathname === `/xem-chung/phong/${roomId}`;
+
+      if (session?.user.id === hostUserId && currentEpisode) {
+        sendSocketSyncEpisode({
+          roomId,
+          episode: currentEpisode,
+          newUserId: newUser?.userId,
+          hostUserId,
+          whoRequested: "user", // người mới vào phòng yêu cầu đồng bộ
+        });
+      }
+
+      if (isSamePage && isSameRoom) {
+        if (newUser?.userId === session?.user.id) {
+          sendSocketRequireSyncVideoTime(roomId, newUser.userId, hostUserId);
+          dispatch(
+            setUserJoinedRoomByLink({
+              roomId,
+              participantUsers,
+              currentParticipants,
+            })
+          );
+        } else {
+          toast.info(`${newUser?.username} vừa vào phòng qua link.`);
+          dispatch(
+            setUserJoined({
+              roomId,
+              user: newUser,
+            })
+          );
+        }
+      }
     };
 
     const handleUserJoined = (data: ResponseUserJoined) => {
@@ -103,7 +109,7 @@ const useReceiveSocketWatchTogetherV2 = () => {
           episode: currentEpisode,
           newUserId: newUser?.userId,
           hostUserId,
-          whoRequested: "newUser", // người mới vào phòng yêu cầu đồng bộ
+          whoRequested: "user", // người mới vào phòng yêu cầu đồng bộ
         });
       }
 
@@ -111,6 +117,7 @@ const useReceiveSocketWatchTogetherV2 = () => {
       const isSamePage = pathname === `/xem-chung/phong/${roomId}`;
       if (isSameRoom && isSamePage) {
         toast.info(`${newUser?.username} vừa vào phòng`);
+        sendSocketRequireSyncVideoTime(roomId, newUser.userId, hostUserId);
       }
     };
 
@@ -137,7 +144,10 @@ const useReceiveSocketWatchTogetherV2 = () => {
     const handleUserKicked = (data: ResponseUserKicked) => {
       if (data?.hostUserId === session?.user.id) return;
       dispatch(
-        setUserKicked({ roomId: data?.roomId, targetUserId: data?.targetUserId })
+        setUserKicked({
+          roomId: data?.roomId,
+          targetUserId: data?.targetUserId,
+        })
       );
 
       const isSameRoom = roomData?._id === data?.roomId;
@@ -147,26 +157,34 @@ const useReceiveSocketWatchTogetherV2 = () => {
       if (data?.targetUserId === session?.user.id && isSameRoom && isSamePage) {
         toast.error("Bạn đã bị chủ phòng đá ra khỏi phòng.");
         if (pathname === `/xem-chung/phong/${data.roomId}`) {
-          router.replace("/xem-chung");
+          window.location.replace("/xem-chung");
         }
       }
     };
 
     const handleVideoTimeSynced = (data: ResponseVideoTimeSynced) => {
-      const { roomId, currentTime, hostUserId } = data;
-
+      const { roomId, currentTime, hostUserId, whoRequested, userRequestedId } =
+        data;
       if (hostUserId === session?.user.id) return;
-      dispatch(
-        setVideoTimeSynced({
-          roomId,
-          currentTime,
-        })
-      );
 
-      const isSameRoom = roomData?._id === roomId;
-      const isSamePage = pathname === `/xem-chung/phong/${roomId}`;
-      if (isSameRoom && isSamePage) {
-        toast.info("Thời gian video đã được đồng bộ từ chủ phòng.");
+      const userSync =
+        whoRequested === "user" && userRequestedId === session?.user.id;
+      const viewerSync =
+        whoRequested === "host" && hostUserId !== session?.user.id;
+
+      if (userSync || viewerSync) {
+        dispatch(
+          setVideoTimeSynced({
+            roomId,
+            currentTime,
+          })
+        );
+
+        const isSameRoom = roomData?._id === roomId;
+        const isSamePage = pathname === `/xem-chung/phong/${roomId}`;
+        if (isSameRoom && isSamePage) {
+          toast.info("Thời gian video đã được đồng bộ từ chủ phòng.");
+        }
       }
     };
 
@@ -176,7 +194,7 @@ const useReceiveSocketWatchTogetherV2 = () => {
       const currentUserId = session?.user.id;
 
       const shouldSync =
-        (whoRequested === "newUser" && newUserId === currentUserId) ||
+        (whoRequested === "user" && newUserId === currentUserId) ||
         (whoRequested === "host" && hostUserId !== currentUserId);
 
       if (shouldSync) {
@@ -216,6 +234,8 @@ const useReceiveSocketWatchTogetherV2 = () => {
     socketV2.on("videoTimeSynced", handleVideoTimeSynced);
     socketV2.on("episodeSynced", handleEpisodeSynced);
     socketV2.on("userLeft", handleUserLeft);
+    socketV2.on("joinRoomError", handleJoinRoomError);
+    socketV2.on("userJoinedRoomByLink", handleUserJoinedRoomByLink);
 
     return () => {
       socketV2.off("roomCreated", handleRoomCreated);
@@ -227,6 +247,8 @@ const useReceiveSocketWatchTogetherV2 = () => {
       socketV2.off("videoTimeSynced", handleVideoTimeSynced);
       socketV2.off("episodeSynced", handleEpisodeSynced);
       socketV2.off("userLeft", handleUserLeft);
+      socketV2.off("joinRoomError", handleJoinRoomError);
+      socketV2.off("userJoinedRoomByLink", handleUserJoinedRoomByLink);
     };
   }, [status, session?.user.id, dispatch, currentEpisode, roomData]);
 };
