@@ -36,7 +36,7 @@ const useWatchTogetherV2 = () => {
     sendSocketDeleteRoom,
   } = useSendSocketWatchTogetherV2();
 
-  const isHost = roomData?.host.userId === session?.user.id;
+  const isHost = roomData?.host?.userId === session?.user.id;
   const isRoomInactive =
     roomData?.status === "ended" || roomData?.status === "pending";
   const isRoomActive =
