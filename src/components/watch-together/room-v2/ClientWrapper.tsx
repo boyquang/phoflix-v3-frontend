@@ -5,7 +5,7 @@ import NotFound from "@/app/not-found";
 import BackButton from "@/components/shared/BackButton";
 import Image from "@/components/shared/Image";
 import PopoverCopy from "@/components/shared/PopoverCopy";
-import { formatDate } from "@/lib/utils";
+import { formatDate, splitFilename } from "@/lib/utils";
 import { AppDispatch, RootState } from "@/store/store";
 import { Link } from "@chakra-ui/react";
 import { useSession } from "next-auth/react";
@@ -29,6 +29,7 @@ import AutoNextEpisodeButton from "@/components/watch-movie/AutoNextEpisodeButto
 import CinemaMode from "@/components/shared/CinemaMode";
 import SyncRoomDataButton from "./SyncRoomDataButton";
 import Unauthenticated from "@/components/shared/Unauthenticated";
+import RoomDescription from "./RoomDescription";
 
 interface ClientWrapperProps {
   roomId: string;
@@ -110,9 +111,7 @@ const ClientWrapper = ({ roomId }: ClientWrapperProps) => {
                 {roomData?.roomName || "Phòng xem chung"}
               </h4>
             </div>
-            <p className="text-xs text-gray-400 line-clamp-1">
-              {roomData?.movie?.name}
-            </p>
+            <RoomDescription roomData={roomData} />
           </div>
           {isRoomActive && isHost && (
             <LiveToggleButton roomId={roomId as string} />

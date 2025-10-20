@@ -13,6 +13,7 @@ interface MovieVersionListProps {
   movie: Movie;
   redirect?: boolean;
   classNameGrid?: string;
+  callbackSocket?: (episode: EpisodeMerged) => void;
 }
 
 const backgroundColor = {
@@ -31,11 +32,8 @@ const MovieVersionList = ({
   movie,
   redirect = true,
   classNameGrid,
+  callbackSocket,
 }: MovieVersionListProps) => {
-  // const { groups } = useSelector((state: RootState) => state.movie.episode);
-  // const { movie, currentEpisode } = useSelector(
-  //   (state: RootState) => state.movie.movieInfo
-  // );
   const { groups, currentEpisode } = useSelector(
     (state: RootState) => state.episode
   );
@@ -59,6 +57,8 @@ const MovieVersionList = ({
       changeQuery(newQuery);
       // Cuộn lên đầu trang
       scrollToTop();
+      // Gọi callback nếu có
+      if (callbackSocket) callbackSocket(version);
     }
   };
 

@@ -1,6 +1,10 @@
 import { NEXT_PUBLIC_SITE_URL } from "@/constants/env.contant";
 import type { Metadata } from "next";
 import { fetchMovieDetail, fetchMovieInfo } from "./actions/movie.action";
+import {
+  seoMetadataByRoom,
+  seoMetadataListRooms,
+} from "./actions/watch-together-v2.action";
 
 function absUrl(path: string) {
   if (!path) return NEXT_PUBLIC_SITE_URL;
@@ -21,20 +25,7 @@ export function baseMetadata({
   url: string;
   images?: string[];
   keywords?: string[];
-  type?:
-    | "website"
-    | "article"
-    | "book"
-    | "profile"
-    | "music.song"
-    | "music.album"
-    | "music.playlist"
-    | "music.radio_station"
-    | "video.movie"
-    | "video.episode"
-    | "video.tv_show"
-    | "video.other"
-    | undefined;
+  type?: TypeSeoMetadata;
 }): Metadata {
   const fullImages = images
     .map(absUrl)
@@ -158,5 +149,59 @@ export async function buildWatchMovieMetadata(slug: string) {
         : `${NEXT_PUBLIC_SITE_URL}${poster_url}`,
     ],
     type: "video.movie",
+  });
+}
+
+export async function buildWatchTogetherMetadataByRoomId(roomId: string) {
+  const response = await seoMetadataByRoom(roomId);
+  const seoMetadata = response.result?.seoMetadata;
+
+  return baseMetadata({
+    title: seoMetadata?.title || "Xem Phim Cùng Bạn Bè - Watch Together",
+    description:
+      seoMetadata?.description ||
+      "Tham gia các phòng xem phim cùng bạn bè một cách dễ dàng và thú vị với tính năng Watch Together.",
+    keywords: seoMetadata?.keywords || [
+      "Watch Together",
+      "Xem phim cùng bạn bè",
+      "Phim online",
+      "Phim miễn phí",
+      "Xem phim HD",
+      "Phim chất lượng cao",
+      "Phim mới cập nhật",
+      "Phim hot",
+      "Phim hay",
+      "Xem phim trực tuyến",
+    ],
+    url: `${NEXT_PUBLIC_SITE_URL}/xem-chung/phong/${roomId}`,
+    images: seoMetadata?.posterUrls || [],
+    type: (seoMetadata?.type as TypeSeoMetadata) || "website",
+  });
+}
+
+export async function buildWatchTogetherListRoomsSEOMetadata() {
+  const response = await seoMetadataListRooms();
+  const seoMetadata = response.result?.seoMetadata;
+
+  return baseMetadata({
+    title: seoMetadata?.title || "Xem Phim Cùng Bạn Bè - Watch Together",
+    description:
+      seoMetadata?.description ||
+      "Tham gia các phòng xem phim cùng bạn bè một cách dễ dàng và thú vị với tính năng Watch Together.",
+    keywords: seoMetadata?.keywords || [
+      "Watch Together",
+      "Xem phim cùng bạn bè",
+      "Phim online",
+      "Phim miễn phí",
+      "Xem phim HD",
+      "Phim chất lượng cao",
+      "Phim mới cập nhật",
+      "Phim hot",
+      "Phim hay",
+      "Xem phim trực tuyến",
+    ],
+    url: `${NEXT_PUBLIC_SITE_URL}/xem-chung`,
+    images: seoMetadata?.posterUrls || [],
+    type: (seoMetadata?.type as TypeSeoMetadata) || "website",
   });
 }

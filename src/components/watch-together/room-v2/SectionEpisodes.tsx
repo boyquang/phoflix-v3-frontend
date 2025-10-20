@@ -13,6 +13,15 @@ const SectionEpisodes = () => {
     useSelector((state: RootState) => state.episode);
   const { sendSocketSyncEpisode } = useSendSocketWatchTogetherV2();
 
+  const handleSendSocketEpisode = (item: EpisodeMerged) => {
+    sendSocketSyncEpisode({
+      roomId: roomData?._id as string,
+      episode: item,
+      hostUserId: roomData?.host?.userId as string,
+      whoRequested: "host",
+    });
+  };
+
   return (
     <div>
       {isValidEpisodes && (
@@ -24,12 +33,7 @@ const SectionEpisodes = () => {
                 {Object.keys(groups)?.length > 0 && selectedLanguage && (
                   <EpisodesList
                     callbackSocket={(item: EpisodeMerged) => {
-                      sendSocketSyncEpisode({
-                        roomId: roomData?._id as string,
-                        episode: item,
-                        hostUserId: roomData?.host?.userId as string,
-                        whoRequested: "host",
-                      });
+                      handleSendSocketEpisode(item);
                     }}
                     columns={{
                       base: 3,
@@ -44,6 +48,9 @@ const SectionEpisodes = () => {
               </>
             ) : (
               <MovieVersionList
+                callbackSocket={(episode: EpisodeMerged) => {
+                  handleSendSocketEpisode(episode);
+                }}
                 movie={roomData?.movie as Movie}
                 redirect={false}
                 classNameGrid="lg:grid-cols-3 md:grid-cols-3 xs:grid-cols-2 grid-cols-1"

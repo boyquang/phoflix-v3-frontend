@@ -1068,3 +1068,7 @@ export function formatDuration(totalSeconds: number) {
 
   return minutes > 0 ? `${minutes}m` : "1m";
 }
+
+export const splitFilename = (filename: string) => {
+  return filename?.split("-") || [];
+};

@@ -179,3 +179,19 @@ export const kickUser = async (params: KickUserParams) => {
     accessToken: params.accessToken,
   });
 };
+
+export const seoMetadataByRoom = async (roomId: string) => {
+  const url = `${BASE_URL}/seoMetadata/${roomId}`;
+  return await callApi<ResponseSeoMetadata>({
+    url,
+    method: "GET",
+  });
+};
+
+export const seoMetadataListRooms = async () => {
+  const url = `${BASE_URL}/seoMetadata/listRoomsPublic`;
+  return await callApi<ResponseSeoMetadata>({
+    url,
+    method: "GET",
+  });
+};
