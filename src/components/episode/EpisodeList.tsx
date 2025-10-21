@@ -1,16 +1,11 @@
 "use client";
 
-import { Box, HStack } from "@chakra-ui/react";
+import { Box, HStack, SimpleGrid } from "@chakra-ui/react";
 import { useEffect, useState } from "react";
 import { PaginationItems, PaginationRoot } from "@/components/ui/pagination";
 import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "@/store/store";
-import {
-  changeQuery,
-  getIdFromLinkEmbed,
-  scrollToElement,
-  scrollToTop,
-} from "@/lib/utils";
+import { changeQuery, getIdFromLinkEmbed, scrollToTop } from "@/lib/utils";
 import EpisodeItem from "./EpisodeItem";
 import HoverOutlineWrapper from "@/components/shared/HoverOutlineWrapper";
 import EmptyData from "../shared/EmptyData";
@@ -21,11 +16,13 @@ interface EpisodesListProps {
   callbackSocket?: (item: EpisodeMerged) => void;
   columns?: Record<string, number>;
   redirect?: boolean;
+  movie?: Movie | null;
 }
 
 const limitDisplay = 24;
 
 const EpisodesList = ({
+  movie,
   episodes,
   callbackSocket,
   columns = {
@@ -33,14 +30,19 @@ const EpisodesList = ({
     md: 4,
     lg: 6,
     xl: 8,
+    "2xl": 8,
   },
   redirect = false,
 }: EpisodesListProps) => {
   const [episodeDisplay, setEpisodeDisplay] = useState<EpisodeMerged[]>([]);
   const { windowWidth } = useSelector((state: RootState) => state.system);
-  const { selectedLanguage, currentEpisode } = useSelector(
-    (state: RootState) => state.episode
-  );
+  const {
+    selectedLanguage,
+    currentEpisode,
+    isLongSeries,
+    seasonEpisodes,
+    showThumbnail,
+  } = useSelector((state: RootState) => state.episode);
   const [page, setPage] = useState(1);
   const dispatch: AppDispatch = useDispatch();
 
@@ -76,7 +78,7 @@ const EpisodesList = ({
       // Cập nhật tập phim hiện tại
       dispatch(setCurrentEpisode(item));
       // Cuộn lên đầu trang
-      scrollToTop();
+      scrollToTop(0);
       // Gọi callback nếu có
       if (callbackSocket) callbackSocket(item);
     }
@@ -94,27 +96,40 @@ const EpisodesList = ({
 
   return (
     <>
-      <Box
-        className={`grid mt-4
-              grid-cols-${columns.base ?? 2} 
-              md:grid-cols-${columns.md ?? 4} 
-              lg:grid-cols-${columns.lg ?? 6} 
-              xl:grid-cols-${columns.xl ?? 8} 
-              gap-3
-            `}
+      <SimpleGrid
+        columns={columns}
+        columnGap={3}
+        rowGap={showThumbnail ? 5 : 3}
+        className="mt-4"
       >
-        {episodeDisplay?.map((item, index: number) => (
-          <HoverOutlineWrapper rounded="md" key={index} ringSize="2">
-            <EpisodeItem
-              item={item}
-              currentEpisode={currentEpisode}
-              language={selectedLanguage || "default"}
-              redirect={redirect}
-              handleSetCurrentEpisode={handleSetCurrentEpisode}
-            />
-          </HoverOutlineWrapper>
-        ))}
-      </Box>
+        {episodeDisplay?.map((item, index: number) => {
+          // Tính index thực tế trong mảng gốc dựa trên trang hiện tại
+          const actualIndex = (page - 1) * limitDisplay + index;
+
+          return (
+            <HoverOutlineWrapper
+              rounded="md"
+              key={index}
+              ringSize="2"
+              show={showThumbnail ? false : true}
+            >
+              <EpisodeItem
+                item={item}
+                thumbnailItem={{
+                  data: isLongSeries
+                    ? seasonEpisodes.items?.[actualIndex]
+                    : null,
+                  defaultThumbnail: movie?.thumb_url || "",
+                }}
+                currentEpisode={currentEpisode}
+                language={selectedLanguage || "default"}
+                redirect={redirect}
+                handleSetCurrentEpisode={handleSetCurrentEpisode}
+              />
+            </HoverOutlineWrapper>
+          );
+        })}
+      </SimpleGrid>
 
       {episodes?.length >= limitDisplay && (
         <Box className="flex mx-auto justify-center my-6">

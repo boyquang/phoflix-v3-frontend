@@ -30,6 +30,7 @@ import CinemaMode from "@/components/shared/CinemaMode";
 import SyncRoomDataButton from "./SyncRoomDataButton";
 import Unauthenticated from "@/components/shared/Unauthenticated";
 import RoomDescription from "./RoomDescription";
+import useFetchSeasonEpisodes from "@/hooks/useFetchSeasonEpisodes";
 
 interface ClientWrapperProps {
   roomId: string;
@@ -70,6 +71,11 @@ const ClientWrapper = ({ roomId }: ClientWrapperProps) => {
   // Đặt episode hiện tại dựa trên tham số URL
   useSetCurrentEpisode({
     enabled: roomData?.status === "active",
+  });
+
+  // season episodes
+  useFetchSeasonEpisodes({
+    movie: roomData?.movie as Movie,
   });
 
   // Receive socket

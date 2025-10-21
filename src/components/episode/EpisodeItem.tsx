@@ -5,11 +5,18 @@ import { Button } from "@chakra-ui/react";
 import Link from "next/link";
 import { useParams, usePathname, useSearchParams } from "next/navigation";
 import { BsPlayFill } from "react-icons/bs";
+import { RootState } from "@/store/store";
+import { useSelector } from "react-redux";
+import ThumbnailItem from "./ThumbnailItem";
 
 interface EpisodeItemProps {
   item: EpisodeMerged;
   language: string;
   currentEpisode: EpisodeMerged | null;
+  thumbnailItem?: {
+    data: SeasonEpisode | null;
+    defaultThumbnail?: string | null;
+  };
   redirect?: boolean;
   handleSetCurrentEpisode(item: EpisodeMerged): void;
 }
@@ -19,8 +26,10 @@ const EpisodeItem = ({
   redirect,
   language,
   currentEpisode,
+  thumbnailItem = { data: null, defaultThumbnail: null },
   handleSetCurrentEpisode,
 }: EpisodeItemProps) => {
+  const { showThumbnail } = useSelector((state: RootState) => state.episode);
   const params = useParams();
   const pathname = usePathname();
   const searchParams = useSearchParams();
@@ -51,25 +60,52 @@ const EpisodeItem = ({
 
   if (redirect) {
     return (
-      <Link
-        href={href}
-        onClick={() => handleSetCurrentEpisode(item)}
-        className={classNameEpisode}
-      >
-        <BsPlayFill className="flex-shrink-1" />
-        <span className={classNameEpisodeName}>{item?.name}</span>
+      <Link href={href} onClick={() => handleSetCurrentEpisode(item)}>
+        {showThumbnail ? (
+          <ThumbnailItem
+            active={false}
+            episode={
+              thumbnailItem?.data
+                ? { ...thumbnailItem.data, ...item }
+                : { ...item }
+            }
+            defaultThumbnail={thumbnailItem.defaultThumbnail}
+          />
+        ) : (
+          <>
+            <div className={classNameEpisode}>
+              <BsPlayFill className="flex-shrink-1" />
+              <span className={classNameEpisodeName}>{item?.name}</span>
+            </div>
+          </>
+        )}
       </Link>
     );
   } else {
     return (
-      <Button
-        datatype={language}
-        onClick={() => handleSetCurrentEpisode(item)}
-        className={classNameEpisode}
-      >
-        <BsPlayFill className="flex-shrink-1" />
-        <span className={classNameEpisodeName}>{item?.name}</span>
-      </Button>
+      <>
+        {showThumbnail ? (
+          <ThumbnailItem
+            active={isCurrentEpisode}
+            episode={
+              thumbnailItem?.data
+                ? { ...thumbnailItem.data, ...item }
+                : { ...item }
+            }
+            onClick={() => handleSetCurrentEpisode(item)}
+            defaultThumbnail={thumbnailItem.defaultThumbnail}
+          />
+        ) : (
+          <Button
+            datatype={language}
+            onClick={() => handleSetCurrentEpisode(item)}
+            className={classNameEpisode}
+          >
+            <BsPlayFill className="flex-shrink-1" />
+            <span className={classNameEpisodeName}>{item?.name}</span>
+          </Button>
+        )}
+      </>
     );
   }
 };

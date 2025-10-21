@@ -7,6 +7,7 @@ import {
 import { fetcher, IS_SUCCESS, REVALIDATE_TIME } from "../fetcher";
 import { RESPONSE_MOVIE } from "@/constants/response-movie-api.contant";
 import { normalizeMovieInfo } from "../normalizers/movie-info";
+import { callApi } from "../callApi";
 
 const BASE_URL = `${NEXT_PUBLIC_SITE_URL}/api/movie`;
 const BACKEND_URL = `${NEXT_PUBLIC_BACKEND_URL}/api/${NEXT_PUBLIC_API_VERSION}`;
@@ -602,3 +603,14 @@ export const deleteMovie = async (ids: string, accessToken: string) => {
   }
 };
 
+export const getSeasonEpisodes = async (
+  tmdbId: string,
+  season: number = 1
+) => {
+  const url = `${BASE_URL}/season-episodes/${tmdbId}?season=${season}`;
+
+  return await callApi({
+    url,
+    method: "GET",
+  });
+};

@@ -7,7 +7,9 @@ import {
   fetchNewlyUpdatedMovies,
   fetchSearchMovies,
 } from "@/lib/actions/movie.action";
+import { callApi } from "@/lib/callApi";
 import { createAsyncThunk } from "@reduxjs/toolkit";
+import { NEXT_PUBLIC_SITE_URL as SITE_URL } from "@/constants/env.contant";
 
 const ENVIRONMENT = process.env.ENV;
 
@@ -340,5 +342,25 @@ export const fetchDataMoviePopular = createAsyncThunk(
         error: error.message,
       });
     }
+  }
+);
+
+type SeasonEpisodesParams = {
+  tmdbId: string;
+  season: number;
+};
+
+export const fetchSeasonEpisodes = createAsyncThunk(
+  "movie/fetchSeasonEpisodes",
+  async (
+    params: SeasonEpisodesParams,
+    thunkAPI
+  ): Promise<ApiResponse<SeasonEpisodes>> => {
+    const data = await callApi({
+      url: `${SITE_URL}/api/movie/season-episodes/${params.tmdbId}?season=${params.season}`,
+      method: "GET",
+    });
+
+    return data as ApiResponse<SeasonEpisodes>;
   }
 );

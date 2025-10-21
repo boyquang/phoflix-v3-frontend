@@ -28,6 +28,7 @@ import AutoNextEpisodeButton from "./AutoNextEpisodeButton";
 import BackButton from "../shared/BackButton";
 import { setEpisode } from "@/store/slices/episode.slice";
 import useUserMovie from "@/hooks/useUserMovie";
+import useFetchSeasonEpisodes from "@/hooks/useFetchSeasonEpisodes";
 
 interface ClientWrapperProps {
   movie: Movie;
@@ -48,6 +49,7 @@ const ClientWrapper = ({ movie, episodes }: ClientWrapperProps) => {
     isLongSeries,
     isValidEpisodes,
     currentEpisode,
+    showThumbnail,
   } = useSelector((state: RootState) => state.episode);
   const { handleAddMovieToHistory } = useUserMovie({});
 
@@ -74,6 +76,11 @@ const ClientWrapper = ({ movie, episodes }: ClientWrapperProps) => {
 
   // Lấy danh sách phát của người dùng
   useGetPlaylists();
+
+  // season episodes
+  useFetchSeasonEpisodes({
+    movie,
+  });
 
   // Thiết lập tập phim hiện tại
   useSetCurrentEpisode({
@@ -133,11 +140,14 @@ const ClientWrapper = ({ movie, episodes }: ClientWrapperProps) => {
                     <EpisodeTabs slug={movieInfo?.slug} />
                     {Object.keys(groups)?.length > 0 && selectedLanguage && (
                       <EpisodesList
+                        movie={movie}
                         columns={{
-                          base: 3,
-                          md: 5,
-                          lg: 3,
-                          xl: 6,
+                          base: showThumbnail ? 2 : 3,
+                          md: showThumbnail ? 3 : 5,
+                          lg: showThumbnail ? 3 : 3,
+                          xl: showThumbnail ? 4 : 6,
+                          "2xl": showThumbnail ? 4 : 7,
+                          "3xl": showThumbnail ? 5 : 8,
                         }}
                         redirect={false}
                         episodes={groups[selectedLanguage]?.items || []}

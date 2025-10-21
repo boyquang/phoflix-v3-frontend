@@ -1,4 +1,3 @@
-import { fetcher } from "@/lib/fetcher";
 import { NextRequest, NextResponse } from "next/server";
 import { REVALIDATE_TIME } from "@/lib/fetcher";
 import {

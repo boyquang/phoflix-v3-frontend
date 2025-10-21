@@ -4,10 +4,15 @@ import {
   hasValidEpisode,
 } from "@/lib/utils";
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
+import { fetchSeasonEpisodes } from "../async-thunks/movie.thunk";
 
 interface EpisodeSlice {
   episodes: Episode[];
+  seasonEpisodes: {
+    items: SeasonEpisode[];
+  };
   currentEpisode: EpisodeMerged | null;
+  showThumbnail: boolean;
   isLongSeries: boolean;
   isValidEpisodes: boolean;
   selectedLanguage: string | null;
@@ -16,7 +21,11 @@ interface EpisodeSlice {
 
 const initialState: EpisodeSlice = {
   episodes: [],
+  seasonEpisodes: {
+    items: [],
+  },
   currentEpisode: null,
+  showThumbnail: false,
   isLongSeries: false,
   isValidEpisodes: false,
   selectedLanguage: null,
@@ -29,6 +38,9 @@ const episodeSlice = createSlice({
   reducers: {
     setSelectedLanguage: (state, action: PayloadAction<string | null>) => {
       state.selectedLanguage = action.payload;
+    },
+    setShowThumbnail: (state, action: PayloadAction<boolean>) => {
+      state.showThumbnail = action.payload;
     },
     setCurrentEpisode: (state, action: PayloadAction<EpisodeMerged | null>) => {
       state.currentEpisode = action.payload;
@@ -71,12 +83,28 @@ const episodeSlice = createSlice({
     },
     resetEpisodeState: () => initialState,
   },
+  extraReducers: (builder) => {
+    builder.addCase(fetchSeasonEpisodes.pending, (state) => {
+      state.seasonEpisodes.items = [];
+    });
+    builder.addCase(
+      fetchSeasonEpisodes.fulfilled,
+      (state, action: PayloadAction<ApiResponse<SeasonEpisodes>>) => {
+        const { episodes } = action.payload.result || { episodes: [] };
+        state.seasonEpisodes.items = episodes || [];
+      }
+    );
+    builder.addCase(fetchSeasonEpisodes.rejected, () => {
+      // You can handle rejected state if needed
+    });
+  },
 });
 
 export const {
   setEpisode,
   setCurrentEpisode,
   resetEpisodeState,
+  setShowThumbnail,
   setSelectedLanguage,
 } = episodeSlice.actions;
 export default episodeSlice.reducer;

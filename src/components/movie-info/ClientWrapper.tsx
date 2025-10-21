@@ -22,6 +22,7 @@ import MovieTabs from "./MovieTabs";
 import FeedbackSection from "../feedback/FeedbackSection";
 import { useParams, useSearchParams } from "next/navigation";
 import { setEpisode } from "@/store/slices/episode.slice";
+import useFetchSeasonEpisodes from "@/hooks/useFetchSeasonEpisodes";
 
 interface ClientWrapperProps {
   movie: Movie;
@@ -49,6 +50,11 @@ const ClientWrapper = ({ movie, episodes }: ClientWrapperProps) => {
   // Lấy danh sách phim phổ biến
   useFetchMoviePopular({
     page: 1,
+  });
+
+  // season episodes
+  useFetchSeasonEpisodes({
+    movie,
   });
 
   // Lấy danh sách phim trong danh sách phát

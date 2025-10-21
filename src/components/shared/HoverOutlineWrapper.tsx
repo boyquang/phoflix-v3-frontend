@@ -4,12 +4,14 @@ interface HoverOutlineWrapperProps {
   children: React.ReactNode;
   rounded?: "xs" | "sm" | "md" | "lg" | "xl" | "2xl" | "3xl" | "full";
   ringSize?: "0" | "1" | "2" | "4" | "8";
+  show?: boolean;
 }
 
 const HoverOutlineWrapper = ({
   children,
   rounded = "md",
   ringSize = "2",
+  show = true,
 }: HoverOutlineWrapperProps) => {
   const roundedObj = {
     xs: "rounded-xs",
@@ -29,6 +31,8 @@ const HoverOutlineWrapper = ({
     "4": "ring-4",
     "8": "ring-8",
   };
+
+  if (!show) return <>{children}</>;
 
   return (
     <div className="relative group">

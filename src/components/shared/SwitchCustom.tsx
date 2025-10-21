@@ -9,6 +9,7 @@ interface SwitchCustomProps {
   resetSwitch?: boolean;
   defaultChecked?: boolean;
   disabled?: boolean;
+  labelPosition?: "left" | "right";
 }
 
 const SwitchCustom = ({
@@ -17,6 +18,7 @@ const SwitchCustom = ({
   resetSwitch = false,
   defaultChecked = false,
   disabled = false,
+  labelPosition = "right",
 }: SwitchCustomProps) => {
   const [isChecked, setIsChecked] = useState(false);
 
@@ -46,6 +48,9 @@ const SwitchCustom = ({
       }`}
       onClick={handleToggle}
     >
+      {label && labelPosition === "left" && (
+        <span className="text-xs text-gray-50">{label}</span>
+      )}
       <Box
         className={`border rounded-4xl w-[30px] h-5 relative flex-shrink-0 transition-all duration-300 ease-in-out ${
           isChecked
@@ -61,7 +66,9 @@ const SwitchCustom = ({
           }`}
         ></span>
       </Box>
-      {label && <span className="text-xs text-gray-50">{label}</span>}
+      {label && labelPosition === "right" && (
+        <span className="text-xs text-gray-50">{label}</span>
+      )}
     </Box>
   );
 };

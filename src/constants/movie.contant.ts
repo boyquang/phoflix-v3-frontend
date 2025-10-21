@@ -478,14 +478,6 @@ const CategoriesConfig: MovieConfigItem[] = [
     describe: "the-loai",
     orientation: "vertical",
   },
-  // {
-  //   index: 56,
-  //   title: "Giải trí người lớn 18+",
-  //   link: "/chi-tiet/the-loai/phim-18",
-  //   type: "phim-18",
-  //   describe: "the-loai",
-  //   orientation: "vertical",
-  // },
 ];
 
 export const initialMovieConfig: MovieConfigItem[] = [
@@ -540,11 +532,6 @@ export const categories: CategoryWithAll[] = [
     _id: "2fb53017b3be83cd754a08adab3e916c",
     name: "Bí Ẩn",
     slug: "bi-an",
-  },
-  {
-    _id: "4b4457a1af8554c282dc8ac41fd7b4a1",
-    name: "Phim 18+",
-    slug: "phim-18",
   },
   {
     _id: "bb2b4b030608ca5984c8dd0770f5b40b",

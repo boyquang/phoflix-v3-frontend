@@ -227,7 +227,6 @@ type Categories =
   | "kinh-di"
   | "tai-lieu"
   | "bi-an"
-  | "phim-18"
   | "tinh-cam"
   | "tam-ly"
   | "the-thao"
@@ -347,4 +346,19 @@ type KnownFor = {
   video: boolean;
   vote_average: number | null;
   vote_count: number | null;
+};
+
+type SeasonEpisode = {
+  id: number;
+  episode_number: number;
+  name: string;
+  overview: string;
+  air_date: string;
+  still_path: string | null;
+  vote_average: number;
+  vote_count: number;
+};
+
+type SeasonEpisodes = {
+  episodes: SeasonEpisode[];
 };

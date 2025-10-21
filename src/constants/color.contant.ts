@@ -170,7 +170,6 @@ export const topicBackGround = {
   "tre-em": "bg-yellow-700",
   "lich-su": "bg-indigo-800",
   "bi-an": "bg-blue-800",
-  "phim-18": "bg-teal-700",
   "tinh-cam": "bg-lime-600",
   "tam-ly": "bg-orange-700",
   "the-thao": "bg-pink-800",

@@ -9,8 +9,13 @@ import { useSelector } from "react-redux";
 
 const SectionEpisodes = () => {
   const { roomData } = useSelector((state: RootState) => state.watchTogetherV2);
-  const { groups, selectedLanguage, isLongSeries, isValidEpisodes } =
-    useSelector((state: RootState) => state.episode);
+  const {
+    groups,
+    selectedLanguage,
+    isLongSeries,
+    isValidEpisodes,
+    showThumbnail,
+  } = useSelector((state: RootState) => state.episode);
   const { sendSocketSyncEpisode } = useSendSocketWatchTogetherV2();
 
   const handleSendSocketEpisode = (item: EpisodeMerged) => {
@@ -32,14 +37,17 @@ const SectionEpisodes = () => {
                 <EpisodeTabs slug={roomData?.movie?.slug || ""} />
                 {Object.keys(groups)?.length > 0 && selectedLanguage && (
                   <EpisodesList
+                    movie={roomData?.movie as Movie}
                     callbackSocket={(item: EpisodeMerged) => {
                       handleSendSocketEpisode(item);
                     }}
                     columns={{
-                      base: 3,
-                      md: 5,
-                      lg: 5,
-                      xl: 6,
+                      base: showThumbnail ? 2 : 3,
+                      md: showThumbnail ? 3 : 5,
+                      lg: showThumbnail ? 3 : 3,
+                      xl: showThumbnail ? 4 : 6,
+                      "2xl": showThumbnail ? 4 : 7,
+                      "3xl": showThumbnail ? 5 : 8,
                     }}
                     redirect={false}
                     episodes={groups[selectedLanguage]?.items || []}

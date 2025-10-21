@@ -9,6 +9,7 @@ import ActorsList from "../actor/ActorsList";
 import MovieSuggesstions from "@/components/shared/MovieSuggestions";
 import MovieVersionList from "../episode/MovieVersionList";
 import { useEffect, useState } from "react";
+import EpisodeWrapper from "../episode/EpisodeWrapper";
 
 // CSS dùng chung
 const selectedTabStyle = {
