@@ -13,17 +13,23 @@ const RoomDescription = ({ roomData }: RoomDescriptionProps) => {
   const { currentEpisode } = useSelector((state: RootState) => state.episode);
 
   useEffect(() => {
+    const movieName = roomData?.movie?.name || "";
+
     if (currentEpisode) {
       const arrSplitFilename = currentEpisode?.filename?.split("-") || [];
-      if (arrSplitFilename?.length >= 6) {
-        setDescription(
-          `${arrSplitFilename[0]} - ${arrSplitFilename[4]} - ${arrSplitFilename[5]}`
-        );
+      const arrSplitFilenameLength = arrSplitFilename?.length || 0;
+      const movieLanguage =
+        arrSplitFilename[arrSplitFilenameLength - 2] || "Ngôn ngữ: Unknown";
+      const episodeName =
+        arrSplitFilename[arrSplitFilenameLength - 1] || "Tập: Unknown";
+
+      if (arrSplitFilenameLength >= 3) {
+        setDescription(`${movieName} - ${movieLanguage} - ${episodeName}`);
       } else {
-        setDescription(roomData?.movie?.name || "");
+        setDescription(movieName);
       }
     } else {
-      setDescription(roomData?.movie?.name || "");
+      setDescription(movieName);
     }
   }, [roomData, currentEpisode]);
 

@@ -343,15 +343,15 @@ const watchTogetherV2Slice = createSlice({
 
         if (state.roomData) {
           state.roomData.status = status || "active";
-
-          state.listRooms.rooms = state.listRooms.rooms?.map((room) => {
-            if (room._id === roomId) {
-              return { ...room, status: status || "active" };
-            } else {
-              return room;
-            }
-          });
         }
+        
+        state.listRooms.rooms = state.listRooms.rooms?.map((room) => {
+          if (room._id === roomId) {
+            return { ...room, status: status || "active" };
+          } else {
+            return room;
+          }
+        });
         state.loading.startLive = false;
       }
     );
@@ -367,18 +367,17 @@ const watchTogetherV2Slice = createSlice({
       endRoom.fulfilled,
       (state, action: PayloadAction<ApiResponse<LiveActionResponse>>) => {
         const { status, roomId } = action.payload.result?.room || {};
-
         if (state.roomData) {
           state.roomData.status = status || "ended";
-
-          state.listRooms.rooms = state.listRooms.rooms?.map((room) => {
-            if (room._id === roomId) {
-              return { ...room, status: status || "ended" };
-            } else {
-              return room;
-            }
-          });
         }
+
+        state.listRooms.rooms = state.listRooms.rooms?.map((room) => {
+          if (room._id === roomId) {
+            return { ...room, status: status || "ended" };
+          } else {
+            return room;
+          }
+        });
         state.loading.endLive = false;
       }
     );
