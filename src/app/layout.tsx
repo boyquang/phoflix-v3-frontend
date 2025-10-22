@@ -38,8 +38,8 @@ export default async function RootLayout({
   return (
     <html suppressHydrationWarning lang="vi">
       <body className={`antialiased`}>
-        <Toploader />
         <StoreProvider>
+          <Toploader />
           <Provider>
             <SessionProvider>
               <App>{children}</App>
