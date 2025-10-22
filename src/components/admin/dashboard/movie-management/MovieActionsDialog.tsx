@@ -32,7 +32,7 @@ import PasteDataJson from "./PasteDataJson";
 import MultiNameInput from "./MultiNameInput";
 import { updateMovie } from "@/lib/actions/movie.action";
 import FieldInput from "./FieldInput";
-import { useRouter } from "next/navigation";
+import { useRouter } from 'nextjs-toploader/app';
 
 const { dialog } = appConfig.chakra;
 const motionPresetDefault = dialog.motionPresetDefault;

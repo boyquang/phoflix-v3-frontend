@@ -40,7 +40,7 @@ const ReplySection = ({ totalChildren }: ReplySectionProps) => {
   return (
     <Box className="mt-4">
       <Box
-        className="inline-flex items-center select-none gap-1 text-[#ffd875] cursor-pointer"
+        className="inline-flex items-center select-none gap-1 text-primary cursor-pointer"
         onClick={handleToggleReply}
       >
         {isOpen ? <IoIosArrowUp /> : <IoIosArrowDown />}

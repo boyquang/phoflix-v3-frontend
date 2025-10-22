@@ -50,7 +50,7 @@ const TopSearchTrending = () => {
               href={`/thong-tin-phim/${formatString(item?.keyword)}`}
               key={index}
             >
-              <li className="flex justify-between px-2 py-1 rounded-md text-gray-100 text-xs bg-[#ffffff10] hover:text-[#ffd875] items-center">
+              <li className="flex justify-between px-2 py-1 rounded-md text-gray-100 text-xs bg-[#ffffff10] hover:text-primary items-center">
                 <DecodeText text={item?.keyword} />
               </li>
             </Link>

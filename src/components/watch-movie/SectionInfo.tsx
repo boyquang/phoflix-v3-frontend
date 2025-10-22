@@ -40,7 +40,7 @@ const SectionInfo = ({ data }: SectionInfoProps) => {
             <DecodeText
               as="p"
               text={data?.origin_name || "Tên gốc: N/A"}
-              className="text-[#ffd875] text-sm line-clamp-1"
+              className="text-primary text-sm line-clamp-1"
             />
             <Box className="flex flex-wrap gap-2 items-center">
               <TmdbRatingBadge rating={data?.tmdb?.vote_average} />
@@ -70,7 +70,7 @@ const SectionInfo = ({ data }: SectionInfoProps) => {
             className="text-gray-400 text-sm text-justify"
           />
           <Link
-            className="text-[#ffd875] mt-4 text-sm gap-1 hover:underline inline-flex items-center"
+            className="text-primary mt-4 text-sm gap-1 hover:underline inline-flex items-center"
             href={`/thong-tin-phim/${data?.slug}`}
           >
             Thông tin phim

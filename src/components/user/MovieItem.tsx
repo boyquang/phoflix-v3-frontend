@@ -148,7 +148,7 @@ const MovieItem = ({ item, isLoading, callback }: MovieItemProps) => {
         href={`/thong-tin-phim/${item?.slug}`}
         className="mt-2 block text-center"
       >
-        <Box className="text-gray-50 line-clamp-1 text-xs font-semibold group-hover:text-[#ffd875] lg:text-sm transition-all">
+        <Box className="text-gray-50 line-clamp-1 text-xs font-semibold group-hover:text-primary lg:text-sm transition-all">
           <DecodeText text={item?.name} />
           <span className="text-xs text-gray-300 truncate block mt-1">
             <DecodeText text={item?.origin_name} />

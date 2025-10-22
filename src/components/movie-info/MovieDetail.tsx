@@ -53,7 +53,7 @@ const MovieDetail = ({ data }: MovieDetailProps) => {
         <DecodeText
           as="p"
           text={data?.origin_name || "Tên gốc: N/A"}
-          className="text-[#ffd875] text-sm truncate-lines-2 lg:text-left text-center"
+          className="text-primary text-sm line-clamp-2 lg:text-left text-center"
         />
         <Box className="flex flex-wrap gap-2 items-center sm:justify-start justify-center">
           <TmdbRatingBadge rating={data?.tmdb?.vote_average} />
@@ -112,7 +112,7 @@ const MovieDetail = ({ data }: MovieDetailProps) => {
               {data?.countries?.map((country, index: number) => (
                 <li
                   key={index}
-                  className="text-gray-400 hover:text-[#ffd875] transition-all"
+                  className="text-gray-400 hover:text-primary transition-all"
                 >
                   <Link href={`/chi-tiet/quoc-gia/${country?.slug}`}>
                     <DecodeText text={country?.name} />

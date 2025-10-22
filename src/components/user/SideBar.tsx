@@ -48,10 +48,8 @@ const SideBar = () => {
             <li key={index}>
               <Link
                 href={item.link}
-                className={`flex md:flex-row whitespace-nowrap flex-col gap-2 items-center lg:text-sm text-xs lg:py-4 lg:px-0 p-2 lg:border-b border-[#2e313a] hover:text-[#ffd875] transition-all
-                    ${
-                      pathname === item.link ? "text-[#ffd875]" : "text-gray-50"
-                    }
+                className={`flex md:flex-row whitespace-nowrap flex-col gap-2 items-center lg:text-sm text-xs lg:py-4 lg:px-0 p-2 lg:border-b border-[#2e313a] hover:text-primary transition-all
+                    ${pathname === item.link ? "text-primary" : "text-gray-50"}
                 `}
               >
                 {item.icon}
@@ -65,7 +63,7 @@ const SideBar = () => {
           <ProfileHeader />
           <Box
             onClick={() => signOut({ callbackUrl: "/" })}
-            className="flex text-gray-50 text-sm cursor-pointer gap-2 hover:text-[#ffd875] items-center py-4 transition-all"
+            className="flex text-gray-50 text-sm cursor-pointer gap-2 hover:text-primary items-center py-4 transition-all"
           >
             <FiLogOut />
             Đăng xuất

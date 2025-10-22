@@ -5,6 +5,7 @@ import { WARN_USER } from "@/constants/setting.contant";
 
 const initialState: SystemSlice = {
   isShowAuthDialog: false,
+  dataTheme: "Default",
   showSnowEffect: null,
   isShowModalSearch: false,
   typeAuth: "signin",
@@ -60,6 +61,9 @@ const systemSlice = createSlice({
     },
     setIsVisiable: (state, action) => {
       state.isVisiable = action.payload;
+    },
+    setDataTheme: (state, action) => {
+      state.dataTheme = action.payload;
     },
     setShowAnimationReposeUser: (state, action) => {
       state.warnUser.repose.showAnimation = action.payload;
@@ -145,6 +149,7 @@ export const {
   setIsShowModalSearch,
   setIsVisiable,
   setLastScrollY,
+  setDataTheme,
   setIsOpenDrawer,
   getShowSnowEffect,
   setTypeAuth,

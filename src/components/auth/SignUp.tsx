@@ -70,7 +70,7 @@ const SignUp = () => {
         Nếu bạn đã có tài khoản,{" "}
         <span
           onClick={() => dispatch(setTypeAuth("signin"))}
-          className="text-[#ffd875] cursor-pointer hover:underline"
+          className="text-primary cursor-pointer hover:underline"
         >
           đăng nhập
         </span>

@@ -51,7 +51,7 @@ const MessageContent = ({ content, role, movies }: MessageContentProps) => {
                   </HoverOutlineWrapper>
                 </Box>
                 <Box className="flex-1 overflow-hidden">
-                  <h3 className="text-sm text-white group-hover:text-[#ffd875] font-semibold line-clamp-2">
+                  <h3 className="text-sm text-white group-hover:text-primary font-semibold line-clamp-2">
                     {movie?.name || "Không xác định"}
                   </h3>
                   <p className="text-xs text-gray-200 mt-0.5 line-clamp-1">

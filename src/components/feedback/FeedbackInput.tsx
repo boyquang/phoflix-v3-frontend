@@ -213,7 +213,7 @@ const FeedbackInput = ({
           size="sm"
           maxWidth={120}
           onClick={handleAddNewComment}
-          className="bg-transparent text-[#ffd875] hover:opacity-80 transition-all"
+          className="bg-transparent text-primary hover:opacity-80 transition-all"
         >
           Gửi
           {pending ? <Spinner size="sm" /> : <IoMdSend />}

@@ -9,16 +9,20 @@ import ActorsList from "../actor/ActorsList";
 import MovieSuggesstions from "@/components/shared/MovieSuggestions";
 import MovieVersionList from "../episode/MovieVersionList";
 import { useEffect, useState } from "react";
-import EpisodeWrapper from "../episode/EpisodeWrapper";
+import {
+  colorSystemConfig,
+  colorSystemDefault,
+} from "@/constants/color.contant";
+import useSetting from "@/hooks/useSetting";
 
 // CSS dùng chung
-const selectedTabStyle = {
-  color: "#ffd875",
-  "&:before": {
-    height: "1px",
-    backgroundColor: "#ffd875",
-  },
-};
+// const selectedTabStyle = {
+//   color: "#ffd875",
+//   "&:before": {
+//     height: "1px",
+//     backgroundColor: "#ffd875",
+//   },
+// };
 
 const contentAnimOpen = {
   animationName: "fade-in",
@@ -45,9 +49,37 @@ const MovieTabs = () => {
   const { isLongSeries, isValidEpisodes } = useSelector(
     (state: RootState) => state.episode
   );
-
+  const [selectedTabStyle, setSelectedTabStyle] = useState({
+    color: colorSystemDefault,
+    "&:before": {
+      height: "1px",
+      backgroundColor: colorSystemDefault,
+    },
+  });
   const [tabsToShow, setTabsToShow] = useState(tabs);
   const [activeTab, setActiveTab] = useState("episodes");
+  const { dataTheme } = useSelector((state: RootState) => state.system);
+  const { getColorSystem } = useSetting();
+
+  const handleSeSelectTabStyle = (colorName: ColorName) => {
+    const colorSystem = getColorSystem(colorName).color;
+    setSelectedTabStyle({
+      color: colorSystem,
+      "&:before": {
+        height: "1px",
+        backgroundColor: colorSystem,
+      },
+    });
+  };
+
+  useEffect(() => {
+    const dataTheme = localStorage.getItem("dataTheme") || "";
+    handleSeSelectTabStyle(dataTheme as ColorName);
+  }, []);
+
+  useEffect(() => {
+    handleSeSelectTabStyle(dataTheme);
+  }, [dataTheme]);
 
   useEffect(() => {
     if (!isValidEpisodes) {

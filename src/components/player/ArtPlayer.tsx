@@ -8,6 +8,10 @@ import { deniedGif } from "@/constants/image.contant";
 import { toast } from "sonner";
 import { socketV2 } from "@/configs/socket.config";
 import { Session } from "next-auth";
+import { colorSystemDefault } from "@/constants/color.contant";
+import { useSelector } from "react-redux";
+import { RootState } from "@/store/store";
+import useSetting from "@/hooks/useSetting";
 
 interface ArtPlayerProps<T = any> {
   source: string | null; // URL nguồn video
@@ -23,7 +27,6 @@ interface ArtPlayerProps<T = any> {
 
 const optionsDefault = {
   autoplay: false,
-  theme: "#ffd875",
   fullscreen: true,
   pip: true,
   setting: true,
@@ -43,6 +46,8 @@ export default function ArtPlayer({
   const artRef = useRef<HTMLDivElement>(null);
   const artInstance = useRef<Artplayer | null>(null);
   const [error, setError] = useState(false);
+  const { dataTheme } = useSelector((state: RootState) => state.system);
+  const { getColorSystem } = useSetting();
 
   const handleHlsVideo = (video: HTMLVideoElement) => {
     if (!source) return;
@@ -69,11 +74,14 @@ export default function ArtPlayer({
   useEffect(() => {
     if (!artRef.current || error || !source) return;
 
+    const currentThemeColor = getColorSystem(dataTheme).color;
+
     const art = new Artplayer({
       ...optionsDefault,
       container: artRef.current,
       url: source,
       poster,
+      theme: currentThemeColor,
       customType: {
         m3u8: function (video, source) {
           if (Hls.isSupported()) {
@@ -118,11 +126,17 @@ export default function ArtPlayer({
     };
   }, [source, poster, options?.currentTime]);
 
+  // Cập nhật màu theme 
   useEffect(() => {
     if (!artInstance.current) return;
+    const currentThemeColor = getColorSystem(dataTheme).color;
+    artInstance.current.theme = currentThemeColor;
+  }, [dataTheme]);
 
+  useEffect(() => {
+    if (!artInstance.current) return;
     const art = artInstance.current;
-
+    
     art.on("ready", () => {
       // Thiết lập thời gian hiện tại nếu được cung cấp trong options
       if (options?.currentTime) {

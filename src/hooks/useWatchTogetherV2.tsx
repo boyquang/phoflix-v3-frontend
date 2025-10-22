@@ -14,7 +14,8 @@ import {
 } from "@/store/async-thunks/watch-together-v2.thunk";
 import { AppDispatch, RootState } from "@/store/store";
 import { useSession } from "next-auth/react";
-import { usePathname, useRouter } from "next/navigation";
+import { usePathname } from "next/navigation";
+import { useRouter } from "nextjs-toploader/app";
 import { useDispatch, useSelector } from "react-redux";
 import { toast } from "sonner";
 import { setEpisode } from "@/store/slices/episode.slice";

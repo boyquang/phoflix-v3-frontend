@@ -38,7 +38,7 @@ export default function ToggleButton({
         className={`text-[10px] px-1 h-5 flex items-center justify-center rounded-sm border bg-transparent whitespace-nowrap
         ${
           toggled
-            ? "border-[#ffd875] text-[#ffd875]"
+            ? "border-primary text-primary"
             : "border-gray-100 text-gray-100"
         }
         `}

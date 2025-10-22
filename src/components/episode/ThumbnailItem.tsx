@@ -46,11 +46,15 @@ const ThumbnailItem = ({
             alt={episode?.name || "thumbnail episode"}
             className="rounded-md group-hover:opacity-75"
           />
-          <BsPlayCircle className="text-4xl absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 text-white group-hover:text-[#ffd875] opacity-0 group-hover:opacity-100 transition-opacity" />
-          {active && <div className="absolute left-0 bottom-0 bg-primary text-black text-xs px-2.5 py-1 rounded-tr-md rounded-bl flex items-center">Đang chiếu</div>}
+          <BsPlayCircle className="text-4xl absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 text-white group-hover:text-primary opacity-0 group-hover:opacity-100 transition-opacity" />
+          {active && (
+            <div className="absolute left-0 bottom-0 bg-primary text-black text-xs px-2.5 py-1 rounded-tr-md rounded-bl flex items-center">
+              Đang chiếu
+            </div>
+          )}
         </div>
       </div>
-      <div className="text-sm text-white truncate group-hover:text-[#ffd875]">
+      <div className="text-sm text-white truncate group-hover:text-primary">
         {episode?.episode_number
           ? `Tập ${episode.episode_number}`
           : episode?.name}

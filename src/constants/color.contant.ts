@@ -209,3 +209,14 @@ export const textBackgrounds = [
   "linear-gradient(235deg, rgb(255, 255, 255) 30%, rgb(255, 111, 0) 130%)",
   "linear-gradient(235deg, rgb(255, 255, 255) 30%, rgb(3, 169, 244) 130%)",
 ];
+
+export const colorSystemConfig: ColorSystemConfig[] = [
+  { name: "Default", color: "#ffd875", label: "Mặc định" },
+  { name: "AquaWave", color: "#00B4D8", label: "Sóng nước" },
+  { name: "LavenderDream", color: "#B57EDC", label: "Mơ tím" },
+  { name: "RoseCine", color: "#FF4D6D", label: "Hồng rực rỡ" },
+  { name: "Emerald", color: "#2DD4BF", label: "Ngọc lục bảo" },
+  { name: "CobaltCine", color: "#3B82F6", label: "Xanh coban" },
+];
+
+export const colorSystemDefault = colorSystemConfig[0].color;

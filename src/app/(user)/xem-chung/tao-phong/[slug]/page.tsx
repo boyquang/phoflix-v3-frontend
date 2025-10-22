@@ -57,7 +57,7 @@ const Page = async ({ searchParams, params }: PageProps) => {
                     <DecodeText
                       as="p"
                       text={movie?.origin_name || "Tên gốc: N/A"}
-                      className="text-[#ffd875] text-sm truncate-lines-2 lg:text-left text-center"
+                      className="text-primary text-sm line-clamp-2 lg:text-left text-center"
                     />
                     <div className="flex flex-wrap gap-2 items-center">
                       <TmdbRatingBadge rating={movie?.tmdb?.vote_average} />

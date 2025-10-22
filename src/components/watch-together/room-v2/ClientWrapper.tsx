@@ -198,7 +198,7 @@ const ClientWrapper = ({ roomId }: ClientWrapperProps) => {
                   <Link
                     target="_blank"
                     href={`/dang-xem/${roomData?.movie?.slug}`}
-                    className="text-sm md:inline-flex hidden text-white hover:text-[#ffd875] no-underline"
+                    className="text-sm md:inline-flex hidden text-white hover:text-primary no-underline"
                   >
                     <IoIosPlayCircle />
                     Xem riêng

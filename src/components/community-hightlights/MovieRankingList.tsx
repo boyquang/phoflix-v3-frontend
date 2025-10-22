@@ -48,7 +48,7 @@ const MovieRatingList = ({ type, items }: MovieRatingListProps) => {
                 href={`/thong-tin-phim/${item.slug}`}
                 className="overflow-hidden inline-block ml-2"
               >
-                <h4 className="truncate lg:text-sm text-xs text-white hover:text-[#ffd875]">
+                <h4 className="truncate lg:text-sm text-xs text-white hover:text-primary">
                   {item.name}
                 </h4>
               </Link>

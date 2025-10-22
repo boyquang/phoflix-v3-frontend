@@ -28,7 +28,7 @@ const CheckboxCustom = ({
     red: "peer checked:bg-red-600 checked:border-red-600",
     green: "peer checked:bg-green-600 checked:border-green-600",
     yellow: "peer checked:bg-yellow-500 checked:border-yellow-500",
-    primary: "peer checked:bg-[#ffd875] checked:border-[#ffd875]",
+    primary: "peer checked:bg-primary checked:border-primary",
   };
 
   return (

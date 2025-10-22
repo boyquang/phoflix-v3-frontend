@@ -6,8 +6,8 @@ import { useDispatch, useSelector } from "react-redux";
 import Image from "../shared/Image";
 import { Button } from "@chakra-ui/react";
 import { setCurrentEpisode } from "@/store/slices/movie.slice";
-import { useRouter } from "next/navigation";
 import { notFoundImage } from "@/constants/image.contant";
+import { useRouter } from "nextjs-toploader/app";
 
 interface MovieVersionListProps {
   movie: Movie;
@@ -56,7 +56,7 @@ const MovieVersionList = ({
       // Cập nhật url query
       changeQuery(newQuery);
       // Cuộn lên đầu trang
-      scrollToTop();
+      scrollToTop(0);
       // Gọi callback nếu có
       if (callbackSocket) callbackSocket(version);
     }
@@ -140,7 +140,7 @@ const MovieVersionList = ({
                     <span>{label}</span>
                   </div>
                 </div>
-                <h4 className="max-w-[90%] truncate-lines-2 text-[1rem] text-gray-50 font-semibold">
+                <h4 className="max-w-[90%] line-clamp-2 text-[1rem] text-gray-50 font-semibold">
                   {movie?.name}
                 </h4>
                 <Button size="xs" className="rounded-md bg-white text-black">

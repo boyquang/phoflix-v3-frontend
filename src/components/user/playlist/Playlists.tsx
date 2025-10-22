@@ -77,7 +77,7 @@ const Playlists = ({ playlists, loading }: PlaylistsProps) => {
                 }
                 ${
                   selectedPlaylistId === playlist?._id
-                    ? "border-[#ffd875]"
+                    ? "border-primary"
                     : "border-[#ffffff10] hover:bg-[#25272f]"
                 }
               `}

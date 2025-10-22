@@ -10,6 +10,7 @@ type WarnUserMode = "sleep-time";
 type Events = Record<string, Event_>;
 
 type SystemSlice = {
+  dataTheme: ColorName;
   isShowAuthDialog: boolean;
   isShowModalSearch: boolean;
   typeAuth: "signin" | "signup" | "forgot-password" | "reset-password";

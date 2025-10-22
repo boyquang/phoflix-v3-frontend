@@ -37,7 +37,7 @@ const HoverOutlineWrapper = ({
   return (
     <div className="relative group">
       <div
-        className={`pointer-events-none ring-[#ffd875] z-2 absolute inset-0.5 transition-all duration-300 opacity-0 group-hover:opacity-100
+        className={`pointer-events-none ring-primary z-2 absolute inset-0.5 transition-all duration-300 opacity-0 group-hover:opacity-100
           ${roundedObj[rounded]}
           ${ringSizeObj[ringSize]}
         `}

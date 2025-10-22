@@ -6,7 +6,7 @@ import { AppDispatch, RootState } from "@/store/store";
 import { Box, Button, Dialog, Input, Portal } from "@chakra-ui/react";
 import React, { useCallback } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { useRouter } from "next/navigation";
+import { useRouter } from 'nextjs-toploader/app';
 import SearchHistory from "./SearchHistory";
 import { IoSearch, IoSearchOutline } from "react-icons/io5";
 import { setIsShowModalSearch } from "@/store/slices/system.slice";
@@ -110,7 +110,7 @@ const SearchDialog = () => {
             <Dialog.Header p={4}>
               <Dialog.Title className="w-full">
                 <InputGroup
-                  startElement={<IoSearchOutline className="text-white"/>}
+                  startElement={<IoSearchOutline className="text-white" />}
                   endElement={
                     <VoiceButton
                       callback={(keyword: string) =>
@@ -153,7 +153,7 @@ const SearchDialog = () => {
                   <Button
                     onClick={() => dispatch(setIsShowModalSearch(false))}
                     size="xl"
-                    className="xs:text-sm text-xs w-full bg-[#ffffff10] text-white hover:text-[#ffd875] rounded-t-none"
+                    className="xs:text-sm text-xs w-full bg-[#ffffff10] text-white hover:text-primary rounded-t-none"
                   >
                     Xem tất cả
                   </Button>

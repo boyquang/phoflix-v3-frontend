@@ -8,8 +8,7 @@ import { Box, IconButton, Popover, Portal } from "@chakra-ui/react";
 import { useState } from "react";
 import { IoMdSettings } from "react-icons/io";
 import CustomTimeReposeUser from "../../warn-user/repose/CustomTimeReposeUser";
-import { useSelector } from "react-redux";
-import { RootState } from "@/store/store";
+import ColorCustomDialog from "@/components/setting/ColorCustomDialog";
 
 const PopoverSetting = () => {
   const [open, setOpen] = useState(false);
@@ -50,6 +49,11 @@ const PopoverSetting = () => {
             <Popover.Body p={4}>
               <div className="flex flex-col gap-4">
                 <SettingItem
+                  label="Tùy chỉnh màu hệ thống"
+                  description="Màu sắc chính của giao diện trên toàn bộ trang web"
+                  control={<ColorCustomDialog />}
+                />
+                <SettingItem
                   label="Hiệu ứng tuyết rơi"
                   description="Hiệu ứng tuyết rơi trong dịp Giáng sinh"
                   control={<SwitchSnowEffect />}
@@ -60,7 +64,7 @@ const PopoverSetting = () => {
                   control={<SwitchReduceMotion />}
                 />
                 <SettingItem
-                  label="Chế độ nghỉ ngơi"
+                  label="Chế độ nhắc nhở"
                   description="Tự động nhắc nhở bạn đi ngủ theo lịch trình"
                   control={<SwitchReposeUser />}
                   custom={<CustomTimeReposeUser />}

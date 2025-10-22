@@ -58,7 +58,7 @@ const SeeMoreMovieRequest = ({
   return (
     <span
       onClick={handleSeeMoreMovieRequest}
-      className="text-[#ffd875] text-sm mt-6 inline-flex  gap-1 items-center cursor-pointer hover:underline"
+      className="text-primary text-sm mt-6 inline-flex  gap-1 items-center cursor-pointer hover:underline"
     >
       Xem thêm
       {pending ? <Spinner size="sm" /> : <FaAngleDown />}

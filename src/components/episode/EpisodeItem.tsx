@@ -52,11 +52,11 @@ const EpisodeItem = ({
   const classNameEpisode = `flex w-full items-center justify-center flex-wrap rounded-md gap-x-1 min-h-[50px] max-h-[64px] px-2 shadow break-words transition-all ${
     isCurrentEpisode && !redirect
       ? "bg-primary text-[#282b3a]"
-      : "text-gray-50 bg-[#282B3A] hover:text-[#ffd875]"
+      : "text-gray-50 bg-[#282B3A] hover:text-primary"
   }`;
 
   const classNameEpisodeName =
-    "block max-w-full lg:text-xs truncate-lines-2 text-[10px] font-semibold";
+    "block max-w-full lg:text-xs line-clamp-2 text-[10px] font-semibold";
 
   if (redirect) {
     return (

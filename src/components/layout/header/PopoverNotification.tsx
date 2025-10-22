@@ -117,7 +117,7 @@ const PopoverNotification = () => {
                   <Link
                     onClick={() => dispatch(setOpenNotification(false))}
                     href={`/nguoi-dung/thong-bao?tab=${activeTab}`}
-                    className="text-sm hover:text-[#ffd875] text-gray-200 w-full h-full block p-2 text-center"
+                    className="text-sm hover:text-primary text-gray-200 w-full h-full block p-2 text-center"
                   >
                     Xem tất cả
                   </Link>

@@ -114,7 +114,7 @@ const FavoriteButton = ({
       className={`p-2 select-none sm:min-w-16 cursor-pointer rounded-lg flex justify-center items-center gap-2 transition-all hover:bg-[#ffffff05] 
           ${placement === "vertical" ? "flex-col" : "flex-row"}
           ${loading ? "opacity-50" : ""}
-          ${favorite ? "text-[#ffd875]" : "text-gray-50"}
+          ${favorite ? "text-primary" : "text-gray-50"}
         `}
     >
       {loading ? (

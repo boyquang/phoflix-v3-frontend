@@ -30,8 +30,8 @@ const MovieInfo = () => {
           {movieData?.movieOriginName || "Không xác định"}
         </p>
         <Box className="flex flex-wrap gap-2 items-center">
-          <span className="bg-transparent border border-[#ffd875] h-6 justify-center p-1 rounded-md inline-flex items-center">
-            <span className="text-[#ffd875] text-xs">TMDb</span>
+          <span className="bg-transparent border border-primary h-6 justify-center p-1 rounded-md inline-flex items-center">
+            <span className="text-primary text-xs">TMDb</span>
             <span className="text-gray-50 text-sm ml-1">
               {Number(movieData?.voteAverage).toFixed(1) || 0}
             </span>
@@ -40,9 +40,7 @@ const MovieInfo = () => {
           <TagClassic text={movieData?.movieYear || "Năm: N/A"} />
           <TagClassic text={movieData?.movieLang || "Ngôn ngữ: N/A"} />
           <TagClassic text={movieData?.movieTime || "Thời gian: N/A"} />
-          <TagClassic
-            text={movieData?.movieEpisodeCurrent || "Tập: N/A"}
-          />
+          <TagClassic text={movieData?.movieEpisodeCurrent || "Tập: N/A"} />
         </Box>
       </Box>
     </Box>

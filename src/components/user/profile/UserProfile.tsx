@@ -144,7 +144,7 @@ const UserProfile = () => {
           <Box className="md:max-w-24 max-w-full mt-6">
             <Button
               onClick={handleUpdateUserProfile}
-              className="w-full rounded-lg shadow-primary bg-[#ffda7d] text-[#1e2939]"
+              className="w-full rounded-lg shadow-primary bg-primary text-[#1e2939]"
               size="sm"
               disabled={loading}
             >

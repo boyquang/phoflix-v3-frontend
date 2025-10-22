@@ -7,7 +7,8 @@ import {
 import { setIsShowAuthDialog, setTypeAuth } from "@/store/slices/system.slice";
 import { AppDispatch } from "@/store/store";
 import { Box } from "@chakra-ui/react";
-import { useRouter, useSearchParams } from "next/navigation";
+import { useSearchParams } from "next/navigation";
+import { useRouter } from "nextjs-toploader/app";
 import { useEffect } from "react";
 import { useDispatch } from "react-redux";
 import { toast } from "sonner";
@@ -69,7 +70,7 @@ const ClientWrapper = () => {
 
   return (
     <Box className="flex justify-center items-center min-h-screen">
-      <h1 className="text-[#ffd875] lg:text-lg text-sm font-semibold">
+      <h1 className="text-primary lg:text-lg text-sm font-semibold">
         Đang xác thực token, vui lòng chờ trong giây lát...
       </h1>
     </Box>

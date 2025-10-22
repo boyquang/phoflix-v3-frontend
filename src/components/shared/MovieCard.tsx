@@ -113,7 +113,7 @@ const MovieCard = ({ data, orientation }: MovieItemProps) => {
               WebkitBoxOrient: "vertical",
               overflow: "hidden",
             }}
-            className="text-gray-50 font-semibold text-xs group-hover:text-[#ffd875] lg:text-sm transition-all"
+            className="text-gray-50 font-semibold text-xs group-hover:text-primary lg:text-sm transition-all"
           >
             <DecodeText text={data?.name} />
           </span>

@@ -70,7 +70,7 @@ const EditableInfo = ({
         </Editable.CancelTrigger>
         <Editable.SubmitTrigger asChild>
           <IconButton
-            className="border border-[#ffffff10] hover:border-[#ffd875] hover:text-[#ffd875] text-white bg-transparent rounded-full"
+            className="border border-[#ffffff10] hover:border-primary hover:text-primary text-white bg-transparent rounded-full"
             size="xs"
           >
             <LuCheck />

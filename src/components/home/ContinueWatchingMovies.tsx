@@ -53,7 +53,7 @@ const ContinueWatchingMovies = () => {
         </h3>
         <Link
           href="/nguoi-dung/lich-su-xem"
-          className="px-2 py-1 rounded-full border border-[#fff5] flex text-gray-50 text-sm gap-0.5 hover:text-[#ffd875] items-center transition-all"
+          className="px-2 py-1 rounded-full border border-[#fff5] flex text-gray-50 text-sm gap-0.5 hover:text-primary items-center transition-all"
         >
           Xem thêm
           <FaChevronRight />

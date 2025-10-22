@@ -30,7 +30,7 @@ const CategoryAndCountryList = ({
         {data.map((item) => (
           <li key={item._id}>
             <Link
-              className="rounded-sm hover:bg-[#ffffff05] text-sm block hover:text-[#ffd875] px-4 py-2 transition"
+              className="rounded-sm hover:bg-[#ffffff05] text-sm block hover:text-primary px-4 py-2 transition"
               href={`/chi-tiet/${type}/${item.slug}`}
             >
               {item.name}

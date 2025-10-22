@@ -59,7 +59,7 @@ const MovieTooltip = ({
         <DecodeText
           as="p"
           text={data?.origin_name || "Không xác định"}
-          className="text-[#ffd875] text-sm"
+          className="text-primary text-sm"
         />
         <Box className="flex gap-4 items-center mb-4 mt-2">
           <Link href={`/dang-xem/${data?.slug}`}>

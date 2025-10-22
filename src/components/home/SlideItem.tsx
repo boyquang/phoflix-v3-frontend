@@ -8,7 +8,7 @@ import InfoIcon from "@/components/icons/InfoIcon";
 import OverlayFade from "@/components/shared/OverlayFade";
 import Image from "@/components/shared/Image";
 import { TagClassic } from "@/components/shared/TagClassic";
-import { useRouter } from "next/navigation";
+import { useRouter } from 'nextjs-toploader/app';
 import DecodeText from "../shared/DecodeText";
 import TmdbRatingBadge from "../shared/TmdbRatingBadge";
 import BadgeCustom from "../shared/BadgeCustom";
@@ -51,7 +51,7 @@ const SlideItem = ({ item }: SlideItemProps) => {
         <DecodeText
           as="h4"
           text={item?.name}
-          className="text-gradient-primary lg:text-4xl md:text-2xl font-semibold lg:inline-block truncate-lines-2 block text-xl lg:text-left text-center mb-2"
+          className="text-gradient-primary lg:text-4xl md:text-2xl font-semibold lg:inline-block line-clamp-2 block text-xl lg:text-left text-center mb-2"
         />
         <DecodeText
           as="p"

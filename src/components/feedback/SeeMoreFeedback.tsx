@@ -11,7 +11,7 @@ const SeeMoreFeedback = ({ callback, loading }: SeeMoreFeedbackProps) => {
   return (
     <Box
       onClick={callback}
-      className="py-4 text-sm text-[#ffd875] cursor-pointer inline-flex items-center gap-2"
+      className="py-4 text-sm text-primary cursor-pointer inline-flex items-center gap-2"
     >
       <Box className="flex gap-1 text-xs items-center">
         <span>{loading ? "Đang tải thêm" : "Xem thêm"}</span>

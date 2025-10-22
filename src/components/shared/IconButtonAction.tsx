@@ -29,8 +29,8 @@ const IconButtonAction = ({
 
   const classNames = {
     create:
-      "border border-[#ffffff10] text-white bg-transparent rounded-full hover:border-[#ffd875] hover:text-[#ffd875] transition",
-    edit: "border border-[#ffffff10] text-white bg-transparent rounded-full hover:border-[#ffd875] hover:text-[#ffd875] transition",
+      "border border-[#ffffff10] text-white bg-transparent rounded-full hover:border-primary hover:text-primary transition",
+    edit: "border border-[#ffffff10] text-white bg-transparent rounded-full hover:border-primary hover:text-primary transition",
     delete:
       "border border-[#ffffff10] text-white bg-transparent rounded-full hover:border-red-500 hover:text-red-500 transition",
     check:

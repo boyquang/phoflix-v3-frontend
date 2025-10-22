@@ -13,16 +13,15 @@ const SettingItem = ({
   control,
   custom,
 }: SettingItemProps) => (
-  <li className="flex items-center justify-between gap-6">
+  <li className="flex items-start justify-between gap-6">
     <div className="flex-1">
       <div className="xs:text-sm text-xs">
-        {" "}
         <span className="text-gray-200">{label}</span>
         {description && <span className="text-gray-400"> ({description})</span>}
         {custom && <div className="inline-block">{custom}</div>}
       </div>
     </div>
-    {control}
+    <div className="mt-1">{control}</div>
   </li>
 );
 

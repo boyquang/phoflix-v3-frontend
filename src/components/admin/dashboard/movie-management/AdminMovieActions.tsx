@@ -8,7 +8,7 @@ import { useState } from "react";
 import { deleteMovie } from "@/lib/actions/movie.action";
 import { syncMovieData } from "@/lib/actions/crawl-movies.action";
 import { toast } from "sonner";
-import { useRouter } from "next/navigation";
+import { useRouter } from 'nextjs-toploader/app';
 import { useSession } from "next-auth/react";
 
 interface AdminMovieActionsProps {

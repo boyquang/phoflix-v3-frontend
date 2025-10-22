@@ -6,6 +6,7 @@ import NextTopLoader from "nextjs-toploader";
 import App from "@/components/App";
 import { SessionProvider } from "next-auth/react";
 import "./globals.css";
+import Toploader from "@/components/Toploader";
 
 const inter = Inter({
   subsets: ["latin", "vietnamese"],
@@ -37,7 +38,7 @@ export default async function RootLayout({
   return (
     <html suppressHydrationWarning lang="vi">
       <body className={`antialiased`}>
-        <NextTopLoader color="#ffd875" showSpinner={false} height={2} />
+        <Toploader />
         <StoreProvider>
           <Provider>
             <SessionProvider>

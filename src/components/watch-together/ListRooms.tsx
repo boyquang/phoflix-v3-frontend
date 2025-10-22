@@ -110,7 +110,7 @@ const ListRooms = ({ scope = "all", rooms, classNameGrid }: ListRoomsProps) => {
                     onClick={() => {
                       handleJoinRoom(room?._id);
                     }}
-                    className="text-white cursor-pointer font-semibold hover:text-[#FFD875] line-clamp-2 transition-all duration-300"
+                    className="text-white cursor-pointer font-semibold hover:text-primary line-clamp-2 transition-all duration-300"
                   >
                     {room?.roomName}
                   </div>

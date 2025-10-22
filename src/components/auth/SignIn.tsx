@@ -85,7 +85,7 @@ const SignIn = () => {
         Nếu bạn chưa có tài khoản,{" "}
         <span
           onClick={() => dispatch(setTypeAuth("signup"))}
-          className="text-[#ffd875] cursor-pointer hover:underline"
+          className="text-primary cursor-pointer hover:underline"
         >
           đăng ký ngay
         </span>

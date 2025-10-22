@@ -107,7 +107,7 @@ const FilterBox = () => {
               <button
                 disabled={pending}
                 onClick={() => handleSearch()}
-                className={`rounded-full inline-flex items-center gap-2 text-sm cursor-pointer px-4 h-10 shadow-primary bg-[#ffda7d] text-[#1e2939] disabled:cursor-not-allowed disabled:opacity-50`}
+                className={`rounded-full inline-flex items-center gap-2 text-sm cursor-pointer px-4 h-10 shadow-primary bg-primary text-[#1e2939] disabled:cursor-not-allowed disabled:opacity-50`}
               >
                 {pending && <Spinner size="sm" />}
                 Lọc kết quả

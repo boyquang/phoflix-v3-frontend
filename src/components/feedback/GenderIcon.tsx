@@ -9,7 +9,7 @@ interface GenderIconProps {
 
 const GenderIcon = ({ gender }: GenderIconProps) => {
   return (
-    <Box className="text-[#ffd875] xs:block hidden">
+    <Box className="text-primary xs:block hidden">
       {gender === "male" && <FaMars />}
       {gender === "female" && <FaVenus />}
       {gender === "other" && <FaInfinity />}

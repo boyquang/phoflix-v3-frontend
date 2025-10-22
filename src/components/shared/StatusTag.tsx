@@ -23,7 +23,7 @@ const StatusTag = ({
     sm: "text-[10px] h-4 px-1 py-0.5",
     md: "text-[10px] h-5 px-2 py-1",
     lg: "text-[12px] h-6 px-3 py-1.5",
-  }
+  };
 
   return (
     <Box
@@ -31,7 +31,7 @@ const StatusTag = ({
           ${
             bordered
               ? "bg-primary linear-gradient text-gray-900 font-semibold"
-              : "bg-transparent border border-[#ffd875] text-[#ffd875]"
+              : "bg-transparent border border-primary text-primary"
           }
           ${uppercase ? "uppercase" : "capitalize"}
           ${rounded ? rounded : "rounded-sm"} 

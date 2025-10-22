@@ -53,9 +53,7 @@ const SwitchCustom = ({
       )}
       <Box
         className={`border rounded-4xl w-[30px] h-5 relative flex-shrink-0 transition-all duration-300 ease-in-out ${
-          isChecked
-            ? "border-[#ffd875] opacity-100"
-            : "border-gray-50 opacity-30"
+          isChecked ? "border-primary opacity-100" : "border-gray-50 opacity-30"
         }`}
       >
         <span

@@ -69,7 +69,7 @@ const PopoverMovieRequest = ({
           disabled={processed}
           onClick={() => setOpen(!open)}
           size="xs"
-          className="border border-[#ffffff10] text-white bg-transparent rounded-md hover:border-[#ffd875] hover:text-[#ffd875] transition"
+          className="border border-[#ffffff10] text-white bg-transparent rounded-md hover:border-primary hover:text-primary transition"
         >
           {processed ? "Đã xử lý" : "Xử lý"}
         </Button>

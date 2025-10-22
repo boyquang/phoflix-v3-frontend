@@ -41,7 +41,7 @@ const Token = ({ token, loading, callback }: TokenProps) => {
       <IconButton
         disabled={loading}
         size="xs"
-        className="border border-[#ffffff10] bg-transparent rounded-full hover:text-[#ffd875] hover:border-[#ffd875]"
+        className="border border-[#ffffff10] bg-transparent rounded-full hover:text-primary hover:border-primary"
       >
         {isShowToken ? <FaEyeSlash /> : <FaEye />}
       </IconButton>

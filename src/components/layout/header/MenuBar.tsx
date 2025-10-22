@@ -42,11 +42,12 @@ const MenuBar = () => {
         return (
           <li
             key={index}
-            className="items-center relative inline-flex text-white hover:text-[#ffd875]">
+            className="items-center relative inline-flex text-white hover:text-primary"
+          >
             <Link
               href={item.path}
               className={`p-2 text-sm relative ${
-                pathname === item.path ? "text-[#ffd875]" : ""
+                pathname === item.path ? "text-primary" : ""
               }`}
             >
               {item.name}

@@ -82,7 +82,7 @@ const ChooseAvatarDialog = () => {
       <Dialog.Trigger asChild>
         <Button
           size="xs"
-          className="text-xs bg-white text-black hover:opacity-75 rounded-lg"
+          className="text-xs bg-[#25272f] bg-opacity-50 text-white hover:opacity-75 rounded-lg"
         >
           Đổi ảnh đại diện
         </Button>
@@ -136,7 +136,7 @@ const ChooseAvatarDialog = () => {
               <Button
                 onClick={handleUpdateUserProfile}
                 size="xs"
-                className="min-w-24 bg-[#ffda7d] text-gray-800 shadow-primary"
+                className="min-w-24 bg-primary text-gray-800 shadow-primary"
                 disabled={loading || uploading}
               >
                 Lưu lại

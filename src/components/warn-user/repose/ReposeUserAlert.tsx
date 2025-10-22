@@ -4,7 +4,8 @@ import { Button, Dialog, Portal } from "@chakra-ui/react";
 import { useEffect } from "react";
 import { appConfig } from "@/configs/app.config";
 import { WARN_USER, TIME_SLEEP } from "@/constants/setting.contant";
-import { usePathname, useRouter } from "next/navigation";
+import { usePathname } from "next/navigation";
+import { useRouter } from 'nextjs-toploader/app';
 import { AppDispatch, RootState } from "@/store/store";
 import { useDispatch, useSelector } from "react-redux";
 import {

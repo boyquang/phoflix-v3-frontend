@@ -36,7 +36,7 @@ const MovieTopicList = ({ data }: MovieTopicListProps) => {
               </h4>
               <Link
                 href={item.link}
-                className="text-sm text-white flex items-center hover:text-[#ffd875]"
+                className="text-sm text-white flex items-center hover:text-primary"
               >
                 Xem toàn bộ
                 <RiArrowRightWideLine />

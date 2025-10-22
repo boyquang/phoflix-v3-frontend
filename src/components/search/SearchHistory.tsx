@@ -108,7 +108,7 @@ const SearchHistory = () => {
             </Link>
             <IconButton
               onClick={() => handleDeleteSearchHistory(item?.id, setIdDelete)}
-              className="flex-shrink-0 bg-transparent hover:text-[#ffd875] text-gray-50"
+              className="flex-shrink-0 bg-transparent hover:text-primary text-gray-50"
               aria-label="delete"
               size="xs"
               loading={idDelete === item?.id}
