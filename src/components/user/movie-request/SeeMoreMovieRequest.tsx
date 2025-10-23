@@ -6,7 +6,6 @@ import { useSession } from "next-auth/react";
 import { useSearchParams } from "next/navigation";
 import { useEffect, useState, useTransition } from "react";
 import { FaAngleDown } from "react-icons/fa6";
-import { MovieRequest } from "./MovieRequests";
 import { getMovieRequests } from "@/lib/actions/movie-request-server.action";
 
 interface SeeMoreMovieRequestProps {

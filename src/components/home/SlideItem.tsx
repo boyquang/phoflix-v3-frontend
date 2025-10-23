@@ -51,7 +51,7 @@ const SlideItem = ({ item }: SlideItemProps) => {
         <DecodeText
           as="h4"
           text={item?.name}
-          className="text-gradient lg:text-4xl md:text-2xl font-semibold lg:inline-block line-clamp-2 block text-xl lg:text-left text-center lg:mb-2"
+          className="text-gradient lg:text-4xl md:text-2xl font-semibold lg:inline-block line-clamp-2 block text-xl lg:text-left text-center"
         />
         <DecodeText
           as="p"

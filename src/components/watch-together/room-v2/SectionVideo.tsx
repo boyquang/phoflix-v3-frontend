@@ -52,8 +52,12 @@ const SectionVideo = ({ movie, status, session }: SectionVideoProps) => {
 
   const debouncedHandleSeek = debounce(handleSeek, 300);
 
+  console.log("SectionVideo rendered. videoLoaded:", videoLoaded);
+
   return (
-    <PlayerWrapper options={{ loading: !videoLoaded }}>
+    <PlayerWrapper
+      options={{ loading: !videoLoaded, className: "xl:h-[calc(100vh-9rem)] xl:pb-0" }}
+    >
       <ArtPlayer
         options={{
           currentTime: videoPlayer.currentTime || 0,

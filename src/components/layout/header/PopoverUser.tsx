@@ -69,11 +69,21 @@ const PopoverUser = () => {
   const pathname = usePathname();
   const { data: session } = useSession();
   const [open, setOpen] = useState(false);
+  const [loadingSignOut, setLoadingSignOut] = useState(false);
 
   // Chỉ hiển thị bảng điều khiển cho admin
   if (session?.user?.role === "member") {
     menu = menu.filter((item) => item.link !== "/dashboard/user-management");
   }
+
+  const handleSignOut = async () => {
+    setLoadingSignOut(true);
+    try {
+      await signOut({ callbackUrl: window.location.href });
+    } catch (error) {
+      setLoadingSignOut(false);
+    }
+  };
 
   return (
     <Popover.Root
@@ -134,10 +144,10 @@ const PopoverUser = () => {
 
                 <li>
                   <Box
-                    onClick={() =>
-                      signOut({ callbackUrl: window.location.href })
-                    }
-                    className="px-4 cursor-pointer py-2 transition-all hover:bg-[#ffffff05] flex gap-2 items-center truncate"
+                    onClick={handleSignOut}
+                    className={`px-4 cursor-pointer py-2 transition-all hover:bg-[#ffffff05] flex gap-2 items-center truncate ${
+                      loadingSignOut ? "opacity-50 pointer-events-none" : ""
+                    }`}
                   >
                     <FiLogOut />
                     Đăng xuất

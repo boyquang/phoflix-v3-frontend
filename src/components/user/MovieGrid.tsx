@@ -1,18 +1,10 @@
 "use client";
 
 import EmptyData from "@/components/shared/EmptyData";
-import { deleteMovie } from "@/lib/actions/user-movie.action";
-import { AppDispatch, RootState } from "@/store/store";
 import { SimpleGrid } from "@chakra-ui/react";
-import { usePathname, useRouter, useSearchParams } from "next/navigation";
-import { useEffect, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { useState } from "react";
 import MovieItem from "./MovieItem";
-import { useSession } from "next-auth/react";
 import { RiMovieFill } from "react-icons/ri";
-import { toast } from "sonner";
-import { setTriggerRefresh } from "@/store/slices/system.slice";
-import { setPlaylistByKey } from "@/store/slices/user.slice";
 import useUserMovie from "@/hooks/useUserMovie";
 
 interface MovieGridProps {
@@ -37,61 +29,8 @@ const descriptionMapping: Record<string, string> = {
 };
 
 const MovieGrid = ({ items, columns, type }: MovieGridProps) => {
-  const router = useRouter();
-  const searchParams = useSearchParams();
-  const { selectedPlaylistId } = useSelector(
-    (state: RootState) => state.user.playlist
-  );
-  const pathname = usePathname();
-  const { data: session } = useSession();
   const [idDelete, setIdDelete] = useState<string | null>(null);
-  const dispatch: AppDispatch = useDispatch();
   const { handleDeleteMovie } = useUserMovie({ items });
-
-  // const updatePageAndRefresh = (newPage: number) => {
-  //   const params = new URLSearchParams(searchParams.toString());
-  //   params.set("page", newPage.toString());
-  //   router.replace(`?${params.toString()}`);
-  //   router.refresh();
-  // };
-
-  // useEffect(() => {
-  //   const currentPage = Number(searchParams.get("page")) || 1;
-
-  //   if ((!items || items.length === 0) && currentPage > 1) {
-  //     updatePageAndRefresh(currentPage - 1);
-  //   }
-  // }, [items, searchParams]);
-
-  // const handleDeleteMovie = async (movieId: string) => {
-  //   try {
-  //     setIdDelete(movieId);
-  //     const response = await deleteMovie({
-  //       type,
-  //       playlistId:
-  //         pathname === "/nguoi-dung/danh-sach-phat" ? selectedPlaylistId : null,
-  //       movieId,
-  //       accessToken: session?.user?.accessToken as string,
-  //     });
-
-  //     if (response?.status) {
-  //       if (pathname === "/nguoi-dung/danh-sach-phat") {
-  //         // Nếu đang ở trang danh sách phát thì làm mới lại danh sách phát
-  //         dispatch(setPlaylistByKey({ key: "refreshMovies" }));
-  //       } else {
-  //         dispatch(setTriggerRefresh()); // làm mới lại danh sách phim
-  //       }
-
-  //       toast.success(response?.message);
-  //     } else {
-  //       toast.error(response?.message);
-  //     }
-  //   } catch (error) {
-  //     toast.error("Đã xảy ra lỗi. Vui lòng thử lại sau.");
-  //   } finally {
-  //     setIdDelete(null);
-  //   }
-  // };
 
   if (!items || items?.length === 0) {
     return (

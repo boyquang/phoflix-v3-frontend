@@ -3,10 +3,12 @@
 import Image from "next/image";
 import RootLayout from "./RootLayout";
 import Link from "next/link";
-import GithubIcon from "../icons/GithubIcon";
-import TelegramIcon from "../icons/TelegramIcon";
 import { usePathname } from "next/navigation";
 import { hiddenPaths } from "@/constants/path.contant";
+import { appConfig } from "@/configs/app.config";
+import { Icon } from "@chakra-ui/react";
+
+const footer = appConfig.footer;
 
 const Footer = () => {
   const pathname = usePathname();
@@ -48,22 +50,17 @@ const Footer = () => {
           <div className="col-span-12 md:col-span-12 lg:col-span-12 xl:col-span-4">
             <h3 className="text-xl font-bold text-primary">Liên hệ với tôi</h3>
             <div className="flex flex-col gap-4 mt-3">
-              <Link
-                href="https://github.com/phohoccode"
-                target="_blank"
-                className="text-md text-gray-50 inline-flex gap-2 items-center transition duration-300 ease-in-out hover:text-primary hover:underline"
-              >
-                <GithubIcon />
-                <span>Github</span>
-              </Link>
-              <Link
-                href="https://t.me/phohoccode_04"
-                target="_blank"
-                className="text-md text-gray-50 inline-flex gap-2 items-center transition duration-300 ease-in-out hover:text-primary hover:underline"
-              >
-                <TelegramIcon />
-                <span>Telegram</span>
-              </Link>
+              {footer.links.map((link) => (
+                <Link
+                  key={link.name}
+                  href={link.url}
+                  target="_blank"
+                  className="text-md text-gray-50 inline-flex gap-2 items-center transition duration-300 ease-in-out hover:text-primary hover:underline"
+                >
+                  <Icon as={link.icon} boxSize={5} />
+                  <span>{link.name}</span>
+                </Link>
+              ))}
             </div>
           </div>
 
@@ -86,7 +83,7 @@ const Footer = () => {
 
           <div className="col-span-12">
             <p className="text-center text-sm text-gray-100">
-              © 2025 - Phát triển bởi phohoccode
+              {footer.copyright}
             </p>
           </div>
         </div>

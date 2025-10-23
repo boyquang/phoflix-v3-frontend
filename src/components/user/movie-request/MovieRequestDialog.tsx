@@ -20,6 +20,9 @@ import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { appConfig } from "@/configs/app.config";
 import { toast } from "sonner";
+import { AppDispatch } from "@/store/store";
+import { useDispatch } from "react-redux";
+import { setRefreshMovieRequests } from "@/store/slices/user.slice";
 
 const { dialog } = appConfig.chakra;
 const motionPresetDefault = dialog.motionPresetDefault;
@@ -35,8 +38,8 @@ interface FormValues {
 const MovieRequestDialog = () => {
   const [open, setOpen] = useState(false);
   const [loading, setLoading] = useState(false);
-  const router = useRouter();
   const { data: session } = useSession();
+  const dispatch: AppDispatch = useDispatch();
 
   const {
     register: rhfMovieRequest,
@@ -69,7 +72,7 @@ const MovieRequestDialog = () => {
       if (response?.status) {
         setOpen(false);
         reset();
-        router.refresh();
+        dispatch(setRefreshMovieRequests());
         toast.success(response?.message);
       } else {
         toast.error(

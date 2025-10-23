@@ -65,9 +65,10 @@ const DrawerCustom = ({ isOpen, onClose }: DrawerCustomProps) => {
                         className="text-sm flex gap-2 items-center p-2 w-full rounded-sm transition-all hover:bg-[#ffffff05]"
                       >
                         {item.name}
-                        {item.status !== FeatureStatus.ACTIVE && (
-                          <StatusTag text={item.status} bordered />
-                        )}
+                        {item?.status &&
+                          item.status !== FeatureStatus.ACTIVE && (
+                            <StatusTag text={item.status} bordered />
+                          )}
                       </Link>
                     </li>
                   );

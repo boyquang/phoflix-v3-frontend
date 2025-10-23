@@ -80,6 +80,9 @@ type UserSlice = {
       name: string;
     } | null;
   };
+  movieRequest: {
+    refreshMovieRequests: boolean;
+  }
   autoNextEpisode: boolean;
   cinemaMode: boolean;
 };

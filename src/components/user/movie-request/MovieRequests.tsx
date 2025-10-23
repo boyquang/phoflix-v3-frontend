@@ -13,7 +13,7 @@ import {
   statusShowAdminResponse,
 } from "@/constants/movie-request.contant";
 
-export interface MovieRequest {
+export interface IMovieRequest {
   id: string;
   movie_name: string;
   description: string | null;

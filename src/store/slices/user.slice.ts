@@ -16,6 +16,9 @@ const initialState: UserSlice = {
     keyword: "",
     fetched: false,
   },
+  movieRequest: {
+    refreshMovieRequests: false,
+  },
   reviews: {
     items: [],
     loading: false,
@@ -86,6 +89,10 @@ const userSlice = createSlice({
     setKeyWord: (state, action) => {
       state.searchHistory.keyword = action.payload;
     },
+    setRefreshMovieRequests: (state) => {
+      state.movieRequest.refreshMovieRequests =
+        !state.movieRequest.refreshMovieRequests;
+    },
     setSelectedReview: (state, action) => {
       state.reviews.selectedReview = action.payload;
     },
@@ -137,7 +144,7 @@ const userSlice = createSlice({
     setCinemaMode: (state, action: PayloadAction<boolean>) => {
       state.cinemaMode = action.payload;
       localStorage.setItem("cinema_mode", action.payload ? "1" : "0");
-    }
+    },
   },
   extraReducers: (builder) => {
     builder.addCase(getUserSearchHistory.pending, (state) => {
@@ -206,6 +213,7 @@ export const {
   setSelectedFilterTabsAvatar,
   setReportDescription,
   setFetched,
+  setRefreshMovieRequests,
   setSelectedMovieIds,
   setPlaylistByKey,
   setMovieViewingStatus,

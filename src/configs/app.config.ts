@@ -1,3 +1,6 @@
+import GithubIcon from "@/components/icons/GithubIcon";
+import TelegramIcon from "@/components/icons/TelegramIcon";
+
 export type FeatureStatusType =
   (typeof FeatureStatus)[keyof typeof FeatureStatus];
 
@@ -5,9 +8,6 @@ interface AppConfig {
   appName: string;
   feature: {
     watchingTogether: {
-      status: FeatureStatusType;
-    };
-    advancedFilter: {
       status: FeatureStatusType;
     };
   };
@@ -23,6 +23,15 @@ interface AppConfig {
         | "none"
         | undefined;
     };
+  };
+  footer: {
+    links: {
+      name: string;
+      url: string;
+      icon?: React.ElementType;
+    }[];
+    copyright: string;
+    icon?: React.ElementType;
   };
 }
 
@@ -66,9 +75,6 @@ export const appConfig: AppConfig = {
   appName: "PHOFLIX-V3",
   feature: {
     watchingTogether: {
-      status: FeatureStatus.ACTIVE,
-    },
-    advancedFilter: {
       status: FeatureStatus.ACTIVE,
     },
   },
@@ -153,5 +159,20 @@ export const appConfig: AppConfig = {
     "/dashboard/user-management": {
       status: FeatureStatus.ACTIVE,
     },
+  },
+  footer: {
+    links: [
+      {
+        name: "Github",
+        url: "https://github.com/phohoccode",
+        icon: GithubIcon,
+      },
+      {
+        name: "Telegram",
+        url: "https://t.me/phohoccode_04",
+        icon: TelegramIcon,
+      },
+    ],
+    copyright: "© 2025 - Phát triển bởi phohoccode",
   },
 };

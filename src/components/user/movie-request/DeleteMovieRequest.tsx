@@ -2,11 +2,13 @@
 
 import AlertDialog from "@/components/shared/AlertDialog";
 import { deleteMovieRequest } from "@/lib/actions/movie-request-server.action";
+import { setRefreshMovieRequests } from "@/store/slices/user.slice";
+import { AppDispatch } from "@/store/store";
 import { IconButton } from "@chakra-ui/react";
 import { useSession } from "next-auth/react";
-import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { MdDelete } from "react-icons/md";
+import { useDispatch } from "react-redux";
 import { toast } from "sonner";
 
 interface DeleteMovieRequestProps {
@@ -15,8 +17,8 @@ interface DeleteMovieRequestProps {
 
 const DeleteMovieRequest = ({ movieRequestId }: DeleteMovieRequestProps) => {
   const [loading, setLoading] = useState(false);
-  const router = useRouter();
   const { data: session } = useSession();
+  const dispatch: AppDispatch = useDispatch();
 
   const handleDeleteMovieRequest = async () => {
     try {
@@ -27,7 +29,7 @@ const DeleteMovieRequest = ({ movieRequestId }: DeleteMovieRequestProps) => {
       });
 
       if (response?.status) {
-        router.refresh();
+        dispatch(setRefreshMovieRequests());
         toast.success(response?.message);
       } else {
         toast.error(response?.message);

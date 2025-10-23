@@ -126,7 +126,7 @@ const ClientWrapper = ({ roomId }: ClientWrapperProps) => {
         <div className="relative">
           <div className="relative flex items-center justify-center bg-black">
             {isRoomInactive ? (
-              <div className="relative h-0 pb-[56.25%] z-10 w-full">
+              <div className="relative xl:h-[calc(100vh-9rem)] h-0 xl:pb-0 pb-[56.25%] z-10 w-full">
                 <div className="opacity-50 select-none">
                   <Image
                     src={roomData?.movie?.thumb_url || ""}

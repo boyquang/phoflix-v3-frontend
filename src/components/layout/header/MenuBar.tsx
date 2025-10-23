@@ -11,14 +11,13 @@ import MovieCatalog from "./MovieCatalog";
 import StatusTag from "@/components/shared/StatusTag";
 import { appConfig, FeatureStatus } from "@/configs/app.config";
 
-const { watchingTogether, advancedFilter } = appConfig.feature;
+const watchingTogether = appConfig.feature?.watchingTogether;
 
 export const menu = [
   { name: "Trang chủ", path: "/", status: "active" },
   {
     name: "Lọc nâng cao",
     path: "/loc-nang-cao",
-    status: advancedFilter.status,
   },
   {
     name: "Xem chung",
@@ -52,7 +51,7 @@ const MenuBar = () => {
             >
               {item.name}
             </Link>
-            {item.status !== FeatureStatus.ACTIVE && (
+            {item?.status && item.status !== FeatureStatus.ACTIVE && (
               <StatusTag text={item.status} bordered />
             )}
           </li>
