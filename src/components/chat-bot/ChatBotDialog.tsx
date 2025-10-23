@@ -83,7 +83,7 @@ const ChatBotDialog = () => {
 
             <Dialog.Header p={0}>
               <Box className="p-4 flex items-center gap-1">
-                <Dialog.Title className="xs:text-lg text-center inline-block font-semibold text-base text-gradient-primary">
+                <Dialog.Title className="xs:text-lg text-center inline-block font-semibold text-base text-gradient">
                   Trợ lý ảo
                 </Dialog.Title>
                 <PopoverInfo />

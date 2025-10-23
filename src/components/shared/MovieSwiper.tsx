@@ -35,6 +35,7 @@ const MovieSwiper = ({
 
   return (
     <SwiperContainer
+      autoplay={false}
       showNavigation={showNavigation}
       keyRefresh={orientation}
       breakpoints={

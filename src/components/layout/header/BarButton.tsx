@@ -13,8 +13,7 @@ const BarButton = () => {
     <IconButton
       onClick={() => dispatch(setIsOpenDrawer(true))}
       size="sm"
-      variant="solid"
-      className="bg-transparent xl:hidden flex -ml-2.5"
+      className="bg-transparent xl:hidden flex -ml-2.5 text-white"
     >
       <HiMiniBars3 />
     </IconButton>

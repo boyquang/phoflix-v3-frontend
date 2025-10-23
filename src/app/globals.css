@@ -2,6 +2,72 @@
 @import "tailwindcss";
 @plugin "@tailwindcss/typography";
 
+/*
+  Hướng dẫn thêm / cấu hình màu (Tiếng Việt) - Chi tiết
+
+  Tổng quan ngắn:
+  - File này dùng CSS custom properties (biến CSS) để lưu màu chủ đạo
+    và có các biến cho background, border, ring, shadow.
+  - Các theme được xác định bằng attribute selector: [data-theme="Name"],
+    mỗi theme set lại các biến màu.
+  - Tailwind vẫn dùng lớp tiện ích, nhưng ta có thể tham chiếu các
+    biến CSS trong CSS hoặc cấu hình Tailwind để chuyển biến CSS thành
+    màu Tailwind nếu muốn dùng trực tiếp trong lớp tiện ích (xem bên dưới).
+
+  Cách thêm màu mới (bước-by-step):
+  1) Thêm biến mặc định trong `@theme` hoặc `:root` (phù hợp nếu muốn
+     màu mặc định cho toàn app). Ví dụ thêm màu phụ (accent):
+
+     --color-accent: #ff7a7a;
+     --bg-accent: #ff7a7a;
+     --border-accent: #ff7a7a;
+     --ring-accent: #ff7a7a;
+
+     Ghi chú: đặt tên biến có tiền tố rõ ràng (color-, bg-, border-, ring-, shadow-)
+     để dễ quản lý và tái sử dụng.
+
+  2) Thêm một theme cụ thể nếu bạn muốn theme đó có màu khác.
+     Ví dụ:
+
+     [data-theme="Sunset"] {
+       --color-primary: #ff7a7a;
+       --bg-primary: #ff7a7a;
+       --border-primary: #ff7a7a;
+       --ring-primary: #ff7a7a;
+       --shadow-primary: #ff7a7a;
+     }
+
+     Sau đó, để bật theme trong HTML/JS, gán attribute `data-theme="Sunset"`
+     lên phần tử `html` hoặc `body`.
+
+  3) Sử dụng các biến trong CSS:
+
+     .btn-primary {
+       background-color: var(--bg-primary);
+       color: var(--foreground);
+       border: 1px solid var(--border-primary);
+       box-shadow: 0 4px 10px 0 rgba( var(--shadow-primary-rgb, 255,218,125), 0.15 );
+     }
+
+     Ghi chú: nếu bạn cần giá trị rgba riêng (với alpha) dễ dùng,
+     tạo biến RGB riêng, ví dụ `--color-primary-rgb: 255,218,125;` rồi dùng
+     `rgba(var(--color-primary-rgb), 0.15)` để set alpha.
+
+  4) Hướng dẫn cho gradient / text-gradient / shadow đã có sẵn:
+     - Các lớp `.text-gradient`, `.bg-primary.linear-gradient` đã được sinh sẵn
+       theo từng `data-theme`. Để thêm gradient cho theme mới, copy mẫu
+       từ phần các `data-theme` hiện có và thay color bằng mã mới.
+
+  Edge cases / Lưu ý:
+  - Nếu muốn dùng alpha (rgba), lưu biến RGB riêng để tránh phải convert hex -> rgba.
+  - Biến CSS có scope: nếu set ở `:root` thì toàn app dùng; nếu set ở `[data-theme]`
+    thì chỉ khi phần tử cha có attribute đó mới thấy thay đổi.
+  - Dùng tên biến thống nhất để dễ tìm và thay thế (ví dụ `--color-xxx`, `--bg-xxx`).
+
+  Ví dụ ngắn gọn (tóm tắt):
+  - Thêm biến trong `:root` -> Thêm theme `[data-theme]` -> (tuỳ chọn) map vào
+*/
+
 /* Custom properties */
 @theme {
   --font-sans: var(--font-geist-sans);
@@ -26,6 +92,15 @@
   --shadow-primary: #ffd875;
 }
 
+@layer base {
+  html {
+    font-family: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue",
+      "Noto Sans", "Liberation Sans", Arial, sans-serif, "Apple Color Emoji",
+      "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji" !important;
+  }
+}
+
+/* Custom color system */
 [data-theme="LavenderDream"] {
   --color-primary: #bfa2ff;
   --bg-primary: #bfa2ff;
@@ -41,6 +116,7 @@
   --ring-primary: #00b4d8;
   --shadow-primary: #00b4d8;
 }
+
 [data-theme="RoseCine"] {
   --color-primary: #ff4d6d;
   --bg-primary: #ff4d6d;
@@ -48,6 +124,7 @@
   --ring-primary: #ff4d6d;
   --shadow-primary: #ff4d6d;
 }
+
 [data-theme="Emerald"] {
   --color-primary: #2dd4bf;
   --bg-primary: #2dd4bf;
@@ -64,60 +141,11 @@
   --shadow-primary: #3b82f6;
 }
 
-@layer base {
-  html {
-    font-family: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue",
-      "Noto Sans", "Liberation Sans", Arial, sans-serif, "Apple Color Emoji",
-      "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji" !important;
-  }
-}
-
 :root {
   --background: #ffffff;
   --foreground: #171717;
   --primary-color: #ffd875;
   --border-color: #ffffff10;
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
-}
-
-body {
-  color: var(--foreground);
-  background: #191b24;
-}
-
-body.cinema-mode .focus-backdrop {
-  display: block;
-  position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background-color: #08080a;
-  z-index: 100;
-}
-
-body.cinema-mode .watch-player {
-  z-index: 101;
-  position: relative;
-}
-
-body.repose-user {
-  overflow: hidden;
-}
-
-.reduce-motion * {
-  animation: none !important;
-  transition: none !important;
-}
-
-.focus-backdrop {
-  display: none;
 }
 
 .bg-primary.linear-gradient {
@@ -262,24 +290,6 @@ body.repose-user {
     linear-gradient(91.56deg, #ff9357 1.54%, #9100ff 98.71%) border-box;
 }
 
-.rounded-inherit {
-  border-radius: inherit;
-}
-
-/* Swiper overflow fix */
-.movie-slider .swiper,
-.topic-cards .swiper {
-  overflow: hidden;
-  padding-top: 1rem;
-}
-
-@media screen and (max-width: 1024px) {
-  .movie-slider .swiper,
-  .topic-cards .swiper {
-    overflow: visible;
-  }
-}
-
 /* Box shadow */
 .shadow-primary:hover {
   box-shadow: 0 5px 10px 10px rgba(255, 218, 125, 0.15);
@@ -303,6 +313,58 @@ body.repose-user {
 
 [data-theme="CobaltCine"] .shadow-primary:hover {
   box-shadow: 0 5px 10px 10px rgba(59, 130, 246, 0.15);
+}
+
+.rounded-inherit {
+  border-radius: inherit;
+}
+
+/* Swiper overflow fix */
+.movie-slider .swiper,
+.topic-cards .swiper {
+  overflow: hidden;
+  padding-top: 1rem;
+}
+
+@media screen and (max-width: 1024px) {
+  .movie-slider .swiper,
+  .topic-cards .swiper {
+    overflow: visible;
+  }
+}
+
+body {
+  color: var(--foreground);
+  background: #191b24;
+}
+
+body.cinema-mode .focus-backdrop {
+  display: block;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: #08080a;
+  z-index: 100;
+}
+
+body.cinema-mode .watch-player {
+  z-index: 101;
+  position: relative;
+}
+
+body.repose-user {
+  overflow: hidden;
+}
+
+.reduce-motion * {
+  animation: none !important;
+  transition: none !important;
+}
+
+.focus-backdrop {
+  display: none;
 }
 
 .shadow-sub:hover {

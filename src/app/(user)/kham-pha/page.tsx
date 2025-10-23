@@ -42,7 +42,7 @@ const Page = () => {
     <RootLayout>
       <AnimateWrapper>
         <div className="lg:pt-28 pt-24 relative z-10">
-          <h3 className="inline-block xl:text-3xl lg:text-2xl text-xl text-gradient-primary font-bold">
+          <h3 className="inline-block xl:text-3xl lg:text-2xl text-xl text-gradient font-bold">
             Khám phá thế giới phim
           </h3>
           <div className="mt-12 grid gap-4 3xl:grid-cols-8 xl:grid-cols-6 lg:grid-cols-5 md:grid-cols-4 sm:grid-cols-3 grid-cols-2">

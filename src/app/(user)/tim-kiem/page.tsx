@@ -99,7 +99,7 @@ const Page = async ({ params, searchParams }: PageProps) => {
       <AnimateWrapper>
         <RootLayout>
           <div className="lg:pt-28 pt-24">
-            <h3 className="inline-block xl:text-3xl lg:text-2xl text-xl text-gradient-primary font-bold">
+            <h3 className="inline-block xl:text-3xl lg:text-2xl text-xl text-gradient font-bold">
               Tìm thấy {totalItems} kết quả cho từ khóa &quot;
               {keyword}
               &quot;

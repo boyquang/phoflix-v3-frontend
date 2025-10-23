@@ -17,7 +17,7 @@ const TopicCards = () => {
   return (
     <RootLayout>
       <Box className="relative my-12 lg:px-0">
-        <h4 className="inline-block font-semibold text-gradient-primary lg:text-2xl md:text-xl text-md mb-4">
+        <h4 className="inline-block font-semibold text-gradient lg:text-2xl md:text-xl text-md mb-4">
           Bạn đang quan tâm gì?
         </h4>
         <Box className="relative topic-cards">
@@ -55,8 +55,9 @@ const TopicCards = () => {
             {categories.slice(0, totalShow).map((category, index) => (
               <SwiperSlide key={index} className="relative">
                 <Box
-                  className={`relative bg-gradient-to-r  ${colorGradients3[index % colorGradients3.length]
-                    }  rounded-lg overflow-hidden hover:-translate-y-2 hover:opacity-90 transition-all duration-300`}
+                  className={`relative bg-gradient-to-r  ${
+                    colorGradients3[index % colorGradients3.length]
+                  }  rounded-lg overflow-hidden hover:-translate-y-2 hover:opacity-90 transition-all duration-300`}
                 >
                   <Link
                     className="flex flex-col justify-center gap-2 lg:min-h-32 min-h-28 p-4 text-gray-50"

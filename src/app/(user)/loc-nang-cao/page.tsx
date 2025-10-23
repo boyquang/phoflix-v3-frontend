@@ -73,7 +73,7 @@ const Page = async ({ params, searchParams }: PageProps) => {
       <AnimateWrapper>
         <RootLayout>
           <div className="lg:pt-28 pt-24">
-            <h3 className="inline-block text-gradient-primary font-bold xl:text-3xl lg:text-2xl text-xl">
+            <h3 className="inline-block text-gradient font-bold xl:text-3xl lg:text-2xl text-xl">
               Lọc nâng cao
             </h3>
 

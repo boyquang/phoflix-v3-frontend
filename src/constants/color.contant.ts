@@ -210,6 +210,58 @@ export const textBackgrounds = [
   "linear-gradient(235deg, rgb(255, 255, 255) 30%, rgb(3, 169, 244) 130%)",
 ];
 
+/*
+  Hướng dẫn hệ thống màu (bắt đầu từ đây)
+
+  Mục đích của phần này:
+  - `colorSystemConfig` chứa danh sách theme màu có `name`, `color` (mã hex)
+    và `label` để hiển thị trong UI (tiếng Việt).
+  - `colorSystemDefault` là màu mặc định được lấy từ phần tử đầu tiên.
+
+  Cách sử dụng:
+  - Khi người dùng chọn theme, app có thể gán attribute `data-theme` lên
+    `html` hoặc `body` (ví dụ `data-theme="AquaWave"`). CSS sẽ đọc các
+    biến màu tương ứng trong `globals.css` để thay đổi giao diện toàn ứng dụng.
+
+  Thêm theme mới:
+  1) Thêm một mục vào `colorSystemConfig`, ví dụ:
+
+     { name: "Sunset", color: "#FF7A7A", label: "Hoàng hôn" }
+
+  2) Thêm CSS trong `globals.css` để định nghĩa các biến của theme đó:
+
+     [data-theme="Sunset"] {
+       --color-primary: #ff7a7a;
+       --bg-primary: #ff7a7a;
+       --border-primary: #ff7a7a;
+       --ring-primary: #ff7a7a;
+       --shadow-primary: #ff7a7a;
+     }
+
+  3) (Tùy chọn) Nếu bạn muốn nút, đường viền hoặc gradient đặc biệt cho theme
+     đó, thêm lớp CSS có selector `[data-theme="Sunset"] .your-class { ... }`.
+
+  Gợi ý kỹ thuật:
+  - Nếu bạn muốn dùng màu với alpha (mức trong suốt), lưu biến RGB kèm theo,
+    ví dụ `--color-primary-rgb: 255,122,122;` rồi dùng `rgba(var(--color-primary-rgb), 0.15)`.
+
+  Về các mảng `colorGradients`, `colorGradients3`, `colorGradientsToWhite`:
+  - Đây là danh sách class utility của Tailwind (ví dụ "from-rose-700 to-red-600")
+    dùng khi tạo gradient bằng cách gán `class="bg-gradient-to-r ${gradient}"`.
+  - `colorGradients3` chứa gradients 3 mầu (from - via - to).
+  - `colorGradientsToWhite` là các gradient chuyển dần về màu trắng.
+
+  Về `topicBackGround` và `textBackgrounds`:
+  - `topicBackGround` map slug chủ đề -> class background của Tailwind.
+    Để thêm chủ đề mới, thêm key slug và giá trị class tương ứng.
+  - `textBackgrounds` là các gradient CSS trực tiếp để áp cho phần tử text nếu
+    cần background gradient tay.
+
+  Lưu ý khi chỉnh sửa:
+  - Giữ tên `name` nhất quán nếu bạn dùng nó để map sang `data-theme` trong HTML.
+  - Cập nhật `label` để hiển thị trong UI (đa ngôn ngữ nếu cần).
+*/
+
 export const colorSystemConfig: ColorSystemConfig[] = [
   { name: "Default", color: "#ffd875", label: "Mặc định" },
   { name: "AquaWave", color: "#00B4D8", label: "Sóng nước" },

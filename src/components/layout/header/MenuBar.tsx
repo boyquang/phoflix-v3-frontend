@@ -47,7 +47,7 @@ const MenuBar = () => {
             <Link
               href={item.path}
               className={`p-2 text-sm relative ${
-                pathname === item.path ? "text-primary" : ""
+                pathname === item.path ? "text-primary font-semibold" : ""
               }`}
             >
               {item.name}

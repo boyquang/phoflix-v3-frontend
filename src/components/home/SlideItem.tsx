@@ -8,7 +8,7 @@ import InfoIcon from "@/components/icons/InfoIcon";
 import OverlayFade from "@/components/shared/OverlayFade";
 import Image from "@/components/shared/Image";
 import { TagClassic } from "@/components/shared/TagClassic";
-import { useRouter } from 'nextjs-toploader/app';
+import { useRouter } from "nextjs-toploader/app";
 import DecodeText from "../shared/DecodeText";
 import TmdbRatingBadge from "../shared/TmdbRatingBadge";
 import BadgeCustom from "../shared/BadgeCustom";
@@ -46,17 +46,17 @@ const SlideItem = ({ item }: SlideItemProps) => {
             router.push(`/thong-tin-phim/${item?.slug}`);
           }
         }}
-        className="absolute bottom-4 left-0 right-0 2xl:px-12 2xl:py-16 p-4 z-6 lg:w-[50%] overflow-hidden"
+        className="absolute lg:bottom-4 bottom-16 left-0 right-0 2xl:px-12 2xl:py-16 p-4 z-6 lg:w-[50%] overflow-hidden"
       >
         <DecodeText
           as="h4"
           text={item?.name}
-          className="text-gradient-primary lg:text-4xl md:text-2xl font-semibold lg:inline-block line-clamp-2 block text-xl lg:text-left text-center mb-2"
+          className="text-gradient lg:text-4xl md:text-2xl font-semibold lg:inline-block line-clamp-2 block text-xl lg:text-left text-center lg:mb-2"
         />
         <DecodeText
           as="p"
           text={item?.origin_name}
-          className="text-primary lg:text-left text-center text-sm truncate"
+          className="text-white lg:text-left text-center text-sm truncate"
         />
         <Box className="flex gap-2 items-center flex-wrap lg:justify-start justify-center mt-4">
           <TmdbRatingBadge rating={item?.tmdb?.vote_average} />
@@ -70,9 +70,11 @@ const SlideItem = ({ item }: SlideItemProps) => {
           />
           <BadgeCustom size="xs" text={item?.year || "Year: N/A"} />
           <BadgeCustom size="xs" text={item?.time || "Time: N/A"} />
-          {item?.lang?.split("+")?.map((lang, index) => (
-            <BadgeCustom key={index} size="xs" text={lang} />
-          ))}
+          <Box className="sm:flex hidden items-center gap-2">
+            {item?.lang?.split("+")?.map((lang, index) => (
+              <BadgeCustom key={index} size="xs" text={lang} />
+            ))}
+          </Box>
         </Box>
 
         <Box className="lg:flex hidden flex-wrap gap-2 mt-2.5">
