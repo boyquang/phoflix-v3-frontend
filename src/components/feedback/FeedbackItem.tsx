@@ -12,14 +12,16 @@ import Rated from "./review/Rated";
 import "@/assets/css/animation.css";
 import EditFeedback from "./EditFeedback";
 import useScrollToFeedbackCid from "@/hooks/useScrollToFeedbackCid";
-import { anonymousAvatar } from "@/constants/image.contant";
 import CommentUserBadge from "../shared/CommentUserBadge";
 import useFeedbackAuthor from "@/hooks/useFeedbackAuthor";
 
 const FeedbackItem = ({ feedback }: FeedbackItemProps) => {
   const { cid } = useScrollToFeedbackCid({ id: feedback?._id });
   const { username, avatar, isAnonymous } = useFeedbackAuthor({
-    author: feedback.author,
+    author: {
+      ...feedback?.author,
+      is_anonymous: feedback.is_anonymous,
+    },
   });
   const { feedbackType, feedbackData, idEditFeedback } = useSelector(
     (state: RootState) => state.feedback

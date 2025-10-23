@@ -184,7 +184,6 @@ const useWatchTogetherV2 = () => {
     if (!confirmStart) return;
 
     try {
-      // dispatch start live
       const response = await dispatch(
         startLive({
           accessToken: session?.user.accessToken || "",

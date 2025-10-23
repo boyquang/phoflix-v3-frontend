@@ -11,11 +11,6 @@ interface PlayerWrapperProps {
 }
 
 const PlayerWrapper = ({ children, options }: PlayerWrapperProps) => {
-  // Log on client mount so the message appears in the browser console
-  useEffect(() => {
-    console.log("PlayerWrapper mounted. options:", options);
-  }, [options]);
-
   return (
     <div
       className={`relative w-full h-0 pt-[56.25%] z-10 ${options?.className}`}
