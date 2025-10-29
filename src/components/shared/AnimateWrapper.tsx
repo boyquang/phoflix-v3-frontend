@@ -2,7 +2,7 @@
 
 interface AnimateWrapperProps {
   children: React.ReactNode;
-  animate?: "fade-in" | "slide-up" | "zoom-in" | "fade-out";
+  animate?: "fade-in" | "slide-up" | "zoom-in" | "fade-out" | "fade-in-up";
 }
 
 const AnimateWrapper = ({

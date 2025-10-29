@@ -21,7 +21,7 @@ const FilterItem = ({ option, filter, handleSetFilter }: FilterItemProps) => {
           key={index}
           className={`px-4 py-2 border rounded-md lg:text-sm text-xs cursor-pointer hover:text-primary transition-colors duration-200 ease-in-out
              ${
-               filter[option.id] === item.slug.toString()
+               filter[option.id].toString() === item.slug.toString()
                  ? "text-primary border-[#fff3]"
                  : "text-gray-50 border-transparent"
              }

@@ -1,16 +1,11 @@
 "use client";
 
 import { Box } from "@chakra-ui/react";
-
 import "@/assets/css/animation.css";
 import MovieSwiper from "./MovieSwiper";
-import {
-  colorGradientsToWhite,
-  textBackgrounds,
-} from "@/constants/color.contant";
-import Link from "next/link";
-import { RiArrowRightWideLine } from "react-icons/ri";
-import Loading from "@/app/loading";
+import { textBackgrounds } from "@/constants/color.contant";
+import SeeMoreLink from "../home/SeeMoreLink";
+import AnimateWrapper from "./AnimateWrapper";
 
 interface MovieCollectionProps {
   title: string;
@@ -32,23 +27,17 @@ const MovieCollection = ({
   orientation,
 }: MovieCollectionProps) => {
   return (
-    <Box className="effect-fade-in">
-      <Box className="flex justify-between gap-2 items-center mb-2">
+    <AnimateWrapper animate="fade-in-up">
+      <Box className="flex gap-4 items-center mb-2">
         <h3
           style={{
             background: textBackgrounds[index % textBackgrounds.length],
           }}
-          className="lg:text-2xl md:text-xl text-md text-gradient font-semibold lg:mb-0 mb-2"
+          className="lg:text-2xl md:flex-grow-0 flex-grow-1 md:text-xl text-md text-gradient font-semibold mb-1"
         >
           {title}
         </h3>
-        <Link
-          href={link}
-          className="px-2 py-1 rounded-full border border-[#fff5] flex text-gray-50 text-sm gap-0.5 hover:text-primary items-center transition-all"
-        >
-          Xem thêm
-          <RiArrowRightWideLine />
-        </Link>
+        <SeeMoreLink title="Xem thêm" link={link} />
       </Box>
       <Box>
         <MovieSwiper
@@ -59,7 +48,7 @@ const MovieCollection = ({
           orientation={orientation}
         />
       </Box>
-    </Box>
+    </AnimateWrapper>
   );
 };
 

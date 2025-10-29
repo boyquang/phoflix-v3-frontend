@@ -1,7 +1,6 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
-import MovieSwiper from "../shared/MovieSwiper";
 import { fetchMovieDetail } from "@/lib/actions/movie.action";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Autoplay, EffectFade } from "swiper/modules";
@@ -15,6 +14,7 @@ import Link from "next/link";
 import { Button } from "@chakra-ui/react";
 import PlayIcon from "../icons/PlayIcon";
 import InfoIcon from "../icons/InfoIcon";
+import SeeMoreLink from "./SeeMoreLink";
 
 interface MovieBannerProps {
   describe: "danh-sach" | "the-loai" | "quoc-gia";
@@ -41,13 +41,16 @@ const MovieBanner = ({ type, describe, title, limit }: MovieBannerProps) => {
     fetchTopMovies();
   }, [type, describe, limit]);
 
-  if (!items || items.length === 0) return null;
+  if (!items || items?.length === 0) return null;
 
   return (
     <div className="2xl:px-0 px-4 pb-12">
-      <h4 className="lg:text-2xl capitalize md:text-xl text-md text-white font-semibold mb-4">
-        {title}
-      </h4>
+      <div className="flex items-center gap-4 mb-6">
+        <h4 className="lg:text-2xl capitalize md:text-xl text-md text-white font-semibold mb-1">
+          {title}
+        </h4>
+        <SeeMoreLink title="Xem thêm" link={`/chi-tiet/${describe}/${type}`} />
+      </div>
       <div className="w-full relative">
         <Swiper
           onSwiper={(s) => (swiperRef.current = s)}
@@ -121,6 +124,10 @@ interface MovieItemProps {
 const MovieItem = ({ item }: MovieItemProps) => {
   return (
     <div className="relative bg-[#2F3346] rounded-2xl overflow-hidden h-[420px]">
+      <Link
+        href={`/thong-tin-phim/${item?.slug}`}
+        className="lg:hidden flex absolute inset-0 z-30"
+      />
       <div className="lg:before:absolute lg:before:inset-0 lg:before:bg-[url('/images/dotted.png')] lg:before:bg-repeat lg:before:opacity-20 lg:before:z-[2]" />
       <div className="flex lg:flex-row flex-col-reverse h-full">
         <div className="lg:p-8 p-4 lg:max-w-[600px] max-w-full z-10 relative overflow-hidden">
@@ -132,7 +139,7 @@ const MovieItem = ({ item }: MovieItemProps) => {
           <DecodeText
             as="p"
             text={item?.origin_name}
-            className="text-white text-sm truncate font-thin"
+            className="text-white text-sm line-clamp-1 font-thin"
           />
           <div className="flex gap-2 items-center flex-wrap mt-4">
             <TmdbRatingBadge rating={item?.tmdb?.vote_average} />

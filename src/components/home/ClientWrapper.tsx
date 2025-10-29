@@ -152,6 +152,20 @@ const ClientWrapper = () => {
         </RootLayout>
       </Box>
 
+      {/*
+        TỪ ĐÂY BẮT ĐẦU: Main content / bố cục trang chủ
+        - Cấu trúc chính (thứ tự hiển thị):
+          1) MovieTopicList: hiển thị 3 chủ đề/quốc gia đầu (finalData.slice(0,3))
+          2) CommunityHighlights
+          3) Một số MovieSection / TopMovieSection / MovieBanner ... sắp xếp theo các slice của finalData
+             - MovieSection finalData.slice(3,4): 1 loại phim
+             - TopMovieSection (top lists) hiển thị danh sách top theo type/describe
+             - MovieSection finalData.slice(4,5)
+             - MovieSection finalData.slice(5,8): 3 loại phim
+             - MovieBanner: banner chuyên mục (ví dụ hoat-hinh)
+             - MovieSection finalData.slice(8): phần còn lại
+        - finalData được build từ initialMovieConfig (xem constants/movie.constant.ts),
+      */}
       <RootLayout>
         <Box className="2xl:mx-0 -mx-4">
           <Box className="flex flex-col gap-12 overflow-hidden">
@@ -187,6 +201,9 @@ const ClientWrapper = () => {
                         title="Top 10 phim bộ hôm nay"
                       />
                     </Box>
+
+                    <MovieSection finalData={finalData.slice(5, 8)} />
+
                     <Box className="lg:my-12 mt-12 pb-6">
                       <MovieBanner
                         describe="danh-sach"
@@ -194,7 +211,8 @@ const ClientWrapper = () => {
                         title="Kho tàn anime mới nhất"
                       />
                     </Box>
-                    <MovieSection finalData={finalData.slice(5)} />
+
+                    <MovieSection finalData={finalData.slice(9)} />
                   </Box>
                 </>
               ) : (

@@ -80,7 +80,7 @@ const FilterBox = () => {
         onClick={() => setShowFilter(!showFilter)}
       >
         <FaFilter className={`${showFilter ? "text-primary" : ""}`} />
-        <span> Bộ lọc</span>
+        <span>Bộ lọc</span>
       </Box>
       {showFilter && (
         <Box className="flex flex-col xs:mx-0 -mx-4 border border-[#ffffff10] xs:rounded-2xl rounded-none my-12 py-4">

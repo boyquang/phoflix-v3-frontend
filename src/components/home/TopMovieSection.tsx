@@ -42,7 +42,7 @@ const TopMovieSection = ({
 
   return (
     <div className="2xl:px-0 px-4 top-up">
-      <h4 className="lg:text-2xl md:text-xl text-md text-white font-semibold lg:mb-0 mb-4">
+      <h4 className="lg:text-2xl md:text-xl text-md text-white font-semibold lg:mb-0 mb-6">
         {title}
       </h4>
       <MovieSwiper
