@@ -27,10 +27,10 @@ const SlideShow = ({ items }: SlideShowProps) => {
         autoplay={{ delay: 3000, disableOnInteraction: false }}
         grabCursor={true}
         effect="fade"
-        loop={items.length > 1}
+        loop={items?.length > 1}
         className="w-full relative"
       >
-        {items.map((item, index: number) => (
+        {items?.map((item, index: number) => (
           <SwiperSlide key={index} className="h-full">
             <SlideItem item={item} />
           </SwiperSlide>

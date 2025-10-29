@@ -6,9 +6,9 @@ import Error from "../shared/Error";
 import Loading from "@/app/loading";
 import SwiperContainer from "./SwipperContainer";
 
-interface MovieThumbProps {
-  loading: boolean;
+interface MovieSwipperProps {
   error: boolean;
+  loading?: boolean;
   orientation?: "horizontal" | "vertical";
   items?: Movie[];
   showNavigation?: boolean;
@@ -23,13 +23,13 @@ interface MovieThumbProps {
 
 const MovieSwiper = ({
   items,
-  loading,
+  loading = false,
   error,
   orientation = "horizontal",
   breakpoints,
   showNavigation = true,
   children,
-}: MovieThumbProps) => {
+}: MovieSwipperProps) => {
   if (loading) return <Loading height="h-36" />;
   if (!children && (error || !items || items?.length === 0)) return <Error />;
 

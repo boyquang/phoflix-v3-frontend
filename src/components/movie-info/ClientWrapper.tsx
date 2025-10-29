@@ -92,7 +92,7 @@ const ClientWrapper = ({ movie, episodes }: ClientWrapperProps) => {
                       className="md:min-w-[160px] min-w-[60%] block xs:w-auto w-full"
                     >
                       <Button
-                        className="w-full h-14 text-lg shadow-lg shadow-primary bg-primary linear-gradient border-none text-gray-800"
+                        className="w-full h-14 text-lg shadow-primary bg-primary linear-gradient border-none text-gray-800"
                         rounded="full"
                       >
                         <FaPlay />

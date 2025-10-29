@@ -783,6 +783,16 @@ export const countries: CountriesWithAll[] = [
   },
 ];
 
+export const movieTypes: DescribeType[] = [
+  "phim-le",
+  "phim-bo",
+  "tv-shows",
+  "hoat-hinh",
+  "phim-vietsub",
+  "phim-thuyet-minh",
+  "phim-long-tieng",
+] as const;
+
 export const movieCatalog: TypeMovie[] = [
   { _id: "1", name: "Phim Lẻ", slug: "phim-le", type: "danh-sach" },
   { _id: "2", name: "Phim Bộ", slug: "phim-bo", type: "danh-sach" },

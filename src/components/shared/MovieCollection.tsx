@@ -38,7 +38,7 @@ const MovieCollection = ({
           style={{
             background: textBackgrounds[index % textBackgrounds.length],
           }}
-          className="lg:text-2xl md:text-xl text-md text-gradient font-bold lg:mb-0 mb-2"
+          className="lg:text-2xl md:text-xl text-md text-gradient font-semibold lg:mb-0 mb-2"
         >
           {title}
         </h3>

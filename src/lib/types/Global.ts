@@ -16,3 +16,11 @@ type ColorSystemConfig = {
   color: string;
   label: string;
 };
+
+interface Tooltip {
+  top: number;
+  left: number;
+  width: number;
+  height: number;
+  visible: boolean;
+}

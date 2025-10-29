@@ -1,64 +1,30 @@
 "use client";
 
-import {
-  generateUrlImage,
-  onMouseEnterShowTooltip,
-  onMouseLeaveHideTooltip,
-  parseEpisodeCurrent,
-} from "@/lib/utils";
-import { Badge, Box } from "@chakra-ui/react";
+import { generateUrlImage } from "@/lib/utils";
+import { Box } from "@chakra-ui/react";
 import Link from "next/link";
 import { useRef, useState } from "react";
-import { RootState } from "@/store/store";
-import { useSelector } from "react-redux";
 import MovieTooltip from "./MovieTooltip";
 import Image from "../shared/Image";
 import HoverOutlineWrapper from "../shared/HoverOutlineWrapper";
 import DecodeText from "./DecodeText";
 import BadgeCustom from "./BadgeCustom";
+import useEpisode from "@/hooks/useEpisode";
+import useTooltip from "@/hooks/useTooltip";
 
 interface MovieItemProps {
   data: Movie;
   orientation?: "horizontal" | "vertical";
 }
 
-interface Tooltip {
-  top: number;
-  left: number;
-  width: number;
-  height: number;
-  visible: boolean;
-}
-
-const paletteList = [
-  "purple",
-  "blue",
-  "cyan",
-  "pink",
-  "orange",
-  "green",
-  "red",
-  "teal",
-  "gray",
-];
-
 const MovieCard = ({ data, orientation }: MovieItemProps) => {
   const currentElementRef = useRef<HTMLImageElement | null>(null);
   const tooltipTimeout = useRef<NodeJS.Timeout | null>(null);
   const [tooltip, setTooltip] = useState<Tooltip | null>(null);
-  const { windowWidth } = useSelector((state: RootState) => state.system);
-
-  const episodeCurrent =
-    data?.episode_current.toLowerCase() || "Không xác định";
-  const { episodeInfo, status } = parseEpisodeCurrent(episodeCurrent);
-  const episodeText =
-    episodeCurrent?.includes("hoàn tất") && episodeInfo
-      ? `Tập ${episodeInfo}`
-      : status;
+  const { episodeText } = useEpisode({ movie: data });
+  const { onMouseEnterShowTooltip, onMouseLeaveHideTooltip } = useTooltip();
 
   const handleMouseEnter = () => {
-    if (windowWidth <= 1280) return;
-
     onMouseEnterShowTooltip(tooltipTimeout, currentElementRef, setTooltip);
   };
 

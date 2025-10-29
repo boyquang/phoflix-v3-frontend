@@ -35,18 +35,20 @@ type MovieDB = {
   user_id: string;
 };
 
+type DescribeType =
+  | "phim-le"
+  | "phim-bo"
+  | "tv-shows"
+  | "hoat-hinh"
+  | "phim-vietsub"
+  | "phim-thuyet-minh"
+  | "phim-long-tieng"
+  | "subteam"
+  | "phim-chieu-rap";
+
 type TypeMovie = {
   name: string;
-  slug:
-    | "phim-le"
-    | "phim-bo"
-    | "tv-shows"
-    | "phim-vietsub"
-    | "hoat-hinh"
-    | "phim-long-tieng"
-    | "phim-thuyet-minh"
-    | "subteam"
-    | "phim-chieu-rap";
+  slug: DescribeType;
   type: string;
   _id: string;
 };

@@ -21,6 +21,8 @@ import {
 import MovieTopicList from "./MovieTopicList";
 import CommunityHighlights from "../community-hightlights/CommunityHighlights";
 import ContinueWatchingMovies from "./ContinueWatchingMovies";
+import TopMovieSection from "./TopMovieSection";
+import MovieBanner from "./MovieBanner";
 
 const ClientWrapper = () => {
   const dispatch: AppDispatch = useDispatch();
@@ -167,7 +169,32 @@ const ClientWrapper = () => {
                     <CommunityHighlights />
                   </Box>
                   <Box className="xl:mt-4">
-                    <MovieSection finalData={finalData.slice(3)} />
+                    <MovieSection finalData={finalData.slice(3, 4)} />
+                    <Box className="lg:my-12 my-4">
+                      <TopMovieSection
+                        describe="danh-sach"
+                        type="phim-le"
+                        limit={10}
+                        title="Top 10 phim lẻ hôm nay"
+                      />
+                    </Box>
+                    <MovieSection finalData={finalData.slice(4, 5)} />
+                    <Box className="lg:my-12 my-4">
+                      <TopMovieSection
+                        describe="danh-sach"
+                        type="phim-bo"
+                        limit={10}
+                        title="Top 10 phim bộ hôm nay"
+                      />
+                    </Box>
+                    <Box className="lg:my-12 mt-12 pb-6">
+                      <MovieBanner
+                        describe="danh-sach"
+                        type="hoat-hinh"
+                        title="Kho tàn anime mới nhất"
+                      />
+                    </Box>
+                    <MovieSection finalData={finalData.slice(5)} />
                   </Box>
                 </>
               ) : (
