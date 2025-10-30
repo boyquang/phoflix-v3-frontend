@@ -63,7 +63,7 @@ const Page = () => {
                   `}
               >
                 <Link
-                  className="flex flex-col justify-center gap-2 lg:min-h-32 min-h-28 p-4 text-gray-50"
+                  className="relative z-10 flex flex-col justify-center gap-2 lg:min-h-32 min-h-28 p-4 text-gray-50"
                   href={`/chi-tiet/${item.describe}/${item.slug}`}
                 >
                   <h4 className="text-lg font-bold">{item.name}</h4>

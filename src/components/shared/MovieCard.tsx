@@ -38,6 +38,8 @@ const MovieCard = ({
     onMouseLeaveHideTooltip(tooltipTimeout, setTooltip);
   };
 
+  console.log("render movie card:", data);
+
   return (
     <Box
       className="relative hover:-translate-y-2 transition-all duration-300"
