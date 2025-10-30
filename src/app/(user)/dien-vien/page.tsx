@@ -70,6 +70,7 @@ const Page = async ({ searchParams }: PageProps) => {
 
             {totalItems > totalItemsPerPage && (
               <PaginationCustom
+                theme="simple"
                 showToaster={false}
                 currentPage={currentPage}
                 totalItems={10000}

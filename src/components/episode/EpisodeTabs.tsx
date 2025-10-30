@@ -57,8 +57,13 @@ const EpisodeTabs = ({ slug }: EpisodeTabsProps) => {
   if (Object.keys(groups)?.length === 0) return null;
 
   return (
-    <div className="flex justify-between items-center gap-2 mb-6">
-      <div className="flex items-center gap-2 flex-wrap">
+    <div className="flex justify-between items-center gap-12 mb-6">
+      <div
+        style={{
+          scrollbarWidth: "none",
+        }}
+        className="flex items-center gap-2 lg:overflow-x-hidden overflow-x-auto"
+      >
         {Object.keys(groups).map((key) => (
           <div
             id={key}
@@ -73,7 +78,9 @@ const EpisodeTabs = ({ slug }: EpisodeTabsProps) => {
             `}
           >
             <LanguageIcon language={key} />
-            <h3 className="font-semibold text-xs">{groups[key]?.label}</h3>
+            <span className="font-semibold text-xs whitespace-nowrap">
+              {groups[key]?.label}
+            </span>
           </div>
         ))}
       </div>

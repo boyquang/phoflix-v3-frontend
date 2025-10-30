@@ -51,12 +51,12 @@ const SlideItem = ({ item }: SlideItemProps) => {
         <DecodeText
           as="h4"
           text={item?.name}
-          className="text-gradient lg:text-4xl md:text-2xl font-semibold lg:inline-block line-clamp-2 block text-xl lg:text-left text-center"
+          className="text-gradient lg:text-4xl md:text-2xl font-semibold lg:inline-block md:line-clamp-2 line-clamp-1 text-xl lg:text-left text-center"
         />
         <DecodeText
           as="p"
           text={item?.origin_name}
-          className="text-white lg:text-left text-center text-sm truncate"
+          className="text-white lg:text-left text-center font-thin text-sm truncate"
         />
         <Box className="flex gap-2 items-center flex-wrap lg:justify-start justify-center mt-4">
           <TmdbRatingBadge rating={item?.tmdb?.vote_average} />

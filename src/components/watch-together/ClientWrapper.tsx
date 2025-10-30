@@ -125,6 +125,7 @@ const ClientWrapper = ({ page, limit }: ClientWrapperProps) => {
 
             {listRooms.totalItems >= limit && (
               <PaginationCustom
+                theme="simple"
                 showToaster={false}
                 currentPage={page}
                 totalItems={listRooms.totalItems}

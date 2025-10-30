@@ -38,6 +38,7 @@ const MovieSection = ({
 
       {totalItems >= limit && (
         <PaginationCustom
+          theme="simple"
           totalItems={totalItems}
           itemsPerPage={totalItemsPerPage}
           currentPage={currentPage}

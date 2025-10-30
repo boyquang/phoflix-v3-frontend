@@ -99,7 +99,7 @@ const SearchHistory = () => {
             <Link
               onClick={() => handleCreateSearchHistory(item?.keyword)}
               className="flex flex-1 h-12 items-center overflow-hidden"
-              href={`/thong-tin-phim/${formatString(item?.keyword)}`}
+              href={`/tim-kiem?keyword=${formatString(item?.keyword)}`}
             >
               <Box className="flex flex-1 gap-2 items-center max-w-[90%]">
                 <FaClockRotateLeft />

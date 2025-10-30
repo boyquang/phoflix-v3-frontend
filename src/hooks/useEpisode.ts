@@ -12,7 +12,13 @@ const useEpisode = ({ movie }: UseEpisodeProps) => {
       ? `Tập ${episodeInfo}`
       : status;
 
-  const episodesStatisticsMapping = {
+  const episodesStatisticsMapping: Record<
+    string,
+    {
+      text: { default: string; full: string };
+      bgColor: string;
+    }
+  > = {
     Vietsub: {
       text: {
         default: "PĐ",

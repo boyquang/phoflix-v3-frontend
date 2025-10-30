@@ -103,6 +103,7 @@ const ClientWrapper = () => {
 
         {totalItems >= limit && (
           <PaginationCustom
+            theme="simple"
             currentPage={Number(currentPage)}
             totalItems={totalItems}
             itemsPerPage={totalItemsPerPage}

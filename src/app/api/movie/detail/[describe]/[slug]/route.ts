@@ -34,9 +34,6 @@ export async function GET(
     const primaryUrlObj = new URL(`${CRAWL_MOVIES_URL}/movies/${slug}`);
     const fallbackUrlObj = new URL(`${API_URL}/v1/api/${describe}/${slug}`);
 
-    console.log("Primary URL:", primaryUrlObj.toString());
-    console.log("Fallback URL:", fallbackUrlObj.toString());
-
     appendParams(primaryUrlObj, query);
     appendParams(fallbackUrlObj, query);
 
@@ -48,6 +45,8 @@ export async function GET(
       }
     );
     const data = await response.json();
+    
+    console.log("data", data);
 
     return NextResponse.json(data, { status: 200 });
   } catch (error) {

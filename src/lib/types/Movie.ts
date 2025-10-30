@@ -111,10 +111,12 @@ type Movie = {
     episodeId?: string;
     name?: string;
   };
-  episodes_statistics?: {
-    text: "Vietsub" | "Thuyet Minh" | "Long Tieng";
-    count: number;
-  }[];
+  episodes_statistics?: EpisodeStatistic[];
+};
+
+type EpisodeStatistic = {
+  text: "Vietsub" | "Thuyet Minh" | "Long Tieng" | string;
+  count: number;
 };
 
 type Movies = {

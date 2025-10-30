@@ -55,6 +55,7 @@ const Page = async ({ params, searchParams }: PageProps) => {
 
               {(totalItems as number) >= limit && (
                 <PaginationCustom
+                  theme="simple"
                   totalItems={totalItems as number}
                   itemsPerPage={limit}
                   currentPage={currentPage}

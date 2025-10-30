@@ -49,7 +49,7 @@ const SwitchCustom = ({
       onClick={handleToggle}
     >
       {label && labelPosition === "left" && (
-        <span className="text-xs text-gray-50">{label}</span>
+        <span className="text-xs text-gray-50 whitespace-nowrap">{label}</span>
       )}
       <Box
         className={`border rounded-4xl w-[30px] h-5 relative flex-shrink-0 transition-all duration-300 ease-in-out ${
@@ -65,7 +65,7 @@ const SwitchCustom = ({
         ></span>
       </Box>
       {label && labelPosition === "right" && (
-        <span className="text-xs text-gray-50">{label}</span>
+        <span className="text-xs text-gray-50 whitespace-nowrap">{label}</span>
       )}
     </Box>
   );
