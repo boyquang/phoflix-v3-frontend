@@ -12,6 +12,7 @@ interface MovieSwipperProps {
   orientation?: "horizontal" | "vertical";
   items?: Movie[];
   showNavigation?: boolean;
+  showPoster?: boolean;
   breakpoints?: {
     [key: number]: {
       slidesPerView: number;
@@ -25,6 +26,7 @@ const MovieSwiper = ({
   items,
   loading = false,
   error,
+  showPoster = false,
   orientation = "horizontal",
   breakpoints,
   showNavigation = true,
@@ -71,7 +73,11 @@ const MovieSwiper = ({
         <>
           {items?.map((item, index: number) => (
             <SwiperSlide key={index} className="relative">
-              <MovieCard data={item} orientation={orientation} />
+              <MovieCard
+                data={item}
+                orientation={orientation}
+                options={{ showPoster }}
+              />
             </SwiperSlide>
           ))}
         </>

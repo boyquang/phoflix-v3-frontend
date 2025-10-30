@@ -9,6 +9,7 @@ import { SwiperSlide } from "swiper/react";
 import Link from "next/link";
 import MovieTooltip from "../shared/MovieTooltip";
 import useTooltip from "@/hooks/useTooltip";
+import EpisodeBadges from "../shared/EpisodeBadges";
 
 interface TopMovieSectionProps {
   describe: "danh-sach" | "the-loai" | "quoc-gia";
@@ -42,7 +43,7 @@ const TopMovieSection = ({
 
   return (
     <div className="2xl:px-0 px-4 top-up">
-      <h4 className="lg:text-2xl md:text-xl text-md text-white font-semibold lg:mb-0 mb-6">
+      <h4 className="lg:text-2xl md:text-xl text-md text-white font-semibold lg:mb-0 mb-4">
         {title}
       </h4>
       <MovieSwiper
@@ -98,6 +99,7 @@ const MovieCard = ({ data, index }: MovieCardProps) => {
       <Link href={`/thong-tin-phim/${data?.slug}`} className="group">
         <div className="top-movie-mask absolute inset-0"></div>
         <div className="h-0 pb-[150%] relative bg-transparent group-hover:bg-primary top-movie-mask transition-all">
+          <EpisodeBadges data={data} />
           <Image
             ref={currentElementRef}
             src={generateUrlImage(data?.poster_url)}

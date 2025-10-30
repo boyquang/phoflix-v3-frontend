@@ -16,7 +16,14 @@ const MovieGrid = ({
   return (
     <div className={classNameGrids}>
       {items?.map((item, index: number) => (
-        <MovieCard key={index} data={item} orientation={orientation} />
+        <MovieCard
+          options={{
+            showEpisodeBadge: true,
+          }}
+          key={index}
+          data={item}
+          orientation={orientation}
+        />
       ))}
     </div>
   );

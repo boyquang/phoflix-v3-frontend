@@ -8,20 +8,26 @@ import MovieTooltip from "./MovieTooltip";
 import Image from "../shared/Image";
 import HoverOutlineWrapper from "../shared/HoverOutlineWrapper";
 import DecodeText from "./DecodeText";
-import BadgeCustom from "./BadgeCustom";
-import useEpisode from "@/hooks/useEpisode";
 import useTooltip from "@/hooks/useTooltip";
+import EpisodeBadges from "./EpisodeBadges";
 
 interface MovieItemProps {
   data: Movie;
   orientation?: "horizontal" | "vertical";
+  options?: {
+    showEpisodeBadge?: boolean;
+    showPoster?: boolean;
+  };
 }
 
-const MovieCard = ({ data, orientation }: MovieItemProps) => {
+const MovieCard = ({
+  data,
+  orientation,
+  options: { showEpisodeBadge = true, showPoster = false } = {},
+}: MovieItemProps) => {
   const currentElementRef = useRef<HTMLImageElement | null>(null);
   const tooltipTimeout = useRef<NodeJS.Timeout | null>(null);
   const [tooltip, setTooltip] = useState<Tooltip | null>(null);
-  const { episodeText } = useEpisode({ movie: data });
   const { onMouseEnterShowTooltip, onMouseLeaveHideTooltip } = useTooltip();
 
   const handleMouseEnter = () => {
@@ -39,10 +45,12 @@ const MovieCard = ({ data, orientation }: MovieItemProps) => {
       onMouseLeave={handleMouseLeave}
     >
       <Link href={`/thong-tin-phim/${data?.slug}`} className="group">
-        <HoverOutlineWrapper rounded="lg" ringSize="2">
+        <HoverOutlineWrapper rounded="lg" ringSize="0">
           <Box
             className={`h-0 relative ${
-              orientation === "horizontal" ? "pb-[62%]" : "pb-[150%]"
+              orientation === "horizontal"
+                ? `${showPoster ? "lg:pb-[45%] pb-[56.25%]" : "pb-[56.25%]"}`
+                : "pb-[150%]"
             }`}
           >
             <Image
@@ -55,38 +63,36 @@ const MovieCard = ({ data, orientation }: MovieItemProps) => {
               className="group-hover:brightness-75 transition-all rounded-lg"
               alt={data?.name || "Không xác định"}
             />
-            <Box className="absolute xs:right-2 top-2 left-2 xs:inline-flex hidden flex-wrap items-center gap-1">
-              <BadgeCustom size="xs" text={data?.quality || "N/A"} />
-
-              {data?.lang?.split("+")?.map((lang, index) => (
-                <BadgeCustom key={index} size="xs" text={lang || "N/A"} />
-              ))}
-            </Box>
-            <Box className="absolute left-1.5 inline-flex top-1.5 xs:left-1/2 xs:bottom-1.5 xs:top-auto xs:-translate-x-1/2 overflow-hidden transform">
-              <BadgeCustom
-                className="bg-primary uppercase linear-gradient text-black"
-                size="xs"
-                text={episodeText || "N/A"}
-              />
-            </Box>
+            {showEpisodeBadge && (
+              <EpisodeBadges showEpisodeBadge={showEpisodeBadge} data={data} />
+            )}
           </Box>
         </HoverOutlineWrapper>
-        <Box className="mt-2">
-          <span
-            style={{
-              WebkitLineClamp: 2,
-              display: "-webkit-box",
-              WebkitBoxOrient: "vertical",
-              overflow: "hidden",
-            }}
-            className="text-gray-50 font-semibold text-xs group-hover:text-primary lg:text-sm transition-all"
-          >
-            <DecodeText text={data?.name} />
-          </span>
-          <span className="text-xs text-gray-300 truncate block mt-1">
-            <DecodeText text={data?.origin_name} />
-          </span>
-        </Box>
+
+        <div className="flex items-end gap-4">
+          {showPoster && orientation === "horizontal" && (
+            <Box className="-mt-20 ml-4 lg:block hidden">
+              <Box className="xl:w-[80px] w-[64px] rounded-md overflow-hidden">
+                <Box className="relative pb-[150%] h-0 w-full">
+                  <Image
+                    src={generateUrlImage(data?.poster_url)}
+                    className="rounded-md"
+                    alt={data?.name || "Không xác định"}
+                  />
+                </Box>
+              </Box>
+            </Box>
+          )}
+
+          <Box className="mt-2 overflow-hidden">
+            <span className="text-gray-50 line-clamp-2 font-semibold text-xs group-hover:text-primary lg:text-sm transition-all">
+              <DecodeText text={data?.name} />
+            </span>
+            <span className="text-xs text-gray-300 line-clamp-1 mt-1">
+              <DecodeText text={data?.origin_name} />
+            </span>
+          </Box>
+        </div>
       </Link>
 
       {tooltip?.visible && <MovieTooltip data={data} position={tooltip} />}
