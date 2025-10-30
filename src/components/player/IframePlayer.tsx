@@ -10,7 +10,7 @@ const IframePlayer = ({ source, onLoaded, className }: IframePlayerProps) => {
   return (
     <iframe
       src={source}
-      allow="fade-in accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+      allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
       referrerPolicy="strict-origin-when-cross-origin"
       frameBorder="0"
       allowFullScreen

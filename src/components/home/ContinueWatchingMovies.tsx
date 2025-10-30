@@ -48,7 +48,7 @@ const ContinueWatchingMovies = () => {
   return (
     <Box className="my-12 flex flex-col lg:gap-4">
       <Box className="flex items-center lg:justify-start justify-between gap-4 lg:mb-0 mb-2">
-        <h3 className="flex items-center gap-1 lg:text-2xl md:text-xl text-md text-white font-semibold">
+        <h3 className="flex items-center gap-1 lg:text-2xl md:text-xl text-md text-white font-semibold mb-1">
           Đã xem gần đây
         </h3>
         <Link

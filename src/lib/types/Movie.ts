@@ -105,7 +105,8 @@ type Movie = {
   episodes?: Episode[];
   currentTime?: number;
   duration?: number;
-  createAt?: string;
+  createdAt?: string;
+  updatedAt?: string;
   currentEpisode?: {
     episodeId?: string;
     name?: string;

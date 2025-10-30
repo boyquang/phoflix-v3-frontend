@@ -35,15 +35,13 @@ const EpisodeBadges = ({
       {data.episodes_statistics.map((epStat, index) => (
         <div
           key={index}
-          className={`flex sm:rounded-none rounded-lg items-center sm:text-xs text-[10px] justify-center sm:h-6 h-4 px-1.5 text-white ${
+          className={`flex sm:rounded-none whitespace-nowrap rounded-lg items-center sm:text-xs text-[10px] justify-center sm:h-6 h-4 px-1.5 text-white ${
             episodesStatisticsMapping[epStat.text]?.bgColor || "bg-gray-600"
           }`}
         >
-          {
-            episodesStatisticsMapping[epStat.text]?.text[
-              isLongSeries ? "default" : "full"
-            ]
-          }
+          {episodesStatisticsMapping[epStat.text]?.text[
+            isLongSeries ? "default" : "full"
+          ] || epStat.text}
           {isLongSeries && (
             <span className="font-semibold">.{epStat.count}</span>
           )}

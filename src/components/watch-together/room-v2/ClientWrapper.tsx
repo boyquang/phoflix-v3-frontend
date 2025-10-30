@@ -171,7 +171,7 @@ const ClientWrapper = ({ roomId }: ClientWrapperProps) => {
                     {roomData?.host?.username || "Host"}
                   </div>
                   <div className="text-xs text-gray-400">
-                    Tạo {formatDate(roomData?.createAt || "N/a")}
+                    Tạo {formatDate(roomData?.createdAt || "N/a")}
                   </div>
                 </div>
                 <div className="w-[1px] h-10 bg-[#fff2] ml-4 sm:hidden block"></div>

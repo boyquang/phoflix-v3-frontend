@@ -38,6 +38,7 @@ export const normalizeMovieInfo = (
     },
     type: data?.type || null,
     content: data?.content || null,
-    createAt: data?.createAt || "N/A",
+    createdAt: data?.createdAt || "N/A",
+    updatedAt: data?.updatedAt || "N/A",
   };
 };

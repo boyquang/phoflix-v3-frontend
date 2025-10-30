@@ -1,5 +1,5 @@
 import RootLayout from "@/components/layout/RootLayout";
-import { colorGradients, colorGradients3 } from "@/constants/color.contant";
+import { topicBackgrounds } from "@/constants/color.contant";
 import { categories, countries } from "@/constants/movie.contant";
 import { NEXT_PUBLIC_SITE_URL } from "@/constants/env.contant";
 import { Metadata } from "next";
@@ -32,6 +32,14 @@ export const metadata: Metadata = {
   },
 };
 
+const classTopicDefault = `
+  relative rounded-lg before:content-[''] before:absolute before:inset-0 before:bg-[url('/images/wave.png')]
+  before:bg-no-repeat before:bg-[length:200px_140px] before:bg-[position:100%_100%] before:opacity-30
+  before:[mask-image:linear-gradient(-45deg,black,transparent_40%)]
+  before:[-webkit-mask-image:linear-gradient(-45deg,black,transparent_40%)]
+  rounded-lg overflow-hidden hover:-translate-y-2 hover:opacity-90 transition-all duration-300
+`;
+
 const Page = () => {
   const combined = [
     ...countries.map((country) => ({ ...country, describe: "quoc-gia" })),
@@ -49,9 +57,10 @@ const Page = () => {
             {combined.map((item, index) => (
               <div
                 key={index}
-                className={`bg-gradient-to-r ${
-                  colorGradients3[index % colorGradients3.length]
-                }  rounded-lg overflow-hidden hover:-translate-y-2 transition-all duration-300 shadow-lg`}
+                className={`
+                    ${classTopicDefault}
+                    ${topicBackgrounds[index % topicBackgrounds.length]}
+                  `}
               >
                 <Link
                   className="flex flex-col justify-center gap-2 lg:min-h-32 min-h-28 p-4 text-gray-50"

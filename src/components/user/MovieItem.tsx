@@ -2,17 +2,11 @@
 
 import Image from "@/components/shared/Image";
 import StatusTag from "@/components/shared/StatusTag";
-import {
-  formatDate,
-  generateUrlImage,
-  onMouseEnterShowTooltip,
-  onMouseLeaveHideTooltip,
-} from "@/lib/utils";
+import { formatDate, generateUrlImage } from "@/lib/utils";
 import { AppDispatch, RootState } from "@/store/store";
 import { Box, IconButton } from "@chakra-ui/react";
 import Link from "next/link";
 import { useRef, useState } from "react";
-import { MdDelete } from "react-icons/md";
 import { useDispatch, useSelector } from "react-redux";
 import { setSelectedMovieIds } from "@/store/slices/user.slice";
 import CheckboxCustom from "@/components/shared/CheckboxCustom";
@@ -22,6 +16,7 @@ import DecodeText from "../shared/DecodeText";
 import { usePathname } from "next/navigation";
 import MovieProgress from "./MovieProgress";
 import { FaTimes } from "react-icons/fa";
+import useTooltip from "@/hooks/useTooltip";
 
 interface MovieItemProps {
   item: Movie;
@@ -45,14 +40,13 @@ const MovieItem = ({ item, isLoading, callback }: MovieItemProps) => {
   const [tooltip, setTooltip] = useState<Tooltip | null>(null);
   const currentElementRef = useRef<HTMLImageElement | null>(null);
   const tooltipTimeout = useRef<NodeJS.Timeout | null>(null);
-  const { windowWidth } = useSelector((state: RootState) => state.system);
   const { selectedDeleteMode, selectedMovieIds } = useSelector(
     (state: RootState) => state.user.userMovies
   );
+  const { onMouseEnterShowTooltip, onMouseLeaveHideTooltip } = useTooltip();
 
   const handleMouseEnter = () => {
-    if (windowWidth <= 1280 || selectedDeleteMode) return;
-
+    if (selectedDeleteMode) return;
     onMouseEnterShowTooltip(tooltipTimeout, currentElementRef, setTooltip);
   };
 
@@ -108,7 +102,7 @@ const MovieItem = ({ item, isLoading, callback }: MovieItemProps) => {
             <Box className="absolute xs:left-1/2 xs:transform xs:-translate-x-1/2 left-0 right-0 bottom-0">
               <StatusTag
                 uppercase={false}
-                text={formatDate(item?.createAt || "N/a")}
+                text={formatDate(item?.updatedAt || "N/a")}
                 bordered
                 rounded="xs:rounded-t-sm xs:rounded-b-none rounded-t-none rounded-b-xl"
               />

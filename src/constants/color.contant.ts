@@ -82,6 +82,16 @@ export const colorGradients = [
   "from-teal-700 to-emerald-400",
 ];
 
+export const topicBackgrounds = [
+  "bg-[rgb(50,79,209)]",
+  "bg-[rgb(102,102,153)]",
+  "bg-[rgb(27,133,108)]",
+  "bg-[rgb(119,97,180)]",
+  "bg-[rgb(205,126,95)]",
+  "bg-[rgb(167,57,57)]",
+  "bg-[rgb(46,50,69)]",
+];
+
 export const colorGradients3 = [
   "from-teal-700 via-cyan-600 to-emerald-500",
   "from-purple-700 via-indigo-600 to-violet-500",

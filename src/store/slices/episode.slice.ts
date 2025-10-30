@@ -61,6 +61,8 @@ const episodeSlice = createSlice({
       state.episodes = episodes;
       state.isValidEpisodes = isValidEpisodes;
 
+      console.log("movie", movie);
+
       if (isValidEpisodes) {
         if (movie?.is_cinema) {
           state.isLongSeries = false;
