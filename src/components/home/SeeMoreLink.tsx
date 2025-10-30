@@ -12,7 +12,7 @@ const SeeMoreLink = ({ title = "Xem thêm", link }: SeeMoreLinkProps) => {
   return (
     <Link
       href={link}
-      className="px-2 py-1 md:h-[30px] md:w-[30px] md:hover:w-auto group rounded-full border border-[#fff5] hover:border-primary flex text-gray-50 text-sm gap-0.5 hover:text-primary items-center transition-all"
+      className="px-2 py-1 flex-shrink-0 md:h-[30px] md:w-[30px] md:hover:w-auto group rounded-full border border-[#fff5] hover:border-primary flex text-gray-50 text-sm gap-0.5 hover:text-primary items-center transition-all"
     >
       <span className={`md:hidden md:group-hover:block mb-0.5 text-xs`}> {title}</span>
       <FaChevronRight />

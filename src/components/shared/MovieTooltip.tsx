@@ -39,7 +39,7 @@ const MovieTooltip = ({
         width: position.width,
         minHeight: position.height,
       }}
-      className="bg-[#2f3346] xl:block hidden rounded-lg shadow-lg text-white absolute overflow-hidden tooltip-animation z-50"
+      className="bg-[#2f3346] xl:block hidden rounded-lg shadow-lg -translate-y-1/2 text-white absolute overflow-hidden tooltip-animation z-50"
     >
       <div className="relative h-52">
         <Image

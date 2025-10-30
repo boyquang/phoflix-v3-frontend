@@ -46,7 +46,7 @@ const MovieBanner = ({ type, describe, title, limit }: MovieBannerProps) => {
   return (
     <div className="2xl:px-0 px-4 pb-12">
       <div className="flex items-center gap-4 mb-6">
-        <h4 className="lg:text-2xl capitalize md:text-xl text-md text-white font-semibold mb-1">
+        <h4 className="lg:text-2xl md:flex-grow-0 flex-grow-1 capitalize md:text-xl text-md text-white font-semibold mb-1">
           {title}
         </h4>
         <SeeMoreLink title="Xem thêm" link={`/chi-tiet/${describe}/${type}`} />
