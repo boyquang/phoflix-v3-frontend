@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://phoflix-v3.vercel.app/sitemap.xml
+Sitemap: https://www.introstart.net/sitemap.xml
